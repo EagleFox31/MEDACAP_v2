@@ -73,7 +73,7 @@ if (!isset($_SESSION["id"])) {
             $jcb = 'JCB';
         }
         if ($brand[$i] == 'LOVOL') {
-            $hino = 'LOVOL';
+            $lovol = 'LOVOL';
         }
         if ($brand[$i] == 'CITROEN') {
             $citroen = 'CITROEN';
@@ -121,6 +121,7 @@ if (!isset($_SESSION["id"])) {
                     "Arbre de Transmission",
             ],
             ["type" => "Declaratif"],
+            ["typeR" => "Technicien"],
             ["numberTest" => +$numberTest],
             ["active" => false],
         ],
@@ -176,6 +177,7 @@ if (!isset($_SESSION["id"])) {
                     "Assistance à la Conduite",
             ],
             ["type" => "Declaratif"],
+            ["typeR" => "Technicien"],
             ["numberTest" => +$numberTest],
             ["active" => false],
         ],
@@ -225,6 +227,7 @@ if (!isset($_SESSION["id"])) {
             ["level" => $level],
             ["speciality" => "Boite de Transfert"],
             ["type" => "Declaratif"],
+            ["typeR" => "Technicien"],
             ["numberTest" => +$numberTest],
             ["active" => false],
         ],
@@ -271,6 +274,7 @@ if (!isset($_SESSION["id"])) {
             ["level" => $level],
             ["speciality" => "Boite de Vitesse"],
             ["type" => "Declaratif"],
+            ["typeR" => "Technicien"],
             ["numberTest" => +$numberTest],
             ["active" => false],
         ],
@@ -323,6 +327,7 @@ if (!isset($_SESSION["id"])) {
                     "Boite de Vitesse Mécanique",
             ],
             ["type" => "Declaratif"],
+            ["typeR" => "Technicien"],
             ["numberTest" => +$numberTest],
             ["active" => false],
         ],
@@ -378,6 +383,7 @@ if (!isset($_SESSION["id"])) {
                     "Boite de Vitesse Automatique",
             ],
             ["type" => "Declaratif"],
+            ["typeR" => "Technicien"],
             ["numberTest" => +$numberTest],
             ["active" => false],
         ],
@@ -433,6 +439,7 @@ if (!isset($_SESSION["id"])) {
                     "Boite de Vitesse à Variation Continue",
             ],
             ["type" => "Declaratif"],
+            ["typeR" => "Technicien"],
             ["numberTest" => +$numberTest],
             ["active" => false],
         ],
@@ -482,6 +489,7 @@ if (!isset($_SESSION["id"])) {
             ["level" => $level],
             ["speciality" => "Climatisation"],
             ["type" => "Declaratif"],
+            ["typeR" => "Technicien"],
             ["numberTest" => +$numberTest],
             ["active" => false],
         ],
@@ -528,6 +536,7 @@ if (!isset($_SESSION["id"])) {
             ["level" => $level],
             ["speciality" => "Demi Arbre de Roue"],
             ["type" => "Declaratif"],
+            ["typeR" => "Technicien"],
             ["numberTest" => +$numberTest],
             ["active" => false],
         ],
@@ -574,6 +583,7 @@ if (!isset($_SESSION["id"])) {
             ["level" => $level],
             ["speciality" => "Direction"],
             ["type" => "Declaratif"],
+            ["typeR" => "Technicien"],
             ["numberTest" => +$numberTest],
             ["active" => false],
         ],
@@ -626,6 +636,7 @@ if (!isset($_SESSION["id"])) {
                     "Electricité et Electronique",
             ],
             ["type" => "Declaratif"],
+            ["typeR" => "Technicien"],
             ["numberTest" => +$numberTest],
             ["active" => false],
         ],
@@ -675,6 +686,7 @@ if (!isset($_SESSION["id"])) {
             ["level" => $level],
             ["speciality" => "Freinage"],
             ["type" => "Declaratif"],
+            ["typeR" => "Technicien"],
             ["numberTest" => +$numberTest],
             ["active" => false],
         ],
@@ -727,6 +739,7 @@ if (!isset($_SESSION["id"])) {
                     "Freinage Electromagnétique",
             ],
             ["type" => "Declaratif"],
+            ["typeR" => "Technicien"],
             ["numberTest" => +$numberTest],
             ["active" => false],
         ],
@@ -782,6 +795,7 @@ if (!isset($_SESSION["id"])) {
                     "Freinage Hydraulique",
             ],
             ["type" => "Declaratif"],
+            ["typeR" => "Technicien"],
             ["numberTest" => +$numberTest],
             ["active" => false],
         ],
@@ -837,6 +851,7 @@ if (!isset($_SESSION["id"])) {
                     "Freinage Pneumatique",
             ],
             ["type" => "Declaratif"],
+            ["typeR" => "Technicien"],
             ["numberTest" => +$numberTest],
             ["active" => false],
         ],
@@ -886,6 +901,7 @@ if (!isset($_SESSION["id"])) {
             ["level" => $level],
             ["speciality" => "Hydraulique"],
             ["type" => "Declaratif"],
+            ["typeR" => "Technicien"],
             ["numberTest" => +$numberTest],
             ["active" => false],
         ],
@@ -932,6 +948,7 @@ if (!isset($_SESSION["id"])) {
             ["level" => $level],
             ["speciality" => "Moteur Diesel"],
             ["type" => "Declaratif"],
+            ["typeR" => "Technicien"],
             ["numberTest" => +$numberTest],
             ["active" => false],
         ],
@@ -978,6 +995,7 @@ if (!isset($_SESSION["id"])) {
             ["level" => $level],
             ["speciality" => "Moteur Electrique"],
             ["type" => "Declaratif"],
+            ["typeR" => "Technicien"],
             ["numberTest" => +$numberTest],
             ["active" => false],
         ],
@@ -1024,6 +1042,7 @@ if (!isset($_SESSION["id"])) {
             ["level" => $level],
             ["speciality" => "Moteur Essence"],
             ["type" => "Declaratif"],
+            ["typeR" => "Technicien"],
             ["numberTest" => +$numberTest],
             ["active" => false],
         ],
@@ -1070,6 +1089,7 @@ if (!isset($_SESSION["id"])) {
             ["level" => $level],
             ["speciality" => "Moteur Thermique"],
             ["type" => "Declaratif"],
+            ["typeR" => "Technicien"],
             ["numberTest" => +$numberTest],
             ["active" => false],
         ],
@@ -1100,7 +1120,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
-            ["speciality" => "Multiplexage"],
+            ["speciality" => "Réseaux de Communication"],
             ["type" => "Factuel"],
             ["numberTest" => +$numberTest],
             ["active" => false],
@@ -1114,8 +1134,9 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
-            ["speciality" => "Multiplexage"],
+            ["speciality" => "Réseaux de Communication"],
             ["type" => "Declaratif"],
+            ["typeR" => "Technicien"],
             ["numberTest" => +$numberTest],
             ["active" => false],
         ],
@@ -1134,7 +1155,7 @@ if (!isset($_SESSION["id"])) {
             ],
             ["numberTest" => +$numberTest],
             ["level" => $level],
-            ["speciality" => "Multiplexage"],
+            ["speciality" => "Réseaux de Communication"],
             ["active" => false],
         ],
     ]);
@@ -1162,6 +1183,7 @@ if (!isset($_SESSION["id"])) {
             ["level" => $level],
             ["speciality" => "Pneumatique"],
             ["type" => "Declaratif"],
+            ["typeR" => "Technicien"],
             ["numberTest" => +$numberTest],
             ["active" => false],
         ],
@@ -1208,6 +1230,7 @@ if (!isset($_SESSION["id"])) {
             ["level" => $level],
             ["speciality" => "Pont"],
             ["type" => "Declaratif"],
+            ["typeR" => "Technicien"],
             ["numberTest" => +$numberTest],
             ["active" => false],
         ],
@@ -1238,7 +1261,7 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
-            ["speciality" => "Réducteur"],
+            ["speciality" => "Reducteur"],
             ["type" => "Factuel"],
             ["numberTest" => +$numberTest],
             ["active" => false],
@@ -1252,8 +1275,9 @@ if (!isset($_SESSION["id"])) {
                 ),
             ],
             ["level" => $level],
-            ["speciality" => "Réducteur"],
+            ["speciality" => "Reducteur"],
             ["type" => "Declaratif"],
+            ["typeR" => "Technicien"],
             ["numberTest" => +$numberTest],
             ["active" => false],
         ],
@@ -1272,7 +1296,7 @@ if (!isset($_SESSION["id"])) {
             ],
             ["numberTest" => +$numberTest],
             ["level" => $level],
-            ["speciality" => "Réducteur"],
+            ["speciality" => "Reducteur"],
             ["active" => false],
         ],
     ]);
@@ -1300,6 +1324,7 @@ if (!isset($_SESSION["id"])) {
             ["level" => $level],
             ["speciality" => "Suspension"],
             ["type" => "Declaratif"],
+            ["typeR" => "Technicien"],
             ["numberTest" => +$numberTest],
             ["active" => false],
         ],
@@ -1346,6 +1371,8 @@ if (!isset($_SESSION["id"])) {
             ["level" => $level],
             ["speciality" => "Suspension à Lame"],
             ["type" => "Declaratif"],
+            ["typeR" => "Technicien"],
+            ["typeR" => "Technicien"],
             ["numberTest" => +$numberTest],
             ["active" => false],
         ],
@@ -1392,6 +1419,8 @@ if (!isset($_SESSION["id"])) {
             ["level" => $level],
             ["speciality" => "Suspension Ressort"],
             ["type" => "Declaratif"],
+            ["typeR" => "Technicien"],
+            ["typeR" => "Technicien"],
             ["numberTest" => +$numberTest],
             ["active" => false],
         ],
@@ -1445,6 +1474,7 @@ if (!isset($_SESSION["id"])) {
                         "Suspension Pneumatique",
                 ],
                 ["type" => "Declaratif"],
+                ["typeR" => "Technicien"],
                 ["numberTest" => +$numberTest],
                 ["active" => false],
             ],
@@ -1495,6 +1525,7 @@ if (!isset($_SESSION["id"])) {
             ["level" => $level],
             ["speciality" => "Transversale"],
             ["type" => "Declaratif"],
+            ["typeR" => "Technicien"],
             ["numberTest" => +$numberTest],
             ["active" => false],
         ],
@@ -2008,7 +2039,7 @@ if (!isset($_SESSION["id"])) {
         }
     }
     $scoreSuspensionPneu = 0;
-    if (isset($pneuDecla)) {
+    if (isset($suspensionPneumatiqueDecla)) {
         for ($i = 0; $i < count($suspensionPneumatiqueDecla["answers"]); ++$i) {
             if (
                 $suspensionPneumatiqueDecla["answers"][$i] == "Oui" &&
@@ -2031,54 +2062,54 @@ if (!isset($_SESSION["id"])) {
     }
     
     if (isset($toyota) == 'TOYOTA') {
-        $toyotaFac = $transmissionTotalFac + $assistanceConduiteTotalFac + $transfertTotalFac + $boiteTotalFac + $boiteManTotalFac + $boiteAutoTotalFac + $boiteVaCoTotalFac + $climatisationTotalFac + $demiTotalFac + $directionTotalFac + $electriciteTotalFac + $freiTotalFac + $freinageTotalFac + $moteurDieselTotalFac + $moteurEssenceTotalFac + $moteurThermiqueTotalFac + $multiplexageTotalFac + $pneuTotalFac + $pontTotalFac + $suspensionTotalFac + $suspensionLameTotalFac + $suspensionRessortTotalFac + $suspensionPneumatiqueTotalFac + $transversaleTotalFac;
-        $toyotaDecla = $transmissionTotalDecla + $assistanceConduiteTotalDecla + $transfertTotalDecla + $boiteTotalDecla + $boiteManTotalDecla + $boiteAutoTotalDecla + $boiteVaCoTotalDecla + $climatisationTotalDecla + $demiTotalDecla + $directionTotalDecla + $electriciteTotalDecla + $freiTotalDecla + $freinageTotalDecla + $moteurDieselTotalDecla + $moteurEssenceTotalDecla + $moteurThermiqueTotalDecla + $multiplexageTotalDecla + $pneuTotalDecla + $pontTotalDecla + $suspensionTotalDecla + $suspensionLameTotalDecla + $suspensionRessortTotalDecla + $suspensionPneumatiqueTotalDecla + $transversaleTotalDecla;
+        $toyotaFac = $transmissionTotalFac + $assistanceConduiteTotalFac + $transfertTotalFac + $boiteTotalFac + $boiteManTotalFac + $boiteAutoTotalFac + $boiteVaCoTotalFac + $climatisationTotalFac + $demiTotalFac + $directionTotalFac + $electriciteTotalFac + $freiTotalFac + $freinageTotalFac + $moteurDieselTotalFac + $moteurElecTotalFac + $moteurEssenceTotalFac + $moteurThermiqueTotalFac + $multiplexageTotalFac + $pneuTotalFac + $pontTotalFac + $suspensionTotalFac + $suspensionLameTotalFac + $suspensionRessortTotalFac + $suspensionPneumatiqueTotalFac + $transversaleTotalFac;
+        $toyotaDecla = $transmissionTotalDecla + $assistanceConduiteTotalDecla + $transfertTotalDecla + $boiteTotalDecla + $boiteManTotalDecla + $boiteAutoTotalDecla + $boiteVaCoTotalDecla + $climatisationTotalDecla + $demiTotalDecla + $directionTotalDecla + $electriciteTotalDecla + $freiTotalDecla + $freinageTotalDecla + $moteurDieselTotalDecla + $moteurElecTotalDecla + $moteurEssenceTotalDecla + $moteurThermiqueTotalDecla + $multiplexageTotalDecla + $pneuTotalDecla + $pontTotalDecla + $suspensionTotalDecla + $suspensionLameTotalDecla + $suspensionRessortTotalDecla + $suspensionPneumatiqueTotalDecla + $transversaleTotalDecla;
     
-        $toyotaScore = $scoreTransmission + $scoreAssistance + $scoreTransfert + $scoreBoite + $scoreBoiteMan + $scoreBoiteAuto + $scoreBoiteVaCo + $scoreClim + $scoreDemi + $scoreDirection + $scoreElectricite + $scoreFrein + $scoreFreinHydro + $scoreMoteurDiesel + $scoreMoteurEssence + $scoreMoteurThermique + $scoreMultiplexage + $scorePneu + $scorePont + $scoreSuspension + $scoreSuspensionLame + $scoreSuspensionRessort + $scoreSuspensionPneu + $scoreTransversale;
+        $toyotaScore = $scoreTransmission + $scoreAssistance + $scoreTransfert + $scoreBoite + $scoreBoiteMan + $scoreBoiteAuto + $scoreBoiteVaCo + $scoreClim + $scoreDemi + $scoreDirection + $scoreElectricite + $scoreFrein + $scoreFreinHydro + $scoreMoteurDiesel + $scoreMoteurElec + $scoreMoteurEssence + $scoreMoteurThermique + $scoreMultiplexage + $scorePneu + $scorePont + $scoreSuspension + $scoreSuspensionLame + $scoreSuspensionRessort + $scoreSuspensionPneu + $scoreTransversale;
         
-        $toyotaScoreFac = $transmissionScoreFac + $assistanceConduiteScoreFac + $transfertScoreFac + $boiteScoreFac + $boiteManScoreFac + $boiteAutoScoreFac + $boiteVaCoScoreFac + $climatisationScoreFac + $demiScoreFac + $directionScoreFac + $electriciteScoreFac + $freiScoreFac + $freinageScoreFac + $moteurDieselScoreFac + $moteurEssenceScoreFac + $moteurThermiqueScoreFac + $multiplexageScoreFac + $pneuScoreFac + $pontScoreFac + $suspensionScoreFac + $suspensionLameScoreFac + $suspensionRessortScoreFac + $suspensionPneumatiqueScoreFac + $transversaleScoreFac;
-        $toyotaScoreDecla = $transmissionScoreDecla + $assistanceConduiteScoreDecla + $transfertScoreDecla + $boiteScoreDecla + $boiteManScoreDecla + $boiteAutoScoreDecla + $boiteVaCoScoreDecla + $climatisationScoreDecla + $demiScoreDecla + $directionScoreDecla + $electriciteScoreDecla + $freiScoreDecla + $freinageScoreDecla + $moteurDieselScoreDecla + $moteurEssenceScoreDecla + $moteurThermiqueScoreDecla + $multiplexageScoreDecla + $pneuScoreDecla + $pontScoreDecla + $suspensionScoreDecla + $suspensionLameScoreDecla + $suspensionRessortScoreDecla + $suspensionPneumatiqueScoreDecla + $transversaleScoreDecla;
-        $toyotaScoreMa = $transmissionScoreMa + $assistanceConduiteScoreMa + $transfertScoreMa + $boiteScoreMa + $boiteManScoreMa + $boiteAutoScoreMa + $boiteVaCoScoreMa + $climatisationScoreMa + $demiScoreMa + $directionScoreMa + $electriciteScoreMa + $freiScoreMa + $freinageScoreMa + $moteurDieselScoreMa + $moteurEssenceScoreMa + $moteurThermiqueScoreMa + $multiplexageScoreMa + $pneuScoreMa + $pontScoreMa + $suspensionScoreMa + $suspensionLameScoreMa + $suspensionRessortScoreMa + $suspensionPneumatiqueScoreMa + $transversaleScoreMa;
+        $toyotaScoreFac = $transmissionScoreFac + $assistanceConduiteScoreFac + $transfertScoreFac + $boiteScoreFac + $boiteManScoreFac + $boiteAutoScoreFac + $boiteVaCoScoreFac + $climatisationScoreFac + $demiScoreFac + $directionScoreFac + $electriciteScoreFac + $freiScoreFac + $freinageScoreFac + $moteurDieselScoreFac + $moteurElecScoreFac + $moteurEssenceScoreFac + $moteurThermiqueScoreFac + $multiplexageScoreFac + $pneuScoreFac + $pontScoreFac + $suspensionScoreFac + $suspensionLameScoreFac + $suspensionRessortScoreFac + $suspensionPneumatiqueScoreFac + $transversaleScoreFac;
+        $toyotaScoreDecla = $transmissionScoreDecla + $assistanceConduiteScoreDecla + $transfertScoreDecla + $boiteScoreDecla + $boiteManScoreDecla + $boiteAutoScoreDecla + $boiteVaCoScoreDecla + $climatisationScoreDecla + $demiScoreDecla + $directionScoreDecla + $electriciteScoreDecla + $freiScoreDecla + $freinageScoreDecla + $moteurDieselScoreDecla + $moteurElecScoreDecla + $moteurEssenceScoreDecla + $moteurThermiqueScoreDecla + $multiplexageScoreDecla + $pneuScoreDecla + $pontScoreDecla + $suspensionScoreDecla + $suspensionLameScoreDecla + $suspensionRessortScoreDecla + $suspensionPneumatiqueScoreDecla + $transversaleScoreDecla;
+        $toyotaScoreMa = $transmissionScoreMa + $assistanceConduiteScoreMa + $transfertScoreMa + $boiteScoreMa + $boiteManScoreMa + $boiteAutoScoreMa + $boiteVaCoScoreMa + $climatisationScoreMa + $demiScoreMa + $directionScoreMa + $electriciteScoreMa + $freiScoreMa + $freinageScoreMa + $moteurDieselScoreMa + $moteurElecScoreMa + $moteurEssenceScoreMa + $moteurThermiqueScoreMa + $multiplexageScoreMa + $pneuScoreMa + $pontScoreMa + $suspensionScoreMa + $suspensionLameScoreMa + $suspensionRessortScoreMa + $suspensionPneumatiqueScoreMa + $transversaleScoreMa;
     }
     if (isset($suzuki) == 'SUZUKI') {
-        $suzukiFac = $transmissionTotalFac + $assistanceConduiteTotalFac + $transfertTotalFac + $boiteTotalFac + $boiteManTotalFac + $boiteAutoTotalFac + $boiteVaCoTotalFac + $climatisationTotalFac + $demiTotalFac + $directionTotalFac + $electriciteTotalFac + $freiTotalFac + $freinageTotalFac + $moteurEssenceTotalFac + $moteurThermiqueTotalFac + $multiplexageTotalFac + $pneuTotalFac + $pontTotalFac + $suspensionTotalFac + $suspensionLameTotalFac + $suspensionRessortTotalFac + $transversaleTotalFac;
-        $suzukiDecla = $transmissionTotalDecla + $assistanceConduiteTotalDecla + $transfertTotalDecla + $boiteTotalDecla + $boiteManTotalDecla + $boiteAutoTotalDecla + $boiteVaCoTotalDecla + $climatisationTotalDecla + $demiTotalDecla + $directionTotalDecla + $electriciteTotalDecla + $freiTotalDecla + $freinageTotalDecla + $moteurEssenceTotalDecla + $moteurThermiqueTotalDecla + $multiplexageTotalDecla + $pneuTotalDecla + $pontTotalDecla + $suspensionTotalDecla + $suspensionLameTotalDecla + $suspensionRessortTotalDecla + $transversaleTotalDecla;
+        $suzukiFac = $transmissionTotalFac + $assistanceConduiteTotalFac + $transfertTotalFac + $boiteTotalFac + $boiteManTotalFac + $boiteAutoTotalFac + $boiteVaCoTotalFac + $climatisationTotalFac + $demiTotalFac + $directionTotalFac + $electriciteTotalFac + $freiTotalFac + $freinageTotalFac + $moteurDieselTotalFac + $moteurElecTotalFac + $moteurEssenceTotalFac + $moteurThermiqueTotalFac + $multiplexageTotalFac + $pneuTotalFac + $pontTotalFac + $suspensionTotalFac + $suspensionLameTotalFac + $suspensionRessortTotalFac + $transversaleTotalFac;
+        $suzukiDecla = $transmissionTotalDecla + $assistanceConduiteTotalDecla + $transfertTotalDecla + $boiteTotalDecla + $boiteManTotalDecla + $boiteAutoTotalDecla + $boiteVaCoTotalDecla + $climatisationTotalDecla + $demiTotalDecla + $directionTotalDecla + $electriciteTotalDecla + $freiTotalDecla + $freinageTotalDecla + $moteurDieselTotalDecla + $moteurElecTotalDecla + $moteurEssenceTotalDecla + $moteurThermiqueTotalDecla + $multiplexageTotalDecla + $pneuTotalDecla + $pontTotalDecla + $suspensionTotalDecla + $suspensionLameTotalDecla + $suspensionRessortTotalDecla + $transversaleTotalDecla;
         
-        $suzukiScore = $scoreTransmission + $scoreAssistance + $scoreTransfert + $scoreBoite + $scoreBoiteMan + $scoreBoiteAuto + $scoreBoiteVaCo + $scoreClim + $scoreDemi + $scoreDirection + $scoreElectricite + $scoreFrein + $scoreFreinHydro + $scoreMoteurEssence + $scoreMoteurThermique + $scoreMultiplexage + $scorePneu + $scorePont + $scoreSuspension + $scoreSuspensionLame + $scoreSuspensionRessort + $scoreTransversale;
+        $suzukiScore = $scoreTransmission + $scoreAssistance + $scoreTransfert + $scoreBoite + $scoreBoiteMan + $scoreBoiteAuto + $scoreBoiteVaCo + $scoreClim + $scoreDemi + $scoreDirection + $scoreElectricite + $scoreFrein + $scoreFreinHydro + $scoreMoteurDiesel + $scoreMoteurElec + $scoreMoteurEssence + $scoreMoteurThermique + $scoreMultiplexage + $scorePneu + $scorePont + $scoreSuspension + $scoreSuspensionLame + $scoreSuspensionRessort + $scoreTransversale;
         
-        $suzukiScoreFac = $transmissionScoreFac + $assistanceConduiteScoreFac + $transfertScoreFac + $boiteScoreFac + $boiteManScoreFac + $boiteAutoScoreFac + $boiteVaCoScoreFac + $climatisationScoreFac + $demiScoreFac + $directionScoreFac + $electriciteScoreFac + $freiScoreFac + $freinageScoreFac + $moteurEssenceScoreFac + $moteurThermiqueScoreFac + $multiplexageScoreFac + $pneuScoreFac + $pontScoreFac + $suspensionScoreFac + $suspensionLameScoreFac + $suspensionRessortScoreFac + $transversaleScoreFac;
-        $suzukiScoreDecla = $transmissionScoreDecla + $assistanceConduiteScoreDecla + $transfertScoreDecla + $boiteScoreDecla + $boiteManScoreDecla + $boiteAutoScoreDecla + $boiteVaCoScoreDecla + $climatisationScoreDecla + $demiScoreDecla + $directionScoreDecla + $electriciteScoreDecla + $freiScoreDecla + $freinageScoreDecla + $moteurEssenceScoreDecla + $moteurThermiqueScoreDecla + $multiplexageScoreDecla + $pneuScoreDecla + $pontScoreDecla + $suspensionScoreDecla + $suspensionLameScoreDecla + $suspensionRessortScoreDecla + $transversaleScoreDecla;
-        $suzukiScoreMa = $transmissionScoreMa + $assistanceConduiteScoreMa + $transfertScoreMa + $boiteScoreMa + $boiteManScoreMa + $boiteAutoScoreMa + $boiteVaCoScoreMa + $climatisationScoreMa + $demiScoreMa + $directionScoreMa + $electriciteScoreMa + $freiScoreMa + $freinageScoreMa + $moteurEssenceScoreMa + $moteurThermiqueScoreMa + $multiplexageScoreMa + $pneuScoreMa + $pontScoreMa + $suspensionScoreMa + $suspensionLameScoreMa + $suspensionRessortScoreMa + $transversaleScoreMa;
+        $suzukiScoreFac = $transmissionScoreFac + $assistanceConduiteScoreFac + $transfertScoreFac + $boiteScoreFac + $boiteManScoreFac + $boiteAutoScoreFac + $boiteVaCoScoreFac + $climatisationScoreFac + $demiScoreFac + $directionScoreFac + $electriciteScoreFac + $freiScoreFac + $freinageScoreFac + $moteurDieselScoreFac + $moteurElecScoreFac + $moteurEssenceScoreFac + $moteurThermiqueScoreFac + $multiplexageScoreFac + $pneuScoreFac + $pontScoreFac + $suspensionScoreFac + $suspensionLameScoreFac + $suspensionRessortScoreFac + $transversaleScoreFac;
+        $suzukiScoreDecla = $transmissionScoreDecla + $assistanceConduiteScoreDecla + $transfertScoreDecla + $boiteScoreDecla + $boiteManScoreDecla + $boiteAutoScoreDecla + $boiteVaCoScoreDecla + $climatisationScoreDecla + $demiScoreDecla + $directionScoreDecla + $electriciteScoreDecla + $freiScoreDecla + $freinageScoreDecla + $moteurDieselScoreDecla + $moteurElecScoreDecla + $moteurEssenceScoreDecla + $moteurThermiqueScoreDecla + $multiplexageScoreDecla + $pneuScoreDecla + $pontScoreDecla + $suspensionScoreDecla + $suspensionLameScoreDecla + $suspensionRessortScoreDecla + $transversaleScoreDecla;
+        $suzukiScoreMa = $transmissionScoreMa + $assistanceConduiteScoreMa + $transfertScoreMa + $boiteScoreMa + $boiteManScoreMa + $boiteAutoScoreMa + $boiteVaCoScoreMa + $climatisationScoreMa + $demiScoreMa + $directionScoreMa + $electriciteScoreMa + $freiScoreMa + $freinageScoreMa + $moteurElecScoreMa + $moteurDieselScoreMa + $moteurEssenceScoreMa + $moteurThermiqueScoreMa + $multiplexageScoreMa + $pneuScoreMa + $pontScoreMa + $suspensionScoreMa + $suspensionLameScoreMa + $suspensionRessortScoreMa + $transversaleScoreMa;
     }
     if (isset($mercedes) == 'MERCEDES') {
-        $mercedesFac = $transmissionTotalFac + $assistanceConduiteTotalFac + $transfertTotalFac + $boiteTotalFac + $boiteManTotalFac + $boiteAutoTotalFac + $boiteVaCoTotalFac + $climatisationTotalFac + $demiTotalFac + $directionTotalFac + $electriciteTotalFac + $freiTotalFac + $freinageTotalFac + $moteurDieselTotalFac + $moteurEssenceTotalFac + $moteurThermiqueTotalFac + $multiplexageTotalFac + $pneuTotalFac + $pontTotalFac + $suspensionTotalFac + $suspensionLameTotalFac + $suspensionRessortTotalFac + $suspensionPneumatiqueTotalFac + $transversaleTotalFac;
-        $mercedesDecla = $transmissionTotalDecla + $assistanceConduiteTotalDecla + $transfertTotalDecla + $boiteTotalDecla + $boiteManTotalDecla + $boiteAutoTotalDecla + $boiteVaCoTotalDecla + $climatisationTotalDecla + $demiTotalDecla + $directionTotalDecla + $electriciteTotalDecla + $freiTotalDecla + $freinageTotalDecla + $moteurDieselTotalDecla + $moteurEssenceTotalDecla + $moteurThermiqueTotalDecla + $multiplexageTotalDecla + $pneuTotalDecla + $pontTotalDecla + $suspensionTotalDecla + $suspensionLameTotalDecla + $suspensionRessortTotalDecla + $suspensionPneumatiqueTotalDecla + $transversaleTotalDecla;
+        $mercedesFac = $transmissionTotalFac + $assistanceConduiteTotalFac + $transfertTotalFac + $boiteTotalFac + $boiteManTotalFac + $boiteAutoTotalFac + $boiteVaCoTotalFac + $climatisationTotalFac + $demiTotalFac + $directionTotalFac + $electriciteTotalFac + $freiTotalFac + $freinageTotalFac + $moteurDieselTotalFac + $moteurElecTotalFac + $moteurEssenceTotalFac + $moteurThermiqueTotalFac + $multiplexageTotalFac + $pneuTotalFac + $pontTotalFac + $suspensionTotalFac + $suspensionLameTotalFac + $suspensionRessortTotalFac + $suspensionPneumatiqueTotalFac + $transversaleTotalFac;
+        $mercedesDecla = $transmissionTotalDecla + $assistanceConduiteTotalDecla + $transfertTotalDecla + $boiteTotalDecla + $boiteManTotalDecla + $boiteAutoTotalDecla + $boiteVaCoTotalDecla + $climatisationTotalDecla + $demiTotalDecla + $directionTotalDecla + $electriciteTotalDecla + $freiTotalDecla + $freinageTotalDecla + $moteurDieselTotalDecla + $moteurElecTotalDecla+ $moteurEssenceTotalDecla + $moteurThermiqueTotalDecla + $multiplexageTotalDecla + $pneuTotalDecla + $pontTotalDecla + $suspensionTotalDecla + $suspensionLameTotalDecla + $suspensionRessortTotalDecla + $suspensionPneumatiqueTotalDecla + $transversaleTotalDecla;
         
-        $mercedesScore = $scoreTransmission + $scoreAssistance + $scoreTransfert + $scoreBoite + $scoreBoiteMan + $scoreBoiteAuto + $scoreBoiteVaCo + $scoreClim + $scoreDemi + $scoreDirection + $scoreElectricite + $scoreFrein + $scoreFreinHydro + $scoreMoteurDiesel + $scoreMoteurEssence + $scoreMoteurThermique + $scoreMultiplexage + $scorePneu + $scorePont + $scoreSuspension + $scoreSuspensionLame + $scoreSuspensionRessort + $scoreSuspensionPneu + $scoreTransversale;
+        $mercedesScore = $scoreTransmission + $scoreAssistance + $scoreTransfert + $scoreBoite + $scoreBoiteMan + $scoreBoiteAuto + $scoreBoiteVaCo + $scoreClim + $scoreDemi + $scoreDirection + $scoreElectricite + $scoreFrein + $scoreFreinHydro + $scoreMoteurDiesel + $scoreMoteurElec + $scoreMoteurEssence + $scoreMoteurThermique + $scoreMultiplexage + $scorePneu + $scorePont + $scoreSuspension + $scoreSuspensionLame + $scoreSuspensionRessort + $scoreSuspensionPneu + $scoreTransversale;
         
-        $mercedesScoreFac = $transmissionScoreFac + $assistanceConduiteScoreFac + $transfertScoreFac + $boiteScoreFac + $boiteManScoreFac + $boiteAutoScoreFac + $boiteVaCoScoreFac + $climatisationScoreFac + $demiScoreFac + $directionScoreFac + $electriciteScoreFac + $freiScoreFac + $freinageScoreFac + $moteurDieselScoreFac + $moteurEssenceScoreFac + $moteurThermiqueScoreFac + $multiplexageScoreFac + $pneuScoreFac + $pontScoreFac + $suspensionScoreFac + $suspensionLameScoreFac + $suspensionRessortScoreFac + $suspensionPneumatiqueScoreFac + $transversaleScoreFac;
-        $mercedesScoreDecla = $transmissionScoreDecla + $assistanceConduiteScoreDecla + $transfertScoreDecla + $boiteScoreDecla + $boiteManScoreDecla + $boiteAutoScoreDecla + $boiteVaCoScoreDecla + $climatisationScoreDecla + $demiScoreDecla + $directionScoreDecla + $electriciteScoreDecla + $freiScoreDecla + $freinageScoreDecla + $moteurDieselScoreDecla + $moteurEssenceScoreDecla + $moteurThermiqueScoreDecla + $multiplexageScoreDecla + $pneuScoreDecla + $pontScoreDecla + $suspensionScoreDecla + $suspensionLameScoreDecla + $suspensionRessortScoreDecla + $suspensionPneumatiqueScoreDecla + $transversaleScoreDecla;
-        $mercedesScoreMa = $transmissionScoreMa + $assistanceConduiteScoreMa + $transfertScoreMa + $boiteScoreMa + $boiteManScoreMa + $boiteAutoScoreMa + $boiteVaCoScoreMa + $climatisationScoreMa + $demiScoreMa + $directionScoreMa + $electriciteScoreMa + $freiScoreMa + $freinageScoreMa + $moteurDieselScoreMa + $moteurEssenceScoreMa + $moteurThermiqueScoreMa + $multiplexageScoreMa + $pneuScoreMa + $pontScoreMa + $suspensionScoreMa + $suspensionLameScoreMa + $suspensionRessortScoreMa + $suspensionPneumatiqueScoreMa + $transversaleScoreMa;
+        $mercedesScoreFac = $transmissionScoreFac + $assistanceConduiteScoreFac + $transfertScoreFac + $boiteScoreFac + $boiteManScoreFac + $boiteAutoScoreFac + $boiteVaCoScoreFac + $climatisationScoreFac + $demiScoreFac + $directionScoreFac + $electriciteScoreFac + $freiScoreFac + $freinageScoreFac + $moteurDieselScoreFac + $moteurElecScoreFac + $moteurEssenceScoreFac + $moteurThermiqueScoreFac + $multiplexageScoreFac + $pneuScoreFac + $pontScoreFac + $suspensionScoreFac + $suspensionLameScoreFac + $suspensionRessortScoreFac + $suspensionPneumatiqueScoreFac + $transversaleScoreFac;
+        $mercedesScoreDecla = $transmissionScoreDecla + $assistanceConduiteScoreDecla + $transfertScoreDecla + $boiteScoreDecla + $boiteManScoreDecla + $boiteAutoScoreDecla + $boiteVaCoScoreDecla + $climatisationScoreDecla + $demiScoreDecla + $directionScoreDecla + $electriciteScoreDecla + $freiScoreDecla + $freinageScoreDecla + $moteurDieselScoreDecla + $moteurElecScoreDecla + $moteurEssenceScoreDecla + $moteurThermiqueScoreDecla + $multiplexageScoreDecla + $pneuScoreDecla + $pontScoreDecla + $suspensionScoreDecla + $suspensionLameScoreDecla + $suspensionRessortScoreDecla + $suspensionPneumatiqueScoreDecla + $transversaleScoreDecla;
+        $mercedesScoreMa = $transmissionScoreMa + $assistanceConduiteScoreMa + $transfertScoreMa + $boiteScoreMa + $boiteManScoreMa + $boiteAutoScoreMa + $boiteVaCoScoreMa + $climatisationScoreMa + $demiScoreMa + $directionScoreMa + $electriciteScoreMa + $freiScoreMa + $freinageScoreMa + $moteurDieselScoreMa + $moteurElecScoreMa + $moteurEssenceScoreMa + $moteurThermiqueScoreMa + $multiplexageScoreMa + $pneuScoreMa + $pontScoreMa + $suspensionScoreMa + $suspensionLameScoreMa + $suspensionRessortScoreMa + $suspensionPneumatiqueScoreMa + $transversaleScoreMa;
     }
     if (isset($peugeot) == 'PEUGEOT') {
-        $peugeotFac = $transmissionTotalFac + $assistanceConduiteTotalFac + $transfertTotalFac + $boiteTotalFac + $boiteManTotalFac + $boiteAutoTotalFac + $boiteVaCoTotalFac + $climatisationTotalFac + $demiTotalFac + $directionTotalFac + $electriciteTotalFac + $freiTotalFac + $freinageTotalFac + $moteurDieselTotalFac + $moteurEssenceTotalFac + $moteurThermiqueTotalFac + $multiplexageTotalFac + $pneuTotalFac + $pontTotalFac + $suspensionTotalFac + $suspensionLameTotalFac + $suspensionRessortTotalFac + $suspensionPneumatiqueTotalFac + $transversaleTotalFac;
-        $peugeotDecla = $transmissionTotalDecla + $assistanceConduiteTotalDecla + $transfertTotalDecla + $boiteTotalDecla + $boiteManTotalDecla + $boiteAutoTotalDecla + $boiteVaCoTotalDecla + $climatisationTotalDecla + $demiTotalDecla + $directionTotalDecla + $electriciteTotalDecla + $freiTotalDecla + $freinageTotalDecla + $moteurDieselTotalDecla + $moteurEssenceTotalDecla + $moteurThermiqueTotalDecla + $multiplexageTotalDecla + $pneuTotalDecla + $pontTotalDecla + $suspensionTotalDecla + $suspensionLameTotalDecla + $suspensionRessortTotalDecla + $suspensionPneumatiqueTotalDecla + $transversaleTotalDecla;
+        $peugeotFac = $transmissionTotalFac + $assistanceConduiteTotalFac + $transfertTotalFac + $boiteTotalFac + $boiteManTotalFac + $boiteAutoTotalFac + $boiteVaCoTotalFac + $climatisationTotalFac + $demiTotalFac + $directionTotalFac + $electriciteTotalFac + $freiTotalFac + $freinageTotalFac + $moteurDieselTotalFac + $moteurElecTotalFac + $moteurEssenceTotalFac + $moteurThermiqueTotalFac + $multiplexageTotalFac + $pneuTotalFac + $pontTotalFac + $suspensionTotalFac + $suspensionLameTotalFac + $suspensionRessortTotalFac + $suspensionPneumatiqueTotalFac + $transversaleTotalFac;
+        $peugeotDecla = $transmissionTotalDecla + $assistanceConduiteTotalDecla + $transfertTotalDecla + $boiteTotalDecla + $boiteManTotalDecla + $boiteAutoTotalDecla + $boiteVaCoTotalDecla + $climatisationTotalDecla + $demiTotalDecla + $directionTotalDecla + $electriciteTotalDecla + $freiTotalDecla + $freinageTotalDecla + $moteurDieselTotalDecla + $moteurElecTotalDecla + $moteurEssenceTotalDecla + $moteurThermiqueTotalDecla + $multiplexageTotalDecla + $pneuTotalDecla + $pontTotalDecla + $suspensionTotalDecla + $suspensionLameTotalDecla + $suspensionRessortTotalDecla + $suspensionPneumatiqueTotalDecla + $transversaleTotalDecla;
 
-        $peugeotScore = $scoreTransmission + $scoreAssistance + $scoreTransfert + $scoreBoite + $scoreBoiteMan + $scoreBoiteAuto + $scoreBoiteVaCo + $scoreClim + $scoreDemi + $scoreDirection + $scoreElectricite + $scoreFrein + $scoreFreinHydro + $scoreMoteurDiesel + $scoreMoteurEssence + $scoreMoteurThermique + $scoreMultiplexage + $scorePneu + $scorePont + $scoreSuspension + $scoreSuspensionLame + $scoreSuspensionRessort + $scoreSuspensionPneu + $scoreTransversale;
+        $peugeotScore = $scoreTransmission + $scoreAssistance + $scoreTransfert + $scoreBoite + $scoreBoiteMan + $scoreBoiteAuto + $scoreBoiteVaCo + $scoreClim + $scoreDemi + $scoreDirection + $scoreElectricite + $scoreFrein + $scoreFreinHydro + $scoreMoteurDiesel + $scoreMoteurElec + $scoreMoteurEssence + $scoreMoteurThermique + $scoreMultiplexage + $scorePneu + $scorePont + $scoreSuspension + $scoreSuspensionLame + $scoreSuspensionRessort + $scoreSuspensionPneu + $scoreTransversale;
         
-        $peugeotScoreFac = $transmissionScoreFac + $assistanceConduiteScoreFac + $transfertScoreFac + $boiteScoreFac + $boiteManScoreFac + $boiteAutoScoreFac + $boiteVaCoScoreFac + $climatisationScoreFac + $demiScoreFac + $directionScoreFac + $electriciteScoreFac + $freiScoreFac + $freinageScoreFac + $moteurDieselScoreFac + $moteurEssenceScoreFac + $moteurThermiqueScoreFac + $multiplexageScoreFac + $pneuScoreFac + $pontScoreFac + $suspensionScoreFac + $suspensionLameScoreFac + $suspensionRessortScoreFac + $suspensionPneumatiqueScoreFac + $transversaleScoreFac;
-        $peugeotScoreDecla = $transmissionScoreDecla + $assistanceConduiteScoreDecla + $transfertScoreDecla + $boiteScoreDecla + $boiteManScoreDecla + $boiteAutoScoreDecla + $boiteVaCoScoreDecla + $climatisationScoreDecla + $demiScoreDecla + $directionScoreDecla + $electriciteScoreDecla + $freiScoreDecla + $freinageScoreDecla + $moteurDieselScoreDecla + $moteurEssenceScoreDecla + $moteurThermiqueScoreDecla + $multiplexageScoreDecla + $pneuScoreDecla + $pontScoreDecla + $suspensionScoreDecla + $suspensionLameScoreDecla + $suspensionRessortScoreDecla + $suspensionPneumatiqueScoreDecla + $transversaleScoreDecla;
-        $peugeotScoreMa = $transmissionScoreMa + $assistanceConduiteScoreMa + $transfertScoreMa + $boiteScoreMa + $boiteManScoreMa + $boiteAutoScoreMa + $boiteVaCoScoreMa + $climatisationScoreMa + $demiScoreMa + $directionScoreMa + $electriciteScoreMa + $freiScoreMa + $freinageScoreMa + $moteurDieselScoreMa + $moteurEssenceScoreMa + $moteurThermiqueScoreMa + $multiplexageScoreMa + $pneuScoreMa + $pontScoreMa + $suspensionScoreMa + $suspensionLameScoreMa + $suspensionRessortScoreMa + $suspensionPneumatiqueScoreMa + $transversaleScoreMa;
+        $peugeotScoreFac = $transmissionScoreFac + $assistanceConduiteScoreFac + $transfertScoreFac + $boiteScoreFac + $boiteManScoreFac + $boiteAutoScoreFac + $boiteVaCoScoreFac + $climatisationScoreFac + $demiScoreFac + $directionScoreFac + $electriciteScoreFac + $freiScoreFac + $freinageScoreFac + $moteurDieselScoreFac + $moteurElecScoreFac + $moteurEssenceScoreFac + $moteurThermiqueScoreFac + $multiplexageScoreFac + $pneuScoreFac + $pontScoreFac + $suspensionScoreFac + $suspensionLameScoreFac + $suspensionRessortScoreFac + $suspensionPneumatiqueScoreFac + $transversaleScoreFac;
+        $peugeotScoreDecla = $transmissionScoreDecla + $assistanceConduiteScoreDecla + $transfertScoreDecla + $boiteScoreDecla + $boiteManScoreDecla + $boiteAutoScoreDecla + $boiteVaCoScoreDecla + $climatisationScoreDecla + $demiScoreDecla + $directionScoreDecla + $electriciteScoreDecla + $freiScoreDecla + $freinageScoreDecla + $moteurDieselScoreDecla + $moteurElecScoreDecla + $moteurEssenceScoreDecla + $moteurThermiqueScoreDecla + $multiplexageScoreDecla + $pneuScoreDecla + $pontScoreDecla + $suspensionScoreDecla + $suspensionLameScoreDecla + $suspensionRessortScoreDecla + $suspensionPneumatiqueScoreDecla + $transversaleScoreDecla;
+        $peugeotScoreMa = $transmissionScoreMa + $assistanceConduiteScoreMa + $transfertScoreMa + $boiteScoreMa + $boiteManScoreMa + $boiteAutoScoreMa + $boiteVaCoScoreMa + $climatisationScoreMa + $demiScoreMa + $directionScoreMa + $electriciteScoreMa + $freiScoreMa + $freinageScoreMa + $moteurDieselScoreMa + $moteurElecScoreMa + $moteurEssenceScoreMa + $moteurThermiqueScoreMa + $multiplexageScoreMa + $pneuScoreMa + $pontScoreMa + $suspensionScoreMa + $suspensionLameScoreMa + $suspensionRessortScoreMa + $suspensionPneumatiqueScoreMa + $transversaleScoreMa;
     }
     if (isset($citroen) == 'CITROEN') {
-        $citroenFac = $transmissionTotalFac + $assistanceConduiteTotalFac + $boiteTotalFac + $boiteManTotalFac + $boiteAutoTotalFac + $boiteVaCoTotalFac + $climatisationTotalFac + $demiTotalFac + $directionTotalFac + $electriciteTotalFac + $freiTotalFac + $freinageTotalFac + $moteurDieselTotalFac + $moteurEssenceTotalFac + $moteurThermiqueTotalFac + $multiplexageTotalFac + $pneuTotalFac + $pontTotalFac + $suspensionTotalFac + $suspensionLameTotalFac + $suspensionRessortTotalFac + $suspensionPneumatiqueTotalFac + $transversaleTotalFac;
-        $citroenDecla = $transmissionTotalDecla + $assistanceConduiteTotalDecla + $boiteTotalDecla + $boiteManTotalDecla + $boiteAutoTotalDecla + $boiteVaCoTotalDecla + $climatisationTotalDecla + $demiTotalDecla + $directionTotalDecla + $electriciteTotalDecla + $freiTotalDecla + $freinageTotalDecla + $moteurDieselTotalDecla + $moteurEssenceTotalDecla + $moteurThermiqueTotalDecla + $multiplexageTotalDecla + $pneuTotalDecla + $pontTotalDecla + $suspensionTotalDecla + $suspensionLameTotalDecla + $suspensionRessortTotalDecla + $suspensionPneumatiqueTotalDecla + $transversaleTotalDecla;
+        $citroenFac = $transmissionTotalFac + $assistanceConduiteTotalFac + $boiteTotalFac + $boiteManTotalFac + $boiteAutoTotalFac + $boiteVaCoTotalFac + $climatisationTotalFac + $demiTotalFac + $directionTotalFac + $electriciteTotalFac + $freiTotalFac + $freinageTotalFac + $moteurDieselTotalFac + $moteurElecTotalFac + $moteurEssenceTotalFac + $moteurThermiqueTotalFac + $multiplexageTotalFac + $pneuTotalFac + $pontTotalFac + $suspensionTotalFac + $suspensionLameTotalFac + $suspensionRessortTotalFac + $suspensionPneumatiqueTotalFac + $transversaleTotalFac;
+        $citroenDecla = $transmissionTotalDecla + $assistanceConduiteTotalDecla + $boiteTotalDecla + $boiteManTotalDecla + $boiteAutoTotalDecla + $boiteVaCoTotalDecla + $climatisationTotalDecla + $demiTotalDecla + $directionTotalDecla + $electriciteTotalDecla + $freiTotalDecla + $freinageTotalDecla + $moteurDieselTotalDecla + $moteurElecTotalDecla + $moteurEssenceTotalDecla + $moteurThermiqueTotalDecla + $multiplexageTotalDecla + $pneuTotalDecla + $pontTotalDecla + $suspensionTotalDecla + $suspensionLameTotalDecla + $suspensionRessortTotalDecla + $suspensionPneumatiqueTotalDecla + $transversaleTotalDecla;
 
-        $citroenScore = $scoreTransmission + $scoreAssistance + $scoreBoite + $scoreBoiteMan + $scoreBoiteAuto + $scoreBoiteVaCo + $scoreClim + $scoreDemi + $scoreDirection + $scoreElectricite + $scoreFrein + $scoreFreinHydro + $scoreMoteurDiesel + $scoreMoteurEssence + $scoreMoteurThermique + $scoreMultiplexage + $scorePneu + $scorePont + $scoreSuspension + $scoreSuspensionLame + $scoreSuspensionRessort + $scoreSuspensionPneu + $scoreTransversale;
+        $citroenScore = $scoreTransmission + $scoreAssistance + $scoreBoite + $scoreBoiteMan + $scoreBoiteAuto + $scoreBoiteVaCo + $scoreClim + $scoreDemi + $scoreDirection + $scoreElectricite + $scoreFrein + $scoreFreinHydro + $scoreMoteurDiesel + $scoreMoteurElec + $scoreMoteurEssence + $scoreMoteurThermique + $scoreMultiplexage + $scorePneu + $scorePont + $scoreSuspension + $scoreSuspensionLame + $scoreSuspensionRessort + $scoreSuspensionPneu + $scoreTransversale;
         
-        $citroenScoreFac = $transmissionScoreFac + $assistanceConduiteScoreFac + $boiteScoreFac + $boiteManScoreFac + $boiteAutoScoreFac + $boiteVaCoScoreFac + $climatisationScoreFac + $demiScoreFac + $directionScoreFac + $electriciteScoreFac + $freiScoreFac + $freinageScoreFac + $moteurDieselScoreFac + $moteurEssenceScoreFac + $moteurThermiqueScoreFac + $multiplexageScoreFac + $pneuScoreFac + $pontScoreFac + $suspensionScoreFac + $suspensionLameScoreFac + $suspensionRessortScoreFac + $suspensionPneumatiqueScoreFac + $transversaleScoreFac;
-        $citroenScoreDecla = $transmissionScoreDecla + $assistanceConduiteScoreDecla + $boiteScoreDecla + $boiteManScoreDecla + $boiteAutoScoreDecla + $boiteVaCoScoreDecla + $climatisationScoreDecla + $demiScoreDecla + $directionScoreDecla + $electriciteScoreDecla + $freiScoreDecla + $freinageScoreDecla + $moteurDieselScoreDecla + $moteurEssenceScoreDecla + $moteurThermiqueScoreDecla + $multiplexageScoreDecla + $pneuScoreDecla + $pontScoreDecla + $suspensionScoreDecla + $suspensionLameScoreDecla + $suspensionRessortScoreDecla + $suspensionPneumatiqueScoreDecla + $transversaleScoreDecla;
-        $citroenScoreMa = $transmissionScoreMa + $assistanceConduiteScoreMa + $boiteScoreMa + $boiteManScoreMa + $boiteAutoScoreMa + $boiteVaCoScoreMa + $climatisationScoreMa + $demiScoreMa + $directionScoreMa + $electriciteScoreMa + $freiScoreMa + $freinageScoreMa + $moteurDieselScoreMa + $moteurEssenceScoreMa + $moteurThermiqueScoreMa + $multiplexageScoreMa + $pneuScoreMa + $pontScoreMa + $suspensionScoreMa + $suspensionLameScoreMa + $suspensionRessortScoreMa + $suspensionPneumatiqueScoreMa + $transversaleScoreMa;
+        $citroenScoreFac = $transmissionScoreFac + $assistanceConduiteScoreFac + $boiteScoreFac + $boiteManScoreFac + $boiteAutoScoreFac + $boiteVaCoScoreFac + $climatisationScoreFac + $demiScoreFac + $directionScoreFac + $electriciteScoreFac + $freiScoreFac + $freinageScoreFac + $moteurDieselScoreFac + $moteurElecScoreFac + $moteurEssenceScoreFac + $moteurThermiqueScoreFac + $multiplexageScoreFac + $pneuScoreFac + $pontScoreFac + $suspensionScoreFac + $suspensionLameScoreFac + $suspensionRessortScoreFac + $suspensionPneumatiqueScoreFac + $transversaleScoreFac;
+        $citroenScoreDecla = $transmissionScoreDecla + $assistanceConduiteScoreDecla + $boiteScoreDecla + $boiteManScoreDecla + $boiteAutoScoreDecla + $boiteVaCoScoreDecla + $climatisationScoreDecla + $demiScoreDecla + $directionScoreDecla + $electriciteScoreDecla + $freiScoreDecla + $freinageScoreDecla + $moteurDieselScoreDecla + $moteurElecScoreDecla + $moteurEssenceScoreDecla + $moteurThermiqueScoreDecla + $multiplexageScoreDecla + $pneuScoreDecla + $pontScoreDecla + $suspensionScoreDecla + $suspensionLameScoreDecla + $suspensionRessortScoreDecla + $suspensionPneumatiqueScoreDecla + $transversaleScoreDecla;
+        $citroenScoreMa = $transmissionScoreMa + $assistanceConduiteScoreMa + $boiteScoreMa + $boiteManScoreMa + $boiteAutoScoreMa + $boiteVaCoScoreMa + $climatisationScoreMa + $demiScoreMa + $directionScoreMa + $electriciteScoreMa + $freiScoreMa + $freinageScoreMa + $moteurDieselScoreMa + $moteurElecScoreMa + $moteurEssenceScoreMa + $moteurThermiqueScoreMa + $multiplexageScoreMa + $pneuScoreMa + $pontScoreMa + $suspensionScoreMa + $suspensionLameScoreMa + $suspensionRessortScoreMa + $suspensionPneumatiqueScoreMa + $transversaleScoreMa;
     }
     if (isset($kingLong) == 'KING LONG') {
         $kingLongFac = $transmissionTotalFac + $assistanceConduiteTotalFac + $transfertTotalFac + $boiteTotalFac + $boiteManTotalFac + $climatisationTotalFac + $demiTotalFac + $directionTotalFac + $electriciteTotalFac + $freiTotalFac + $freinTotalFac + $moteurDieselTotalFac + $moteurThermiqueTotalFac + $multiplexageTotalFac + $pneuTotalFac + $pontTotalFac + $reducteurTotalFac + $suspensionTotalFac + $suspensionLameTotalFac + $transversaleTotalFac;
@@ -2110,7 +2141,7 @@ if (!isset($_SESSION["id"])) {
         $hinoScoreDecla = $transmissionScoreDecla + $assistanceConduiteScoreDecla + $boiteScoreDecla + $boiteManScoreDecla + $demiScoreDecla + $directionScoreDecla + $electriciteScoreDecla + $freiScoreDecla + $freinScoreDecla + $moteurDieselScoreDecla + $moteurThermiqueScoreDecla + $multiplexageScoreDecla + $pneuScoreDecla + $pontScoreDecla + $reducteurScoreDecla + $suspensionScoreDecla + $suspensionLameScoreDecla + $transversaleScoreDecla;
         $hinoScoreMa = $transmissionScoreMa + $assistanceConduiteScoreMa + $boiteScoreMa + $boiteManScoreMa + $demiScoreMa + $directionScoreMa + $electriciteScoreMa + $freiScoreMa + $freinScoreMa + $moteurDieselScoreMa + $moteurThermiqueScoreMa + $multiplexageScoreMa + $pneuScoreMa + $pontScoreMa + $reducteurScoreMa + $suspensionScoreMa + $suspensionLameScoreMa + $transversaleScoreMa;
     }
-    if (isset($renalutTruck) == 'RENAULT TRUCK') {
+    if (isset($renaultTruck) == 'RENAULT TRUCK') {
         $renaultTruckFac = $transmissionTotalFac + $assistanceConduiteTotalFac + $transfertTotalFac + $boiteTotalFac + $boiteManTotalFac + $climatisationTotalFac + $demiTotalFac + $directionTotalFac + $electriciteTotalFac + $freiTotalFac + $freinTotalFac +  $hydrauliqueTotalFac + $moteurDieselTotalFac + $moteurThermiqueTotalFac + $multiplexageTotalFac + $pneuTotalFac + $pontTotalFac + $reducteurTotalFac + $suspensionTotalFac + $suspensionLameTotalFac + $suspensionPneumatiqueTotalFac + $transversaleTotalFac;
         $renaultTruckDecla = $transmissionTotalDecla + $assistanceConduiteTotalDecla + $transfertTotalDecla + $boiteTotalDecla + $boiteManTotalDecla + $climatisationTotalDecla + $demiTotalDecla + $directionTotalDecla + $electriciteTotalDecla + $freiTotalDecla + $freinTotalDecla +  $hydrauliqueTotalDecla + $moteurDieselTotalDecla + $moteurThermiqueTotalDecla + $multiplexageTotalDecla + $pneuTotalDecla + $pontTotalDecla + $reducteurTotalDecla + $suspensionTotalDecla + $suspensionLameTotalDecla + $suspensionPneumatiqueTotalDecla + $transversaleTotalDecla;
         
@@ -2174,7 +2205,7 @@ if (!isset($_SESSION["id"])) {
         $toyotaForfliftFac = $assistanceConduiteTotalFac + $boiteTotalFac + $boiteAutoTotalFac + $climatisationTotalFac + $demiTotalFac + $directionTotalFac + $electriciteTotalFac + $freiTotalFac + $freinageElecTotalFac + $freinageTotalFac +  $hydrauliqueTotalFac + $moteurDieselTotalFac + $moteurElecTotalFac + $moteurEssenceTotalFac + $moteurThermiqueTotalFac + $multiplexageTotalFac + $pneuTotalFac + $pontTotalFac + $reducteurTotalFac + $transversaleTotalFac;
         $toyotaForfliftDecla = $assistanceConduiteTotalDecla + $boiteTotalDecla + $boiteAutoTotalDecla + $climatisationTotalDecla + $demiTotalDecla + $directionTotalDecla + $electriciteTotalDecla + $freiTotalDecla + $freinageElecTotalDecla + $freinageTotalDecla +  $hydrauliqueTotalDecla + $moteurDieselTotalDecla + $moteurElecTotalDecla + $moteurEssenceTotalDecla + $moteurThermiqueTotalDecla + $multiplexageTotalDecla + $pneuTotalDecla + $pontTotalDecla + $reducteurTotalDecla + $transversaleTotalDecla;
         
-        $toyotaForkliftScore = $scoreAssistance + $scoreBoite + $scoBoiteAuto + $scoreClim + $scoreDemi + $scoreDirection + $scoreElectricite + $scoreHydro + $scoreFrein + $scoreFreinElec + $scoreFreinHydro + $scoreMoteurDiesel + $scoreMoteurElec + $scoreMoteurEssence + $scoreMoteurThermique + $scoreMultiplexage + $scorePneu + $scorePont + $scoreRed + $scoreTransversale;
+        $toyotaForfliftScore = $scoreAssistance + $scoreBoite + $scoreBoiteAuto + $scoreClim + $scoreDemi + $scoreDirection + $scoreElectricite + $scoreHydro + $scoreFrein + $scoreFreinElec + $scoreFreinHydro + $scoreMoteurDiesel + $scoreMoteurElec + $scoreMoteurEssence + $scoreMoteurThermique + $scoreMultiplexage + $scorePneu + $scorePont + $scoreRed + $scoreTransversale;
         
         $toyotaForfliftScoreFac = $assistanceConduiteScoreFac + $boiteScoreFac + $boiteAutoScoreFac + $climatisationScoreFac + $demiScoreFac + $directionScoreFac + $electriciteScoreFac + $freiScoreFac + $freinageElecScoreFac + $freinageScoreFac +  $hydrauliqueScoreFac + $moteurDieselScoreFac + $moteurElecScoreFac + $moteurEssenceScoreFac + $moteurThermiqueScoreFac + $multiplexageScoreFac + $pneuScoreFac + $pontScoreFac + $reducteurScoreFac + $transversaleScoreFac;
         $toyotaForfliftScoreDecla = $assistanceConduiteScoreDecla + $boiteScoreDecla + $boiteAutoScoreDecla + $climatisationScoreDecla + $demiScoreDecla + $directionScoreDecla + $electriciteScoreDecla + $freiScoreDecla + $freinageElecScoreDecla + $freinageScoreDecla +  $hydrauliqueScoreDecla + $moteurDieselScoreDecla + $moteurElecScoreDecla + $moteurEssenceScoreDecla + $moteurThermiqueScoreDecla + $multiplexageScoreDecla + $pneuScoreDecla + $pontScoreDecla + $reducteurScoreDecla + $transversaleScoreDecla;
@@ -2264,7 +2295,7 @@ if (!isset($_SESSION["id"])) {
                 <div id="kt_customers_table_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
                     <div class="table-responsi">
                         <table aria-describedby=""
-                            class="table align-middle table-bordered table-row-dashed gy-5 dataTable no-footer"
+                            class="table align-middle table-bordered table-row-dashed fs-7 gy-3 dataTable no-footer"
                             id="kt_customers_table">
                             <thead>
                                 <tr class="text-start text-gray-400 fw-bold text-uppercase gs-0">
@@ -2699,11 +2730,11 @@ if (!isset($_SESSION["id"])) {
                                     $transmissionDecla &&
                                     $transmissionMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <?php echo $arbre ?>
                                     </td>
                                     <?php if (
@@ -3431,11 +3462,11 @@ if (!isset($_SESSION["id"])) {
                                     $assistanceConduiteDecla &&
                                     $assistanceConduiteMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <?php echo $assistanceConduite ?>
                                     </td>
                                     <?php if (
@@ -4246,11 +4277,11 @@ if (!isset($_SESSION["id"])) {
                                     $transfertDecla &&
                                     $transfertMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <?php echo $transfert ?>
                                     </td>
                                     <td class="text-center">
@@ -4860,11 +4891,11 @@ if (!isset($_SESSION["id"])) {
                                     $boiteDecla &&
                                     $boiteMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <?php echo $boite_vitesse ?>
                                     </td>
                                     <?php if (
@@ -5675,11 +5706,11 @@ if (!isset($_SESSION["id"])) {
                                     $boiteAutoDecla &&
                                     $boiteAutoMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <?php echo $boite_vitesse_auto ?>
                                     </td>
                                     <td class="text-center">
@@ -6130,11 +6161,11 @@ if (!isset($_SESSION["id"])) {
                                     $boiteManDecla &&
                                     $boiteManMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <?php echo $boite_vitesse_meca ?>
                                     </td>
                                     <?php if (
@@ -6865,11 +6896,11 @@ if (!isset($_SESSION["id"])) {
                                     $boiteVaCoDecla &&
                                     $boiteVaCoMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <?php echo $boite_vitesse_VC ?>
                                     </td>
                                     <td class="text-center">
@@ -7280,11 +7311,11 @@ if (!isset($_SESSION["id"])) {
                                     $climatisationDecla &&
                                     $climatisationMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <?php echo $clim ?>
                                     </td>
                                     <?php if (
@@ -8015,11 +8046,11 @@ if (!isset($_SESSION["id"])) {
                                     $demiDecla &&
                                     $demiMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <?php echo $demi ?>
                                     </td>
                                     <?php if (
@@ -8790,11 +8821,11 @@ if (!isset($_SESSION["id"])) {
                                     $directionDecla &&
                                     $directionMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <?php echo $direction ?>
                                     </td>
                                     <?php if (
@@ -9605,11 +9636,11 @@ if (!isset($_SESSION["id"])) {
                                     $electriciteDecla &&
                                     $electriciteMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <?php echo $electricite ?>
                                     </td>
                                     <?php if (
@@ -10420,11 +10451,11 @@ if (!isset($_SESSION["id"])) {
                                     $freiDecla &&
                                     $freiMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <?php echo $freinage ?>
                                     </td>
                                     <?php if (
@@ -11195,11 +11226,11 @@ if (!isset($_SESSION["id"])) {
                                     $freinageElecDecla &&
                                     $freinageElecMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <?php echo $freinageElec ?>
                                     </td>
                                     <td class="text-center">
@@ -11490,11 +11521,11 @@ if (!isset($_SESSION["id"])) {
                                     $freinageDecla &&
                                     $freinageMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <?php echo $freinageHydro ?>
                                     </td>
                                     <td class="text-center">
@@ -12054,7 +12085,7 @@ if (!isset($_SESSION["id"])) {
                                     </td>
                                     <td class="text-center">
                                     <?php echo
-                                    ceil((($freinageElecFac->score * 100) / $freinageElecFac->total + ($scoreFreinElec * 100) / $freinageElecDecla->total) / 2)
+                                    ceil((($freinageFac->score * 100) / $freinageFac->total + ($scoreFreinHydro * 100) / $freinageDecla->total) / 2)
                                     ?>%
                                     </td>
                                 </tr>
@@ -12065,11 +12096,11 @@ if (!isset($_SESSION["id"])) {
                                     $freinDecla &&
                                     $freinMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <?php echo $freinagePneu ?>
                                     </td>
                                     <?php if (
@@ -12190,11 +12221,11 @@ if (!isset($_SESSION["id"])) {
                                     $hydrauliqueDecla &&
                                     $hydrauliqueMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <?php echo $hydraulique ?>
                                     </td>
                                     <td class="text-center">
@@ -12685,11 +12716,11 @@ if (!isset($_SESSION["id"])) {
                                     $moteurDieselDecla &&
                                     $moteurDieselMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <?php echo $moteurDiesel ?>
                                     </td>
                                     <?php if (
@@ -13420,11 +13451,11 @@ if (!isset($_SESSION["id"])) {
                                     $moteurElecDecla &&
                                     $moteurElecMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <?php echo $moteurElectrique ?>
                                     </td>
                                     <td class="text-center">
@@ -13715,11 +13746,11 @@ if (!isset($_SESSION["id"])) {
                                     $moteurEssenceDecla &&
                                     $moteurEssenceMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <?php echo $moteurEssence ?>
                                     </td>
                                     <td class="text-center">
@@ -14250,11 +14281,11 @@ if (!isset($_SESSION["id"])) {
                                     $moteurThermiqueDecla &&
                                     $moteurThermiqueMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <?php echo $moteurThermique ?>
                                     </td>
                                     <?php if (
@@ -15025,11 +15056,11 @@ if (!isset($_SESSION["id"])) {
                                     $multiplexageDecla &&
                                     $multiplexageMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <?php echo $multiplexage ?>
                                     </td>
                                     <?php if (
@@ -15840,11 +15871,11 @@ if (!isset($_SESSION["id"])) {
                                     $pneuDecla &&
                                     $pneuMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <?php echo $pneu ?>
                                     </td>
                                     <?php if (
@@ -16655,11 +16686,11 @@ if (!isset($_SESSION["id"])) {
                                     $pontDecla &&
                                     $pontMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <?php echo $pont ?>
                                     </td>
                                     <?php if (
@@ -17430,11 +17461,11 @@ if (!isset($_SESSION["id"])) {
                                     $reducteurDecla &&
                                     $reducteurMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <?php echo $reducteur ?>
                                     </td>
                                     <?php if (
@@ -18044,11 +18075,11 @@ if (!isset($_SESSION["id"])) {
                                     $suspensionDecla &&
                                     $suspensionMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <?php echo $suspension ?>
                                     </td>
                                     <?php if (
@@ -18699,11 +18730,11 @@ if (!isset($_SESSION["id"])) {
                                     $suspensionLameDecla &&
                                     $suspensionLameMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <?php echo $suspensionLame ?>
                                     </td>
                                     <?php if (
@@ -19354,11 +19385,11 @@ if (!isset($_SESSION["id"])) {
                                     $suspensionRessortDecla &&
                                     $suspensionRessortMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <?php echo $suspensionRessort ?>
                                     </td>
                                     <td class="text-center">
@@ -19769,11 +19800,11 @@ if (!isset($_SESSION["id"])) {
                                     $suspensionPneumatiqueDecla &&
                                     $suspensionPneumatiqueMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <?php echo $suspensionPneu ?>
                                     </td>
                                     <td class="text-center">
@@ -20224,11 +20255,11 @@ if (!isset($_SESSION["id"])) {
                                     $transversaleDecla &&
                                     $transversaleMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <?php echo $transversale ?>
                                     </td>
                                     <?php if (
@@ -21301,7 +21332,7 @@ if (!isset($_SESSION["id"])) {
                                             tabindex="0" colspan="1" aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending" style="width: 155.266px;">
                                             <?php echo
-                                            ceil((($mercedesTruckFac * 100) / $mercedesTruckFac + ($mercedesTruckScore * 100) / $mercedesTruckDecla) / 2)
+                                            ceil((($mercedesTruckScoreFac * 100) / $mercedesTruckFac + ($mercedesTruckScore * 100) / $mercedesTruckDecla) / 2)
                                             ?>%
                                         </th>
                                     <?php } else { ?>

@@ -20,6 +20,7 @@ $academy = $conn->academy;
 // Connecting in collections
 $users = $academy->users;
 $allocations = $academy->allocations;
+$connections = $academy->connections;
 
 if (isset($_POST["excel"])) {
     $spreadsheet = new Spreadsheet();
@@ -37,67 +38,33 @@ if (isset($_POST["excel"])) {
     $activeSheet->setCellValue("I1", "Niveau technique");
     $activeSheet->setCellValue("J1", "Pays");
     $activeSheet->setCellValue("K1", "Profil");
-    $activeSheet->setCellValue("L1", "Spécialité Junior");
-    $activeSheet->setCellValue("M1", "Spécialité Senior");
-    $activeSheet->setCellValue("N1", "Diplôme");
-    $activeSheet->setCellValue("O1", "Filiale");
-    $activeSheet->setCellValue("P1", "Département");
-    $activeSheet->setCellValue("Q1", "Fonction");
-    $activeSheet->setCellValue("R1", "Date de recrutement");
-    $activeSheet->setCellValue("S1", "Mot de Passe");
-    $activeSheet->setCellValue("T1", "Manager");
+    $activeSheet->setCellValue("L1", "Diplôme");
+    $activeSheet->setCellValue("M1", "Filiale");
+    $activeSheet->setCellValue("N1", "Département");
+    $activeSheet->setCellValue("O1", "Fonction");
+    $activeSheet->setCellValue("P1", "Date de recrutement");
+    $activeSheet->setCellValue("Q1", "Mot de Passe");
     $myObj = $users->find();
     $i = 2;
     foreach ($myObj as $row) {
-        $manager = $users->findOne(["_id" => $row->manager]);
-        if ($manager) {
-            $activeSheet->setCellValue("A" . $i, $row->username);
-            $activeSheet->setCellValue("B" . $i, $row->matricule);
-            $activeSheet->setCellValue("C" . $i, $row->firstName);
-            $activeSheet->setCellValue("D" . $i, $row->lastName);
-            $activeSheet->setCellValue("E" . $i, $row->email);
-            $activeSheet->setCellValue("F" . $i, $row->phone);
-            $activeSheet->setCellValue("G" . $i, $row->gender);
-            $activeSheet->setCellValue("H" . $i, $row->birthdate);
-            $activeSheet->setCellValue("I" . $i, $row->level);
-            $activeSheet->setCellValue("J" . $i, $row->country);
-            $activeSheet->setCellValue("K" . $i, $row->profile);
-            $activeSheet->setCellValue("L" . $i, $row->specialityJunior);
-            $activeSheet->setCellValue("M" . $i, $row->specialitySenior);
-            $activeSheet->setCellValue("N" . $i, $row->certificate);
-            $activeSheet->setCellValue("O" . $i, $row->subsidiary);
-            $activeSheet->setCellValue("P" . $i, $row->department);
-            $activeSheet->setCellValue("Q" . $i, $row->role);
-            $activeSheet->setCellValue("R" . $i, $row->recrutmentDate);
-            $activeSheet->setCellValue("S" . $i, $row->visiblePassword);
-            $activeSheet->setCellValue(
-                "T" . $i,
-                $manager->firstName . " " . $manager->lastName
-            );
-            $i++;
-        } else {
-            $activeSheet->setCellValue("A" . $i, $row->username);
-            $activeSheet->setCellValue("B" . $i, $row->matricule);
-            $activeSheet->setCellValue("C" . $i, $row->firstName);
-            $activeSheet->setCellValue("D" . $i, $row->lastName);
-            $activeSheet->setCellValue("E" . $i, $row->email);
-            $activeSheet->setCellValue("F" . $i, $row->phone);
-            $activeSheet->setCellValue("G" . $i, $row->gender);
-            $activeSheet->setCellValue("H" . $i, $row->birthdate);
-            $activeSheet->setCellValue("I" . $i, $row->level);
-            $activeSheet->setCellValue("J" . $i, $row->country);
-            $activeSheet->setCellValue("K" . $i, $row->profile);
-            $activeSheet->setCellValue("L" . $i, $row->specialityJunior);
-            $activeSheet->setCellValue("M" . $i, $row->specialitySenior);
-            $activeSheet->setCellValue("N" . $i, $row->certificate);
-            $activeSheet->setCellValue("O" . $i, $row->subsidiary);
-            $activeSheet->setCellValue("P" . $i, $row->department);
-            $activeSheet->setCellValue("Q" . $i, $row->role);
-            $activeSheet->setCellValue("R" . $i, $row->recrutmentDate);
-            $activeSheet->setCellValue("S" . $i, $row->visiblePassword);
-            $activeSheet->setCellValue("T" . $i, "Pas de manager");
-            $i++;
-        }
+        $activeSheet->setCellValue("A" . $i, $row->username);
+        $activeSheet->setCellValue("B" . $i, $row->matricule);
+        $activeSheet->setCellValue("C" . $i, $row->firstName);
+        $activeSheet->setCellValue("D" . $i, $row->lastName);
+        $activeSheet->setCellValue("E" . $i, $row->email);
+        $activeSheet->setCellValue("F" . $i, $row->phone);
+        $activeSheet->setCellValue("G" . $i, $row->gender);
+        $activeSheet->setCellValue("H" . $i, $row->birthdate);
+        $activeSheet->setCellValue("I" . $i, $row->level);
+        $activeSheet->setCellValue("J" . $i, $row->country);
+        $activeSheet->setCellValue("K" . $i, $row->profile);
+        $activeSheet->setCellValue("L" . $i, $row->certificate);
+        $activeSheet->setCellValue("M" . $i, $row->subsidiary);
+        $activeSheet->setCellValue("N" . $i, $row->department);
+        $activeSheet->setCellValue("O" . $i, $row->role);
+        $activeSheet->setCellValue("P" . $i, $row->recrutmentDate);
+        $activeSheet->setCellValue("Q" . $i, $row->visiblePassword);
+        $i++;
     }
     $filename = "Utilisateurs.xlsx";
     header("Content-Type: application/vnd.ms-excel");
@@ -105,6 +72,7 @@ if (isset($_POST["excel"])) {
     header("cache-Control: max-age=0");
     $excel_writer->save("php://output");
 }
+$time = time();
 ?>
 
 <?php include_once "partials/header.php"; ?>
@@ -136,33 +104,7 @@ if (isset($_POST["excel"])) {
                 </div>
             </div>
             <!--end::Info-->
-            <!--begin::Actions-->
-            <!-- <div class="d-flex align-items-center flex-nowrap text-nowrap py-1">
-                <div class="d-flex justify-content-end align-items-center" style="margin-left: 10px;">
-                    <button type="button" id="users" data-bs-toggle="modal" class="btn btn-primary">
-                        Liste subordonnés
-                    </button>
-                </div>
-                <div class="d-flex justify-content-end align-items-center" style="margin-left: 10px;">
-                    <button type="button" id="edit" title="Cliquez ici pour modifier le technicien"
-                        data-bs-toggle="modal" class="btn btn-primary">
-                        Modifier
-                    </button>
-                </div>
-                <div class="d-flex justify-content-end align-items-center" style="margin-left: 10px;">
-                    <button type="button" id="password" data-bs-toggle="modal"
-                        title="Cliquez ici pour modifier le mot de passe du technicien" class="btn btn-primary">
-                        Modifier mot de passe
-                    </button>
-                </div>
-                <div class="d-flex justify-content-end align-items-center" style="margin-left: 10px;">
-                    <button type="button" id="delete" title="Cliquez ici pour supprimer le technicien"
-                        data-bs-toggle="modal" class="btn btn-danger">
-                        Supprimer
-                    </button>
-                </div>
-            </div> -->
-            <!--end::Actions-->
+
         </div>
     </div>
     <!--end::Toolbar-->
@@ -190,93 +132,7 @@ if (isset($_POST["excel"])) {
             <!--begin::Card-->
             <div class="card">
                 <!--begin::Card header-->
-                <!-- <div class="card-header border-0 pt-6"> -->
-                <!--begin::Card title-->
-                <!-- <div class="card-title"> -->
-                <!--begin::Search-->
-                <!-- <div
-                            class="d-flex align-items-center position-relative my-1">
-                            <i
-                                class="ki-duotone ki-magnifier fs-3 position-absolute ms-5"><span
-                                    class="path1"></span><span
-                                    class="path2"></span></i>
-                            <input type="text" id="search"
-                                class="form-control form-control-solid w-250px ps-12"
-                                placeholder="Recherche">
-                        </div> -->
-                <!--end::Search-->
-                <!-- </div> -->
-                <!--begin::Card title-->
-                <!--begin::Card toolbar-->
-                <!-- <div class="card-toolbar"> -->
-                <!--begin::Toolbar-->
-                <!-- <div class="d-flex justify-content-end"
-                            data-kt-customer-table-toolbar="base"> -->
-                <!--begin::Filter-->
-                <!-- <div class="w-150px me-3" id="etat"> -->
-                <!--begin::Select2-->
-                <!-- <select id="select"
-                                    class="form-select form-select-solid"
-                                    data-control="select2"
-                                    data-hide-search="true"
-                                    data-placeholder="Etat"
-                                    data-kt-ecommerce-order-filter="etat">
-                                    <option></option>
-                                    <option value="tous">Tous
-                                    </option>
-                                    <option value="true">
-                                        Active</option>
-                                    <option value="false">
-                                        Supprimé</option>
-                                </select> -->
-                <!--end::Select2-->
-                <!-- </div> -->
-                <!--end::Filter-->
-                <!--begin::Export dropdown-->
-                <!-- <button type="button" id="excel"
-                                class="btn btn-light-primary">
-                                <i class="ki-duotone ki-exit-up fs-2"><span
-                                        class="path1"></span><span
-                                        class="path2"></span></i>
-                                Excel
-                            </button> -->
-                <!--end::Export dropdown-->
-                <!--begin::Group actions-->
-                <!-- <div class="d-flex justify-content-end align-items-center"
-                                style="margin-left: 10px;">
-                                <button type="button" id="edit"
-                                    data-bs-toggle="modal"
-                                    class="btn btn-primary">
-                                    Modifier
-                                </button>
-                            </div> -->
-                <!--end::Group actions-->
-                <!--begin::Group actions-->
-                <!-- <div class="d-flex justify-content-end align-items-center"
-                                style="margin-left: 10px;">
-                                <button type="button" id="password"
-                                    data-bs-toggle="modal"
-                                    class="btn btn-primary">
-                                    Modifier mot de passe
-                                </button>
-                            </div> -->
-                <!--end::Group actions-->
-                <!--begin::Group actions-->
-                <!-- <div class="d-flex justify-content-end align-items-center"
-                                style="margin-left: 10px;">
-                                <button type="button" id="delete"
-                                    data-bs-toggle="modal"
-                                    class="btn btn-danger">
-                                    Supprimer
-                                </button>
-                            </div> -->
-                <!--end::Group actions-->
-                <!-- </div> -->
-                <!--end::Toolbar-->
-                <!-- </div> -->
-                <!--end::Card toolbar-->
-                <!-- </div> -->
-                <!--end::Card header-->
+
                 <!--begin::Card body-->
                 <div class="card-body pt-0">
                     <!--begin::Table-->
@@ -285,55 +141,45 @@ if (isset($_POST["excel"])) {
                             <table aria-describedby=""
                                 class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer"
                                 id="kt_customers_table">
+                                <?php
+                                // Start output buffering
+                                ob_start();
+
+                                // Array to hold column data
+                                $columns = [
+                                    'prenomsNoms' => ['label' => $prenomsNoms, 'profiles' => ['Admin', 'Super Admin', 'Directeur Groupe', 'Directeur Filiale']],
+                                    'email' => ['label' => $email, 'profiles' => ['Admin']],
+                                    'pays' => ['label' => $pays, 'profiles' => ['Super Admin', 'Directeur Groupe', 'Directeur Filiale']],
+                                    'role' => ['label' => $role, 'profiles' => ['Admin', 'Super Admin', 'Directeur Groupe', 'Directeur Filiale']],
+                                    'profil' => ['label' => $profil, 'profiles' => ['Admin', 'Super Admin', 'Directeur Groupe', 'Directeur Filiale']],
+                                    'levelTech' => ['label' => $levelTech, 'profiles' => ['Admin', 'Super Admin', 'Directeur Groupe', 'Directeur Filiale']],
+                                    'username' => ['label' => $username, 'profiles' => ['Admin', 'Super Admin']],
+                                    'Password' => ['label' => $Password, 'profiles' => ['Admin', 'Super Admin']],
+                                    'status' => ['label' => $status, 'profiles' => ['Super Admin']],
+                                    'title_collaborators' => ['label' => $title_collaborators, 'profiles' => ['Admin', 'Super Admin', 'Directeur Groupe', 'Directeur Filiale']]
+                                ];
+
+                                ?>
+
                                 <thead>
                                     <tr class="text-start text-black fw-bold fs-7 text-uppercase gs-0">
-                                        <th class="w-10px pe-2 sorting_disabled" rowspan="1" colspan="1" aria-label=""
-                                            style="width: 29.8906px;">
-                                            <div
-                                                class="form-check form-check-sm form-check-custom form-check-solid me-3">
-                                                <input class="form-check-input" type="checkbox" value="1">
-                                            </div>
-                                        </th>
-                                        <th class="min-w-225px sorting" tabindex="0" aria-controls="kt_customers_table"
-                                            rowspan="1" colspan="1"
-                                            aria-label="Customer Name: activate to sort column ascending"
-                                            style="width: 125px;"><?php echo $prenomsNoms ?>
-                                        </th>
-                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
-                                            rowspan="1" colspan="1"
-                                            aria-label="Email: activate to sort column ascending"
-                                            style="width: 155.266px;"><?php echo $email ?></th>
-                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
-                                            rowspan="1" colspan="1"
-                                            aria-label="Created Date: activate to sort column ascending"
-                                            style="width: 152.719px;"><?php echo $phoneNumber ?></th>
-                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
-                                            rowspan="1" colspan="1"
-                                            aria-label="Created Date: activate to sort column ascending"
-                                            style="width: 152.719px;"><?php echo $profil ?>
-                                        </th>
-                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
-                                            rowspan="1" colspan="1"
-                                            aria-label="Created Date: activate to sort column ascending"
-                                            style="width: 152.719px;"><?php echo $levelTech ?>
-                                        </th>
-                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
-                                            rowspan="1" colspan="1"
-                                            aria-label="Created Date: activate to sort column ascending"
-                                            style="width: 152.719px;">
-                                            <?php echo $department ?></th>
-                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
-                                            rowspan="1" colspan="1"
-                                            aria-label="Created Date: activate to sort column ascending"
-                                            style="width: 152.719px;">
-                                            <?php echo $Password ?></th>
-                                        <th class="min-w-125px sorting text-center" tabindex="0" aria-controls="kt_customers_table"
-                                            rowspan="1" colspan="1"
-                                            aria-label="Created Date: activate to sort column ascending"
-                                            style="width: 152.719px;">
-                                            <?php echo $title_collaborators ?></th>
+                                        <th class="w-10px pe-2 sorting_disabled"></th>
+                                        <?php
+                                        // Loop through the columns array and generate headers based on user profile
+                                        foreach ($columns as $column) {
+                                            if (in_array($_SESSION["profile"], $column['profiles'])) {
+                                                echo '<th class="min-w-125px sorting" style="width: 152.719px;">' . $column['label'] . '</th>';
+                                            }
+                                        }
+                                    ?>
                                     </tr>
                                 </thead>
+
+                                <?php
+                                // End output buffering and flush output
+                                ob_end_flush();
+                                ?>
+
                                 <tbody class="fw-semibold text-gray-600" id="table">
                                     <?php
                                     $persons = $users->find(["active" => true]);
@@ -342,10 +188,88 @@ if (isset($_POST["excel"])) {
                                         $_SESSION["profile"] == "Admin"
                                     ) { ?>
                                     <?php if (
-                                        $user["profile"] != "Admin" &&
+                                        $user["profile"] != "Admin" && $user["profile"] != "Directeur Filiale" && $user["profile"] != "Directeur Groupe" &&
                                         $user["profile"] != "Super Admin" && $_SESSION["subsidiary"] == $user["subsidiary"]
                                     ) { ?>
                                     <tr class="odd" etat="<?php echo $user->active; ?>">
+                                        <!-- Optionally include the checkbox -->
+                                        <!-- <td>
+                                            <div class="form-check form-check-sm form-check-custom form-check-solid">
+                                                <input class="form-check-input" id="checkbox" type="checkbox"
+                                                    onclick="enable()" value="<?php echo $user->_id; ?>">
+                                            </div>
+                                        </td> 
+                                        -->
+                                        <td></td>
+                                        <td data-filter="search">
+                                            <?php echo htmlspecialchars($user->firstName . ' ' . $user->lastName); ?>
+                                        </td>
+                                        <td data-filter="email">
+                                            <?php echo htmlspecialchars($user->email); ?>
+                                        </td>
+                                        <td data-order="subsidiary">
+                                            <?php echo htmlspecialchars($user->role); ?>
+                                        </td>
+
+                                        <?php if ($user->profile == "Manager" && $user->test) { ?>
+                                        <td data-order="subsidiary">
+                                            Manager - Technicien
+                                        </td>
+                                        <?php } else { ?>
+                                        <td data-order="subsidiary">
+                                            <?php echo htmlspecialchars($user->profile); ?>
+                                        </td>
+                                        <?php } ?>
+
+                                        <td data-order="subsidiary">
+                                            <?php echo htmlspecialchars($user->level); ?>
+                                        </td>
+
+                                        <td data-order="department">
+                                            <?php echo htmlspecialchars($user->username); ?>
+                                        </td>
+
+                                        <td data-order="department">
+                                            <?php echo htmlspecialchars($user->visiblePassword); ?>
+                                        </td>
+
+                                        <?php if ($user->profile == "Manager") { ?>
+                                        <td data-order="department">
+                                            <a href="#"
+                                                class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
+                                                title="Cliquez ici pour voir les collaborateurs" data-bs-toggle="modal"
+                                                data-bs-target="#kt_modal_update_details<?php echo $user->_id; ?>">
+                                                <?php echo htmlspecialchars($voir_collab); ?>
+                                            </a>
+                                        </td>
+                                        <?php } ?>
+                                    </tr>
+
+                                    <?php } ?>
+                                    <?php } ?>
+                                    <?php if (
+                                        $_SESSION["profile"] == "Super Admin"
+                                    ) { ?>
+                                    <?php if (
+                                        $user["profile"] != "Super Admin"
+                                    ) {
+                                        $userConnected = $connections->findOne([
+                                            '$and' => [
+                                                [
+                                                    "user" => new MongoDB\BSON\ObjectId($user["_id"]),
+                                                    "status" => "Online",
+                                                ],
+                                            ],
+                                        ]);
+                                        if (isset($userConnected)) {
+                                            $status = "Online";
+                                            $badge = "badge-light-success";
+                                        } else {
+                                            $badge = "badge-light-danger";
+                                            $status = "Offline";
+                                        }
+                                        ?>
+                                    <tr id="superAdmin" class="odd" etat="<?php echo $user->active; ?>">
                                         <!-- <td>
                                             <div class="form-check form-check-sm form-check-custom form-check-solid">
                                                 <input class="form-check-input" id="checkbox" type="checkbox"
@@ -357,22 +281,35 @@ if (isset($_POST["excel"])) {
                                             <?php echo $user->firstName; ?> <?php echo $user->lastName; ?>
                                         </td>
                                         <td data-filter="email">
-                                            <?php echo $user->email; ?>
+                                            <?php echo $user->country; ?>
                                         </td>
                                         <td data-order="subsidiary">
-                                            <?php echo $user->phone; ?>
+                                            <?php echo $user->role; ?>
                                         </td>
+                                        <?php if (
+                                            $user["profile"] == "Manager" && $user["test"] == true
+                                        ) { ?>
+                                        <td data-order="subsidiary">
+                                            Manager - Technicien
+                                        </td>
+                                        <?php } else { ?>
                                         <td data-order="subsidiary">
                                             <?php echo $user->profile; ?>
                                         </td>
+                                        <?php } ?>
                                         <td data-order="subsidiary">
                                             <?php echo $user->level; ?>
                                         </td>
-                                        <td data-order="department">
-                                            <?php echo $user->department; ?>
+                                        <td class="text-center">
+                                            <?php echo $user->username; ?>
                                         </td>
                                         <td data-order="department">
                                             <?php echo $user->visiblePassword; ?>
+                                        </td>
+                                        <td>
+                                            <span class="badge <?php echo $badge ?> fs-7 m-1">
+                                                <?php echo $status ?>
+                                            </span>
                                         </td>
                                         <?php if (
                                             $user["profile"] == "Manager"
@@ -380,8 +317,8 @@ if (isset($_POST["excel"])) {
                                         <td data-order="department">
                                             <a href="#"
                                                 class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
-                                                title="Cliquez ici pour voir les collaborateurs"
-                                                 data-bs-toggle="modal" data-bs-target="#kt_modal_update_details<?php echo $user->_id; ?>">
+                                                title="Cliquez ici pour voir les collaborateurs" data-bs-toggle="modal"
+                                                data-bs-target="#kt_modal_update_details<?php echo $user->_id; ?>">
                                                 <?php echo $voir_collab ?>
                                             </a>
                                         </td>
@@ -390,10 +327,10 @@ if (isset($_POST["excel"])) {
                                     <?php } ?>
                                     <?php } ?>
                                     <?php if (
-                                        $_SESSION["profile"] == "Super Admin"
+                                        $_SESSION["profile"] == "Directeur Groupe"
                                     ) { ?>
                                     <?php if (
-                                        $user["profile"] != "Super Admin"
+                                        $user["profile"] != "Super Admin" && $user["profile"] != "Directeur Groupe"
                                     ) { ?>
                                     <tr class="odd" etat="<?php echo $user->active; ?>">
                                         <!-- <td>
@@ -407,22 +344,24 @@ if (isset($_POST["excel"])) {
                                             <?php echo $user->firstName; ?> <?php echo $user->lastName; ?>
                                         </td>
                                         <td data-filter="email">
-                                            <?php echo $user->email; ?>
+                                            <?php echo $user->country; ?>
                                         </td>
                                         <td data-order="subsidiary">
-                                            <?php echo $user->phone; ?>
+                                            <?php echo $user->role; ?>
                                         </td>
+                                        <?php if (
+                                            $user["profile"] == "Manager" && $user["test"] == true
+                                        ) { ?>
+                                        <td data-order="subsidiary">
+                                            Manager - Technicien
+                                        </td>
+                                        <?php } else { ?>
                                         <td data-order="subsidiary">
                                             <?php echo $user->profile; ?>
                                         </td>
+                                        <?php } ?>
                                         <td data-order="subsidiary">
                                             <?php echo $user->level; ?>
-                                        </td>
-                                        <td data-order="department">
-                                            <?php echo $user->department; ?>
-                                        </td>
-                                        <td data-order="department">
-                                            <?php echo $user->visiblePassword; ?>
                                         </td>
                                         <?php if (
                                             $user["profile"] == "Manager"
@@ -430,8 +369,61 @@ if (isset($_POST["excel"])) {
                                         <td data-order="department">
                                             <a href="#"
                                                 class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
-                                                title="Cliquez ici pour voir les collaborateurs"
-                                                 data-bs-toggle="modal" data-bs-target="#kt_modal_update_details<?php echo $user->_id; ?>">
+                                                title="Cliquez ici pour voir les collaborateurs" data-bs-toggle="modal"
+                                                data-bs-target="#kt_modal_update_details<?php echo $user->_id; ?>">
+                                                <?php echo $voir_collab ?>
+                                            </a>
+                                        </td>
+                                        <?php } ?>
+                                    </tr>
+                                    <?php } ?>
+                                    <?php } ?>
+                                    <?php if (
+                                        $_SESSION["profile"] == "Directeur Filiale"
+                                    ) { ?>
+                                    <?php if ($user["profile"] != "Directeur Filiale" && $user["profile"] != "Directeur Groupe" &&
+                                        $user["profile"] != "Super Admin" && 
+                                        $_SESSION["subsidiary"] == $user["subsidiary"]
+                                    ) { ?>
+                                    <tr class="odd" etat="<?php echo $user->active; ?>">
+                                        <!-- <td>
+                                            <div class="form-check form-check-sm form-check-custom form-check-solid">
+                                                <input class="form-check-input" id="checkbox" type="checkbox"
+                                                    onclick="enable()" value="<?php echo $user->_id; ?>">
+                                            </div>
+                                        </td> -->
+                                        <td></td>
+                                        <td data-filter="search">
+                                            <?php echo $user->firstName; ?> <?php echo $user->lastName; ?>
+                                        </td>
+                                        <td data-filter="email">
+                                            <?php echo $user->country; ?>
+                                        </td>
+                                        <td data-order="subsidiary">
+                                            <?php echo $user->role; ?>
+                                        </td>
+                                        <?php if (
+                                            $user["profile"] == "Manager" && $user["test"] == true
+                                        ) { ?>
+                                        <td data-order="subsidiary">
+                                            Manager - Technicien
+                                        </td>
+                                        <?php } else { ?>
+                                        <td data-order="subsidiary">
+                                            <?php echo $user->profile; ?>
+                                        </td>
+                                        <?php } ?>
+                                        <td data-order="subsidiary">
+                                            <?php echo $user->level; ?>
+                                        </td>
+                                        <?php if (
+                                            $user["profile"] == "Manager"
+                                        ) { ?>
+                                        <td data-order="department">
+                                            <a href="#"
+                                                class="btn btn-light btn-active-light-primary text-primary fw-bolder btn-sm"
+                                                title="Cliquez ici pour voir les collaborateurs" data-bs-toggle="modal"
+                                                data-bs-target="#kt_modal_update_details<?php echo $user->_id; ?>">
                                                 <?php echo $voir_collab ?>
                                             </a>
                                         </td>
@@ -500,7 +492,8 @@ if (isset($_POST["excel"])) {
                                                                     <div class="ms-5">
                                                                         <a href="#"
                                                                             class="fs-5 fw-bold text-gray-900 text-hover-primary mb-2">
-                                                                            <?php echo $collaborator->firstName; ?> <?php echo $collaborator->lastName; ?>
+                                                                            <?php echo $collaborator->firstName; ?>
+                                                                            <?php echo $collaborator->lastName; ?>
                                                                         </a>
                                                                     </div>
                                                                     <!--end::Details-->
@@ -547,10 +540,10 @@ if (isset($_POST["excel"])) {
                                 <div class="dataTables_length">
                                     <label><select id="kt_customers_table_length" name="kt_customers_table_length"
                                             class="form-select form-select-sm form-select-solid">
-                                            <option value="10">10</option>
-                                            <option value="25">25</option>
-                                            <option value="50">50</option>
                                             <option value="100">100</option>
+                                            <option value="200">200</option>
+                                            <option value="300">300</option>
+                                            <option value="500">500</option>
                                         </select></label>
                                 </div>
                             </div>
@@ -570,12 +563,14 @@ if (isset($_POST["excel"])) {
             <!--end::Card-->
             <!--begin::Export dropdown-->
             <div class="d-flex justify-content-end align-items-center" style="margin-top: 20px;">
-                <form method="post">
-                    <button type="submit" name="excel" title="Cliquez ici pour importer la table" class="btn btn-primary">
-                        <i class="ki-duotone ki-exit-up fs-2"><span class="path1"></span><span class="path2"></span></i>
-                        Excel
-                    </button>
-                </form>
+
+                <!--begin::Export-->
+                <button type="button" id="excel" class="btn btn-light-primary me-3" data-bs-toggle="modal"
+                    data-bs-target="#kt_customers_export_modal">
+                    <i class="ki-duotone ki-exit-up fs-2"><span class="path1"></span><span class="path2"></span></i>
+                    <?php echo $excel ?>
+                </button>
+                <!--end::Export-->
             </div>
             <!--end::Export dropdown-->
         </div>
@@ -584,6 +579,22 @@ if (isset($_POST["excel"])) {
     <!--end::Post-->
 </div>
 <!--end::Body-->
+<script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/gh/linways/table-to-excel@v1.0.4/dist/tableToExcel.js">
+</script>
+<script src="../public/js/main.js"></script>
+<script>
+$(document).ready(function() {
+    $("#excel").on("click", function() {
+        let table = document.getElementsByTagName("table");
+        debugger;
+        TableToExcel.convert(table[0], {
+            name: `Users.xlsx`
+        })
+    });
+});
+</script>
 <?php include_once "partials/footer.php"; ?>
 <?php
 } ?>

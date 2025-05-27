@@ -1,0 +1,6 @@
+[2025-04-28 16:28:30] INFO  Initialisation du watcher
+[2025-04-28 16:28:30] INFO  Connexion MongoDB établie
+[2025-04-28 16:33:05] INFO  Initialisation du watcher
+[2025-04-28 16:33:05] INFO  Connexion MongoDB établie sur academy_test
+[2025-04-28 16:33:05] ERROR Impossible d'ouvrir le change stream : Call to undefined method MongoDB\Database::watch()
+[2025-04-28 16:48:40] INFO  Démarrage du watcher_oplog

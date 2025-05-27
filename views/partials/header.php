@@ -1,3 +1,58 @@
+<?php
+                                     // Assuming you have the country stored in a session variable
+    $country = $_SESSION["country"]; // Set this session variable based on your logic
+
+    // Fonction pour obtenir le module actuel à partir de l'URL
+    function getCurrentModule()
+    {
+        $currentPath = $_SERVER['REQUEST_URI'];
+
+        // Check for specific module paths
+        if (strpos($currentPath, '/views/define/') !== false) {
+            return 'DEFINE';
+        } elseif (strpos($currentPath, '/views/explore/') !== false) {
+            return 'EXPLORE';
+        } elseif (strpos($currentPath, '/views/measure/') !== false) {
+            return 'MEASURE';
+        } elseif (strpos($currentPath, '/views/portal') !== false || $currentPath === '/MEDACAP/index.php') {
+            return 'PORTAL';
+        }
+
+        return 'Module non défini';
+    }
+    // Map countries to their respective agencies
+    $agencies = [
+        "Burkina Faso"  => ["Ouaga"],
+        "Cameroun"      => ["Bafoussam", "Bertoua", "Douala", "Garoua", "Ngaoundere", "Yaoundé"],
+        "Cote d'Ivoire" => ["Vridi - Equip"],
+        "Gabon"         => ["Libreville"],
+        "Madagascar"    => ["Ankorondrano", "Anosizato", "Diego", "Moramanga", "Tamatave"],
+        "Mali"          => ["Bamako"],
+        "RCA"           => ["Bangui"],
+        "RDC"           => ["Kinshasa", "Kolwezi", "Lubumbashi"],
+        "Senegal"       => ["Dakar"],
+        // Add more countries and their agencies here
+    ];
+    // Map countries
+    $countries = [
+        "Burkina Faso", "Cameroun", "Cote d'Ivoire", "Gabon", "Madagascar", "Mali", "RCA", "RDC", "Senegal"
+        // Add more countries and their agencies here
+    ];
+    // Map countries to their respective subsidiary name
+    $subsidiaries = [
+        "CFAO MOTORS BURKINA",
+        "CAMEROON MOTORS INDUSTRIES",
+        "CFAO MOTORS COTE D'IVOIRE",
+        "CFAO MOTORS GABON",
+        "CFAO MOTORS MADAGASCAR",
+        "CFAO MOTORS MALI",
+        "CFAO MOTORS CENTRAFRIQUE",
+        "CFAO MOTORS RDC",
+        "CFAO MOTORS SENEGAL",
+        // Add more countries and their agencies here
+    ];
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <!--begin::Head-->
@@ -39,6 +94,7 @@
     <!--Begin::Google Tag Manager -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar/index.global.min.js'></script>
     <script>
     (function(w, d, s, l, i) {
         w[l] = w[l] || [];
@@ -90,7 +146,7 @@
         if (document.documentElement.hasAttribute("data-bs-theme-mode")) {
             themeMode = document.documentElement.getAttribute(
                 "data-bs-theme-mode");
-        } else {  
+        } else {
             if (localStorage.getItem("data-bs-theme") !== null) {
                 themeMode = localStorage.getItem("data-bs-theme");
             } else {
@@ -117,46 +173,86 @@
         <div class="page d-flex flex-row flex-column-fluid">
             <!--begin::Aside-->
             <?php if (
-                $_SESSION["profile"] == "Super Admin" ||
-                $_SESSION["profile"] == "Admin"
-            ) { ?>
+                    $_SESSION["profile"] == "Super Admin" ||
+                    $_SESSION["profile"] == "Admin" || $_SESSION["profile"] == "Ressource Humaine" || $_SESSION["profile"] == "Directeur Filiale" || $_SESSION["profile"] == "Directeur Groupe"
+            ) {?>
             <div id="kt_aside" class="aside aside-default  aside-hoverable " data-kt-drawer="true"
                 data-kt-drawer-name="aside" data-kt-drawer-activate="{default: true, lg: false}"
                 data-kt-drawer-overlay="true" data-kt-drawer-width="{default:'200px', '300px': '250px'}"
                 data-kt-drawer-direction="start" data-kt-drawer-toggle="#kt_aside_toggle">
                 <!--begin::Brand-->
-                <div class="aside-logo flex-column-auto px-10 pt-9 pb-5" id="kt_aside_logo">
+                <div style="background:#e6e6e6;" class="aside-logo flex-column-auto px-10 pt-9 pb-5" id="kt_aside_logo">
+                    <!--begin::Action-->
+                    <a href="../portal.php"
+                    class="btn btn-sm btn-light align-self-center"><?php echo 'Portail MEDACAP' ?></a>
+                    <!--end::Action-->
                     <!--begin::Logo-->
-                    <a href="./dashboard.php">
-                        <img alt="Logo" src="../public/images/logo.png" class="h-50px logo-default" />
-                        <img alt="Logo" src="../public/images/logo.png" class="h-50px logo-minimize" />
+                    <a href="./dashboard">
+                        <img alt="Logo" src="../../public/images/logo.png" class="h-50px logo-default" style="margin-right: 50px;" />
+                        <img alt="Logo" src="../../public/images/logo.png" class="h-50px logo-minimize" />
                     </a>
                     <!--end::Logo-->
                 </div>
                 <!--end::Brand-->
                 <!--begin::Aside menu-->
-                <div class="aside-menu flex-column-fluid ps-3 pe-1">
+                <div style="background:#e6e6e6;" class="aside-menu flex-column-fluid ps-3 pe-1">
                     <!--begin::Aside Menu-->
                     <!--begin:Menu item-->
                     <div style="margin-top: -15px">
                         <?php if (
-                            $_SESSION["profile"] == "Super Admin"
-                        ) { ?>
+                                $_SESSION["profile"] == "Super Admin"
+                        ) {?>
                         <!--begin:Menu content-->
                         <div class="menu-content text-center"><span
                                 class="fw-bolder text-black text-uppercase fs-4"><?php echo $super_admin_space ?></span>
                         </div>
                         <!--end:Menu content-->
-                        <?php } ?>
+                        <?php }?>
                         <?php if (
-                            $_SESSION["profile"] == "Admin"
-                        ) { ?>
+        $_SESSION["profile"] == "Admin"
+) {?>
                         <!--begin:Menu content-->
                         <div class="menu-content text-center"><span
                                 class="fw-bolder text-black text-uppercase fs-4"><?php echo $admin_space ?></span>
                         </div>
+                        <div class="menu-content text-center"><span
+                                class="fw-bolder text-black text-uppercase fs-4"><?php echo $_SESSION["country"] ?></span>
+                        </div>
                         <!--end:Menu content-->
-                        <?php } ?>
+                        <?php }?>
+                        <?php if (
+        $_SESSION["profile"] == "Ressource Humaine"
+) {?>
+                        <!--begin:Menu content-->
+                        <div class="menu-content text-center"><span
+                                class="fw-bolder text-black text-uppercase fs-4"><?php echo $rh_space ?></span>
+                        </div>
+                        <div class="menu-content text-center"><span
+                                class="fw-bolder text-black text-uppercase fs-4"><?php echo $_SESSION["country"] ?></span>
+                        </div>
+                        <!--end:Menu content-->
+                        <?php }?>
+                        <?php if (
+        $_SESSION["profile"] == "Directeur Filiale"
+) {?>
+                        <!--begin:Menu content-->
+                        <div class="menu-content text-center"><span
+                                class="fw-bolder text-black text-uppercase fs-4"><?php echo $dir_filiale_space ?></span>
+                        </div>
+                        <div class="menu-content text-center"><span
+                                class="fw-bolder text-black text-uppercase fs-4"><?php echo $_SESSION["country"] ?></span>
+                        </div>
+                        <!--end:Menu content-->
+                        <?php }?>
+                        <?php if (
+        $_SESSION["profile"] == "Directeur Groupe"
+) {?>
+                        <!--begin:Menu content-->
+                        <div class="menu-content text-center"><span
+                                class="fw-bolder text-black text-uppercase fs-4"><?php echo $dir_grp_space ?></span>
+                        </div>
+                        <!--end:Menu content-->
+                        <?php }?>
                     </div> <br>
                     <!--end:Menu item-->
                     <!--begin::Menu-->
@@ -169,48 +265,216 @@
                             <!--begin:Menu item-->
                             <di data-kt-menu-trigger="click" class="menu-item here show menu-accordion">
                                 <?php if (
-                                    $_SESSION["profile"] == "Super Admin"
-                                ) { ?>
+                                        $_SESSION["profile"] == "Super Admin" || $_SESSION["profile"] == "Admin" || $_SESSION["profile"] == "Ressource Humaine" || $_SESSION["profile"] == "Directeur Filiale" || $_SESSION["profile"] == "Directeur Groupe"
+                                ) {?>
                                 <!--begin:Menu link-->
                                 <div class="menu-item">
                                     <!--begin:Menu link-->
-                                    <a class="menu-link" href="./dashboard.php"><span
-                                            class="menu-icon">
+                                    <a class="menu-link" href="./dashboard.php"><span class="menu-icon">
                                             <i class="ki-duotone ki-element-11 fs-2">
                                                 <span class="path1"></span>
                                                 <span class="path2"></span>
                                                 <span class="path3"></span>
                                                 <span class="path4"></span>
                                             </i></span><span class="menu-title"><?php echo $tableau ?></span>
-                                        </a>
+                                    </a>
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu link-->
-                                <?php } ?>
-                                <?php if (
-                                    $_SESSION["profile"] == "Admin"
-                                ) { ?>
-                                <!--begin:Menu link-->
+                                <?php }?>
+                                <?php if ($_SESSION["profile"] == "Admin" || $_SESSION["profile"] == "Ressource Humaine") {?>
+                                <!--begin:Menu item-->
+                                <div class="menu-content"><span
+                                        class="fw-bold text-black text-uppercase fs-70"><?php echo $etat_avanacement_agences ?></span>
+                                </div>
+                                <?php
+                                    if (isset($agencies[$country])) {
+                                    foreach ($agencies[$country] as $agency) {?>
                                 <div class="menu-item">
-                                    <!--begin:Menu link-->
-                                    <a class="menu-link" href="./dashboard.php"><span
+                                    <a class="menu-link" href="./stateAgency?agency=<?php echo $agency; ?>"><span
                                             class="menu-icon">
-                                            <i class="ki-duotone ki-element-11 fs-2">
-                                                <span class="path1"></span>
-                                                <span class="path2"></span>
-                                                <span class="path3"></span>
-                                                <span class="path4"></span>
-                                            </i></span><span class="menu-title"><?php echo $intro ?></span>
-                                        </a>
-                                    <!--end:Menu link-->
+                                            <i class="fa fa-line-chart fs-2"></i>
+                                        </span><span
+                                            class="menu-title"><?php echo $etat_avanacement_agence . ' ' . $agency ?></span></a>
                                 </div>
-                                <!--end:Menu link-->
-                                <?php } ?>
+                                <?php }
+                                }?>
+                                <!--end:Menu item-->
                                 <!--begin:Menu item-->
                                 <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
                                     <div class="menu-content"><span
-                                            class="fw-bold text-muted text-uppercase fs-70"><?php echo $ussers ?></span>
+                                            class="fw-bold text-black text-uppercase fs-70"><?php echo $calendar ?></span>
+                                    </div>
+                                    <!--end:Menu content-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link--><a class="menu-link" href="./calendar.php"><span
+                                            class="menu-icon">
+                                            <i class="ki-duotone ki-calendar fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i></span><span class="menu-title">
+                                            <?php echo $calendar ?>
+                                        </span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item pt-5">
+                                    <!--begin:Menu content-->
+                                    <div class="menu-content"><span
+                                            class="fw-bold text-black text-uppercase fs-70"><?php echo $ussers ?></span>
+                                    </div>
+                                    <!--end:Menu content-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link--><a class="menu-link" href="./users.php"><span
+                                            class="menu-icon">
+                                            <i class="ki-duotone ki-user fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i></span><span class="menu-title">
+                                            <?php echo $list_user ?>
+                                        </span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <!-- <div class="menu-item"> -->
+                                <!--begin:Menu link-->
+                                <!-- <a class="menu-link" href="./createUser.php"><span
+                                            class="menu-icon">
+                                            <i class="ki-duotone ki-user fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i></span><span class="menu-title">
+                                            <?php echo $title_addUser ?>
+                                        </span></a> -->
+                                <!--end:Menu link-->
+                                <!-- </div> -->
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <!-- <div class="menu-item"> -->
+                                <!--begin:Menu link-->
+                                <!-- <a class="menu-link" href="./editDeletUser.php"><span
+                                            class="menu-icon">
+                                            <i class="ki-duotone ki-user fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i></span><span class="menu-title">
+                                            <?php echo $title_edit_user ?>
+                                        </span></a> -->
+                                <!--end:Menu link-->
+                                <!-- </div> -->
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item pt-5">
+                                    <!--begin:Menu content-->
+                                    <div class="menu-content"><span
+                                            class="fw-bold text-black text-uppercase fs-70"><?php echo $bilan_evaluation ?></span>
+                                    </div>
+                                    <!--end:Menu content-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link--><a class="menu-link" href="./results.php"><span
+                                            class="menu-icon">
+                                            <i class="fas fa-address-book fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i></span><span
+                                            class="menu-title"><?php echo $list_result ?></span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link--><a class="menu-link"
+                                        href="./userSubsidiaryResult.php?level=Junior&subsidiary=<?php echo $_SESSION["subsidiary"] ?>"><span
+                                            class="menu-icon">
+                                            <i class="fas fa-address-book fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i>
+                                        </span><span class="menu-title"><?php echo $result_techs ?><?php echo $level ?>
+                                            <?php echo $junior ?><?php echo $by_brand ?></span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link--><a class="menu-link"
+                                        href="./userSubsidiaryResult.php?level=Senior&subsidiary=<?php echo $_SESSION["subsidiary"] ?>"><span
+                                            class="menu-icon">
+                                            <i class="fas fa-address-book fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i>
+                                        </span><span class="menu-title"><?php echo $result_techs ?><?php echo $level ?>
+                                            <?php echo $senior ?><?php echo $by_brand ?></span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link--><a class="menu-link"
+                                        href="./userSubsidiaryResult.php?level=Expert&subsidiary=<?php echo $_SESSION["subsidiary"] ?>"><span
+                                            class="menu-icon">
+                                            <i class="fas fa-address-book fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i>
+                                        </span><span class="menu-title"><?php echo $result_techs ?><?php echo $level ?>
+                                            <?php echo $expert ?><?php echo $by_brand ?></span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <?php }?>
+                                <?php if ($_SESSION["profile"] == "Super Admin") {?>
+                                <!--begin:Menu item-->
+                                <div class="menu-content"><span
+                                        class="fw-bold text-black text-uppercase fs-70"><?php echo $etat_avanacement ?></span>
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <a class="menu-link" href="./stateCountry"><span class="menu-icon">
+                                            <i class="fa fa-line-chart fs-2"></i>
+                                        </span><span
+                                            class="menu-title"><?php echo $etat_avanacement_qcm_country ?></span></a>
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <a class="menu-link" href="./stateCountryTest"><span class="menu-icon">
+                                            <i class="fa fa-line-chart fs-2"></i>
+                                        </span><span
+                                            class="menu-title"><?php echo $etat_avanacement_test_country ?></span></a>
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <a class="menu-link" href="./stateAgency"><span class="menu-icon">
+                                            <i class="fa fa-line-chart fs-2"></i>
+                                        </span><span
+                                            class="menu-title"><?php echo $etat_avanacement_qcm_agences ?></span></a>
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item pt-5">
+                                    <!--begin:Menu content-->
+                                    <div class="menu-content"><span
+                                            class="fw-bold text-black text-uppercase fs-70"><?php echo $calendarFiliale ?></span>
+                                    </div>
+                                    <!--end:Menu content-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link--><a class="menu-link" href="./calendar.php"><span
+                                            class="menu-icon">
+                                            <i class="ki-duotone ki-calendar fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i></span><span class="menu-title">
+                                            <?php echo $calendar ?>
+                                        </span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item pt-5">
+                                    <!--begin:Menu content-->
+                                    <div class="menu-content"><span
+                                            class="fw-bold text-black text-uppercase fs-70"><?php echo $ussers ?></span>
                                     </div>
                                     <!--end:Menu content-->
                                 </div>
@@ -237,20 +501,6 @@
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
-                                <?php if ($_SESSION["profile"] == "Admin") { ?>
-                                <!--begin:Menu item-->
-                                <div class="menu-item">
-                                    <!--begin:Menu link--><a class="menu-link" href="./editDeletUser.php"><span
-                                            class="menu-icon">
-                                            <i class="ki-duotone ki-user fs-2"><span class="path1"></span><span
-                                                    class="path2"></span></i></span><span class="menu-title">
-                                            <?php echo $title_edit_user ?>
-                                        </span></a>
-                                    <!--end:Menu link-->
-                                </div>
-                                <!--end:Menu item-->
-                                <?php } ?>
-                                <?php if ($_SESSION["profile"] == "Super Admin") { ?>
                                 <!--begin:Menu item-->
                                 <div class="menu-item">
                                     <!--begin:Menu link--><a class="menu-link" href="./editDeletUser.php"><span
@@ -277,7 +527,7 @@
                                 <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
                                     <div class="menu-content"><span
-                                            class="fw-bold text-muted text-uppercase fs-70"><?php echo $quizs ?></span>
+                                            class="fw-bold text-black text-uppercase fs-70"><?php echo $quizs ?></span>
                                     </div>
                                     <!--end:Menu content-->
                                 </div>
@@ -286,8 +536,7 @@
                                 <div class="menu-item">
                                     <!--begin:Menu link--><a class="menu-link" href="./quizzes.php"><span
                                             class="menu-icon">
-                                            <i
-                                                class="ki-duotone ki-row-vertical fs-2"><span class="path1"></span><span
+                                            <i class="ki-duotone ki-row-vertical fs-2"><span class="path1"></span><span
                                                     class="path2"></span></i></span><span class="menu-title">
                                             <?php echo $list_quiz ?>
                                         </span></a>
@@ -295,24 +544,21 @@
                                 </div>
                                 <!--end:Menu item-->
                                 <!--begin:Menu item-->
-                                <!-- <div class="menu-item"> -->
-                                    <!--begin:Menu link-->
-                                    <!-- <a class="menu-link" href="./quizzes.php"><span
+                                <div class="menu-item">
+                                    <!--begin:Menu link--><a class="menu-link" href="./editDeletQuiz.php"><span
                                             class="menu-icon">
-                                            <i
-                                                class="ki-duotone ki-row-vertical fs-2"><span class="path1"></span><span
+                                            <i class="ki-duotone ki-row-vertical fs-2"><span class="path1"></span><span
                                                     class="path2"></span></i></span><span class="menu-title">
-                                            Modifier/Supprimer une Questionnaire
-                                        </span>
-                                    </a> -->
+                                            <?php echo $title_edit_sup_quiz ?>
+                                        </span></a>
                                     <!--end:Menu link-->
-                                <!-- </div> -->
+                                </div>
                                 <!--end:Menu item-->
                                 <!--begin:Menu item-->
                                 <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
                                     <div class="menu-content"><span
-                                            class="fw-bold text-muted text-uppercase fs-70"><?php echo $questionType ?></span>
+                                            class="fw-bold text-black text-uppercase fs-70"><?php echo $questionType ?></span>
                                     </div>
                                     <!--end:Menu content-->
                                 </div>
@@ -321,8 +567,7 @@
                                 <div class="menu-item">
                                     <!--begin:Menu link--><a class="menu-link" href="./questions.php"><span
                                             class="menu-icon">
-                                            <i
-                                                class="fas fa-question fs-2"><span class="path1"></span><span
+                                            <i class="fas fa-question fs-2"><span class="path1"></span><span
                                                     class="path2"></span></i></span><span class="menu-title">
                                             <?php echo $list_question ?>
                                         </span></a>
@@ -333,8 +578,7 @@
                                 <div class="menu-item">
                                     <!--begin:Menu link--><a class="menu-link" href="./createQuestion.php"><span
                                             class="menu-icon">
-                                            <i
-                                                class="fas fa-question fs-2"><span class="path1"></span><span
+                                            <i class="fas fa-question fs-2"><span class="path1"></span><span
                                                     class="path2"></span></i></span><span class="menu-title">
                                             <?php echo $title_question ?>
                                         </span></a>
@@ -345,33 +589,29 @@
                                 <div class="menu-item">
                                     <!--begin:Menu link--><a class="menu-link" href="./editDeletQuestion.php"><span
                                             class="menu-icon">
-                                            <i
-                                                class="fas fa-question fs-2"><span class="path1"></span><span
+                                            <i class="fas fa-question fs-2"><span class="path1"></span><span
                                                     class="path2"></span></i></span><span class="menu-title">
                                             <?php echo $title_edit_sup_question ?>
                                         </span></a>
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
-                                <?php if ($_SESSION["profile"] == "Super Admin") { ?>
                                 <!--begin:Menu item-->
                                 <div class="menu-item">
                                     <!--begin:Menu link--><a class="menu-link" href="./importeQuestion.php"><span
                                             class="menu-icon">
-                                            <i
-                                                class="fas fa-question fs-2"><span class="path1"></span><span
+                                            <i class="fas fa-question fs-2"><span class="path1"></span><span
                                                     class="path2"></span></i></span><span class="menu-title">
                                             <?php echo $import_question ?>
                                         </span></a>
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
-                                <?php } ?>
                                 <!--begin:Menu item-->
                                 <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
                                     <div class="menu-content"><span
-                                            class="fw-bold text-muted text-uppercase fs-70"><?php echo $type_vehicle ?></span>
+                                            class="fw-bold text-black text-uppercase fs-70"><?php echo $type_vehicle ?></span>
                                     </div>
                                     <!--end:Menu content-->
                                 </div>
@@ -410,7 +650,89 @@
                                 <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
                                     <div class="menu-content"><span
-                                            class="fw-bold text-muted text-uppercase fs-70"><?php echo $seuil_validation ?></span>
+                                            class="fw-bold text-black text-uppercase fs-70"><?php echo $Specialities ?></span>
+                                    </div>
+                                    <!--end:Menu content-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link--><a class="menu-link" href="./specialities.php"><span
+                                            class="menu-icon">
+                                            <i class="ki-duotone ki-abstract-41 fs-1"><span class="path1"></span><span
+                                                    class="path2"></span></i></span><span class="menu-title">
+                                            <?php echo $list_specialities ?>
+                                        </span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <!-- <div class="menu-item"> -->
+                                <!--begin:Menu link-->
+                                <!-- <a class="menu-link" href="./createVehicle.php"><span
+                                            class="menu-icon">
+                                            <i class="ki-duotone ki-abstract-41 fs-1"><span class="path1"></span><span class="path2"></span></i></span><span class="menu-title">
+                                            <?php echo $title_vehicle ?>
+                                        </span></a> -->
+                                <!--end:Menu link-->
+                                <!-- </div> -->
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link--><a class="menu-link" href="./editDeletSpeciality.php"><span
+                                            class="menu-icon">
+                                            <i class="ki-duotone ki-abstract-41 fs-1"><span class="path1"></span><span
+                                                    class="path2"></span></i></span><span class="menu-title">
+                                            <?php echo $title_edit_sup_speciality ?>
+                                        </span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item pt-5">
+                                    <!--begin:Menu content-->
+                                    <div class="menu-content"><span
+                                            class="fw-bold text-black text-uppercase fs-70"><?php echo $comment_users ?></span>
+                                    </div>
+                                    <!--end:Menu content-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link--><a class="menu-link" href="./messages.php"><span
+                                            class="menu-icon">
+                                            <i class="fas fa-message fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i></span><span class="menu-title">
+                                            <?php echo $list_comment_users ?>
+                                        </span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item pt-5">
+                                    <!--begin:Menu content-->
+                                    <div class="menu-content"><span
+                                            class="fw-bold text-black text-uppercase fs-70"><?php echo $tab_Group_marques ?></span>
+                                    </div>
+                                    <!--end:Menu content-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link--><a class="menu-link" href="./tests.php"><span
+                                            class="menu-icon">
+                                            <i class="fas fa-book fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i></span><span class="menu-title">
+                                            <?php echo $tab_Group_marques ?>
+                                        </span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item pt-5">
+                                    <!--begin:Menu content-->
+                                    <div class="menu-content"><span
+                                            class="fw-bold text-black text-uppercase fs-70"><?php echo $seuil_validation ?></span>
                                     </div>
                                     <!--end:Menu content-->
                                 </div>
@@ -419,9 +741,8 @@
                                 <div class="menu-item">
                                     <!--begin:Menu link-->
                                     <a class="menu-link" href="./validation.php">
-                                        <span
-                                            class="menu-icon">
-                                            <i class="fa fa-line-chart fs-2" ></i>
+                                        <span class="menu-icon">
+                                            <i class="fa fa-edit fs-2"></i>
                                         </span>
                                         <span class="menu-title"><?php echo $edit_validation ?></span>
                                     </a>
@@ -432,7 +753,7 @@
                                 <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
                                     <div class="menu-content"><span
-                                            class="fw-bold text-muted text-uppercase fs-70"><?php echo $title_activation ?></span>
+                                            class="fw-bold text-black text-uppercase fs-70"><?php echo $title_activation ?></span>
                                     </div>
                                     <!--end:Menu content-->
                                 </div>
@@ -441,9 +762,8 @@
                                 <div class="menu-item">
                                     <!--begin:Menu link-->
                                     <a class="menu-link" href="./activation.php">
-                                        <span
-                                            class="menu-icon">
-                                            <i class="fa fa-line-chart fs-2" ></i>
+                                        <span class="menu-icon">
+                                            <i class="fa fa-refresh fs-2"></i>
                                         </span>
                                         <span class="menu-title"><?php echo $title_activation ?></span>
                                     </a>
@@ -454,20 +774,21 @@
                                 <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
                                     <div class="menu-content"><span
-                                            class="fw-bold text-muted text-uppercase fs-70"><?php echo $assignation_test ?></span>
+                                            class="fw-bold text-black text-uppercase fs-70"><?php echo $assignation_test ?></span>
                                     </div>
                                     <!--end:Menu content-->
                                 </div>
                                 <!--end:Menu item-->
                                 <!--begin:Menu item-->
-                                <div class="menu-item">
-                                    <!--begin:Menu link--><a class="menu-link" href="./allocateUserTest.php">
+                                <!-- <div class="menu-item"> -->
+                                <!--begin:Menu link-->
+                                <!-- <a class="menu-link" href="./allocateUserTest.php">
                                         <span class="menu-icon">
                                             <i class="fas fa-exchange fs-2"><span class="path1"></span><span
                                                     class="path2"></span></i>
-                                        </span><span class="menu-title"><?php echo $add_test_tech ?></span></a>
-                                    <!--end:Menu link-->
-                                </div>
+                                        </span><span class="menu-title"><?php echo $add_test_tech ?></span></a> -->
+                                <!--end:Menu link-->
+                                <!-- </div> -->
                                 <!--end:Menu item-->
                                 <!--begin:Menu item-->
                                 <div class="menu-item">
@@ -479,12 +800,124 @@
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
-                                <?php } ?>
+                                <?php }?>
+                                <?php if ($_SESSION["profile"] == "Directeur Filiale" || $_SESSION["profile"] == "Directeur Groupe") {?>
+                                <?php if ($_SESSION["profile"] == "Directeur Filiale") {?>
+                                <div class="menu-content"><span
+                                        class="fw-bold text-black text-uppercase fs-70"><?php echo $etat_avanacement_agences ?></span>
+                                </div>
+                                <?php
+                                    if (isset($agencies[$country])) {
+                                    foreach ($agencies[$country] as $agency) {?>
+                                <div class="menu-item">
+                                    <a class="menu-link" href="./stateAgency.php?agency=<?php echo $agency; ?>"><span
+                                            class="menu-icon">
+                                            <i class="fa fa-line-chart fs-2"></i>
+                                        </span><span class="menu-title"><?php echo $etat_avanacement_agence ?>
+                                            <?php echo $agency; ?></span></a>
+                                </div>
+                                <?php }
+                                }?>
+                                <?php }?>
+                                <!--begin:Menu item-->
+                                <?php if ($_SESSION["profile"] == "Directeur Groupe") {?>
+                                <div class="menu-content"><span
+                                        class="fw-bold text-black text-uppercase fs-70"><?php echo $etat_avanacement_subsidiary ?></span>
+                                </div>
+                                <?php
+                                    if (isset($countries)) {
+                                    foreach ($countries as $i => $country) {?>
+                                <div class="menu-item">
+                                    <a class="menu-link" href="./stateFiliale.php?country=<?php echo $country; ?>"><span
+                                            class="menu-icon">
+                                            <i class="fa fa-line-chart fs-2"></i>
+                                        </span><span class="menu-title"><?php echo $etat_avanacement_filiale ?>
+                                            <?php echo $country ?></span></a>
+                                </div>
+                                <?php }
+                                }?>
+                                <!--end:Menu item-->
                                 <!--begin:Menu item-->
                                 <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
                                     <div class="menu-content"><span
-                                            class="fw-bold text-muted text-uppercase fs-70"><?php echo $bilan_evaluation ?></span>
+                                            class="fw-bold text-black text-uppercase fs-70"><?php echo $taux_de_couvertur ?></span>
+                                    </div>
+                                    <!--end:Menu content-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link--><a class="menu-link"
+                                        href="./userSpeciality.php?level=<?php echo $_GET['level'] ?? 'Junior' ?>&country=<?php echo $_GET['country'] ?? 'tous' ?>"><span
+                                            class="menu-icon">
+                                            <i class="fas fa-address-book fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i></span><span
+                                            class="menu-title"><?php echo $taux_cover_tache_pro ?></span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item pt-5">
+                                    <!--begin:Menu content-->
+                                    <div class="menu-content"><span
+                                            class="fw-bold text-black text-uppercase fs-70"><?php echo $result ?></span>
+                                    </div>
+                                    <!--end:Menu content-->
+                                </div>
+                                <!--end:Menu item-->
+                                <?php }?>
+                                <?php if ($_SESSION["profile"] == "Directeur Filiale") {?>
+                                <!--begin:Menu item-->
+                                <div class="menu-item pt-5">
+                                    <!--begin:Menu content-->
+                                    <div class="menu-content"><span
+                                            class="fw-bold text-black text-uppercase fs-70"><?php echo $taux_de_couvertur ?></span>
+                                    </div>
+                                    <!--end:Menu content-->
+                                </div>
+                                <!--end:Menu item-->
+                                <?php if (isset($_GET['country'])) {?>
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link--><a class="menu-link"
+                                        href="./userSpeciality.php?level=<?php echo $_GET['level'] ?? 'Junior' ?>&country=<?php echo $_SESSION['country'] ?>"><span
+                                            class="menu-icon">
+                                            <i class="fas fa-address-book fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i></span><span
+                                            class="menu-title"><?php echo $taux_cover_tache_pro ?></span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <?php } elseif (isset($_GET['agency'])) {?>
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link--><a class="menu-link"
+                                        href="./userSpeciality.php?level=<?php echo $_GET['level'] ?? 'Junior' ?>&agency=<?php echo $_GET['agency'] ?>"><span
+                                            class="menu-icon">
+                                            <i class="fas fa-address-book fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i></span><span
+                                            class="menu-title"><?php echo $taux_cover_tache_pro ?></span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <?php } else {?>
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link--><a class="menu-link" href="./userSpeciality.php"><span
+                                            class="menu-icon">
+                                            <i class="fas fa-address-book fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i></span><span
+                                            class="menu-title"><?php echo $taux_cover_tache_pro ?></span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <?php }?>
+                                <!--begin:Menu item-->
+                                <div class="menu-item pt-5">
+                                    <!--begin:Menu content-->
+                                    <div class="menu-content"><span
+                                            class="fw-bold text-black text-uppercase fs-70"><?php echo $result ?></span>
                                     </div>
                                     <!--end:Menu content-->
                                 </div>
@@ -493,21 +926,232 @@
                                 <div class="menu-item">
                                     <!--begin:Menu link--><a class="menu-link" href="./results.php"><span
                                             class="menu-icon">
+                                            <i class="fas fa-address-book fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i></span><span
+                                            class="menu-title"><?php echo $list_result ?></span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link--><a class="menu-link"
+                                        href="./userSubsidiaryResult.php?level=Junior&subsidiary=<?php echo $_SESSION["subsidiary"] ?>"><span
+                                            class="menu-icon">
+                                            <i class="fas fa-address-book fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i>
+                                        </span><span class="menu-title"><?php echo $result_techs ?><?php echo $level ?>
+                                            <?php echo $junior ?><?php echo $by_brand ?></span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link--><a class="menu-link"
+                                        href="./userSubsidiaryResult.php?level=Senior&subsidiary=<?php echo $_SESSION["subsidiary"] ?>"><span
+                                            class="menu-icon">
+                                            <i class="fas fa-address-book fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i>
+                                        </span><span class="menu-title"><?php echo $result_techs ?><?php echo $level ?>
+                                            <?php echo $senior ?><?php echo $by_brand ?></span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link--><a class="menu-link"
+                                        href="./userSubsidiaryResult.php?level=Expert&subsidiary=<?php echo $_SESSION["subsidiary"] ?>"><span
+                                            class="menu-icon">
+                                            <i class="fas fa-address-book fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i>
+                                        </span><span class="menu-title"><?php echo $result_techs ?><?php echo $level ?>
+                                            <?php echo $expert ?><?php echo $by_brand ?></span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <!-- <div class="menu-item"> -->
+                                <!--begin:Menu link-->
+                                <!-- <a class="menu-link" href="./userSubsidiaryResultTotal.php?subsidiary=<?php echo $_SESSION["subsidiary"] ?>"><span
+                                            class="menu-icon">
                                             <i class="ki-duotone ki-gift fs-2">
                                                 <span class="path1"></span>
                                                 <span class="path2"></span>
                                                 <span class="path3"></span>
                                                 <span class="path4"></span>
-                                            </i></span><span class="menu-title"><?php echo $list_result ?></span></a>
+                                            </i></span><span class="menu-title"><?php echo $result_techs ?><?php echo $global ?><?php echo $by_brand ?></span></a> -->
+                                <!--end:Menu link-->
+                                <!-- </div> -->
+                                <!--end:Menu item-->
+                                <?php }?>
+                                <?php if ($_SESSION["profile"] == "Directeur Groupe") {?>
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link--><a class="menu-link"
+                                        href="./subsidiaryResult.php?level=Junior"><span class="menu-icon">
+                                            <i class="fas fa-address-book fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i>
+                                        </span><span class="menu-title"><?php echo $result_mesure_competence ?>
+                                            <?php echo $level ?><?php echo $junior ?><?php echo $par_filiale ?>
+                                            <?php echo $by_brand ?></span></a>
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
-                                <?php if ($_SESSION['profile'] == 'Super Admin') { ?>
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link--><a class="menu-link"
+                                        href="./subsidiaryResult.php?level=Senior"><span class="menu-icon">
+                                            <i class="fas fa-address-book fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i>
+                                        </span><span class="menu-title"><?php echo $result_mesure_competence ?>
+                                            <?php echo $level ?><?php echo $senior ?><?php echo $par_filiale ?>
+                                            <?php echo $by_brand ?></span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link--><a class="menu-link"
+                                        href="./subsidiaryResult.php?level=Expert"><span class="menu-icon">
+                                            <i class="fas fa-address-book fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i>
+                                        </span><span class="menu-title"><?php echo $result_mesure_competence ?>
+                                            <?php echo $level ?><?php echo $expert ?><?php echo $par_filiale ?>
+                                            <?php echo $by_brand ?></span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <!-- <div class="menu-item"> -->
+                                <!--begin:Menu link-->
+                                <!-- <a class="menu-link" href="./subsidiaryResultTotal.php"><span
+                                            class="menu-icon">
+                                            <i class="ki-duotone ki-gift fs-2">
+                                                <span class="path1"></span>
+                                                <span class="path2"></span>
+                                                <span class="path3"></span>
+                                                <span class="path4"></span>
+                                            </i></span><span class="menu-title"><?php echo $result_mesure_competence ?><?php echo $global ?><?php echo $par_filiale ?><?php echo $by_brand ?></span></a> -->
+                                <!--end:Menu link-->
+                                <!-- </div> -->
+                                <!--end:Menu item-->
+                                <?php }?>
+                                <?php }?>
+                                <?php if ($_SESSION['profile'] == 'Super Admin') {?>
                                 <!--begin:Menu item-->
                                 <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
                                     <div class="menu-content"><span
-                                            class="fw-bold text-muted text-uppercase fs-70"><?php echo $historiques ?></span>
+                                            class="fw-bold text-black text-uppercase fs-70"><?php echo $taux_de_couvertur ?></span>
+                                    </div>
+                                    <!--end:Menu content-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link--><a class="menu-link"
+                                        href="./userSpeciality.php?level=<?php echo $_GET['level'] ?? 'Junior' ?>&country=<?php echo $_GET['country'] ?? 'tous' ?>"><span
+                                            class="menu-icon">
+                                            <i class="fas fa-address-book fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i></span><span
+                                            class="menu-title"><?php echo $taux_cover_tache_pro ?></span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item pt-5">
+                                    <!--begin:Menu content-->
+                                    <div class="menu-content"><span
+                                            class="fw-bold text-black text-uppercase fs-70"><?php echo $bilan_evaluation_filiale ?></span>
+                                    </div>
+                                    <!--end:Menu content-->
+                                </div>
+                                <!--end:Menu item-->
+                                <?php
+                                foreach ($countries as $country) {?>
+                                <div class="menu-item">
+                                    <a class="menu-link" href="./results?country=<?php echo $country; ?>"><span
+                                            class="menu-icon">
+                                            <i class="fas fa-address-book fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i>
+                                        </span><span
+                                            class="menu-title"><?php echo $list_result_filiale . ' ' . $country ?></span></a>
+                                </div>
+                                <?php }?>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item pt-5">
+                                    <!--begin:Menu content-->
+                                    <div class="menu-content"><span
+                                            class="fw-bold text-black text-uppercase fs-70"><?php echo $bilan_evaluation ?></span>
+                                    </div>
+                                    <!--end:Menu content-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link--><a class="menu-link" href="./results.php"><span
+                                            class="menu-icon">
+                                            <i class="fas fa-address-book fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i>
+                                        </span><span class="menu-title"><?php echo $list_result ?></span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link--><a class="menu-link"
+                                        href="./subsidiaryResult.php?level=Junior"><span class="menu-icon">
+                                            <i class="fas fa-address-book fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i>
+                                        </span><span class="menu-title"><?php echo $result_mesure_competence ?>
+                                            <?php echo $level ?><?php echo $junior ?><?php echo $par_filiale ?>
+                                            <?php echo $by_brand ?></span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link--><a class="menu-link"
+                                        href="./subsidiaryResult.php?level=Senior"><span class="menu-icon">
+                                            <i class="fas fa-address-book fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i>
+                                        </span><span class="menu-title"><?php echo $result_mesure_competence ?>
+                                            <?php echo $level ?><?php echo $senior ?><?php echo $par_filiale ?>
+                                            <?php echo $by_brand ?></span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link--><a class="menu-link"
+                                        href="./subsidiaryResult.php?level=Expert"><span class="menu-icon">
+                                            <i class="fas fa-address-book fs-2"><span class="path1"></span><span
+                                                    class="path2"></span></i>
+                                        </span><span class="menu-title"><?php echo $result_mesure_competence ?>
+                                            <?php echo $level ?><?php echo $expert ?><?php echo $par_filiale ?>
+                                            <?php echo $by_brand ?></span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <!-- <div class="menu-item"> -->
+                                <!--begin:Menu link-->
+                                <!-- <a class="menu-link" href="./subsidiaryResultTotal.php"><span
+                                            class="menu-icon">
+                                            <i class="ki-duotone ki-gift fs-2">
+                                                <span class="path1"></span>
+                                                <span class="path2"></span>
+                                                <span class="path3"></span>
+                                                <span class="path4"></span>
+                                            </i></span><span class="menu-title"><?php echo $result_mesure_competence ?><?php echo $global ?><?php echo $par_filiale ?><?php echo $by_brand ?></span></a> -->
+                                <!--end:Menu link-->
+                                <!-- </div> -->
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item pt-5">
+                                    <!--begin:Menu content-->
+                                    <div class="menu-content"><span
+                                            class="fw-bold text-black text-uppercase fs-70"><?php echo $historiques ?></span>
                                     </div>
                                     <!--end:Menu content-->
                                 </div>
@@ -516,8 +1160,7 @@
                                 <div class="menu-item">
                                     <!--begin:Menu link--><a class="menu-link" href="./historiqueUsers.php"><span
                                             class="menu-icon">
-                                            <i
-                                                class="fas fa-history fs-2"><span class="path1"></span><span
+                                            <i class="fas fa-trash-alt fs-2"><span class="path1"></span><span
                                                     class="path2"></span></i></span><span class="menu-title">
                                             <?php echo $list_user_sup ?>
                                         </span></a>
@@ -528,8 +1171,7 @@
                                 <div class="menu-item">
                                     <!--begin:Menu link--><a class="menu-link" href="./historiqueQuizzes.php"><span
                                             class="menu-icon">
-                                            <i
-                                                class="fas fa-history fs-2"><span class="path1"></span><span
+                                            <i class="fas fa-trash-alt fs-2"><span class="path1"></span><span
                                                     class="path2"></span></i></span><span class="menu-title">
                                             <?php echo $list_quiz_sup ?>
                                         </span></a>
@@ -540,7 +1182,7 @@
                                 <div class="menu-item">
                                     <!--begin:Menu link--><a class="menu-link" href="./historiqueQuestions.php"><span
                                             class="menu-icon">
-                                            <i class="fas fa-history fs-2"><span class="path1"></span><span
+                                            <i class="fas fa-trash-alt fs-2"><span class="path1"></span><span
                                                     class="path2"></span></i></span><span class="menu-title">
                                             <?php echo $list_question_sup ?>
                                         </span></a>
@@ -551,8 +1193,7 @@
                                 <div class="menu-item">
                                     <!--begin:Menu link--><a class="menu-link" href="./historiqueVehicles.php"><span
                                             class="menu-icon">
-                                            <i
-                                                class="fas fa-history fs-2"><span class="path1"></span><span
+                                            <i class="fas fa-trash-alt fs-2"><span class="path1"></span><span
                                                     class="path2"></span></i></span><span class="menu-title">
                                             <?php echo $list_vehicle_sup ?>
                                         </span></a>
@@ -562,17 +1203,56 @@
                                 <!--begin:Menu item-->
                                 <div class="menu-item">
                                     <!--begin:Menu link-->
-                                    <a class="menu-link" href="./historiqueResults.php"><span
-                                            class="menu-icon">
-                                            <i
-                                                class="fas fa-history fs-2"><span class="path1"></span><span
+                                    <a class="menu-link" href="./historiqueResults.php"><span class="menu-icon">
+                                            <i class="fas fa-trash-alt fs-2"><span class="path1"></span><span
                                                     class="path2"></span></i></span><span class="menu-title">
                                             <?php echo $histo_result ?>
                                         </span></a>
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
-                                <?php } ?>
+                                <!--begin:Menu item-->
+                                <!-- <div class="menu-item pt-5"> -->
+                                <!--begin:Menu content-->
+                                <!-- <div class="menu-content"><span
+                                            class="fw-bold text-black text-uppercase fs-70"><?php echo $parameters ?></span>
+                                    </div> -->
+                                <!--end:Menu content-->
+                                <!-- </div> -->
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <!-- <div data-kt-menu-trigger="click" class="menu-item menu-accordion"> -->
+                                <!--begin:Menu link-->
+                                <!-- <span class="menu-link">
+                                        <span class="menu-icon">
+                                            <i class="ki-duotone ki-setting-2 fs-2">
+                                                <span class="path1"></span>
+                                                <span class="path2"></span>
+                                            </i>
+                                        </span>
+                                        <span class="menu-title"><?php echo $parameters ?></span>
+                                        <span class="menu-arrow"></span>
+                                    </span> -->
+                                <!--end:Menu link-->
+                                <!--begin:Menu sub-->
+                                <!-- <div class="menu-sub menu-sub-accordion" kt-hidden-height="209" style="display: none; overflow: hidden;"> -->
+                                <!--begin:Menu item-->
+                                <!-- <div class="menu-item"> -->
+                                <!--begin:Menu link-->
+                                <!-- <a class="menu-link" href="./editBrandCountry.php">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot"></span>
+                                            </span>
+                                            <span class="menu-title"><?php echo $edit_brand_country ?></span>
+                                        </a> -->
+                                <!--end:Menu link-->
+                                <!-- </div> -->
+                                <!--end:Menu item-->
+                                <!-- </div> -->
+                                <!--end:Menu sub-->
+                                <!-- </div> -->
+                                <!--end:Menu item-->
+                                <?php }?>
                                 <!--begin:Menu item-->
                                 <div class="menu-item">
                                     <!--begin:Menu content-->
@@ -584,14 +1264,14 @@
                                 <!--end:Menu item-->
                                 <!--begin:Menu item-->
                                 <!-- <div class="menu-item"> -->
-                                    <!--begin:Menu link-->
-                                    <!-- <a class="menu-link 2" href="#"><span class="menu-icon"><i
+                                <!--begin:Menu link-->
+                                <!-- <a class="menu-link 2" href="#"><span class="menu-icon"><i
                                                 class="ki-duotone ki-code fs-2"><span class="path1"></span><span
                                                     class="path2"></span><span class="path3"></span><span
                                                     class="path4"></span></i></span><span class="menu-title">Changelog
                                             <span
                                                 class="badge badge-changelog badge-light-success bg-hover-danger text-hover-white fw-bold fs-9 px-2 ms-2">v0.0.1</span></span></a> -->
-                                    <!--end:Menu link-->
+                                <!--end:Menu link-->
                                 <!-- </div> -->
                                 <!--end:Menu item-->
                         </div>
@@ -608,15 +1288,15 @@
                 <!--end::Footer-->
             </div>
             <?php } elseif (
-                $_SESSION["profile"] == "Technicien" ||
-                $_SESSION["profile"] == "Manager"
-            ) { ?>
+                    $_SESSION["profile"] == "Technicien" ||
+                    $_SESSION["profile"] == "Manager"
+            ) {?>
             <div id="kt_aside" class="aside aside-default  aside-hoverable " data-kt-drawer="true"
                 data-kt-drawer-name="aside" data-kt-drawer-activate="{default: true, lg: false}"
                 data-kt-drawer-overlay="true" data-kt-drawer-width="{default:'200px', '300px': '250px'}"
                 data-kt-drawer-direction="start" data-kt-drawer-toggle="#kt_aside_toggle">
                 <!--begin::Brand-->
-                <div class="aside-logo flex-column-auto px-10 pt-9 pb-5" id="kt_aside_logo">
+                <div style="background:#e6e6e6;" class="aside-logo flex-column-auto px-10 pt-9 pb-5" id="kt_aside_logo">
                     <!--begin::Logo-->
                     <a href="./dashboard.php">
                         <img alt="Logo" src="../public/images/logo.png" class="h-50px logo-default" />
@@ -626,13 +1306,13 @@
                 </div>
                 <!--end::Brand-->
                 <!--begin::Aside menu-->
-                <div class="aside-menu flex-column-fluid ps-3 pe-1">
+                <div style="background:#e6e6e6;" class="aside-menu flex-column-fluid ps-3 pe-1">
                     <!--begin::Aside Menu-->
                     <!--begin:Menu item-->
                     <di data-kt-menu-trigger="click" class="menu-item here show menu-accordion">
                         <?php if (
-                            $_SESSION["profile"] == "Manager"
-                        ) { ?>
+                                $_SESSION["profile"] == "Manager" && $_SESSION["test"] == false
+                        ) {?>
                         <!--begin:Menu item-->
                         <div style="margin-top: -15px">
                             <!--begin:Menu content-->
@@ -641,10 +1321,22 @@
                             </div>
                             <!--end:Menu content-->
                         </div> <br>
-                        <?php } ?>
+                        <?php }?>
                         <?php if (
-                            $_SESSION["profile"] == "Technicien"
-                        ) { ?>
+        $_SESSION["profile"] == "Manager" && $_SESSION["test"] == true
+) {?>
+                        <!--begin:Menu item-->
+                        <div style="margin-top: -15px">
+                            <!--begin:Menu content-->
+                            <div class="menu-content text-center"><span
+                                    class="fw-bolder text-black text-uppercase fs-5"><?php echo $manager_space . ' - ' . $technicien ?></span>
+                            </div>
+                            <!--end:Menu content-->
+                        </div> <br>
+                        <?php }?>
+                        <?php if (
+        $_SESSION["profile"] == "Technicien"
+) {?>
                         <!--begin:Menu item-->
                         <div style="margin-top: -15px">
                             <!--begin:Menu content-->
@@ -653,15 +1345,15 @@
                             </div>
                             <!--end:Menu content-->
                         </div> <br>
-                        <?php } ?>
+                        <?php }?>
                         <!--end:Menu item-->
-                    <!--begin::Menu-->
-                    <div class="menu menu-sub-indention menu-column menu-rounded menu-title-gray-600 menu-icon-gray-400 menu-active-bg menu-state-primary menu-arrow-gray-500 fw-semibold fs-6 my-5 mt-lg-2 mb-lg-0"
-                        id="kt_aside_menu" data-kt-menu="true">
-                        <div class="hover-scroll-y mx-4" id="kt_aside_menu_wrapper" data-kt-scroll="true"
-                            data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-height="auto"
-                            data-kt-scroll-wrappers="#kt_aside_menu" data-kt-scroll-offset="20px"
-                            data-kt-scroll-dependencies="#kt_aside_logo, #kt_aside_footer">
+                        <!--begin::Menu-->
+                        <div class="menu menu-sub-indention menu-column menu-rounded menu-title-gray-600 menu-icon-gray-400 menu-active-bg menu-state-primary menu-arrow-gray-500 fw-semibold fs-6 my-5 mt-lg-2 mb-lg-0"
+                            id="kt_aside_menu" data-kt-menu="true">
+                            <div class="hover-scroll-y mx-4" id="kt_aside_menu_wrapper" data-kt-scroll="true"
+                                data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-height="auto"
+                                data-kt-scroll-wrappers="#kt_aside_menu" data-kt-scroll-offset="20px"
+                                data-kt-scroll-dependencies="#kt_aside_logo, #kt_aside_footer">
                                 <!--begin:Menu link-->
                                 <div class="menu-item">
                                     <!--begin:Menu link--><a class="menu-link" href="./dashboard.php"><span
@@ -675,13 +1367,13 @@
                                     <!--end:Menu link-->
                                 </div>
                                 <?php if (
-                                    $_SESSION["profile"] == "Manager"
-                                ) { ?>
+                                        $_SESSION["profile"] == "Manager"
+                                ) {?>
                                 <!--begin:Menu item-->
                                 <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
                                     <div class="menu-content"><span
-                                            class="fw-bold text-muted text-uppercase fs-70"><?php echo $your_team ?></span>
+                                            class="fw-bold text-black text-uppercase fs-70"><?php echo $your_team ?></span>
                                     </div>
                                     <!--end:Menu content-->
                                 </div>
@@ -692,21 +1384,22 @@
                                             class="menu-icon">
                                             <i class="ki-duotone ki-user fs-2"><span class="path1"></span><span
                                                     class="path2"></span></i></span><span class="menu-title">
-                                            <?php echo $your_collaborators?>
+                                            <?php echo $your_collaborators ?>
                                         </span></a>
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
                                 <!--begin:Menu item-->
-                                <div class="menu-item">
-                                    <!--begin:Menu link--><a class="menu-link" href="./createCollaborator.php"><span
+                                <!-- <div class="menu-item"> -->
+                                <!--begin:Menu link-->
+                                <!-- <a class="menu-link" href="./createCollaborator.php"><span
                                             class="menu-icon">
                                             <i class="ki-duotone ki-user fs-2"><span class="path1"></span><span
                                                     class="path2"></span></i></span><span class="menu-title">
                                             <?php echo $title_addCollab ?>
-                                        </span></a>
-                                    <!--end:Menu link-->
-                                </div>
+                                        </span></a> -->
+                                <!--end:Menu link-->
+                                <!-- </div> -->
                                 <!--end:Menu item-->
                                 <!--begin:Menu item-->
                                 <div class="menu-item">
@@ -721,47 +1414,67 @@
                                 <!--end:Menu item-->
                                 <!--begin:Menu item-->
                                 <!-- <div class="menu-item"> -->
-                                    <!--begin:Menu link-->
-                                    <!-- <a class="menu-link" href="./allocationManager.php"><span
+                                <!--begin:Menu link-->
+                                <!-- <a class="menu-link" href="./allocationManager.php"><span
                                             class="menu-icon">
                                             <i class="ki-duotone ki-user fs-2">
                                                 <span class="path1"></span>
                                                 <span class="path2"></span>
                                             </i></span><span class="menu-title">Etat Avancement des Tests des Collaborateurs
                                         </span></a> -->
-                                    <!--end:Menu link-->
+                                <!--end:Menu link-->
                                 <!-- </div> -->
                                 <!--end:Menu item-->
                                 <!--begin:Menu item-->
                                 <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
                                     <div class="menu-content"><span
-                                            class="fw-bold text-muted text-uppercase fs-70"><?php echo $evaluer_collab ?></span>
+                                            class="fw-bold text-black text-uppercase fs-70"><?php echo $evaluer_collab ?></span>
                                     </div>
                                     <!--end:Menu content-->
                                 </div>
                                 <!--end:Menu item-->
                                 <?php if (
-                                    $_SERVER["REQUEST_URI"] !=
+                                        $_SERVER["REQUEST_URI"] !=
                                         "/medacap/views/dashboard.php" &&
-                                    $_SERVER["REQUEST_URI"] !=
+                                        $_SERVER["REQUEST_URI"] !=
                                         "/medacap/views/profile.php?id=" .
-                                            $_SESSION["id"] &&
-                                    $_SERVER["REQUEST_URI"] !=
+                                        $_SESSION["id"] &&
+                                        $_SERVER["REQUEST_URI"] !=
                                         "/medacap/views/edit-delet.php" &&
-                                    $_SERVER["REQUEST_URI"] !=
+                                        $_SERVER["REQUEST_URI"] !=
                                         "/medacap/views/collaborators.php" &&
-                                    $_SERVER["REQUEST_URI"] !=
+                                        $_SERVER["REQUEST_URI"] !=
+                                        "/medacap/views/editDeletCollaborator.php" &&
+                                        $_SERVER["REQUEST_URI"] !=
                                         "/medacap/views/createCollaborator.php" &&
-                                    $_SERVER["REQUEST_URI"] !=
+                                        $_SERVER["REQUEST_URI"] !=
                                         "/medacap/views/allocationManager.php" &&
                                         $_SERVER["REQUEST_URI"] !=
-                                            "/medacap/views/congrat.php" &&
-                                    $_SERVER["REQUEST_URI"] !=
+                                        "/medacap/views/congrat.php" &&
+                                        $_SERVER["REQUEST_URI"] !=
                                         "/medacap/views/userManagerList.php" &&
-                                    $_SERVER["REQUEST_URI"] !=
-                                        "/medacap/views/userManagerResults.php"
-                                ) { ?>
+                                        $_SERVER["REQUEST_URI"] !=
+                                        "/medacap/views/userManagerResults.php" &&
+                                        $_SERVER["REQUEST_URI"] !=
+                                        "/medacap/views/testSavoir.php" &&
+                                        $_SERVER["REQUEST_URI"] !=
+                                        "/medacap/views/testSavoirFaire.php" &&
+                                        $_SERVER["REQUEST_URI"] !=
+                                        "/medacap/views/userQuizDeclaratif.php?test=" .
+                                        $_GET["test"] .
+                                        "&level=" .
+                                        $_GET["level"] .
+                                        "&id=" .
+                                        $_GET["id"] &&
+                                        $_SERVER["REQUEST_URI"] !=
+                                        "/medacap/views/userQuizFactuel.php?test=" .
+                                        $_GET["test"] .
+                                        "&level=" .
+                                        $_GET["level"] .
+                                        "&id=" .
+                                        $_GET["id"]
+                                ) {?>
                                 <!--begin:Menu item-->
                                 <div class="menu-item">
                                     <!--begin:Menu link--><a class="menu-link" href="./userManagerList.php"><span
@@ -775,24 +1488,56 @@
                                 <!--begin:Menu item-->
                                 <div class="menu-item">
                                     <!--begin:Menu link-->
-                                    <a class="menu-link" href="./userEvaluation.php"><span
+                                    <a class="menu-link"
+                                        href="./userEvaluation.php?test=<?php echo $_GET["test"] ?>&level=<?php echo $_GET["level"] ?>&id=<?php echo $_GET["id"] ?>&user=<?php echo $_GET["user"] ?>"><span
                                             class="menu-icon">
-                                            <i class="fas fa-book fs-2"></i></span><span class="menu-title"><?php echo $evalue_collab ?></span></a>
+                                            <i class="fas fa-book fs-2"></i></span><span
+                                            class="menu-title"><?php echo $evalue_collab ?></span></a>
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
+                                <?php if ($_SESSION["test"] == true) {?>
                                 <!--begin:Menu item-->
                                 <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
                                     <div class="menu-content"><span
-                                            class="fw-bold text-muted text-uppercase fs-70"><?php echo $bilan_evaluation_collab ?></span>
+                                            class="fw-bold text-black text-uppercase fs-70"><?php echo $mesure_compentence ?></span>
                                     </div>
                                     <!--end:Menu content-->
                                 </div>
                                 <!--end:Menu item-->
                                 <!--begin:Menu item-->
                                 <div class="menu-item">
-                                    <!--begin:Menu link--><a class="menu-link" href="./userManagerResults.php"><span
+                                    <!--begin:Menu link-->
+                                    <a class="menu-link" href="./testSavoir.php"><span class="menu-icon">
+                                            <i class="fas fa-book fs-2"></i></span><span
+                                            class="menu-title"><?php echo $list_test_con ?></span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link-->
+                                    <a class="menu-link" href="./testSavoirFaire.php"><span class="menu-icon">
+                                            <i class="fas fa-book fs-2"></i></span><span
+                                            class="menu-title"><?php echo $test_tache_pro_completer ?></span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <?php }?>
+                                <!--begin:Menu item-->
+                                <!-- <div class="menu-item pt-5"> -->
+                                <!--begin:Menu content-->
+                                <!-- <div class="menu-content"><span
+                                            class="fw-bold text-black text-uppercase fs-70"><?php echo $bilan_evaluation_collab ?></span>
+                                    </div> -->
+                                <!--end:Menu content-->
+                                <!-- </div> -->
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <!-- <div class="menu-item"> -->
+                                <!--begin:Menu link-->
+                                <!-- <a class="menu-link" href="./userManagerResults.php"><span
                                             class="menu-icon">
                                             <i class="ki-duotone ki-gift fs-2">
                                                 <span class="path1"></span>
@@ -800,11 +1545,11 @@
                                                 <span class="path3"></span>
                                                 <span class="path4"></span>
                                             </i></span><span class="menu-title"><?php echo $list_result_collab_evaluer ?>
-                                        </span></a>
-                                    <!--end:Menu link-->
-                                </div>
+                                        </span></a> -->
+                                <!--end:Menu link-->
+                                <!-- </div> -->
                                 <!--end:Menu item-->
-                                <?php } else { ?>
+                                <?php } else {?>
                                 <!--begin:Menu item-->
                                 <div class="menu-item">
                                     <!--begin:Menu link--><a class="menu-link" href="./userManagerList.php"><span
@@ -815,28 +1560,140 @@
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
-                                <?php if ($_SESSION["test"] == true) { ?>
-                                <!--begin:Menu item-->
-                                <div class="menu-item">
-                                    <!--begin:Menu link--><a class="menu-link" href="./userResult.php"><span
-                                            class="menu-icon">
-                                            <i class="fas fa-book fs-2"></i></span><span class="menu-title"><?php echo $evaluation_collab ?></span></a>
-                                    <!--end:Menu link-->
-                                </div>
-                                <!--end:Menu item-->
-                                <?php } ?>
+                                <?php if ($_SESSION["test"] == true) {?>
                                 <!--begin:Menu item-->
                                 <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
                                     <div class="menu-content"><span
-                                            class="fw-bold text-muted text-uppercase fs-70"><?php echo $bilan_evaluation_collab ?></span>
+                                            class="fw-bold text-black text-uppercase fs-70"><?php echo $mesure_compentence ?></span>
                                     </div>
                                     <!--end:Menu content-->
                                 </div>
                                 <!--end:Menu item-->
+                                <?php if (
+                                        $_SERVER["REQUEST_URI"] !=
+                                        "/medacap/views/dashboard.php" &&
+                                        $_SERVER["REQUEST_URI"] !=
+                                        "/medacap/views/profile.php?id=" .
+                                        $_SESSION["id"] &&
+                                        $_SERVER["REQUEST_URI"] !=
+                                        "/medacap/views/testSavoir.php" &&
+                                        $_SERVER["REQUEST_URI"] !=
+                                        "/medacap/views/testSavoirFaire.php" &&
+                                        $_SERVER["REQUEST_URI"] !=
+                                        "/medacap/views/congrat.php" &&
+                                        $_SERVER["REQUEST_URI"] !=
+                                        "/medacap/views/profile.php?id=" .
+                                        $_SESSION["id"] &&
+                                        $_SERVER["REQUEST_URI"] !=
+                                        "/medacap/views/editDeletCollaborator.php" &&
+                                        $_SERVER["REQUEST_URI"] !=
+                                        "/medacap/views/collaborators.php" &&
+                                        $_SERVER["REQUEST_URI"] !=
+                                        "/medacap/views/createCollaborator.php" &&
+                                        $_SERVER["REQUEST_URI"] !=
+                                        "/medacap/views/allocationManager.php" &&
+                                        $_SERVER["REQUEST_URI"] !=
+                                        "/medacap/views/congrat.php" &&
+                                        $_SERVER["REQUEST_URI"] !=
+                                        "/medacap/views/userManagerList.php" &&
+                                        $_SERVER["REQUEST_URI"] !=
+                                        "/medacap/views/userManagerResults.php"
+                                ) {?>
+                                <?php if (
+        $_SERVER["REQUEST_URI"] !=
+        "/medacap/views/userQuizDeclaratif.php?test=" .
+        $_GET["test"] .
+        "&level=" .
+        $_GET["level"] .
+        "&id=" .
+        $_GET["id"]
+) {?>
                                 <!--begin:Menu item-->
                                 <div class="menu-item">
-                                    <!--begin:Menu link--><a class="menu-link" href="./userManagerResults.php"><span
+                                    <!--begin:Menu link-->
+                                    <a class="menu-link"
+                                        href="./userQuizFactuel.php?test=<?php echo $_GET["test"] ?>&level=<?php echo $_GET["level"] ?>&id=<?php echo $_GET["id"] ?>"><span
+                                            class="menu-icon">
+                                            <i class="fas fa-book fs-2"></i></span><span
+                                            class="menu-title"><?php echo $test_connaissances ?></span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link-->
+                                    <a class="menu-link" href="./testSavoirFaire.php"><span class="menu-icon">
+                                            <i class="fas fa-book fs-2"></i></span><span
+                                            class="menu-title"><?php echo $test_tache_pro_completer ?></span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <?php }?>
+                                <?php if (
+        $_SERVER["REQUEST_URI"] !=
+        "/medacap/views/userQuizFactuel.php?test=" .
+        $_GET["test"] .
+        "&level=" .
+        $_GET["level"] .
+        "&id=" .
+        $_GET["id"]
+) {?>
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link-->
+                                    <a class="menu-link" href="./testSavoir.php"><span class="menu-icon">
+                                            <i class="fas fa-book fs-2"></i></span><span
+                                            class="menu-title"><?php echo $list_test_con ?></span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link-->
+                                    <a class="menu-link"
+                                        href="./userQuizDeclaratif.php?test=<?php echo $_GET["test"] ?>&level=<?php echo $_GET["level"] ?>&id=<?php echo $_GET["id"] ?>"><span
+                                            class="menu-icon">
+                                            <i class="fas fa-book fs-2"></i></span><span
+                                            class="menu-title"><?php echo $test_tache_pro ?></span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <?php }?>
+                                <?php } else {?>
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link-->
+                                    <a class="menu-link" href="./testSavoir.php"><span class="menu-icon">
+                                            <i class="fas fa-book fs-2"></i></span><span
+                                            class="menu-title"><?php echo $list_test_con ?></span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link-->
+                                    <a class="menu-link" href="./testSavoirFaire.php"><span class="menu-icon">
+                                            <i class="fas fa-book fs-2"></i></span><span
+                                            class="menu-title"><?php echo $test_tache_pro_completer ?></span></a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <?php }?>
+                                <?php }?>
+                                <!--begin:Menu item-->
+                                <!-- <div class="menu-item pt-5"> -->
+                                <!--begin:Menu content-->
+                                <!-- <div class="menu-content"><span
+                                            class="fw-bold text-black text-uppercase fs-70"><?php echo $bilan_evaluation_collab ?></span>
+                                    </div> -->
+                                <!--end:Menu content-->
+                                <!-- </div> -->
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <!-- <div class="menu-item"> -->
+                                <!--begin:Menu link-->
+                                <!-- <a class="menu-link" href="./userManagerResults.php"><span
                                             class="menu-icon">
                                             <i class="ki-duotone ki-gift fs-2">
                                                 <span class="path1"></span>
@@ -844,19 +1701,19 @@
                                                 <span class="path3"></span>
                                                 <span class="path4"></span>
                                             </i></span><span class="menu-title"><?php echo $list_result_collab_evaluer ?>
-                                        </span></a>
-                                    <!--end:Menu link-->
-                                </div>
+                                        </span></a> -->
+                                <!--end:Menu link-->
+                                <!-- </div> -->
                                 <!--end:Menu item-->
-                                <?php } ?>
+                                <?php }?>
                                 <?php } elseif (
-                                    $_SESSION["profile"] == "Technicien"
-                                ) { ?>
+        $_SESSION["profile"] == "Technicien"
+) {?>
                                 <!--begin:Menu item-->
                                 <div class="menu-item">
                                     <!--begin:Menu link--><a class="menu-link" href="./profile.php?id=<?php echo $_SESSION[
-                                        "id"
-                                    ]; ?>"><span
+                                                                                                          "id"
+                                                                                                      ]; ?>"><span
                                             class="menu-icon">
                                             <i class="ki-duotone ki-user fs-2"><span class="path1"></span><span
                                                     class="path2"></span></i></span><span class="menu-title">
@@ -869,103 +1726,107 @@
                                 <div class="menu-item pt-5">
                                     <!--begin:Menu content-->
                                     <div class="menu-content"><span
-                                            class="fw-bold text-muted text-uppercase fs-70"><?php echo $mesure_compentence ?></span>
+                                            class="fw-bold text-black text-uppercase fs-70"><?php echo $mesure_compentence ?></span>
                                     </div>
                                     <!--end:Menu content-->
                                 </div>
                                 <!--end:Menu item-->
                                 <?php if (
-                                    $_SERVER["REQUEST_URI"] !=
+                                        $_SERVER["REQUEST_URI"] !=
                                         "/medacap/views/dashboard.php" &&
-                                    $_SERVER["REQUEST_URI"] !=
+                                        $_SERVER["REQUEST_URI"] !=
                                         "/medacap/views/profile.php?id=" .
-                                            $_SESSION["id"] &&
-                                    $_SERVER["REQUEST_URI"] !=
+                                        $_SESSION["id"] &&
+                                        $_SERVER["REQUEST_URI"] !=
                                         "/medacap/views/testSavoir.php" &&
-                                    $_SERVER["REQUEST_URI"] !=
+                                        $_SERVER["REQUEST_URI"] !=
                                         "/medacap/views/testSavoirFaire.php" &&
-                                    $_SERVER["REQUEST_URI"] !=
+                                        $_SERVER["REQUEST_URI"] !=
                                         "/medacap/views/congrat.php" &&
-                                    $_SERVER["REQUEST_URI"] !=
+                                        $_SERVER["REQUEST_URI"] !=
                                         "/medacap/views/dashboard.php"
-                                ) { ?>
+                                ) {?>
                                 <?php if (
-                                    $_SERVER["REQUEST_URI"] !=
-                                    "/medacap/views/userQuizDeclaratif.php?test=" .
-                                        $_GET["test"] .
-                                        "&level=" .
-                                        $_GET["level"] .
-                                        "&id=" .
-                                        $_GET["id"]
-                                ) { ?>
+        $_SERVER["REQUEST_URI"] !=
+        "/medacap/views/userQuizDeclaratif.php?test=" .
+        $_GET["test"] .
+        "&level=" .
+        $_GET["level"] .
+        "&id=" .
+        $_GET["id"]
+) {?>
                                 <!--begin:Menu item-->
                                 <div class="menu-item">
                                     <!--begin:Menu link-->
-                                    <a class="menu-link" href="./userQuizFactuel.php"><span
+                                    <a class="menu-link"
+                                        href="./userQuizFactuel.php?test=<?php echo $_GET["test"] ?>&level=<?php echo $_GET["level"] ?>&id=<?php echo $_GET["id"] ?>"><span
                                             class="menu-icon">
-                                            <i class="fas fa-book fs-2"></i></span><span class="menu-title"><?php echo $test_connaissances ?></span></a>
+                                            <i class="fas fa-book fs-2"></i></span><span
+                                            class="menu-title"><?php echo $test_connaissances ?></span></a>
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
                                 <!--begin:Menu item-->
                                 <div class="menu-item">
                                     <!--begin:Menu link-->
-                                    <a class="menu-link" href="./testSavoirFaire.php"><span
-                                            class="menu-icon">
-                                            <i class="fas fa-book fs-2"></i></span><span class="menu-title"><?php echo $test_tache_pro_completer ?></span></a>
+                                    <a class="menu-link" href="./testSavoirFaire.php"><span class="menu-icon">
+                                            <i class="fas fa-book fs-2"></i></span><span
+                                            class="menu-title"><?php echo $test_tache_pro_completer ?></span></a>
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
-                                <?php } ?>
+                                <?php }?>
                                 <?php if (
-                                    $_SERVER["REQUEST_URI"] !=
-                                    "/medacap/views/userQuizFactuel.php?test=" .
-                                        $_GET["test"] .
-                                        "&level=" .
-                                        $_GET["level"] .
-                                        "&id=" .
-                                        $_GET["id"]
-                                ) { ?>
+        $_SERVER["REQUEST_URI"] !=
+        "/medacap/views/userQuizFactuel.php?test=" .
+        $_GET["test"] .
+        "&level=" .
+        $_GET["level"] .
+        "&id=" .
+        $_GET["id"]
+) {?>
                                 <!--begin:Menu item-->
                                 <div class="menu-item">
                                     <!--begin:Menu link-->
-                                    <a class="menu-link" href="./testSavoir.php"><span
-                                            class="menu-icon">
-                                            <i class="fas fa-book fs-2"></i></span><span class="menu-title"><?php echo $list_test_con ?></span></a>
+                                    <a class="menu-link" href="./testSavoir.php"><span class="menu-icon">
+                                            <i class="fas fa-book fs-2"></i></span><span
+                                            class="menu-title"><?php echo $list_test_con ?></span></a>
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
                                 <!--begin:Menu item-->
                                 <div class="menu-item">
                                     <!--begin:Menu link-->
-                                    <a class="menu-link" href="./userQuizDeclaratif.php"><span
+                                    <a class="menu-link"
+                                        href="./userQuizDeclaratif.php?test=<?php echo $_GET["test"] ?>&level=<?php echo $_GET["level"] ?>&id=<?php echo $_GET["id"] ?>"><span
                                             class="menu-icon">
-                                            <i class="fas fa-book fs-2"></i></span><span class="menu-title"><?php echo $test_tache_pro ?></span></a>
+                                            <i class="fas fa-book fs-2"></i></span><span
+                                            class="menu-title"><?php echo $test_tache_pro ?></span></a>
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
-                                <?php } ?>
-                                <?php } else { ?>
+                                <?php }?>
+                                <?php } else {?>
                                 <!--begin:Menu item-->
                                 <div class="menu-item">
                                     <!--begin:Menu link-->
-                                    <a class="menu-link" href="./testSavoir.php"><span
-                                            class="menu-icon">
-                                            <i class="fas fa-book fs-2"></i></span><span class="menu-title"><?php echo $list_test_con ?></span></a>
+                                    <a class="menu-link" href="./testSavoir.php"><span class="menu-icon">
+                                            <i class="fas fa-book fs-2"></i></span><span
+                                            class="menu-title"><?php echo $list_test_con ?></span></a>
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
                                 <!--begin:Menu item-->
                                 <div class="menu-item">
                                     <!--begin:Menu link-->
-                                    <a class="menu-link" href="./testSavoirFaire.php"><span
-                                            class="menu-icon">
-                                            <i class="fas fa-book fs-2"></i></span><span class="menu-title"><?php echo $test_tache_pro_completer ?></span></a>
+                                    <a class="menu-link" href="./testSavoirFaire.php"><span class="menu-icon">
+                                            <i class="fas fa-book fs-2"></i></span><span
+                                            class="menu-title"><?php echo $test_tache_pro_completer ?></span></a>
                                     <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
-                                <?php } ?>
-                                <?php } ?>
+                                <?php }?>
+                                <?php }?>
                                 <!--begin:Menu item-->
                                 <div class="menu-item">
                                     <!--begin:Menu content-->
@@ -977,19 +1838,19 @@
                                 <!--end:Menu item-->
                                 <!--begin:Menu item-->
                                 <!-- <div class="menu-item"> -->
-                                    <!--begin:Menu link-->
-                                    <!-- <a class="menu-link 2" href="#"><span class="menu-icon"><i
+                                <!--begin:Menu link-->
+                                <!-- <a class="menu-link 2" href="#"><span class="menu-icon"><i
                                                 class="ki-duotone ki-code fs-2"><span class="path1"></span><span
                                                     class="path2"></span><span class="path3"></span><span
                                                     class="path4"></span></i></span><span class="menu-title">Changelog
                                             <span
                                                 class="badge badge-changelog badge-light-success bg-hover-danger text-hover-white fw-bold fs-9 px-2 ms-2">v1.0.0</span></span></a> -->
-                                    <!--end:Menu link-->
+                                <!--end:Menu link-->
                                 <!-- </div> -->
                                 <!--end:Menu item-->
+                            </div>
                         </div>
-                    </div>
-                    <!--end::Menu-->
+                        <!--end::Menu-->
                 </div>
                 <!--end::Aside menu-->
                 <!--begin::Footer-->
@@ -1001,12 +1862,12 @@
                 <!--end::Footer-->
             </div>
             <!--end::Aside-->
-            <?php } ?>
+            <?php }?>
             <!--begin::Wrapper-->
-            <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+            <div style="background:#e6e6e6;" class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
                 <!--begin::Header-->
-                <div id="kt_header" class="header " data-kt-sticky="true" data-kt-sticky-name="header"
-                    data-kt-sticky-offset="{default: '200px', lg: '300px'}">
+                <div style="background:#e6e6e6;" id="kt_header" class="header " data-kt-sticky="true"
+                    data-kt-sticky-name="header" data-kt-sticky-offset="{default: '200px', lg: '300px'}">
                     <!--begin::Container-->
                     <div class=" container-fluid  d-flex align-items-stretch justify-content-between">
                         <!--begin::Logo bar-->
@@ -1091,10 +1952,10 @@
                                     <div class="cursor-pointer symbol symbol-35px symbol-lg-35px"
                                         data-kt-menu-trigger="{default: 'click', lg: 'hover'}"
                                         data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
-                                        <img alt="Pic" src="../public/assets/media/avatars/300-1.jpg" />
+                                        <img alt="Pic" src="../public/assets/media/avatars/300-1.png" />
                                         <b>
                                             <?php echo $_SESSION[
-                                                "firstName"
+                                                    "firstName"
                                             ]; ?>
                                             <?php echo $_SESSION["lastName"]; ?>
                                         </b>
@@ -1105,12 +1966,12 @@
                                         <!--begin::Menu item-->
                                         <div class="menu-item px-3">
                                             <a href="./profile.php?id=<?php echo $_SESSION[
-                                                "id"
-                                            ]; ?>">
+                                                                          "id"
+                                                                      ]; ?>">
                                                 <div class="menu-content d-flex align-items-center px-3">
                                                     <!--begin::Avatar-->
                                                     <div class="symbol symbol-50px me-5">
-                                                        <img alt="Logo" src="../public/assets/media/avatars/300-1.jpg"
+                                                        <img alt="Logo" src="../public/assets/media/avatars/300-1.png"
                                                             style="max-width:100%;height:auto;" />
                                                     </div>
                                                     <!--end::Avatar-->
@@ -1119,19 +1980,19 @@
                                                         <div class="d-flex flex-column">
                                                             <div
                                                                 class="fw-bolder d-flex align-items-center text-black fs-5">
-                                                                <?php echo $salut ?>, <?php echo $_SESSION[
-                                                                    "firstName"
-                                                                ]; ?>
+                                                                <?php echo $salut ?>,<?php echo $_SESSION[
+        "firstName"
+]; ?>
                                                                 <span
                                                                     class="badge badge-light-success fw-bold fs-8 px-2 py-1 ms-2">
                                                                     <?php echo $_SESSION[
-                                                                        "profile"
+                                                                            "profile"
                                                                     ]; ?>
                                                                 </span>
                                                             </div>
-                                                            <div class="fw-bold text-muted text-hover-primary fs-7">
+                                                            <div class="fw-bold text-black text-hover-primary fs-7">
                                                                 <?php echo $_SESSION[
-                                                                    "email"
+                                                                        "email"
                                                                 ]; ?>
                                                             </div>
                                                         </div>
@@ -1147,9 +2008,8 @@
                                         <!--begin::Menu item-->
                                         <div class="menu-item px-5">
                                             <a href="./profile.php?id=<?php echo $_SESSION[
-                                                "id"
-                                            ]; ?>"
-                                                class="menu-link px-5">
+                                                                          "id"
+                                                                      ]; ?>" class="menu-link px-5">
                                                 <?php echo $my_info ?>
                                             </a>
                                         </div>
@@ -1166,7 +2026,8 @@
                                                     <?php echo $langue ?>
                                                     <span
                                                         class="fs-8 rounded bg-light px-3 py-2 position-absolute translate-middle-y top-50 end-0">
-                                                        <?php echo $francais ?> <img class="w-15px h-15px rounded-1 ms-2"
+                                                        <?php echo $francais ?> <img
+                                                            class="w-15px h-15px rounded-1 ms-2"
                                                             src="../public/assets/media/flags/france.svg" alt="" />
                                                     </span>
                                                 </span>
@@ -1204,7 +2065,14 @@
                                         <!--end::Menu item-->
                                         <!--begin::Menu item-->
                                         <div class="menu-item px-5">
-                                            <a href="./logout.php" class="menu-link px-5">
+                                            <a href="./portal.php" class="menu-link px-5">
+                                                <?php echo 'Portail MEDACAP' ?>
+                                            </a>
+                                        </div>
+                                        <!--end::Menu item-->
+                                        <!--begin::Menu item-->
+                                        <div class="menu-item px-5">
+                                            <a href="./logout.php" id="logout-button" class="menu-link px-5">
                                                 <?php echo $deconnexion ?>
                                             </a>
                                         </div>
@@ -1222,3 +2090,60 @@
                     <!--end::Container-->
                 </div>
                 <!--end::Header-->
+
+                <!--begin::Module Info-->
+                <div class="module-info text-center py-3"
+                    style="background: #ffffff; border-bottom: 1px solid #e4e6ef; box-shadow: 0 0 20px rgba(0,0,0,0.05);">
+                    <div class="container-fluid">
+                        <h2 class="fs-2 fw-bolder text-dark text-uppercase mb-0"><?php echo getCurrentModule(); ?></h2>
+                    </div>
+                </div>
+                <!--end::Module Info-->
+
+                <script>
+                // Debug module detection
+                (function() {
+                    var path = window.location.pathname;
+                    var href = window.location.href;
+                    var currentModule = '<?php echo getCurrentModule(); ?>';
+
+                    console.group('Module Detection Debug');
+                    console.log('Window Path:', path);
+                    console.log('Full URL:', href);
+                    console.log('PHP Request URI:', '<?php echo $_SERVER["REQUEST_URI"]; ?>');
+                    console.log('Detected Module:', currentModule);
+                    console.groupEnd();
+                })();
+
+                // Function to clear specific cookies
+                function clearCookies() {
+
+                    document.cookie =
+                        'userFullName=; Max-Age=-99999999; path=/';
+
+                    document.cookie =
+                        'userObjectId=; Max-Age=-99999999; path=/';
+
+                    document.cookie =
+                        'chatExpanded=; Max-Age=-99999999; path=/';
+
+                }
+
+                // Add event listener to the logout button
+                document.getElementById('logout-button').addEventListener('click',
+                    function(event) {
+
+                        event.preventDefault();
+                        // Prevent the default action (navigation)
+
+                        // Clear the cookies
+
+                        clearCookies();
+
+                        // Redirect to the logout page
+
+                        window.location.href =
+                            './logout.php';
+
+                    });
+                </script>

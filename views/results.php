@@ -18,34 +18,80 @@ if (!isset($_SESSION["id"])) {
     // Connecting in collections
     $users = $academy->users;
     $results = $academy->results;
+    $exams = $academy->exams;
+    $tests = $academy->tests;
     $allocations = $academy->allocations;
 
-    if ($_SESSION['profile'] == "Admin") {
-        $tech = $users->find([
+    $tech = [];
+
+    if ($_SESSION['profile'] == "Admin" || $_SESSION['profile'] == "Directeur Filiale") {
+        $technicians = $users->find([
             '$and' => [
                 [
                     "subsidiary" => $_SESSION['subsidiary'],
-                    "profile" => "Technicien",
                     "active" => true,
                 ],
             ],
         ])->toArray();
+        foreach ($technicians as $techn) {
+            if ($techn["profile"] == "Technicien") {
+                array_push($tech, new MongoDB\BSON\ObjectId($techn['_id']));
+            } elseif ($techn["profile"] == "Manager" && $techn["test"] == true) {
+                array_push($tech, new MongoDB\BSON\ObjectId($techn['_id']));
+            }
+        }
     }
-    if ($_SESSION['profile'] == "Super Admin") {
-        $tech = $users->find([
+    if ($_SESSION['profile'] == "Super Admin" && isset($_GET['country'])) {
+        $technicians = $users->find([
             '$and' => [
                 [
-                    "profile" => "Technicien",
+                    "country" => $_GET['country'],
                     "active" => true,
                 ],
             ],
         ])->toArray();
+        foreach ($technicians as $techn) {
+            if ($techn["profile"] == "Technicien") {
+                array_push($tech, new MongoDB\BSON\ObjectId($techn['_id']));
+            } elseif ($techn["profile"] == "Manager" && $techn["test"] == true) {
+                array_push($tech, new MongoDB\BSON\ObjectId($techn['_id']));
+            }
+        }
+    }
+    if ($_SESSION['profile'] == "Super Admin" && !isset($_GET['country'])) {
+        $technicians = $users->find([
+            '$and' => [
+                [
+                    "active" => true,
+                ],
+            ],
+        ])->toArray();
+        foreach ($technicians as $techn) {
+            if ($techn["profile"] == "Technicien") {
+                array_push($tech, new MongoDB\BSON\ObjectId($techn['_id']));
+            } elseif ($techn["profile"] == "Manager" && $techn["test"] == true) {
+                array_push($tech, new MongoDB\BSON\ObjectId($techn['_id']));
+            }
+        }
     }
     ?>
 <?php include_once "partials/header.php"; ?>
 <!--begin::Title-->
 <title><?php echo $list_result ?> | CFAO Mobility Academy</title>
 <!--end::Title-->
+
+<style>
+    #kt_customers_table_wrapper td:nth-child(1) {
+        position: sticky;
+        left: 0;
+    }
+    #kt_customers_table_wrapper td:nth-child(1) {
+        background: #edf2f7;
+    }
+    #kt_customers_table_wrapper th:nth-child(1) {
+        z-index:2;
+    }
+</style>
 
 <!--begin::Body-->
 <div class="content fs-6 d-flex flex-column flex-column-fluid" id="kt_content"
@@ -74,6 +120,7 @@ if (!isset($_SESSION["id"])) {
         </div>
     </div>
     <!--end::Toolbar-->
+    <?php if ($_SESSION['profile'] == "Super Admin" || $_SESSION['profile'] == "Admin" || $_SESSION['profile'] == "Directeur Filiale") {?>
     <!--begin::Post-->
     <div class="post fs-6 d-flex flex-column-fluid" id="kt_post" data-select2-id="select2-data-kt_post">
         <!--begin::Container-->
@@ -130,21 +177,19 @@ if (!isset($_SESSION["id"])) {
                                 id="kt_customers_table">
                                 <thead>
                                     <tr class="text-start text-black fw-bold fs-7 text-uppercase gs-0">
-                                        <th class="min-w-200px sorting text-center" tabindex="0"
-                                            aria-controls="kt_customers_table" rowspan="3"
+                                    <?php if ($_SESSION['profile'] == "Super Admin" && !isset($_GET['country'])) {?>
+                                        <th class="min-w-150px sorting text-center" tabindex="0"
+                                            aria-controls="kt_customers_table" colspan="3"
                                             aria-label="Customer Name: activate to sort column ascending"
-                                            style="width: 125px;"><?php echo $technicien ?>
+                                            style="width: 125px;"><?php echo $technicienss ?>
                                         </th>
-                                        <!-- <th class="min-w-200px sorting text-center" tabindex="0"
-                                            aria-controls="kt_customers_table" rowspan="3"
+                                    <?php } else { ?>
+                                        <th class="min-w-150px sorting text-center" tabindex="0"
+                                            aria-controls="kt_customers_table" colspan="2"
                                             aria-label="Customer Name: activate to sort column ascending"
-                                            style="width: 125px;">Filiale
+                                            style="width: 125px;"><?php echo $technicienss ?>
                                         </th>
-                                        <th class="min-w-200px sorting text-center" tabindex="0"
-                                            aria-controls="kt_customers_table" rowspan="3"
-                                            aria-label="Customer Name: activate to sort column ascending"
-                                            style="width: 125px;">Departement
-                                        </th> -->
+                                    <?php } ?>
                                         <th class="min-w-150px sorting text-center" tabindex="0"
                                             aria-controls="kt_customers_table" colspan="4"
                                             aria-label="Email: activate to sort column ascending"
@@ -161,66 +206,96 @@ if (!isset($_SESSION["id"])) {
                                             style="width: 155.266px;">
                                             <?php echo $level ?> <?php echo $expert ?></th>
                                         <tr></tr>
+                                    <?php if ($_SESSION['profile'] == "Super Admin") {?>
+                                        <th class="min-w-200px sorting text-center text-black fw-bold" tabindex="0"
+                                            aria-controls="kt_customers_table"
+                                            aria-label="Email: activate to sort column ascending"
+                                            style="width: 155.266px;">
+                                            <?php echo $prenomsNoms ?></th>
+                                        <th class="min-w-200px sorting text-center text-black fw-bold" tabindex="0"
+                                            aria-controls="kt_customers_table"
+                                            aria-label="Email: activate to sort column ascending"
+                                            style="width: 155.266px;">
+                                            <?php echo $manager ?></th>
+                                        <?php if ($_SESSION['profile'] == "Super Admin" && !isset($_GET['country'])) {?>
+                                        <th class="min-w-150px sorting text-center text-black fw-bold" tabindex="0"
+                                            aria-controls="kt_customers_table"
+                                            aria-label="Email: activate to sort column ascending"
+                                            style="width: 155.266px;">
+                                            <?php echo $pays ?></th>
+                                        <?php } ?>
+                                    <?php } else { ?>
+                                        <th class="min-w-200px sorting text-center text-black fw-bold" tabindex="0"
+                                            aria-controls="kt_customers_table"
+                                            aria-label="Email: activate to sort column ascending"
+                                            style="width: 155.266px;">
+                                            <?php echo $prenomsNoms ?></th>
+                                        <th class="min-w-200px sorting text-center text-black fw-bold" tabindex="0"
+                                            aria-controls="kt_customers_table"
+                                            aria-label="Email: activate to sort column ascending"
+                                            style="width: 155.266px;">
+                                            <?php echo $agence ?></th>
+                                    <?php } ?>
                                         <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
                                             aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            <?php echo $connaissances ?></th>
+                                            <?php echo $qcm_connaissances_tech ?></th>
                                         <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
                                             aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            <?php echo $tache_pro_tech ?></th>
+                                            <?php echo $qcm_tache_pro_tech ?></th>
                                         <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
                                             aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            <?php echo $tache_pro_manager ?></th>
+                                            <?php echo $qcm_tache_pro_manager ?></th>
                                         <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
                                             aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            <?php echo $global ?></th>
+                                            <?php echo $note_test_junior ?></th>
                                         <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
                                             aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            <?php echo $connaissances ?></th>
+                                            <?php echo $qcm_connaissances_tech ?></th>
                                         <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
                                             aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            <?php echo $tache_pro_tech ?></th>
+                                            <?php echo $qcm_tache_pro_tech ?></th>
                                         <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
                                             aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            <?php echo $tache_pro_manager ?></th>
+                                            <?php echo $qcm_tache_pro_manager ?></th>
                                         <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
                                             aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            <?php echo $global ?></th>
+                                            <?php echo $note_test_senior ?></th>
                                         <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
                                             aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            <?php echo $connaissances ?></th>
+                                            <?php echo $qcm_connaissances_tech ?></th>
                                         <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
                                             aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            <?php echo $tache_pro_tech ?></th>
+                                            <?php echo $qcm_tache_pro_tech ?></th>
                                         <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
                                             aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            <?php echo $tache_pro_manager ?></th>
+                                            <?php echo $qcm_tache_pro_manager ?></th>
                                         <th class="min-w-80px sorting text-center text-black fw-bold" tabindex="0"
                                             aria-controls="kt_customers_table"
                                             aria-label="Email: activate to sort column ascending"
                                             style="width: 155.266px;">
-                                            <?php echo $global ?></th>
+                                            <?php echo $note_test_expert ?></th>
                                     </tr>
                                 </thead>
                                 <tbody class="fw-semibold text-gray-600" id="table">
@@ -233,17 +308,194 @@ if (!isset($_SESSION["id"])) {
                                             $user = $users->findOne([
                                                 '$and' => [
                                                     [
-                                                        "_id" => new MongoDB\BSON\ObjectId($tech[$i]['_id']),
+                                                        "_id" => new MongoDB\BSON\ObjectId($tech[$i]),
+                                                        "active" => true,
+                                                    ],
+                                                ],
+                                            ]);
+                                            $manager = $users->findOne([
+                                                '$and' => [
+                                                    [
+                                                        "_id" => new MongoDB\BSON\ObjectId($user["manager"]),
                                                         "active" => true,
                                                     ],
                                                 ],
                                             ]);
 
+                                            $testFacJu = $tests
+                                                ->findOne([
+                                                    '$and' => [
+                                                        [
+                                                            "user" => new MongoDB\BSON\ObjectId($user['_id']),
+                                                            "level" => "Junior",
+                                                            "type" => "Factuel",
+                                                            "active" => true,
+                                                        ],
+                                                    ],
+                                                ]);
+                                            $testDeclaJu = $tests
+                                                ->findOne([
+                                                    '$and' => [
+                                                        [
+                                                            "user" => new MongoDB\BSON\ObjectId($user['_id']),
+                                                            "level" => "Junior",
+                                                            "type" => "Declaratif",
+                                                            "active" => true,
+                                                        ],
+                                                    ],
+                                                ]);
+                                            $testFacSe = $tests
+                                                ->findOne([
+                                                    '$and' => [
+                                                        [
+                                                            "user" => new MongoDB\BSON\ObjectId($user['_id']),
+                                                            "level" => "Senior",
+                                                            "type" => "Factuel",
+                                                            "active" => true,
+                                                        ],
+                                                    ],
+                                                ]);
+                                            $testDeclaSe = $tests
+                                                ->findOne([
+                                                    '$and' => [
+                                                        [
+                                                            "user" => new MongoDB\BSON\ObjectId($user['_id']),
+                                                            "level" => "Senior",
+                                                            "type" => "Declaratif",
+                                                            "active" => true,
+                                                        ],
+                                                    ],
+                                                ]);
+                                            $testFacEx = $tests
+                                                ->findOne([
+                                                    '$and' => [
+                                                        [
+                                                            "user" => new MongoDB\BSON\ObjectId($user['_id']),
+                                                            "level" => "Expert",
+                                                            "type" => "Factuel",
+                                                            "active" => true,
+                                                        ],
+                                                    ],
+                                                ]);
+                                            $testDeclaEx = $tests
+                                                ->findOne([
+                                                    '$and' => [
+                                                        [
+                                                            "user" => new MongoDB\BSON\ObjectId($user['_id']),
+                                                            "level" => "Expert",
+                                                            "type" => "Declaratif",
+                                                            "active" => true,
+                                                        ],
+                                                    ],
+                                                ]);
+                                            $examFacJu = $exams
+                                                ->findOne([
+                                                    '$and' => [
+                                                        [
+                                                            "user" => new MongoDB\BSON\ObjectId($user['_id']),
+                                                            "test" => new MongoDB\BSON\ObjectId($testFacJu['_id']),
+                                                        ],
+                                                    ],
+                                                ]);
+                                            if (isset($testFacSe)) {
+                                                $examFacSe = $exams
+                                                    ->findOne([
+                                                        '$and' => [
+                                                            [
+                                                                "user" => new MongoDB\BSON\ObjectId($user['_id']),
+                                                                "test" => new MongoDB\BSON\ObjectId($testFacSe['_id']),
+                                                            ],
+                                                        ],
+                                                    ]);
+                                            }
+                                            if (isset($testFacEx)) {
+                                                $examFacEx = $exams
+                                                    ->findOne([
+                                                        '$and' => [
+                                                            [
+                                                                "user" => new MongoDB\BSON\ObjectId($user['_id']),
+                                                                "test" => new MongoDB\BSON\ObjectId($testFacEx['_id']),
+                                                            ],
+                                                        ],
+                                                    ]);
+                                            }
+                                            $examDeclaJu = $exams
+                                                ->findOne([
+                                                    '$and' => [
+                                                        [
+                                                            "user" => new MongoDB\BSON\ObjectId($user['_id']),
+                                                            "test" => new MongoDB\BSON\ObjectId($testDeclaJu['_id']),
+                                                            "type" => "Technicien",
+                                                        ],
+                                                    ],
+                                                ]);
+                                            if (isset($testDeclaSe)) {
+                                                $examDeclaSe = $exams
+                                                    ->findOne([
+                                                        '$and' => [
+                                                            [
+                                                                "user" => new MongoDB\BSON\ObjectId($user['_id']),
+                                                                "test" => new MongoDB\BSON\ObjectId($testDeclaSe['_id']),
+                                                                "type" => "Technicien",
+                                                            ],
+                                                        ],
+                                                    ]);
+                                            }
+                                            if (isset($testDeclaEx)) {
+                                                $examDeclaEx = $exams
+                                                    ->findOne([
+                                                        '$and' => [
+                                                            [
+                                                                "user" => new MongoDB\BSON\ObjectId($user['_id']),
+                                                                "test" => new MongoDB\BSON\ObjectId($testDeclaEx['_id']),
+                                                                "type" => "Technicien",
+                                                            ],
+                                                        ],
+                                                    ]);
+                                            }
+                                            $examDeclaMaJu = $exams
+                                                ->findOne([
+                                                    '$and' => [
+                                                        [
+                                                            "user" => new MongoDB\BSON\ObjectId($user['_id']),
+                                                            "manager" => new MongoDB\BSON\ObjectId($user['manager']),
+                                                            "test" => new MongoDB\BSON\ObjectId($testDeclaJu['_id']),
+                                                            "type" => "Manager",
+                                                        ],
+                                                    ],
+                                                ]);
+                                            if (isset($testDeclaSe)) {
+                                                $examDeclaMaSe = $exams
+                                                    ->findOne([
+                                                        '$and' => [
+                                                            [
+                                                                "user" => new MongoDB\BSON\ObjectId($user['_id']),
+                                                                "manager" => new MongoDB\BSON\ObjectId($user['manager']),
+                                                                "test" => new MongoDB\BSON\ObjectId($testDeclaSe['_id']),
+                                                                "type" => "Manager",
+                                                            ],
+                                                        ],
+                                                    ]);
+                                            }
+                                            if (isset($testDeclaEx)) {
+                                                $examDeclaMaEx = $exams
+                                                    ->findOne([
+                                                        '$and' => [
+                                                            [
+                                                                "user" => new MongoDB\BSON\ObjectId($user['_id']),
+                                                                "manager" => new MongoDB\BSON\ObjectId($user['manager']),
+                                                                "test" => new MongoDB\BSON\ObjectId($testDeclaEx['_id']),
+                                                                "type" => "Manager",
+                                                            ],
+                                                        ],
+                                                    ]);
+                                            }
+
                                             $allocateFacJu = $allocations
                                                 ->findOne([
                                                     '$and' => [
                                                         [
-                                                            "user" => new MongoDB\BSON\ObjectId($tech[$i]['_id']),
+                                                            "user" => new MongoDB\BSON\ObjectId($tech[$i]),
                                                             "level" => "Junior",
                                                             "type" => "Factuel",
                                                         ],
@@ -254,7 +506,7 @@ if (!isset($_SESSION["id"])) {
                                                 ->findOne([
                                                     '$and' => [
                                                         [
-                                                            "user" => new MongoDB\BSON\ObjectId($tech[$i]['_id']),
+                                                            "user" => new MongoDB\BSON\ObjectId($tech[$i]),
                                                             "level" => "Senior",
                                                             "type" => "Factuel",
                                                         ],
@@ -265,7 +517,7 @@ if (!isset($_SESSION["id"])) {
                                                 ->findOne([
                                                     '$and' => [
                                                         [
-                                                            "user" => new MongoDB\BSON\ObjectId($tech[$i]['_id']),
+                                                            "user" => new MongoDB\BSON\ObjectId($tech[$i]),
                                                             "level" => "Expert",
                                                             "type" => "Factuel",
                                                         ],
@@ -276,7 +528,7 @@ if (!isset($_SESSION["id"])) {
                                                 ->findOne([
                                                     '$and' => [
                                                         [
-                                                            "user" => new MongoDB\BSON\ObjectId($tech[$i]['_id']),
+                                                            "user" => new MongoDB\BSON\ObjectId($tech[$i]),
                                                             "level" => "Junior",
                                                             "type" => "Declaratif",
                                                         ],
@@ -287,7 +539,7 @@ if (!isset($_SESSION["id"])) {
                                                 ->findOne([
                                                     '$and' => [
                                                         [
-                                                            "user" => new MongoDB\BSON\ObjectId($tech[$i]['_id']),
+                                                            "user" => new MongoDB\BSON\ObjectId($tech[$i]),
                                                             "level" => "Senior",
                                                             "type" => "Declaratif",
                                                         ],
@@ -298,7 +550,7 @@ if (!isset($_SESSION["id"])) {
                                                 ->findOne([
                                                     '$and' => [
                                                         [
-                                                            "user" => new MongoDB\BSON\ObjectId($tech[$i]['_id']),
+                                                            "user" => new MongoDB\BSON\ObjectId($tech[$i]),
                                                             "level" => "Expert",
                                                             "type" => "Declaratif",
                                                         ],
@@ -309,7 +561,7 @@ if (!isset($_SESSION["id"])) {
                                                 ->findOne([
                                                     '$and' => [
                                                         [
-                                                            "user" => new MongoDB\BSON\ObjectId($tech[$i]['_id']),
+                                                            "user" => new MongoDB\BSON\ObjectId($tech[$i]),
                                                             "level" => "Junior",
                                                             "type" => "Factuel",
                                                             "typeR" => "Technicien",
@@ -322,7 +574,7 @@ if (!isset($_SESSION["id"])) {
                                                 ->findOne([
                                                     '$and' => [
                                                         [
-                                                            "user" => new MongoDB\BSON\ObjectId($tech[$i]['_id']),
+                                                            "user" => new MongoDB\BSON\ObjectId($tech[$i]),
                                                             "level" => "Senior",
                                                             "type" => "Factuel",
                                                             "typeR" => "Technicien",
@@ -334,7 +586,7 @@ if (!isset($_SESSION["id"])) {
                                                 ->findOne([
                                                     '$and' => [
                                                         [
-                                                            "user" => new MongoDB\BSON\ObjectId($tech[$i]['_id']),
+                                                            "user" => new MongoDB\BSON\ObjectId($tech[$i]),
                                                             "level" => "Expert",
                                                             "type" => "Factuel",
                                                             "typeR" => "Technicien",
@@ -347,7 +599,7 @@ if (!isset($_SESSION["id"])) {
                                                 ->findOne([
                                                     '$and' => [
                                                         [
-                                                            "user" => new MongoDB\BSON\ObjectId($tech[$i]['_id']),
+                                                            "user" => new MongoDB\BSON\ObjectId($tech[$i]),
                                                             "level" => "Junior",
                                                             "type" => "Declaratif",
                                                             "typeR" => "Technicien - Manager",
@@ -359,7 +611,7 @@ if (!isset($_SESSION["id"])) {
                                                 ->findOne([
                                                     '$and' => [
                                                         [
-                                                            "user" => new MongoDB\BSON\ObjectId($tech[$i]['_id']),
+                                                            "user" => new MongoDB\BSON\ObjectId($tech[$i]),
                                                             "level" => "Senior",
                                                             "type" => "Declaratif",
                                                             "typeR" => "Technicien - Manager",
@@ -371,7 +623,7 @@ if (!isset($_SESSION["id"])) {
                                                 ->findOne([
                                                     '$and' => [
                                                         [
-                                                            "user" => new MongoDB\BSON\ObjectId($tech[$i]['_id']),
+                                                            "user" => new MongoDB\BSON\ObjectId($tech[$i]),
                                                             "level" => "Expert",
                                                             "type" => "Declaratif",
                                                             "typeR" => "Technicien - Manager",
@@ -384,7 +636,7 @@ if (!isset($_SESSION["id"])) {
                                                 ->findOne([
                                                     '$and' => [
                                                         [
-                                                            "user" => new MongoDB\BSON\ObjectId($tech[$i]['_id']),
+                                                            "user" => new MongoDB\BSON\ObjectId($tech[$i]),
                                                             "level" => "Junior",
                                                             "type" => "Declaratif",
                                                             "typeR" => "Techniciens",
@@ -396,7 +648,7 @@ if (!isset($_SESSION["id"])) {
                                                 ->findOne([
                                                     '$and' => [
                                                         [
-                                                            "user" => new MongoDB\BSON\ObjectId($tech[$i]['_id']),
+                                                            "user" => new MongoDB\BSON\ObjectId($tech[$i]),
                                                             "level" => "Senior",
                                                             "type" => "Declaratif",
                                                             "typeR" => "Techniciens",
@@ -408,7 +660,7 @@ if (!isset($_SESSION["id"])) {
                                                 ->findOne([
                                                     '$and' => [
                                                         [
-                                                            "user" => new MongoDB\BSON\ObjectId($tech[$i]['_id']),
+                                                            "user" => new MongoDB\BSON\ObjectId($tech[$i]),
                                                             "level" => "Expert",
                                                             "type" => "Declaratif",
                                                             "typeR" => "Techniciens",
@@ -421,7 +673,7 @@ if (!isset($_SESSION["id"])) {
                                                 ->findOne([
                                                     '$and' => [
                                                         [
-                                                            "user" => new MongoDB\BSON\ObjectId($tech[$i]['_id']),
+                                                            "user" => new MongoDB\BSON\ObjectId($tech[$i]),
                                                             "level" => "Junior",
                                                             "type" => "Declaratif",
                                                             "typeR" => "Managers",
@@ -433,7 +685,7 @@ if (!isset($_SESSION["id"])) {
                                                 ->findOne([
                                                     '$and' => [
                                                         [
-                                                            "user" => new MongoDB\BSON\ObjectId($tech[$i]['_id']),
+                                                            "user" => new MongoDB\BSON\ObjectId($tech[$i]),
                                                             "level" => "Senior",
                                                             "type" => "Declaratif",
                                                             "typeR" => "Managers",
@@ -445,7 +697,7 @@ if (!isset($_SESSION["id"])) {
                                                 ->findOne([
                                                     '$and' => [
                                                         [
-                                                            "user" => new MongoDB\BSON\ObjectId($tech[$i]['_id']),
+                                                            "user" => new MongoDB\BSON\ObjectId($tech[$i]),
                                                             "level" => "Expert",
                                                             "type" => "Declaratif",
                                                             "typeR" => "Managers",
@@ -561,173 +813,410 @@ if (!isset($_SESSION["id"])) {
                                                 "lastName"
                                             ]; ?>
                                         </td>
-                                        <?php if($allocateFacJu['active'] == true) { ?>
+                                        <?php if($_SESSION['profile'] == "Super Admin") { ?>
                                         <td class="text-center">
-                                            <span class="badge badge-light-success fs-7 m-1">
+                                            <?php echo $manager[
+                                                "firstName"
+                                            ]; ?> <?php echo $manager[
+                                                "lastName"
+                                            ]; ?>
+                                        </td>
+                                        <?php if($_SESSION['profile'] == "Super Admin" && !isset($_GET['country'])) { ?>
+                                        <td class="text-center">
+                                            <?php echo $user[
+                                                "country"
+                                            ]; ?>
+                                        </td>
+                                        <?php } } ?>
+                                        <?php if($_SESSION['profile'] == "Admin" || $_SESSION['profile'] == "Directeur Filiale") { ?>
+                                        <td class="text-center">
+                                            <?php echo $user[
+                                                "agency"
+                                            ]; ?>
+                                        </td>
+                                        <?php } ?>
+                                        <?php if(isset($examFacJu) && $examFacJu['active'] == true ) { ?>
+                                        <td class="text-center">
+                                            <span class="badge text-primary fs-7 m-1">
+                                                <?php echo $en_cours ?>
+                                            </span>
+                                        </td>
+                                        <?php } elseif($allocateFacJu['active'] == true ) { ?>
+                                        <td class="text-center">
+                                            <?php if($percentageFacJu <= 60 ) { ?>
+                                            <span class="badge text-danger fs-7 m-1">
                                                 <?php echo $percentageFacJu."%" ?>
                                             </span>
+                                            <?php } else if($percentageFacJu < 80 ) { ?>
+                                                <?php if($percentageFacJu > 60 ) { ?>
+                                                <span class="badge text-warning fs-7 m-1">
+                                                    <?php echo $percentageFacJu."%" ?>
+                                                </span>
+                                                <?php } ?>
+                                            <?php } else if($percentageFacJu >= 80) { ?>
+                                            <span class="badge text-success fs-7 m-1">
+                                                <?php echo $percentageFacJu."%" ?>
+                                            </span>
+                                            <?php } ?>
                                         </td>
-                                        <?php } else { ?>
+                                        <?php } elseif($allocateFacJu['active'] == false ) { ?>
                                         <td class="text-center">
-                                                -
+                                            <?php echo $completer ?>
                                         </td>
                                         <?php } ?>
-                                        <?php if($allocateDeclaJu['active'] == true) { ?>
+                                        <?php if(isset($examDeclaJu) && $examDeclaJu['active'] == true ) { ?>
                                         <td class="text-center">
-                                            <span class="badge badge-light-success fs-7 m-1">
+                                            <span class="badge text-primary fs-7 m-1">
+                                                <?php echo $en_cours ?>
+                                            </span>
+                                        </td>
+                                        <?php } elseif($allocateDeclaJu['active'] == true) { ?>
+                                        <td class="text-center">
+                                            <?php if($percentageDeclaJuTech <= 60 ) { ?>
+                                            <span class="badge text-danger fs-7 m-1">
                                                 <?php echo $percentageDeclaJuTech."%" ?>
                                             </span>
+                                            <?php } else if($percentageDeclaJuTech < 80 ) { ?>
+                                                <?php if($percentageDeclaJuTech > 60 ) { ?>
+                                                <span class="badge text-warning fs-7 m-1">
+                                                    <?php echo $percentageDeclaJuTech."%" ?>
+                                                </span>
+                                                <?php } ?>
+                                            <?php } else if($percentageDeclaJuTech >= 80) { ?>
+                                            <span class="badge text-success fs-7 m-1">
+                                                <?php echo $percentageDeclaJuTech."%" ?>
+                                            </span>
+                                            <?php } ?>
                                         </td>
-                                        <?php } else { ?>
+                                        <?php } elseif($allocateDeclaJu['active'] == false) { ?>
                                         <td class="text-center">
-                                                -
+                                            <?php echo $completer ?>
                                         </td>
                                         <?php } ?>
-                                        <?php if($allocateDeclaJu['activeManager'] == true) { ?>
+                                        <?php if(isset($examDeclaMaJu) && $examDeclaMaJu['active'] == true) { ?>
                                         <td class="text-center">
-                                            <span class="badge badge-light-success fs-7 m-1">
-                                                <?php echo $percentageDeclaJuMa."%" ?>
+                                            <span class="badge text-primary fs-7 m-1">
+                                                <?php echo $en_cours ?>
                                             </span>
                                         </td>
-                                        <?php } else { ?>
+                                        <?php } elseif($allocateDeclaJu['activeManager'] == true) { ?>
                                         <td class="text-center">
-                                                -
+                                            <?php if($percentageDeclaJuMa <= 60 ) { ?>
+                                            <span class="badge text-danger fs-7 m-1">
+                                                <?php echo $percentageDeclaJuMa."%" ?>
+                                            </span>
+                                            <?php } else if($percentageDeclaJuMa < 80 ) { ?>
+                                                <?php if($percentageDeclaJuMa > 60 ) { ?>
+                                                <span class="badge text-warning fs-7 m-1">
+                                                    <?php echo $percentageDeclaJuMa."%" ?>
+                                                </span>
+                                                <?php } ?>
+                                            <?php } else if($percentageDeclaJuMa >= 80) { ?>
+                                            <span class="badge text-success fs-7 m-1">
+                                                <?php echo $percentageDeclaJuMa."%" ?>
+                                            </span>
+                                            <?php } ?>
+                                        </td>
+                                        <?php } elseif($allocateDeclaJu['activeManager'] == false) { ?>
+                                        <td class="text-center">
+                                            <?php echo $completer ?>
                                         </td>
                                         <?php } ?>
                                         <?php if($allocateDeclaJu['activeManager'] == true && $allocateDeclaJu['active'] == true && $allocateFacJu['active'] == true) { ?>
                                         <td class="text-center">
+                                            <?php if($junior <= 60 ) { ?>
+                                            <a href="./result.php?numberTest=<?php echo $resultFacJu["numberTest"] ?>&level=Junior&user=<?php echo $user->_id; ?>"
+                                                class="btn btn-light btn-active-light-danger text-danger btn-sm"
+                                                title="Cliquez ici pour voir le résultat du technicien pour le niveau junior"
+                                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                                <?php echo $junior."%" ?>
+                                            </a>
+                                            <?php } else if($junior < 80 ) { ?>
+                                                <?php if($junior > 60 ) { ?>
+                                                <a href="./result.php?numberTest=<?php echo $resultFacJu["numberTest"] ?>&level=Junior&user=<?php echo $user->_id; ?>"
+                                                    class="btn btn-light btn-active-light-warning text-warning btn-sm"
+                                                    title="Cliquez ici pour voir le résultat du technicien pour le niveau junior"
+                                                    data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                                    <?php echo $junior."%" ?>
+                                                </a>
+                                                <?php } ?>
+                                            <?php } else if($junior >= 80) { ?>
                                             <a href="./result.php?numberTest=<?php echo $resultFacJu["numberTest"] ?>&level=Junior&user=<?php echo $user->_id; ?>"
                                                 class="btn btn-light btn-active-light-success text-success btn-sm"
                                                 title="Cliquez ici pour voir le résultat du technicien pour le niveau junior"
                                                 data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                 <?php echo $junior."%" ?>
                                             </a>
+                                            <?php } ?>
                                         </td>
                                         <?php } else { ?>
                                         <td class="text-center">
-                                                -
+                                            <?php echo $completer ?>
                                         </td>
                                         <?php } ?>
                                         <?php if (isset($allocateFacSe) && isset($allocateDeclaSe)) { ?>
-                                        <?php if($allocateFacSe['active'] == true) { ?>
+                                        <?php if(isset($examFacSe) && $examFacSe['active'] == true) { ?>
                                         <td class="text-center">
-                                            <span class="badge badge-light-success fs-7 m-1">
+                                            <span class="badge text-primary fs-7 m-1">
+                                                <?php echo $en_cours ?>
+                                            </span>
+                                        </td>
+                                        <?php } elseif($allocateFacSe['active'] == true) { ?>
+                                        <td class="text-center">
+                                            <?php if($percentageFacSe <= 60 ) { ?>
+                                            <span class="badge text-danger fs-7 m-1">
                                                 <?php echo $percentageFacSe."%" ?>
                                             </span>
+                                            <?php } else if($percentageFacSe < 80 ) { ?>
+                                                <?php if($percentageFacSe > 60 ) { ?>
+                                                <span class="badge text-warning fs-7 m-1">
+                                                    <?php echo $percentageFacSe."%" ?>
+                                                </span>
+                                                <?php } ?>
+                                            <?php } else if($percentageFacSe >= 80) { ?>
+                                            <span class="badge text-success fs-7 m-1">
+                                                <?php echo $percentageFacSe."%" ?>
+                                            </span>
+                                            <?php } ?>
                                         </td>
-                                        <?php } else { ?>
+                                        <?php } elseif($allocateFacSe['active'] == false) { ?>
                                         <td class="text-center">
-                                                -
+                                            <?php echo $completer ?>
                                         </td>
                                         <?php } ?>
-                                        <?php if($allocateDeclaSe['active'] == true) { ?>
+                                        <?php if(isset($examDeclaSe) && $examDeclaSe['active'] == true) { ?>
                                         <td class="text-center">
-                                            <span class="badge badge-light-success fs-7 m-1">
+                                            <span class="badge text-primary fs-7 m-1">
+                                                <?php echo $en_cours ?>
+                                            </span>
+                                        </td>
+                                        <?php } elseif($allocateDeclaSe['active'] == true) { ?>
+                                        <td class="text-center">
+                                            <?php if($percentageDeclaSeTech <= 60 ) { ?>
+                                            <span class="badge text-danger fs-7 m-1">
                                                 <?php echo $percentageDeclaSeTech."%" ?>
                                             </span>
+                                            <?php } else if($percentageDeclaSeTech < 80 ) { ?>
+                                                <?php if($percentageDeclaSeTech > 60 ) { ?>
+                                                <span class="badge text-warning fs-7 m-1">
+                                                    <?php echo $percentageDeclaSeTech."%" ?>
+                                                </span>
+                                                <?php } ?>
+                                            <?php } else if($percentageDeclaSeTech >= 80) { ?>
+                                            <span class="badge text-success fs-7 m-1">
+                                                <?php echo $percentageDeclaSeTech."%" ?>
+                                            </span>
+                                            <?php } ?>
                                         </td>
-                                        <?php } else { ?>
+                                        <?php } elseif($allocateDeclaSe['active'] == false) { ?>
                                         <td class="text-center">
-                                                -
+                                            <?php echo $completer ?>
                                         </td>
                                         <?php } ?>
-                                        <?php if($allocateDeclaSe['activeManager'] == true) { ?>
+                                        <?php if(isset($examDeclaMaSe) && $examDeclaMaSe['active'] == true) { ?>
                                         <td class="text-center">
-                                            <span class="badge badge-light-success fs-7 m-1">
-                                                <?php echo $percentageDeclaSeMa."%" ?>
+                                            <span class="badge text-primary fs-7 m-1">
+                                                <?php echo $en_cours ?>
                                             </span>
                                         </td>
-                                        <?php } else { ?>
+                                        <?php } elseif($allocateDeclaSe['activeManager'] == true) { ?>
                                         <td class="text-center">
-                                                -
+                                            <?php if($percentageDeclaSeMa <= 60 ) { ?>
+                                            <span class="badge text-danger fs-7 m-1">
+                                                <?php echo $percentageDeclaSeMa."%" ?>
+                                            </span>
+                                            <?php } else if($percentageDeclaSeMa < 80 ) { ?>
+                                                <?php if($percentageDeclaSeMa > 60 ) { ?>
+                                                <span class="badge text-warning fs-7 m-1">
+                                                    <?php echo $percentageDeclaSeMa."%" ?>
+                                                </span>
+                                                <?php } ?>
+                                            <?php } else if($percentageDeclaSeMa >= 80) { ?>
+                                            <span class="badge text-success fs-7 m-1">
+                                                <?php echo $percentageDeclaSeMa."%" ?>
+                                            </span>
+                                            <?php } ?>
+                                        </td>
+                                        <?php } elseif($allocateDeclaSe['activeManager'] == false) { ?>
+                                        <td class="text-center">
+                                            <?php echo $completer ?>
                                         </td>
                                         <?php } ?>
                                         <?php if($allocateDeclaSe['activeManager'] == true && $allocateDeclaSe['active'] == true && $allocateFacSe['active'] == true) { ?>
                                         <td class="text-center">
+                                            <?php if($senior <= 60 ) { ?>
+                                            <a href="./result.php?numberTest=<?php echo $resultFacSe["numberTest"] ?>&level=Senior&user=<?php echo $user->_id; ?>"
+                                                class="btn btn-light btn-active-light-danger text-danger btn-sm"
+                                                title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
+                                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                                <?php echo $senior."%" ?>
+                                            </a>
+                                            <?php } else if($senior < 80 ) { ?>
+                                                <?php if($senior > 60 ) { ?>
+                                                <a href="./result.php?numberTest=<?php echo $resultFacSe["numberTest"] ?>&level=Senior&user=<?php echo $user->_id; ?>"
+                                                    class="btn btn-light btn-active-light-warning text-warning btn-sm"
+                                                    title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
+                                                    data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                                    <?php echo $senior."%" ?>
+                                                </a>
+                                                <?php } ?>
+                                            <?php } else if($senior >= 80) { ?>
                                             <a href="./result.php?numberTest=<?php echo $resultFacSe["numberTest"] ?>&level=Senior&user=<?php echo $user->_id; ?>"
                                                 class="btn btn-light btn-active-light-success text-success btn-sm"
                                                 title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
                                                 data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                 <?php echo $senior."%" ?>
                                             </a>
+                                            <?php } ?>
                                         </td>
                                         <?php } else { ?>
                                         <td class="text-center">
-                                                -
+                                            <?php echo $completer ?>
                                         </td>
                                         <?php } ?>
                                         <?php } else { ?>
-                                        <td class="text-center" style="background-color: #7c8181;">
+                                        <td class="text-center" style="background-color: #f9f9f9;">
                                         </td>
-                                        <td class="text-center" style="background-color: #7c8181;">
+                                        <td class="text-center" style="background-color: #f9f9f9;">
                                         </td>
-                                        <td class="text-center" style="background-color: #7c8181;">
+                                        <td class="text-center" style="background-color: #f9f9f9;">
                                         </td>
-                                        <td class="text-center" style="background-color: #7c8181;">
+                                        <td class="text-center" style="background-color: #f9f9f9;">
                                         </td>
                                         <?php } ?>
                                         <?php if (isset($allocateFacEx) && isset($allocateDeclaEx)) { ?>
-                                        <?php if($allocateFacEx['active'] == true) { ?>
+                                        <?php if(isset($examFacEx) && $examFacEx['active'] == true) { ?>
                                         <td class="text-center">
-                                            <span class="badge badge-light-success fs-7 m-1">
+                                            <span class="badge text-primary fs-7 m-1">
+                                                <?php echo $en_cours ?>
+                                            </span>
+                                        </td>
+                                        <?php } elseif($allocateFacEx['active'] == true) { ?>
+                                        <td class="text-center">
+                                            <?php if($percentageFacEx <= 60 ) { ?>
+                                            <span class="badge text-danger fs-7 m-1">
                                                 <?php echo $percentageFacEx."%" ?>
                                             </span>
+                                            <?php } else if($percentageFacEx < 80 ) { ?>
+                                                <?php if($percentageFacEx > 60 ) { ?>
+                                                <span class="badge text-warning fs-7 m-1">
+                                                    <?php echo $percentageFacEx."%" ?>
+                                                </span>
+                                                <?php } ?>
+                                            <?php } else if($percentageFacEx >= 80) { ?>
+                                            <span class="badge text-success fs-7 m-1">
+                                                <?php echo $percentageFacEx."%" ?>
+                                            </span>
+                                            <?php } ?>
                                         </td>
-                                        <?php } else { ?>
+                                        <?php } elseif($allocateFacEx['active'] == false) { ?>
                                         <td class="text-center">
-                                                -
+                                            <?php echo $completer ?>
                                         </td>
                                         <?php } ?>
-                                        <?php if($allocateDeclaEx['active'] == true) { ?>
+                                        <?php if(isset($examDeclaEx) && $examDeclaEx['active'] == true) { ?>
                                         <td class="text-center">
-                                            <span class="badge badge-light-success fs-7 m-1">
+                                            <span class="badge text-primary fs-7 m-1">
+                                                <?php echo $en_cours ?>
+                                            </span>
+                                        </td>
+                                        <?php } elseif($allocateDeclaEx['active'] == true) { ?>
+                                        <td class="text-center">
+                                            <?php if($percentageDeclaExTech <= 60 ) { ?>
+                                            <span class="badge text-danger fs-7 m-1">
                                                 <?php echo $percentageDeclaExTech."%" ?>
                                             </span>
+                                            <?php } else if($percentageDeclaExTech < 80 ) { ?>
+                                                <?php if($percentageDeclaExTech > 60 ) { ?>
+                                                <span class="badge text-warning fs-7 m-1">
+                                                    <?php echo $percentageDeclaExTech."%" ?>
+                                                </span>
+                                                <?php } ?>
+                                            <?php } else if($percentageDeclaExTech >= 80) { ?>
+                                            <span class="badge text-success fs-7 m-1">
+                                                <?php echo $percentageDeclaExTech."%" ?>
+                                            </span>
+                                            <?php } ?>
                                         </td>
-                                        <?php } else { ?>
+                                        <?php } elseif($allocateDeclaEx['active'] == false) { ?>
                                         <td class="text-center">
-                                                -
+                                            <?php echo $completer ?>
                                         </td>
                                         <?php } ?>
-                                        <?php if($allocateDeclaEx['activeManager'] == true) { ?>
+                                        <?php if(isset($examDeclaMaEx) && $examDeclaMaEx['active'] == true) { ?>
                                         <td class="text-center">
-                                            <span class="badge badge-light-success fs-7 m-1">
-                                                <?php echo $percentageDeclaExMa."%" ?>
+                                            <span class="badge text-primary fs-7 m-1">
+                                                <?php echo $en_cours ?>
                                             </span>
                                         </td>
-                                        <?php } else { ?>
+                                        <?php } elseif($allocateDeclaEx['activeManager'] == true) { ?>
                                         <td class="text-center">
-                                                -
+                                            <?php if($percentageDeclaExMa <= 60 ) { ?>
+                                            <span class="badge text-danger fs-7 m-1">
+                                                <?php echo $percentageDeclaExMa."%" ?>
+                                            </span>
+                                            <?php } else if($percentageDeclaExMa < 80 ) { ?>
+                                                <?php if($percentageDeclaExMa > 60 ) { ?>
+                                                <span class="badge text-warning fs-7 m-1">
+                                                    <?php echo $percentageDeclaExMa."%" ?>
+                                                </span>
+                                                <?php } ?>
+                                            <?php } else if($percentageDeclaExMa >= 80) { ?>
+                                            <span class="badge text-success fs-7 m-1">
+                                                <?php echo $percentageDeclaExMa."%" ?>
+                                            </span>
+                                            <?php } ?>
+                                        </td>
+                                        <?php } elseif($allocateDeclaEx['activeManager'] == false) { ?>
+                                        <td class="text-center">
+                                            <?php echo $completer ?>
                                         </td>
                                         <?php } ?>
                                         <?php if($allocateDeclaEx['activeManager'] == true && $allocateDeclaEx['active'] == true && $allocateFacEx['active'] == true) { ?>
                                         <td class="text-center">
+                                            <?php if($expert <= 60 ) { ?>
+                                            <a href="./result.php?numberTest=<?php echo $resultFacEx["numberTest"] ?>&level=Expert&user=<?php echo $user->_id; ?>"
+                                                class="btn btn-light btn-active-light-danger text-danger btn-sm"
+                                                title="Cliquez ici pour voir le résultat du technicien pour le niveau expert"
+                                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                                <?php echo $expert."%" ?>
+                                            </a>
+                                            <?php } else if($expert < 80 ) { ?>
+                                                <?php if($expert > 60 ) { ?>
+                                                <a href="./result.php?numberTest=<?php echo $resultFacEx["numberTest"] ?>&level=Expert&user=<?php echo $user->_id; ?>"
+                                                    class="btn btn-light btn-active-light-warning text-warning btn-sm"
+                                                    title="Cliquez ici pour voir le résultat du technicien pour le niveau expert"
+                                                    data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                                    <?php echo $expert."%" ?>
+                                                </a>
+                                                <?php } ?>
+                                            <?php } else if($expert >= 80) { ?>
                                             <a href="./result.php?numberTest=<?php echo $resultFacEx["numberTest"] ?>&level=Expert&user=<?php echo $user->_id; ?>"
                                                 class="btn btn-light btn-active-light-success text-success btn-sm"
                                                 title="Cliquez ici pour voir le résultat du technicien pour le niveau expert"
                                                 data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                 <?php echo $expert."%" ?>
                                             </a>
+                                            <?php } ?>
                                         </td>
                                         <?php } else { ?>
                                         <td class="text-center">
-                                                -
+                                            <?php echo $completer ?>
                                         </td>
                                         <?php } ?>
                                         <?php } else { ?>
-                                        <td class="text-center" style="background-color: #7c8181;">
+                                        <td class="text-center" style="background-color: #f9f9f9;">
                                         </td>
-                                        <td class="text-center" style="background-color: #7c8181;">
+                                        <td class="text-center" style="background-color: #f9f9f9;">
                                         </td>
-                                        <td class="text-center" style="background-color: #7c8181;">
+                                        <td class="text-center" style="background-color: #f9f9f9;">
                                         </td>
-                                        <td class="text-center" style="background-color: #7c8181;">
+                                        <td class="text-center" style="background-color: #f9f9f9;">
                                         </td>
                                         <?php } ?>
                                         <!--end::Menu-->
                                     </tr>
-                                    <?php
-                                        } ?>
+                                    <?php } ?>
                                 </tbody>
                             </table>
                         </div>
@@ -737,10 +1226,10 @@ if (!isset($_SESSION["id"])) {
                                 <div class="dataTables_length">
                                     <label><select id="kt_customers_table_length" name="kt_customers_table_length"
                                             class="form-select form-select-sm form-select-solid">
-                                            <option value="10">10</option>
-                                            <option value="25">25</option>
-                                            <option value="50">50</option>
                                             <option value="100">100</option>
+                                            <option value="200">200</option>
+                                            <option value="300">300</option>
+                                            <option value="500">500</option>
                                         </select></label>
                                 </div>
                             </div>
@@ -770,6 +1259,7 @@ if (!isset($_SESSION["id"])) {
         <!--end::Container-->
     </div>
     <!--end::Post-->
+    <?php } ?>
 </div>
 <!--end::Body-->
 <?php include_once "partials/footer.php"; ?>

@@ -18,17 +18,15 @@ if (isset($_POST["active"])) {
     $id = $_POST["userID"];
     $member = $users->findOne([ "_id" => new MongoDB\BSON\ObjectId($id) ]);
     $member["active"] = true;
-    $users->updateOne(
-        ["_id" => new MongoDB\BSON\ObjectId($id)],
-        ['$set' => $member]
-    );
-    if ($member["profile"] == "Technicien") {
-        $success_msg = "Technicien supprimé avec succès";
-    } elseif ($member["profile"] == "Manager") {
-        $success_msg = "Manager supprimé avec succès";
-    } elseif ($member["profile"] == "Admin") {
-        $success_msg = "Administrateur supprimé avec succès";
+    $member->updated = date("d-m-Y H:I:S");
+    if ($member['profile'] == 'Technicien') {
+        $users->updateOne(
+            ["_id" => new MongoDB\BSON\ObjectId($id)],
+            ['$set' => $member]
+        );
+        $users->updateOne(["_id" => new MongoDB\BSON\ObjectId($member->manager)], ['$push' => [ "users" => new MongoDB\BSON\ObjectId($id) ]]);
     }
+    $success_msg = $success_user_restore;
 }
 ?>
 
@@ -227,7 +225,7 @@ if (isset($_POST["active"])) {
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Email: activate to sort column ascending"
-                                            style="width: 155.266px;"><?php echo $email ?></th>
+                                            style="width: 155.266px;"><?php echo $pays ?></th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
@@ -279,7 +277,7 @@ if (isset($_POST["active"])) {
                                             <?php echo $user->firstName; ?> <?php echo $user->lastName; ?>
                                         </td>
                                         <td data-filter="email">
-                                            <?php echo $user->email; ?>
+                                            <?php echo $user->country; ?>
                                         </td>
                                         <td data-order="subsidiary">
                                             <?php echo $user->phone; ?>
@@ -319,7 +317,7 @@ if (isset($_POST["active"])) {
                                             <?php echo $user->firstName; ?> <?php echo $user->lastName; ?>
                                         </td>
                                         <td data-filter="email">
-                                            <?php echo $user->email; ?>
+                                            <?php echo $user->country; ?>
                                         </td>
                                         <td data-order="subsidiary">
                                             <?php echo $user->phone; ?>
@@ -420,10 +418,10 @@ if (isset($_POST["active"])) {
                                 <div class="dataTables_length">
                                     <label><select id="kt_customers_table_length" name="kt_customers_table_length"
                                             class="form-select form-select-sm form-select-solid">
-                                            <option value="10">10</option>
-                                            <option value="25">25</option>
-                                            <option value="50">50</option>
                                             <option value="100">100</option>
+                                            <option value="200">200</option>
+                                            <option value="300">300</option>
+                                            <option value="500">500</option>
                                         </select></label>
                                 </div>
                             </div>
@@ -455,6 +453,19 @@ if (isset($_POST["active"])) {
     <!--end::Post-->
 </div>
 <!--end::Body-->
+<script>
+    
+    // Function to handle closing of the alert message
+    document.addEventListener('DOMContentLoaded', function() {
+        const closeButtons = document.querySelectorAll('.alert .close');
+        closeButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                const alert = this.closest('.alert');
+                alert.remove();
+            });
+        });
+    });
+</script>
 <?php include_once "partials/footer.php"; ?>
 <?php
 } ?>

@@ -5,85 +5,178 @@ include_once "language.php";
 if (!isset($_SESSION["id"])) {
     header("Location: ../");
     exit();
-} else {
-     ?>
-<?php
-require_once "../vendor/autoload.php"; // Create connection
-$conn = new MongoDB\Client("mongodb://localhost:27017"); // Connecting in database
-$academy = $conn->academy; // Connecting in collections
+}
+
+require_once "../vendor/autoload.php";
+
+// Create connection
+$conn = new MongoDB\Client("mongodb://localhost:27017");
+// Connecting to database collections
+$academy = $conn->academy;
 $users = $academy->users;
 $quizzes = $academy->quizzes;
 $questions = $academy->questions;
 $allocations = $academy->allocations;
+
+// Function to update question with image
+function updateQuestionWithImage($questions, $id, $data, $file) {
+    $tmp_name = $file["tmp_name"];
+    $picture = basename($file["name"]);
+    $folder = "../public/files/" . $picture;
+
+    // Validate file type
+    $valid_types = ['image/jpeg', 'image/png', 'image/gif'];
+    if (in_array($file['type'], $valid_types) && move_uploaded_file($tmp_name, $folder)) {
+        $data['image'] = $picture;
+        $questions->updateOne(["_id" => new MongoDB\BSON\ObjectId($id)], ['$set' => $data]);
+        return true;
+    }
+    return false;
+}
+
+// Update question data
 if (isset($_POST["update"])) {
     $id = $_POST["questionID"];
-    $ref = $_POST["ref"];
-    $label = $_POST["label"];
-    $proposal1 = $_POST["proposal1"];
-    $proposal2 = $_POST["proposal2"];
-    $proposal3 = $_POST["proposal3"];
-    $proposal4 = $_POST["proposal4"];
-    $answer = $_POST["answer"];
-    $type = $_POST["type"];
-    $speciality = $_POST["speciality"];
-    $level = $_POST["level"];
-    $picture = $_FILES["image"]["name"];
-    $question = [
-        "ref" => $ref,
-        "label" => ucfirst($label),
-        "proposal1" => ucfirst($proposal1),
-        "proposal2" => ucfirst($proposal2),
-        "proposal3" => ucfirst($proposal3),
-        "proposal4" => ucfirst($proposal4),
-        "type" => ucfirst($type),
-        "speciality" => ucfirst($speciality),
-        "level" => ucfirst($level),
-        "answer" => ucfirst($answer),
-        "updated" => date("d-m-Y"),
-    ]; // If there is a file, update the question data with the image URL
-    if (!empty($picture)) {
-        $tmp_name = $_FILES["image"]["tmp_name"];
-        $folder = "../public/files/" . $picture;
-        move_uploaded_file($tmp_name, $folder);
-        $questions->updateOne(
-            ["_id" => new MongoDB\BSON\ObjectId($id)],
-            [
-                '$set' => [
-                    "ref" => $ref,
-                    "label" => ucfirst($label),
-                    "proposal1" => ucfirst($proposal1),
-                    "proposal2" => ucfirst($proposal2),
-                    "proposal3" => ucfirst($proposal3),
-                    "proposal4" => ucfirst($proposal4),
-                    "type" => ucfirst($type),
-                    "speciality" => ucfirst($speciality),
-                    "level" => ucfirst($level),
-                    "answer" => ucfirst($answer),
-                    "image" => $picture,
-                    "updated" => date("d-m-Y"),
-                ],
-            ]
-        );
-        $success_msg = $success_question_edit;
+    $question = $questions->findOne(["_id" => new MongoDB\BSON\ObjectId($id)]);
+
+    $updateData = [
+        "ref" => $_POST["ref"] ?? null,
+        "label" => ucfirst($_POST["label"] ?? ''),
+        "proposal1" => ucfirst($_POST["proposal1"] ?? ''),
+        "proposal2" => ucfirst($_POST["proposal2"] ?? ''),
+        "proposal3" => ucfirst($_POST["proposal3"] ?? ''),
+        "proposal4" => ucfirst($_POST["proposal4"] ?? ''),
+        "answer" => ucfirst($_POST["answer"] ?? ''),
+        "updated" => date("d-m-Y H:i:s"),
+    ];
+
+    if ($question->type == "Declarative") {
+        $updateData["proposal1"] = "1-{$question->speciality}-{$question->level}-{$updateData['label']}-1";
+        $updateData["proposal2"] = "2-{$question->speciality}-{$question->level}-{$updateData['label']}-2";
+        $updateData["proposal3"] = "3-{$question->speciality}-{$question->level}-{$updateData['label']}-3";
+    }
+
+    if (!empty($_FILES["image"]["name"])) {
+        if (updateQuestionWithImage($questions, $id, $updateData, $_FILES["image"])) {
+            $success_msg = $success_question_edit;
+        } else {
+            $error_msg = "Failed to upload image.";
+        }
     } else {
-        // Update the question in the collection
+        $questions->updateOne(["_id" => new MongoDB\BSON\ObjectId($id)], ['$set' => $updateData]);
+        $success_msg = $success_question_edit;
+    }
+}
+
+// Update question title
+if (isset($_POST['title'])) {
+    $questions->updateOne(
+        ["_id" => new MongoDB\BSON\ObjectId($_POST["questionID"])],
+        ['$set' => ["title" => ucfirst($_POST["title"])]]
+    );
+    $success_msg = $success_question_edit;
+}
+
+// Update question speciality
+if (isset($_POST['speciality'])) {
+    $id = $_POST["questionID"];
+    $speciality = ucfirst($_POST["speciality"]);
+    $question = $questions->findOne(["_id" => new MongoDB\BSON\ObjectId($id)]);
+    $quizD = $quizzes->findOne(["questions" => new MongoDB\BSON\ObjectId($id)]);
+
+    $quiz = $quizzes->findOne([
+        "speciality" => $speciality,
+        "level" => $question->level,
+        "active" => true,
+    ]);
+
+    if ($question->speciality != $speciality) {
+        $quizzes->updateOne(
+            ["_id" => new MongoDB\BSON\ObjectId($quizD['_id'])],
+            ['$pull' => ["questions" => new MongoDB\BSON\ObjectId($id)]]
+        );
+        $quizzes->updateOne(
+            ["_id" => new MongoDB\BSON\ObjectId($quizD['_id'])],
+            ['$set' => ['total' => $quizD['total'] - 1]]
+        );
+
+        $quizzes->updateOne(
+            ["_id" => new MongoDB\BSON\ObjectId($quiz['_id'])],
+            ['$push' => ["questions" => new MongoDB\BSON\ObjectId($id)]]
+        );
+        $quizzes->updateOne(
+            ["_id" => new MongoDB\BSON\ObjectId($quiz['_id'])],
+            ['$set' => ['total' => $quiz['total'] + 1]]
+        );
+
         $questions->updateOne(
             ["_id" => new MongoDB\BSON\ObjectId($id)],
-            ['$set' => $question]
+            ['$set' => ["speciality" => $speciality]]
         );
         $success_msg = $success_question_edit;
     }
 }
+
+// Delete question
 if (isset($_POST["delet"])) {
     $id = new MongoDB\BSON\ObjectId($_POST["questionID"]);
-    $question = $questions->findOne(["_id" => $id]);
-    $question->active = false;
-    $question->updated = date("d-m-Y");
-    $questions->updateOne(["_id" => $id], ['$set' => $question]);
+    $questions->updateOne(
+        ["_id" => $id],
+        ['$set' => ["active" => false, "deleted" => date("d-m-Y H:i:s")]]
+    );
+
+    $quiz = $quizzes->findOne(["questions" => $id, "active" => true]);
+    if ($quiz) {
+        $quizzes->updateOne(
+            ["_id" => new MongoDB\BSON\ObjectId($quiz->_id)],
+            ['$set' => ["total" => $quiz['total'] - 1]]
+        );
+        $quizzes->updateOne(
+            ["_id" => new MongoDB\BSON\ObjectId($quiz->_id)],
+            ['$pull' => ["questions" => $id]]
+        );
+    }
     $success_msg = $success_question_delet;
 }
+
+$options = [
+    "Arbre de Transmission" => $arbre,
+    "Assistance à la Conduite" => $assistanceConduite,
+    "Boite de Transfert" => $transfert,
+    "Boite de Vitesse" => $boite_vitesse,
+    "Boite de Vitesse Automatique" => $boite_vitesse_auto,
+    "Boite de Vitesse Mécanique" => $boite_vitesse_meca,
+    "Boite de Vitesse à Variation Continue" => $boite_vitesse_VC,
+    "Climatisation" => $clim,
+    "Demi Arbre de Roue" => $demi,
+    "Direction" => $direction,
+    "Electricité et Electronique" => $elec,
+    "Freinage" => $freinage,
+    "Freinage Electromagnétique" => $freinageElec,
+    "Freinage Hydraulique" => $freinageHydro,
+    "Freinage Pneumatique" => $freinagePneu,
+    "Hydraulique" => $hydraulique,
+    "Moteur Diesel" => $moteurDiesel,
+    "Moteur Electrique" => $moteurElectrique,
+    "Moteur Essence" => $moteurEssence,
+    "Moteur Thermique" => $moteurThermique,
+    "Réseaux de Communication" => $multiplexage,
+    "Pneumatique" => $pneu,
+    "Pont" => $pont,
+    "Reducteur" => $reducteur,
+    "Suspension" => $suspension,
+    "Suspension à Lame" => $suspensionLame,
+    "Suspension Ressort" => $suspensionRessort,
+    "Suspension Pneumatique" => $suspensionPneu,
+    "Transversale" => $transversale
+];
+
+
+include_once "partials/header.php";
 ?>
-<?php include_once "partials/header.php"; ?>
+
+
+
 <!--begin::Title-->
 <title><?php echo $title_edit_sup_question ?> | CFAO Mobility Academy</title>
 <!--end::Title-->
@@ -98,7 +191,7 @@ if (isset($_POST["delet"])) {
             <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
                 <!--begin::Title-->
                 <h1 class="text-dark fw-bold my-1 fs-2">
-                    <?php echo $title_edit_sup_collab ?> </h1>
+                    <?php echo $title_edit_sup_question ?> </h1>
                 <!--end::Title-->
                 <div class="card-title">
                     <!--begin::Search-->
@@ -112,21 +205,6 @@ if (isset($_POST["delet"])) {
                 </div>
             </div>
             <!--end::Info-->
-            <!--begin::Actions-->
-            <!-- <div class="d-flex align-items-center flex-nowrap text-nowrap py-1">
-                <div class="d-flex justify-content-end align-items-center" style="margin-left: 10px;">
-                    <button type="button" id="edit" title="Cliquez ici pour modifier la question" data-bs-toggle="modal"
-                        class="btn btn-primary">
-                        Modifier
-                    </button>
-                </div>
-                <div class="d-flex justify-content-end align-items-center" style="margin-left: 10px;">
-                    <button type="button" id="delete" title="Cliquez ici pour supprimer la question"
-                        data-bs-toggle="modal" class="btn btn-danger">
-                        Supprimer
-                    </button>
-                </div>
-            </div> -->
             <!--end::Actions-->
         </div>
     </div>
@@ -155,217 +233,74 @@ if (isset($_POST["delet"])) {
             <!--begin::Card-->
             <div class="card">
                 <!--begin::Card header-->
-                <!-- <div class="card-header border-0 pt-6"> -->
-                <!--begin::Card title-->
-                <!-- <div class="card-title"> -->
-                <!--begin::Search-->
-                <!-- <div
-                            class="d-flex align-items-center position-relative my-1">
-                            <i
-                                class="ki-duotone ki-magnifier fs-3 position-absolute ms-5"><span
-                                    class="path1"></span><span
-                                    class="path2"></span></i> <input type="text"
-                                data-kt-customer-table-filter="search" id="search"
-                                class="form-control form-control-solid w-250px ps-12"
-                                placeholder="Recherche">
-                        </div> -->
-                <!--end::Search-->
-                <!-- </div> -->
-                <!--begin::Card title-->
-                <!--begin::Card toolbar-->
-                <!--begin::Card toolbar-->
-                <!-- <div class="card-toolbar"> -->
-                <!--begin::Toolbar-->
-                <!-- <div class="d-flex justify-content-end"
-                            data-kt-customer-table-toolbar="base"> -->
-                <!--begin::Filter-->
-                <!-- <div class="w-150px me-3" id="etat"> -->
-                <!--begin::Select2-->
-                <!-- <select
-                                    id="select"
-                                    class="form-select form-select-solid"
-                                    data-control="select2"
-                                    data-hide-search="true"
-                                    data-placeholder="Etat"
-                                    data-kt-ecommerce-order-filter="etat">
-                                    <option></option>
-                                    <option value="tous">Tous
-                                    </option>
-                                    <option value="true">
-                                        Active</option>
-                                    <option value="false">
-                                        Supprimé</option>
-                                </select> -->
-                <!--end::Select2-->
-                <!-- </div> -->
-                <!--end::Filter-->
-                <!--begin::Export dropdown-->
-                <!-- <button type="button" id="excel"
-                                class="btn btn-light-primary">
-                                <i
-                                    class="ki-duotone ki-exit-up fs-2"><span
-                                        class="path1"></span><span
-                                        class="path2"></span></i>
-                                Excel
-                            </button> -->
-                <!--end::Export dropdown-->
-                <!--begin::Group actions-->
-                <!-- <div class="d-flex justify-content-end align-items-center" style="margin-left: 10px;">
-                                <button type="button" id="edit"
-                                    data-bs-toggle="modal"
-                                    class="btn btn-primary">
-                                    Modifier
-                                </button>
-                            </div> -->
-                <!--end::Group actions-->
-                <!--begin::Group actions-->
-                <!-- <div class="d-flex justify-content-end align-items-center" style="margin-left: 10px;">
-                                <button type="button" id="delete"
-                                    data-bs-toggle="modal"
-                                    class="btn btn-danger">
-                                    Supprimer
-                                </button>
-                            </div> -->
-                <!--end::Group actions-->
-                <!-- </div> -->
-                <!--end::Toolbar-->
-                <!-- </div> -->
-                <!--end::Card toolbar-->
-                <!-- </div> -->
-                <!--end::Card header-->
                 <!--begin::Card body-->
                 <div class="card-body pt-0">
                     <!--begin::Table-->
                     <div id="kt_customers_table_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
                         <div class="table-responsive">
-                            <table aria-describedby=""
-                                class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer"
+                            <table class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer"
                                 id="kt_customers_table">
                                 <thead>
                                     <tr class="text-start text-black fw-bold fs-7 text-uppercase gs-0">
-                                        <th class="w-10px pe-2 sorting_disabled" rowspan="1" colspan="1" aria-label=""
-                                            style="width: 29.8906px;">
-                                            <!-- <div
-                                                class="form-check form-check-sm form-check-custom form-check-solid me-3">
-                                            </div> -->
-                                        </th>
-                                        <th class="min-w-100px sorting" tabindex="0" aria-controls="kt_customers_table"
-                                            rowspan="1" colspan="1"
-                                            aria-label="Customer Name: activate to sort column ascending"
-                                            style="width: 125px;"><?php echo $Ref ?>
-                                        </th>
-                                        <th class="min-w-250px sorting" tabindex="0" aria-controls="kt_customers_table"
-                                            rowspan="1" colspan="1"
-                                            aria-label="Customer Name: activate to sort column ascending"
-                                            style="width: 125px;"><?php echo $questionType ?>
-                                        </th>
-                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
-                                            rowspan="1" colspan="1"
-                                            aria-label="Company: activate to sort column ascending"
-                                            style="width: 134.188px;"><?php echo $Answer ?>
-                                        </th>
-                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
-                                            rowspan="1" colspan="1"
-                                            aria-label="Payment Method: activate to sort column ascending"
-                                            style="width: 126.516px;"><?php echo $Type ?></th>
-                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
-                                            rowspan="1" colspan="1"
-                                            aria-label="Payment Method: activate to sort column ascending"
-                                            style="width: 126.516px;"><?php echo $Level ?></th>
-                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
-                                            rowspan="1" colspan="1"
-                                            aria-label="Payment Method: activate to sort column ascending"
-                                            style="width: 126.516px;"><?php echo $Speciality ?></th>
-                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
-                                            rowspan="1" colspan="1"
-                                            aria-label="Payment Method: activate to sort column ascending"
-                                            style="width: 126.516px;"><?php echo $edit ?></th>
-                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
-                                            rowspan="1" colspan="1"
-                                            aria-label="Payment Method: activate to sort column ascending"
-                                            style="width: 126.516px;"><?php echo $delete ?></th>
+                                        <th class="w-10px pe-2"></th>
+                                        <?php 
+                    $headers = [$Ref, $questionType, $Answer, $Type, $Level, $Speciality, $edit, $delete];
+                    foreach ($headers as $header) {
+                        echo "<th class='min-w-125px sorting'>" . htmlspecialchars($header, ENT_QUOTES, 'UTF-8') . "</th>";
+                    }
+                    ?>
                                     </tr>
                                 </thead>
                                 <tbody class="fw-semibold text-gray-600" id="table">
                                     <?php
-                                    $question = $questions->find([
-                                        "active" => true,
-                                    ]);
-                                    foreach ($question as $question) { ?>
-                                    <tr class="odd" etat="<?php echo $question->active; ?>">
+                $questions = $questions->find(["active" => true]);
+
+                foreach ($questions as $question) {
+                    $questionID = htmlspecialchars($question->_id, ENT_QUOTES, 'UTF-8');
+                    $active = htmlspecialchars($question->active, ENT_QUOTES, 'UTF-8');
+                    $levelBadge = getBadgeClass($question->level);
+                    $typeBadge = getBadgeClass($question->type);
+                    ?>
+                                    <tr class="odd" etat="<?php echo $active; ?>">
+                                        <td></td>
                                         <td>
-                                            <!-- <div class="form-check form-check-sm form-check-custom form-check-solid">
-                                                <input class="form-check-input" id="checkbox" type="checkbox"
-                                                    onclick="enable()" value="<?php echo $question->_id; ?>">
-                                            </div> -->
-                                        </td>
-                                        <td data-filter="search">
                                             <a href="#" data-bs-toggle="modal" data-bs-target="#kt_modal_add_customer"
                                                 class="text-gray-800 text-hover-primary mb-1">
-                                                <?php echo $question->ref; ?>
+                                                <?php echo htmlspecialchars($question->ref, ENT_QUOTES, 'UTF-8'); ?>
                                             </a>
                                         </td>
-                                        <td data-filter="search">
+                                        <td>
                                             <a href="#" data-bs-toggle="modal" data-bs-target="#kt_modal_add_customer"
                                                 class="text-gray-800 text-hover-primary mb-1">
-                                                <?php echo $question->label; ?>
+                                                <?php echo htmlspecialchars($question->label, ENT_QUOTES, 'UTF-8'); ?>
                                             </a>
                                         </td>
-                                        <td data-filter="phone">
-                                            <?php echo $question->answer ??
-                                                ""; ?>
+                                        <td><?php echo htmlspecialchars($question->answer ?? '', ENT_QUOTES, 'UTF-8'); ?>
                                         </td>
-                                        <td data-order="subsidiary">
-                                            <?php if (
-                                                $question->type == "Factuelle"
-                                            ) { ?>
-                                            <span class="badge badge-light-success fs-7 m-1">
-                                                <?php echo $question->type; ?>
-                                            </span>
-                                            <?php } ?>
-                                            <?php if (
-                                                $question->type == "Declarative"
-                                            ) { ?>
-                                            <span class="badge badge-light-warning  fs-7 m-1">
-                                                <?php echo $question->type; ?>
-                                            </span>
-                                            <?php } ?>
+                                        <td><span
+                                                class="badge <?php echo $typeBadge; ?> fs-7 m-1"><?php echo htmlspecialchars($question->type, ENT_QUOTES, 'UTF-8'); ?></span>
                                         </td>
-                                        <td data-order="subsidiary">
-                                            <?php if (
-                                                $question->level == "Junior"
-                                            ) { ?>
-                                            <span class="badge badge-light-success fs-7 m-1">
-                                                <?php echo $question->level; ?>
-                                            </span>
-                                            <?php } ?>
-                                            <?php if (
-                                                $question->level == "Senior"
-                                            ) { ?>
-                                            <span class="badge badge-light-danger fs-7 m-1">
-                                                <?php echo $question->level; ?>
-                                            </span>
-                                            <?php } ?>
-                                            <?php if (
-                                                $question->level == "Expert"
-                                            ) { ?>
-                                            <span class="badge badge-light-warning  fs-7 m-1">
-                                                <?php echo $question->level; ?>
-                                            </span>
-                                            <?php } ?>
+                                        <td><span
+                                                class="badge <?php echo $levelBadge; ?> fs-7 m-1"><?php echo htmlspecialchars($question->level, ENT_QUOTES, 'UTF-8'); ?></span>
                                         </td>
-                                        <td data-order="subsidiary">
-                                            <?php echo $question->speciality; ?>
+                                        <td><?php echo htmlspecialchars($question->speciality, ENT_QUOTES, 'UTF-8'); ?>
                                         </td>
                                         <td>
-                                            <button class="btn btn-icon btn-light-success w-30px h-30px me-3" data-bs-toggle="modal" data-bs-target="#kt_modal_update_details<?php echo $question->_id; ?>">
-                                                <i class="fas fa-edit fs-5"></i></button>
+                                            <button class="btn btn-icon btn-light-success w-30px h-30px me-3"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#kt_modal_update_details<?php echo $questionID; ?>">
+                                                <i class="fas fa-edit fs-5"></i>
+                                            </button>
                                         </td>
                                         <td>
-                                            <button class="btn btn-icon btn-light-danger w-30px h-30px" data-bs-toggle="modal" data-bs-target="#kt_modal_desactivate<?php echo $question->_id; ?>">
-                                                <i class="fas fa-trash fs-5"></i></button>
+                                            <button class="btn btn-icon btn-light-danger w-30px h-30px"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#kt_modal_desactivate<?php echo $questionID; ?>">
+                                                <i class="fas fa-trash fs-5"></i>
+                                            </button>
                                         </td>
                                     </tr>
+                                    <!-- Modals for this question -->
                                     <!-- begin:: Modal - Confirm suspend -->
                                     <div class="modal" id="kt_modal_desactivate<?php echo $question->_id; ?>"
                                         tabindex="-1" aria-hidden="true">
@@ -378,16 +313,14 @@ if (isset($_POST["delet"])) {
                                                     <input type="hidden" name="questionID"
                                                         value="<?php echo $question->_id; ?>">
                                                     <!--begin::Modal header-->
-                                                    <div class="modal-header" id="kt_modal_update_user_header">
+                                                    <div class="modal-header">
                                                         <!--begin::Modal title-->
-                                                        <h2 class="fs-2 fw-bolder">
-                                                            <?php echo $delet ?>
-                                                        </h2>
+                                                        <h2 class="fs-2 fw-bolder"><?php echo $delet; ?></h2>
                                                         <!--end::Modal title-->
                                                         <!--begin::Close-->
-                                                        <div class="btn btn-icon btn-sm btn-active-icon-primary"
-                                                            data-kt-users-modal-action="close" data-bs-dismiss="modal">
-                                                            <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                                                        <button type="button"
+                                                            class="btn btn-icon btn-sm btn-active-icon-primary"
+                                                            data-bs-dismiss="modal">
                                                             <span class="svg-icon svg-icon-1">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24"
                                                                     height="24" viewBox="0 0 24 24" fill="none">
@@ -399,31 +332,24 @@ if (isset($_POST["delet"])) {
                                                                         transform="rotate(45 7.41422 6)" fill="black" />
                                                                 </svg>
                                                             </span>
-                                                            <!--end::Svg Icon-->
-                                                        </div>
+                                                        </button>
                                                         <!--end::Close-->
                                                     </div>
                                                     <!--end::Modal header-->
                                                     <!--begin::Modal body-->
                                                     <div class="modal-body py-10 px-lg-17">
-                                                        <h4>
-                                                            <?php echo $delet_text ?>
-                                                        </h4>
+                                                        <h4><?php echo $delet_text; ?></h4>
                                                     </div>
                                                     <!--end::Modal body-->
                                                     <!--begin::Modal footer-->
                                                     <div class="modal-footer flex-center">
                                                         <!--begin::Button-->
-                                                        <button type="reset" class="btn btn-light me-3"
-                                                            id="closeDesactivate" data-bs-dismiss="modal"
-                                                            data-kt-users-modal-action="cancel">
-                                                            <?php echo $non ?>
-                                                        </button>
+                                                        <button type="button" class="btn btn-light me-3"
+                                                            data-bs-dismiss="modal"><?php echo $non; ?></button>
                                                         <!--end::Button-->
                                                         <!--begin::Button-->
-                                                        <button type="submit" name="delet" class="btn btn-danger">
-                                                            <?php echo $oui ?>
-                                                        </button>
+                                                        <button type="submit" name="delet"
+                                                            class="btn btn-danger"><?php echo $oui; ?></button>
                                                         <!--end::Button-->
                                                     </div>
                                                     <!--end::Modal footer-->
@@ -431,10 +357,10 @@ if (isset($_POST["delet"])) {
                                                 <!--end::Form-->
                                             </div>
                                         </div>
-                                        <!-- end Modal dialog -->
-
+                                        <!--end::Modal dialog-->
                                     </div>
                                     <!-- end:: Modal - Confirm suspend -->
+
                                     <!--begin::Modal - Update question details-->
                                     <div class="modal" id="kt_modal_update_details<?php echo $question->_id; ?>"
                                         tabindex="-1" aria-hidden="true">
@@ -450,8 +376,7 @@ if (isset($_POST["delet"])) {
                                                     <!--begin::Modal header-->
                                                     <div class="modal-header" id="kt_modal_update_user_header">
                                                         <!--begin::Modal title-->
-                                                        <h2 class="fs-2 fw-bolder">
-                                                            <?php echo $editer_data ?></h2>
+                                                        <h2 class="fs-2 fw-bolder"><?php echo $editer_data; ?></h2>
                                                         <!--end::Modal title-->
                                                         <!--begin::Close-->
                                                         <div class="btn btn-icon btn-sm btn-active-icon-primary"
@@ -474,6 +399,7 @@ if (isset($_POST["delet"])) {
                                                         <!--end::Close-->
                                                     </div>
                                                     <!--end::Modal header-->
+
                                                     <!--begin::Modal body-->
                                                     <div class="modal-body py-10 px-lg-17">
                                                         <!--begin::Scroll-->
@@ -484,168 +410,104 @@ if (isset($_POST["delet"])) {
                                                             data-kt-scroll-dependencies="#kt_modal_update_user_header"
                                                             data-kt-scroll-wrappers="#kt_modal_update_user_scroll"
                                                             data-kt-scroll-offset="300px">
-                                                            <!--begin::User toggle-->
-                                                            <div class="fw-boldest fs-3 rotate collapsible mb-7">
-                                                                <?php echo $data ?>
-                                                            </div>
-                                                            <!--end::User toggle-->
+
                                                             <!--begin::User form-->
                                                             <div id="kt_modal_update_user_user_info"
                                                                 class="collapse show">
                                                                 <!--begin::Input group-->
                                                                 <div class="fv-row mb-7">
-                                                                    <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $Ref ?></label>
-                                                                    <!--end::Label-->
-                                                                    <!--begin::Input-->
+                                                                    <label
+                                                                        class="fs-6 fw-bold mb-2"><?php echo $Ref; ?></label>
                                                                     <input type="text"
                                                                         class="form-control form-control-solid"
-                                                                        placeholder="" name="ref"
-                                                                        value="<?php echo $question->ref ??
-                                                                            ""; ?>" />
-                                                                    <!--end::Input-->
+                                                                        name="ref"
+                                                                        value="<?php echo $question->ref ?? ''; ?>" />
                                                                 </div>
                                                                 <!--end::Input group-->
-                                                                <!--begin::Input group-->
+
+                                                                <?php if ($question->level === "Expert") : ?>
                                                                 <div class="fv-row mb-7">
-                                                                    <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $label_question ?></label>
-                                                                    <!--end::Label-->
-                                                                    <!--begin::Input-->
+                                                                    <label
+                                                                        class="fs-6 fw-bold mb-2"><?php echo $titre_question; ?></label>
                                                                     <input type="text"
                                                                         class="form-control form-control-solid"
-                                                                        placeholder="" name="label"
+                                                                        name="title"
+                                                                        value="<?php echo $question->title ?? ''; ?>" />
+                                                                </div>
+                                                                <?php endif; ?>
+
+                                                                <!--begin::Input group-->
+                                                                <div class="fv-row mb-7">
+                                                                    <label
+                                                                        class="fs-6 fw-bold mb-2"><?php echo $label_question; ?></label>
+                                                                    <input type="text"
+                                                                        class="form-control form-control-solid"
+                                                                        name="label"
                                                                         value="<?php echo $question->label; ?>" />
-                                                                    <!--end::Input-->
                                                                 </div>
                                                                 <!--end::Input group-->
+
                                                                 <!--begin::Input group-->
                                                                 <div class="fv-row mb-7">
-                                                                    <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $image ?></label>
-                                                                    <!--end::Label-->
-                                                                    <!--begin::Input-->
+                                                                    <label
+                                                                        class="fs-6 fw-bold mb-2"><?php echo $image; ?></label>
                                                                     <input type="file"
                                                                         class="form-control form-control-solid"
-                                                                        placeholder="" name="image" />
-                                                                    <!--end::Input-->
+                                                                        name="image" />
                                                                 </div>
                                                                 <!--end::Input group-->
+
+                                                                <?php if ($question->type === "Factuelle") : ?>
                                                                 <!--begin::Input group-->
+                                                                <?php for ($i = 1; $i <= 4; $i++) : ?>
                                                                 <div class="fv-row mb-7">
-                                                                    <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $Type ?></label>
-                                                                    <!--end::Label-->
-                                                                    <!--begin::Input-->
+                                                                    <label
+                                                                        class="fs-6 fw-bold mb-2"><?php echo $proposal . ' ' . $i; ?></label>
                                                                     <input type="text"
                                                                         class="form-control form-control-solid"
-                                                                        placeholder="" name="type"
-                                                                        value="<?php echo $question->type; ?>" />
-                                                                    <!--end::Input-->
+                                                                        name="proposal<?php echo $i; ?>"
+                                                                        value="<?php echo $question->{'proposal' . $i} ?? ''; ?>" />
+                                                                </div>
+                                                                <?php endfor; ?>
+                                                                <!--end::Input group-->
+
+                                                                <!--begin::Input group-->
+                                                                <div class="fv-row mb-7">
+                                                                    <label
+                                                                        class="fs-6 fw-bold mb-2"><span><?php echo $Answer; ?></span></label>
+                                                                    <input type="text"
+                                                                        class="form-control form-control-solid"
+                                                                        name="answer"
+                                                                        value="<?php echo $question->answer ?? ''; ?>" />
                                                                 </div>
                                                                 <!--end::Input group-->
+                                                                <?php endif; ?>
+
                                                                 <!--begin::Input group-->
-                                                                <div class="fv-row mb-7">
-                                                                    <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $proposal ?>
-                                                                        1</label>
-                                                                    <!--end::Label-->
+                                                                <div class="d-flex flex-column mb-7 fv-row">
+                                                                    <label
+                                                                        class="form-label fw-bolder text-dark fs-6"><span><?php echo $speciality; ?></span></label>
                                                                     <!--begin::Input-->
-                                                                    <input type="text"
-                                                                        class="form-control form-control-solid"
-                                                                        placeholder="" name="proposal1"
-                                                                        value="<?php echo $question->proposal1; ?>" />
+                                                                    <select name="speciality"
+                                                                        aria-label="Select a Country"
+                                                                        data-control="select2"
+                                                                        data-placeholder="<?php echo $select_speciality; ?>"
+                                                                        class="form-select form-select-solid fw-bold">
+                                                                        <option
+                                                                            value="<?php echo $question->speciality; ?>">
+                                                                            <?php echo $question->speciality; ?>
+                                                                        </option>
+                                                                        <?php foreach ($options as $value => $label) : ?>
+                                                                        <option value="<?php echo $value; ?>">
+                                                                            <?php echo $label; ?></option>
+                                                                        <?php endforeach; ?>
+                                                                    </select>
                                                                     <!--end::Input-->
-                                                                </div>
-                                                                <!--end::Input group-->
-                                                                <!--begin::Input group-->
-                                                                <div class="fv-row mb-7">
-                                                                    <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $proposal ?>
-                                                                        2</label>
-                                                                    <!--end::Label-->
-                                                                    <!--begin::Input-->
-                                                                    <input type="text"
-                                                                        class="form-control form-control-solid"
-                                                                        placeholder="" name="proposal2"
-                                                                        value="<?php echo $question->proposal2; ?>" />
-                                                                    <!--end::Input-->
-                                                                </div>
-                                                                <!--end::Input group-->
-                                                                <!--begin::Input group-->
-                                                                <div class="fv-row mb-7">
-                                                                    <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $proposal ?>
-                                                                        3</label>
-                                                                    <!--end::Label-->
-                                                                    <!--begin::Input-->
-                                                                    <input type="text"
-                                                                        class="form-control form-control-solid"
-                                                                        placeholder="" name="proposal3"
-                                                                        value="<?php echo $question->proposal3 ??
-                                                                            ""; ?>" />
-                                                                    <!--end::Input-->
-                                                                </div>
-                                                                <!--end::Input group-->
-                                                                <!--begin::Input group-->
-                                                                <div class="fv-row mb-7">
-                                                                    <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $proposal ?>
-                                                                        4</label>
-                                                                    <!--end::Label-->
-                                                                    <!--begin::Input-->
-                                                                    <input type="text"
-                                                                        class="form-control form-control-solid"
-                                                                        placeholder="" name="proposal4"
-                                                                        value="<?php echo $question->proposal4 ??
-                                                                            ""; ?>" />
-                                                                    <!--end::Input-->
-                                                                </div>
-                                                                <!--end::Input group-->
-                                                                <!--begin::Input group-->
-                                                                <div class="fv-row mb-7">
-                                                                    <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">
-                                                                        <span><?php echo $Speciality ?></span>
-                                                                    </label>
-                                                                    <!--end::Label-->
-                                                                    <!--begin::Input-->
-                                                                    <input type="text"
-                                                                        class="form-control form-control-solid"
-                                                                        placeholder="" name="speciality"
-                                                                        value="<?php echo $question->speciality; ?>" />
-                                                                    <!--end::Input-->
-                                                                </div>
-                                                                <!--end::Input group-->
-                                                                <!--begin::Input group-->
-                                                                <div class="fv-row mb-7">
-                                                                    <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">
-                                                                        <span><?php echo $Level ?></span>
-                                                                    </label>
-                                                                    <!--end::Label-->
-                                                                    <!--begin::Input-->
-                                                                    <input type="text"
-                                                                        class="form-control form-control-solid"
-                                                                        placeholder="" name="level"
-                                                                        value="<?php echo $question->level; ?>" />
-                                                                    <!--end::Input-->
-                                                                </div>
-                                                                <!--end::Input group-->
-                                                                <!--begin::Input group-->
-                                                                <div class="fv-row mb-7">
-                                                                    <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">
-                                                                        <span><?php echo $Answer ?></span>
-                                                                    </label>
-                                                                    <!--end::Label-->
-                                                                    <!--begin::Input-->
-                                                                    <input type="text"
-                                                                        class="form-control form-control-solid"
-                                                                        placeholder="" name="answer"
-                                                                        value="<?php echo $question->answer ??
-                                                                            ""; ?>" />
-                                                                    <!--end::Input-->
+
+                                                                    <?php if (isset($error)) : ?>
+                                                                    <span
+                                                                        class='text-danger'><?php echo $error; ?></span>
+                                                                    <?php endif; ?>
                                                                 </div>
                                                                 <!--end::Input group-->
                                                             </div>
@@ -654,18 +516,16 @@ if (isset($_POST["delet"])) {
                                                         <!--end::Scroll-->
                                                     </div>
                                                     <!--end::Modal body-->
+
                                                     <!--begin::Modal footer-->
                                                     <div class="modal-footer flex-center">
-                                                        <!--begin::Button-->
                                                         <button type="reset" class="btn btn-light me-3"
                                                             data-kt-menu-dismiss="true" data-bs-dismiss="modal"
-                                                            data-kt-users-modal-action="cancel"><?php echo $annuler ?></button>
-                                                        <!--end::Button-->
-                                                        <!--begin::Button-->
-                                                        <button type="submit" name="update" class="btn btn-primary">
-                                                            <?php echo $valider ?>
+                                                            data-kt-users-modal-action="cancel">
+                                                            <?php echo $annuler; ?>
                                                         </button>
-                                                        <!--end::Button-->
+                                                        <button type="submit" name="update"
+                                                            class="btn btn-primary"><?php echo $valider; ?></button>
                                                     </div>
                                                     <!--end::Modal footer-->
                                                 </form>
@@ -673,9 +533,8 @@ if (isset($_POST["delet"])) {
                                             </div>
                                         </div>
                                     </div>
-                                    <!--end::Modal - Update user details-->
-                                    <?php }
-                                    ?>
+                                    <!--end::Modal - Update question details-->
+                                    <?php } ?>
                                 </tbody>
                             </table>
                         </div>
@@ -683,25 +542,51 @@ if (isset($_POST["delet"])) {
                             <div
                                 class="col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start">
                                 <div class="dataTables_length">
-                                    <label><select id="kt_customers_table_length" name="kt_customers_table_length"
+                                    <label>
+                                        <select id="kt_customers_table_length" name="kt_customers_table_length"
                                             class="form-select form-select-sm form-select-solid">
-                                            <option value="10">10</option>
-                                            <option value="25">25</option>
-                                            <option value="50">50</option>
-                                            <option value="100">100</option>
-                                        </select></label>
+                                            <?php 
+                        $options = [100, 200, 300, 500];
+                        foreach ($options as $opt) {
+                            echo "<option value='$opt'>$opt</option>";
+                        }
+                        ?>
+                                        </select>
+                                    </label>
                                 </div>
                             </div>
                             <div
                                 class="col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end">
                                 <div class="dataTables_paginate paging_simple_numbers">
-                                    <ul class="pagination" id="kt_customers_table_paginate">
-                                    </ul>
+                                    <ul class="pagination" id="kt_customers_table_paginate"></ul>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <!--end::Table-->
+
+                    <?php
+                    function getBadgeClass($value) {
+                        if ($value == 'Factuelle') {
+                            return 'badge-light-success';
+                        } elseif ($value == 'Declarative') {
+                            return 'badge-light-warning';
+                        } elseif ($value == 'Junior') {
+                            return 'badge-light-success';
+                        } elseif ($value == 'Senior') {
+                            return 'badge-light-danger';
+                        } elseif ($value == 'Expert') {
+                            return 'badge-light-warning';
+                        }
+                        return ''; // Default class
+                    }
+
+                    function renderModals($question) {
+                        // Implement the rendering for modals here, similar to how they were presented above
+                        // This function can handle both the update and delete modals
+                    }
+                    ?>
+
                 </div>
                 <!--end::Card body-->
             </div>
@@ -721,17 +606,15 @@ if (isset($_POST["delet"])) {
 </div>
 <!--end::Body-->
 <script>
-    // Function to handle closing of the alert message
-    document.addEventListener('DOMContentLoaded', function() {
-        const closeButtons = document.querySelectorAll('.alert .close');
-        closeButtons.forEach(function(button) {
-            button.addEventListener('click', function() {
-                const alert = this.closest('.alert');
-                alert.remove();
-            });
+// Function to handle closing of the alert message
+document.addEventListener('DOMContentLoaded', function() {
+    const closeButtons = document.querySelectorAll('.alert .close');
+    closeButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            const alert = this.closest('.alert');
+            alert.remove();
         });
     });
+});
 </script>
 <?php include_once "partials/footer.php"; ?>
-<?php
-} ?>

@@ -246,6 +246,11 @@ if (!isset($_SESSION["id"])) {
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
+                                            style="width: 152.719px;"><?php echo $total_quiz ?>
+                                        </th>
+                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
+                                            rowspan="1" colspan="1"
+                                            aria-label="Created Date: activate to sort column ascending"
                                             style="width: 152.719px;"><?php echo $list_quiz ?>
                                         </th>
                                     </tr>
@@ -310,6 +315,9 @@ if (!isset($_SESSION["id"])) {
                                                 <?php echo $vehicle->level; ?>
                                             </span>
                                             <?php } ?>
+                                        </td>
+                                        <td data-order="subsidiary">
+                                            <?php echo $vehicle->total; ?>
                                         </td>
                                         <td data-order="department">
                                             <a href="#"
@@ -428,10 +436,10 @@ if (!isset($_SESSION["id"])) {
                                 <div class="dataTables_length">
                                     <label><select id="kt_customers_table_length" name="kt_customers_table_length"
                                             class="form-select form-select-sm form-select-solid">
-                                            <option value="10">10</option>
-                                            <option value="25">25</option>
-                                            <option value="50">50</option>
                                             <option value="100">100</option>
+                                            <option value="200">200</option>
+                                            <option value="300">300</option>
+                                            <option value="500">500</option>
                                         </select></label>
                                 </div>
                             </div>
@@ -450,12 +458,15 @@ if (!isset($_SESSION["id"])) {
             </div>
             <!--end::Card-->
             <!--begin::Export dropdown-->
-            <!-- <div class="d-flex justify-content-end align-items-center" style="margin-top: 20px;">
-                <button type="button" id="excel" title="Cliquez ici pour importer la table" class="btn btn-primary">
+            <div class="d-flex justify-content-end align-items-center" style="margin-top: 20px;">
+                <!--begin::Export-->
+                <button type="button" id="excel" class="btn btn-light-primary me-3" data-bs-toggle="modal"
+                    data-bs-target="#kt_customers_export_modal">
                     <i class="ki-duotone ki-exit-up fs-2"><span class="path1"></span><span class="path2"></span></i>
-                    Excel
+                    <?php echo $excel ?>
                 </button>
-            </div> -->
+                <!--end::Export-->
+            </div>
             <!--end::Export dropdown-->
         </div>
         <!--end::Container-->
@@ -463,6 +474,22 @@ if (!isset($_SESSION["id"])) {
     <!--end::Post-->
 </div>
 <!--end::Body-->
+<script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/gh/linways/table-to-excel@v1.0.4/dist/tableToExcel.js">
+</script>
+<script src="../public/js/main.js"></script>
+<script>
+    
+$(document).ready(function() {
+    $("#excel").on("click", function() {
+        let table = document.getElementsByTagName("table");
+        debugger;
+        TableToExcel.convert(table[0], {
+            name: `Vehicles.xlsx`
+        })
+    });
+});
 <?php include_once "partials/footer.php"; ?>
 <?php
 } ?>

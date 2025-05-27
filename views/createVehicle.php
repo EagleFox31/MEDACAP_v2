@@ -130,7 +130,7 @@ if (!isset($_SESSION["id"])) {
                 "total" => count($facJu),
                 "test" => false,
                 "active" => true,
-                "created" => date("d-m-Y"),
+                "created" => date("d-m-Y H:I:S"),
             ];
             $vehicles->insertOne($vehicleJuFac);
 
@@ -144,7 +144,7 @@ if (!isset($_SESSION["id"])) {
                 "total" => count($facSe),
                 "test" => false,
                 "active" => true,
-                "created" => date("d-m-Y"),
+                "created" => date("d-m-Y H:I:S"),
             ];
             $vehicles->insertOne($vehicleSeFac);
 
@@ -158,7 +158,7 @@ if (!isset($_SESSION["id"])) {
                 "total" => count($facEx),
                 "test" => false,
                 "active" => true,
-                "created" => date("d-m-Y"),
+                "created" => date("d-m-Y H:I:S"),
             ];
             $vehicles->insertOne($vehicleExFac);
 
@@ -172,7 +172,7 @@ if (!isset($_SESSION["id"])) {
                 "total" => count($declaJu),
                 "test" => false,
                 "active" => true,
-                "created" => date("d-m-Y"),
+                "created" => date("d-m-Y H:I:S"),
             ];
             $vehicles->insertOne($vehicleJuDecla);
 
@@ -186,7 +186,7 @@ if (!isset($_SESSION["id"])) {
                 "total" => count($declaSe),
                 "test" => false,
                 "active" => true,
-                "created" => date("d-m-Y"),
+                "created" => date("d-m-Y H:I:S"),
             ];
             $vehicles->insertOne($vehicleSeDecla);
 
@@ -200,7 +200,7 @@ if (!isset($_SESSION["id"])) {
                 "total" => count($declaEx),
                 "test" => false,
                 "active" => true,
-                "created" => date("d-m-Y"),
+                "created" => date("d-m-Y H:I:S"),
             ];
             $vehicles->insertOne($vehicleExDecla);
 
@@ -379,7 +379,7 @@ if (!isset($_SESSION["id"])) {
                                 <option value="Moteur Thermique">
                                     <?php echo $moteurThermique ?>
                                 </option>
-                                <option value="Multiplexage">
+                                <option value="Réseaux de Communication">
                                     <?php echo $multiplexage ?>
                                 </option>
                                 <option value="Pneumatique">

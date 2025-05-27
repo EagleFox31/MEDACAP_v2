@@ -29,12 +29,23 @@ if (!isset($_SESSION["id"])) {
         $proposal3 = $_POST["proposal3"];
         $proposal4 = $_POST["proposal4"];
         $reference = $_POST["ref"];
-        $reponse = $_POST["answer"];
         $specialite = $_POST["speciality"];
         $types = $_POST["type"];
         $levels = $_POST["level"];
         if (isset($_POST["title"])) {
             $title = $_POST["title"];
+        }
+        if ($_POST["answer"] == "proposal1") {
+            $reponse = $proposal1;
+        }
+        if ($_POST["answer"] == "proposal2") {
+            $reponse = $proposal2;
+        }
+        if ($_POST["answer"] == "proposal3") {
+            $reponse = $proposal3;
+        }
+        if ($_POST["answer"] == "proposal4") {
+            $reponse = $proposal4;
         }
 
         $pic = $_FILES["image"]["name"];
@@ -78,7 +89,7 @@ if (!isset($_SESSION["id"])) {
                 "type" => $types,
                 "level" => $levels,
                 "active" => true,
-                "created" => date("d-m-y"),
+                "created" => date("d-m-y h:i:s"),
             ];
             $result = $questions->insertOne($question);
 
@@ -131,6 +142,38 @@ if (!isset($_SESSION["id"])) {
                     ["active" => true],
                 ],
             ]);
+            $specialityElecFac = $academy->specialities->findOne([
+                '$and' => [
+                    ["label" => "Electricité et Electronique"],
+                    ["level" => $levels],
+                    ["type" => "Factuelle"],
+                    ["active" => true],
+                ],
+            ]);
+            $specialityHydroFac = $academy->specialities->findOne([
+                '$and' => [
+                    ["label" => "Hydraulique"],
+                    ["level" => $levels],
+                    ["type" => "Factuelle"],
+                    ["active" => true],
+                ],
+            ]);
+            $specialityMoteurFac = $academy->specialities->findOne([
+                '$and' => [
+                    ["label" => "Moteur"],
+                    ["level" => $levels],
+                    ["type" => "Factuelle"],
+                    ["active" => true],
+                ],
+            ]);
+            $specialityTransFac = $academy->specialities->findOne([
+                '$and' => [
+                    ["label" => "Transmission"],
+                    ["level" => $levels],
+                    ["type" => "Factuelle"],
+                    ["active" => true],
+                ],
+            ]);
 
             if ($quizz) {
                 ++$quizz->total;
@@ -158,7 +201,7 @@ if (!isset($_SESSION["id"])) {
                     "level" => ucfirst($levels),
                     "total" => 0,
                     "active" => true,
-                    "created" => date("d-m-y"),
+                    "created" => date("d-m-y h:i:s"),
                 ];
                 $insert = $quizzes->insertOne($quiz);
                 $quizzes->updateOne(
@@ -250,6 +293,31 @@ if (!isset($_SESSION["id"])) {
                             [
                                 "_id" => new MongoDB\BSON\ObjectId(
                                     $voitures->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($specialityTransFac) {
+                        $specialityTransFac["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityTransFac->_id
+                                ),
+                            ],
+                            ['$set' => $specialityTransFac]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityTransFac->_id
                                 ),
                             ],
                             [
@@ -363,6 +431,31 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
+                    if ($specialityElecFac) {
+                        $specialityElecFac["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityElecFac->_id
+                                ),
+                            ],
+                            ['$set' => $specialityElecFac]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityElecFac->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
                 } elseif ($specialite == "Boite de Transfert") {
                     if ($camions) {
                         if (
@@ -434,6 +527,31 @@ if (!isset($_SESSION["id"])) {
                             [
                                 "_id" => new MongoDB\BSON\ObjectId(
                                     $voitures->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($specialityTransFac) {
+                        $specialityTransFac["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityTransFac->_id
+                                ),
+                            ],
+                            ['$set' => $specialityTransFac]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityTransFac->_id
                                 ),
                             ],
                             [
@@ -547,6 +665,31 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
+                    if ($specialityTransFac) {
+                        $specialityTransFac["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityTransFac->_id
+                                ),
+                            ],
+                            ['$set' => $specialityTransFac]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityTransFac->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
                 } elseif ($specialite == "Boite de Vitesse Automatique") {
                     if ($voitures) {
                         $voitures["total"]++;
@@ -562,6 +705,31 @@ if (!isset($_SESSION["id"])) {
                             [
                                 "_id" => new MongoDB\BSON\ObjectId(
                                     $voitures->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($specialityTransFac) {
+                        $specialityTransFac["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityTransFac->_id
+                                ),
+                            ],
+                            ['$set' => $specialityTransFac]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityTransFac->_id
                                 ),
                             ],
                             [
@@ -677,6 +845,31 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
+                    if ($specialityTransFac) {
+                        $specialityTransFac["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityTransFac->_id
+                                ),
+                            ],
+                            ['$set' => $specialityTransFac]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityTransFac->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
                 } elseif (
                     $specialite == "Boite de Vitesse à Variation Continue"
                 ) {
@@ -694,6 +887,31 @@ if (!isset($_SESSION["id"])) {
                             [
                                 "_id" => new MongoDB\BSON\ObjectId(
                                     $voitures->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($specialityTransFac) {
+                        $specialityTransFac["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityTransFac->_id
+                                ),
+                            ],
+                            ['$set' => $specialityTransFac]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityTransFac->_id
                                 ),
                             ],
                             [
@@ -821,6 +1039,31 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
+                    if ($specialityElecFac) {
+                        $specialityElecFac["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityElecFac->_id
+                                ),
+                            ],
+                            ['$set' => $specialityElecFac]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityElecFac->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
                 } elseif ($specialite == "Demi Arbre de Roue") {
                     if ($bus) {
                         $bus["total"]++;
@@ -914,6 +1157,31 @@ if (!isset($_SESSION["id"])) {
                             [
                                 "_id" => new MongoDB\BSON\ObjectId(
                                     $voitures->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($specialityTransFac) {
+                        $specialityTransFac["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityTransFac->_id
+                                ),
+                            ],
+                            ['$set' => $specialityTransFac]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityTransFac->_id
                                 ),
                             ],
                             [
@@ -1027,6 +1295,31 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
+                    if ($specialityHydroFac) {
+                        $specialityHydroFac["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityHydroFac->_id
+                                ),
+                            ],
+                            ['$set' => $specialityHydroFac]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityHydroFac->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
                 } elseif ($specialite == "Electricité et Electronique") {
                     if ($bus) {
                         $bus["total"]++;
@@ -1118,6 +1411,31 @@ if (!isset($_SESSION["id"])) {
                             [
                                 "_id" => new MongoDB\BSON\ObjectId(
                                     $voitures->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($specialityElecFac) {
+                        $specialityElecFac["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityElecFac->_id
+                                ),
+                            ],
+                            ['$set' => $specialityElecFac]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityElecFac->_id
                                 ),
                             ],
                             [
@@ -1231,6 +1549,31 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
+                    if ($specialityHydroFac) {
+                        $specialityHydroFac["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityHydroFac->_id
+                                ),
+                            ],
+                            ['$set' => $specialityHydroFac]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityHydroFac->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
                 } elseif ($specialite == "Freinage Electromagnétique") {
                     if ($chariots) {
                         if ($chariots->brand == "TOYOTA BT") {
@@ -1258,6 +1601,31 @@ if (!isset($_SESSION["id"])) {
                                 ]
                             );
                         }
+                    }
+                    if ($specialityHydroFac) {
+                        $specialityHydroFac["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityHydroFac->_id
+                                ),
+                            ],
+                            ['$set' => $specialityHydroFac]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityHydroFac->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
                     }
                 } elseif ($specialite == "Freinage Hydraulique") {
                     if ($chariots) {
@@ -1327,6 +1695,31 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
+                    if ($specialityHydroFac) {
+                        $specialityHydroFac["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityHydroFac->_id
+                                ),
+                            ],
+                            ['$set' => $specialityHydroFac]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityHydroFac->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
                 } elseif ($specialite == "Freinage Pneumatique") {
                     if ($bus) {
                         $bus["total"]++;
@@ -1353,6 +1746,31 @@ if (!isset($_SESSION["id"])) {
                         );
                         $vehicles->updateOne(
                             ["_id" => new MongoDB\BSON\ObjectId($camions->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($specialityHydroFac) {
+                        $specialityHydroFac["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityHydroFac->_id
+                                ),
+                            ],
+                            ['$set' => $specialityHydroFac]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityHydroFac->_id
+                                ),
+                            ],
                             [
                                 '$push' => [
                                     "quizzes" => new MongoDB\BSON\ObjectId(
@@ -1427,6 +1845,31 @@ if (!isset($_SESSION["id"])) {
                         );
                         $vehicles->updateOne(
                             ["_id" => new MongoDB\BSON\ObjectId($engins->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($specialityHydroFac) {
+                        $specialityHydroFac["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityHydroFac->_id
+                                ),
+                            ],
+                            ['$set' => $specialityHydroFac]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityHydroFac->_id
+                                ),
+                            ],
                             [
                                 '$push' => [
                                     "quizzes" => new MongoDB\BSON\ObjectId(
@@ -1538,6 +1981,31 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
+                    if ($specialityMoteurFac) {
+                        $specialityMoteurFac["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityMoteurFac->_id
+                                ),
+                            ],
+                            ['$set' => $specialityMoteurFac]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityMoteurFac->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
                 } elseif ($specialite == "Moteur Electrique") {
                     if ($chariots) {
                         $chariots["total"]++;
@@ -1589,6 +2057,31 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
+                    if ($specialityMoteurFac) {
+                        $specialityMoteurFac["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityMoteurFac->_id
+                                ),
+                            ],
+                            ['$set' => $specialityMoteurFac]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityMoteurFac->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
                 } elseif ($specialite == "Moteur Essence") {
                     if ($chariots) {
                         $chariots["total"]++;
@@ -1629,6 +2122,31 @@ if (!isset($_SESSION["id"])) {
                             [
                                 "_id" => new MongoDB\BSON\ObjectId(
                                     $voitures->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($specialityMoteurFac) {
+                        $specialityMoteurFac["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityMoteurFac->_id
+                                ),
+                            ],
+                            ['$set' => $specialityMoteurFac]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityMoteurFac->_id
                                 ),
                             ],
                             [
@@ -1742,7 +2260,32 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
-                } elseif ($specialite == "Multiplexage") {
+                    if ($specialityMoteurFac) {
+                        $specialityMoteurFac["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityMoteurFac->_id
+                                ),
+                            ],
+                            ['$set' => $specialityMoteurFac]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityMoteurFac->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                } elseif ($specialite == "Réseaux de Communication") {
                     if ($bus) {
                         $bus["total"]++;
                         $vehicles->updateOne(
@@ -1833,6 +2376,31 @@ if (!isset($_SESSION["id"])) {
                             [
                                 "_id" => new MongoDB\BSON\ObjectId(
                                     $voitures->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($specialityElecFac) {
+                        $specialityElecFac["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityElecFac->_id
+                                ),
+                            ],
+                            ['$set' => $specialityElecFac]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityElecFac->_id
                                 ),
                             ],
                             [
@@ -1948,6 +2516,31 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
+                    if ($specialityTransFac) {
+                        $specialityTransFac["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityTransFac->_id
+                                ),
+                            ],
+                            ['$set' => $specialityTransFac]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityTransFac->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
                 } elseif ($specialite == "Reducteur") {
                     if ($bus) {
                         $bus["total"]++;
@@ -2016,6 +2609,31 @@ if (!isset($_SESSION["id"])) {
                         );
                         $vehicles->updateOne(
                             ["_id" => new MongoDB\BSON\ObjectId($engins->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($specialityTransFac) {
+                        $specialityTransFac["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityTransFac->_id
+                                ),
+                            ],
+                            ['$set' => $specialityTransFac]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityTransFac->_id
+                                ),
+                            ],
                             [
                                 '$push' => [
                                     "quizzes" => new MongoDB\BSON\ObjectId(
@@ -2116,6 +2734,31 @@ if (!isset($_SESSION["id"])) {
                             [
                                 "_id" => new MongoDB\BSON\ObjectId(
                                     $voitures->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($specialityHydroFac) {
+                        $specialityHydroFac["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityHydroFac->_id
+                                ),
+                            ],
+                            ['$set' => $specialityHydroFac]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityHydroFac->_id
                                 ),
                             ],
                             [
@@ -2229,6 +2872,31 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
+                    if ($specialityHydroFac) {
+                        $specialityHydroFac["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityHydroFac->_id
+                                ),
+                            ],
+                            ['$set' => $specialityHydroFac]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityHydroFac->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
                 } elseif ($specialite == "Suspension à Lame") {
                     if ($bus) {
                         $bus["total"]++;
@@ -2289,6 +2957,31 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
+                    if ($specialityHydroFac) {
+                        $specialityHydroFac["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityHydroFac->_id
+                                ),
+                            ],
+                            ['$set' => $specialityHydroFac]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityHydroFac->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
                 } elseif ($specialite == "Suspension Ressort") {
                     if ($voitures) {
                         $voitures["total"]++;
@@ -2304,6 +2997,31 @@ if (!isset($_SESSION["id"])) {
                             [
                                 "_id" => new MongoDB\BSON\ObjectId(
                                     $voitures->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($specialityHydroFac) {
+                        $specialityHydroFac["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityHydroFac->_id
+                                ),
+                            ],
+                            ['$set' => $specialityHydroFac]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityHydroFac->_id
                                 ),
                             ],
                             [
@@ -2372,6 +3090,31 @@ if (!isset($_SESSION["id"])) {
                                 ]
                             );
                         }
+                    }
+                    if ($specialityHydroFac) {
+                        $specialityHydroFac["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityHydroFac->_id
+                                ),
+                            ],
+                            ['$set' => $specialityHydroFac]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityHydroFac->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
                     }
                 } elseif ($specialite == "Transversale") {
                     if ($bus) {
@@ -2475,208 +3218,519 @@ if (!isset($_SESSION["id"])) {
                             ]
                         );
                     }
+                    if ($specialityTransFac) {
+                        $specialityTransFac["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityTransFac->_id
+                                ),
+                            ],
+                            ['$set' => $specialityTransFac]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityTransFac->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($specialityElecFac) {
+                        $specialityElecFac["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityElecFac->_id
+                                ),
+                            ],
+                            ['$set' => $specialityElecFac]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityElecFac->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($specialityHydroFac) {
+                        $specialityHydroFac["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityHydroFac->_id
+                                ),
+                            ],
+                            ['$set' => $specialityHydroFac]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityHydroFac->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($specialityMoteurFac) {
+                        $specialityMoteurFac["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityMoteurFac->_id
+                                ),
+                            ],
+                            ['$set' => $specialityMoteurFac]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityMoteurFac->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
                 }
             }
             $success_msg = $success_question;
-        } elseif ($types == "Declarative") {
-            if ($levels == "Expert") {
+        } elseif ($types == "Declarative")  {
+            if ($level == "Expert") {
                 $question = [
                     "image" => $image,
-                    "ref" => $ref,
+                    "ref" => $reference,
                     "title" => ucfirst($title),
                     "label" => ucfirst($label),
                     "proposal1" =>
-                        "1-" .
-                        $specialite .
-                        "-" .
-                        $levels .
-                        "-" .
-                        $label .
-                        "-1",
+                        "1-" . $speciality . "-" . $level . "-" . $label . "-1",
                     "proposal2" =>
-                        "2-" .
-                        $specialite .
-                        "-" .
-                        $levels .
-                        "-" .
-                        $label .
-                        "-2",
+                        "2-" . $speciality . "-" . $level . "-" . $label . "-2",
                     "proposal3" =>
-                        "3-" .
-                        $specialite .
-                        "-" .
-                        $levels .
-                        "-" .
-                        $label .
-                        "-3",
-                    "speciality" => ucfirst($specialite),
+                        "3-" . $speciality . "-" . $level . "-" . $label . "-3",
+                    "speciality" => ucfirst($speciality),
                     "type" => $type,
                     "level" => $level,
                     "active" => true,
-                    "created" => date("d-m-y"),
+                    "created" => date("d-m-y h:i:s"),
                 ];
-
                 $result = $questions->insertOne($question);
-                if ($levels == "Expert") {
-                } else {
-                    $question = [
-                        "image" => $image,
-                        "ref" => $ref,
-                        "label" => ucfirst($label),
-                        "proposal1" =>
-                            "1-" .
-                            $specialite .
-                            "-" .
-                            $levels .
-                            "-" .
-                            $label .
-                            "-1",
-                        "proposal2" =>
-                            "2-" .
-                            $specialite .
-                            "-" .
-                            $levels .
-                            "-" .
-                            $label .
-                            "-2",
-                        "proposal3" =>
-                            "3-" .
-                            $specialite .
-                            "-" .
-                            $levels .
-                            "-" .
-                            $label .
-                            "-3",
-                        "speciality" => ucfirst($specialite),
-                        "type" => $type,
-                        "level" => $level,
-                        "active" => true,
-                        "created" => date("d-m-y"),
-                    ];
+            } else {
+                $question = [
+                    "image" => $image,
+                    "ref" => $reference,
+                    "label" => ucfirst($label),
+                    "proposal1" =>
+                        "1-" . $speciality . "-" . $level . "-" . $label . "-1",
+                    "proposal2" =>
+                        "2-" . $speciality . "-" . $level . "-" . $label . "-2",
+                    "proposal3" =>
+                        "3-" . $speciality . "-" . $level . "-" . $label . "-3",
+                    "speciality" => ucfirst($speciality),
+                    "type" => $type,
+                    "level" => $level,
+                    "active" => true,
+                    "created" => date("d-m-y h:i:s"),
+                ];
+                $result = $questions->insertOne($question);
+            }
 
-                    $result = $questions->insertOne($question);
-                }
-                $quizz = $quizzes->findOne([
-                    '$and' => [
-                        ["speciality" => $specialite],
-                        ["level" => $levels],
-                        ["type" => "Declaratif"],
-                        ["active" => true],
-                    ],
-                ]);
+            $quizz = $quizzes->findOne([
+                '$and' => [
+                    ["speciality" => $specialite],
+                    ["level" => $levels],
+                    ["type" => "Declaratif"],
+                    ["active" => true],
+                ],
+            ]);
 
-                $bus = $vehicles->findOne([
-                    '$and' => [
-                        ["label" => "Bus"],
-                        ["level" => $levels],
-                        ["type" => "Declaratif"],
-                        ["active" => true],
-                    ],
-                ]);
-                $camions = $vehicles->findOne([
-                    '$and' => [
-                        ["label" => "Camions"],
-                        ["level" => $levels],
-                        ["type" => "Declaratif"],
-                        ["active" => true],
-                    ],
-                ]);
-                $chariots = $vehicles->findOne([
-                    '$and' => [
-                        ["label" => "Chariots"],
-                        ["level" => $levels],
-                        ["type" => "Declaratif"],
-                        ["active" => true],
-                    ],
-                ]);
-                $engins = $vehicles->findOne([
-                    '$and' => [
-                        ["label" => "Engins"],
-                        ["level" => $levels],
-                        ["type" => "Declaratif"],
-                        ["active" => true],
-                    ],
-                ]);
-                $voitures = $vehicles->findOne([
-                    '$and' => [
-                        ["label" => "Voitures"],
-                        ["level" => $levels],
-                        ["type" => "Declaratif"],
-                        ["active" => true],
-                    ],
-                ]);
+            $bus = $vehicles->findOne([
+                '$and' => [
+                    ["label" => "Bus"],
+                    ["level" => $levels],
+                    ["type" => "Declaratif"],
+                    ["active" => true],
+                ],
+            ]);
+            $camions = $vehicles->findOne([
+                '$and' => [
+                    ["label" => "Camions"],
+                    ["level" => $levels],
+                    ["type" => "Declaratif"],
+                    ["active" => true],
+                ],
+            ]);
+            $chariots = $vehicles->findOne([
+                '$and' => [
+                    ["label" => "Chariots"],
+                    ["level" => $levels],
+                    ["type" => "Declaratif"],
+                    ["active" => true],
+                ],
+            ]);
+            $engins = $vehicles->findOne([
+                '$and' => [
+                    ["label" => "Engins"],
+                    ["level" => $levels],
+                    ["type" => "Declaratif"],
+                    ["active" => true],
+                ],
+            ]);
+            $voitures = $vehicles->findOne([
+                '$and' => [
+                    ["label" => "Voitures"],
+                    ["level" => $levels],
+                    ["type" => "Declaratif"],
+                    ["active" => true],
+                ],
+            ]);
+            $specialityElecDecla = $academy->specialities->findOne([
+                '$and' => [
+                    ["label" => "Electricité et Electronique"],
+                    ["level" => $levels],
+                    ["type" => "Declarative"],
+                    ["active" => true],
+                ],
+            ]);
+            $specialityHydroDecla = $academy->specialities->findOne([
+                '$and' => [
+                    ["label" => "Hydraulique"],
+                    ["level" => $levels],
+                    ["type" => "Declarative"],
+                    ["active" => true],
+                ],
+            ]);
+            $specialityMoteurDecla = $academy->specialities->findOne([
+                '$and' => [
+                    ["label" => "Moteur"],
+                    ["level" => $levels],
+                    ["type" => "Declarative"],
+                    ["active" => true],
+                ],
+            ]);
+            $specialityTransDecla = $academy->specialities->findOne([
+                '$and' => [
+                    ["label" => "Transmission"],
+                    ["level" => $levels],
+                    ["type" => "Declarative"],
+                    ["active" => true],
+                ],
+            ]);
 
-                if ($quizz) {
-                    ++$quizz->total;
-                    $quizzes->updateOne(
-                        ["_id" => new MongoDB\BSON\ObjectId($quizz->_id)],
-                        ['$set' => $quizz]
-                    );
-                    $quizzes->updateOne(
-                        ["_id" => new MongoDB\BSON\ObjectId($quizz->_id)],
-                        [
-                            '$push' => [
-                                "questions" => new MongoDB\BSON\ObjectId(
-                                    $result->getInsertedId()
-                                ),
-                            ],
-                        ]
-                    );
-                } else {
-                    array_push($array, $result->getInsertedId());
-                    $quiz = [
-                        "questions" => [],
-                        "label" => "Tâche " . $specialite . "",
-                        "type" => "Declaratif",
-                        "speciality" => ucfirst($specialite),
-                        "level" => ucfirst($level),
-                        "total" => 0,
-                        "active" => true,
-                        "created" => date("d-m-y"),
-                    ];
-                    $insert = $quizzes->insertOne($quiz);
-                    $quizzes->updateOne(
-                        [
-                            "_id" => new MongoDB\BSON\ObjectId(
-                                $insert->getInsertedId()
+            if ($quizz) {
+                ++$quizz->total;
+                $quizzes->updateOne(
+                    ["_id" => new MongoDB\BSON\ObjectId($quizz->_id)],
+                    ['$set' => $quizz]
+                );
+                $quizzes->updateOne(
+                    ["_id" => new MongoDB\BSON\ObjectId($quizz->_id)],
+                    [
+                        '$push' => [
+                            "questions" => new MongoDB\BSON\ObjectId(
+                                $result->getInsertedId()
                             ),
                         ],
-                        ['$set' => ["total" => +1]]
-                    );
-                    $quizzes->updateOne(
-                        [
-                            "_id" => new MongoDB\BSON\ObjectId(
-                                $insert->getInsertedId()
+                    ]
+                );
+            } else {
+                array_push($array, $result->getInsertedId());
+                $quiz = [
+                    "questions" => [],
+                    "label" => "QCM " . $specialite . "",
+                    "type" => "Declatuel",
+                    "speciality" => ucfirst($specialite),
+                    "level" => ucfirst($levels),
+                    "total" => 0,
+                    "active" => true,
+                    "created" => date("d-m-y h:i:s"),
+                ];
+                $insert = $quizzes->insertOne($quiz);
+                $quizzes->updateOne(
+                    [
+                        "_id" => new MongoDB\BSON\ObjectId(
+                            $insert->getInsertedId()
+                        ),
+                    ],
+                    ['$set' => ["total" => +1]]
+                );
+                $quizzes->updateOne(
+                    [
+                        "_id" => new MongoDB\BSON\ObjectId(
+                            $insert->getInsertedId()
+                        ),
+                    ],
+                    [
+                        '$push' => [
+                            "questions" => new MongoDB\BSON\ObjectId(
+                                $result->getInsertedId()
                             ),
                         ],
-                        [
-                            '$push' => [
-                                "questions" => new MongoDB\BSON\ObjectId(
-                                    $result->getInsertedId()
+                    ]
+                );
+
+                if ($specialite == "Arbre de Transmission") {
+                    if ($bus) {
+                        $bus["total"]++;
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
+                            ['$set' => $bus]
+                        );
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($camions) {
+                        $camions["total"]++;
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($camions->_id)],
+                            ['$set' => $camions]
+                        );
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($camions->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($engins) {
+                        $engins["total"]++;
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($engins->_id)],
+                            ['$set' => $engins]
+                        );
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($engins->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($voitures) {
+                        $voitures["total"]++;
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $voitures->_id
                                 ),
                             ],
-                        ]
-                    );
-
-                    if ($specialite == "Arbre de Transmission") {
-                        if ($bus) {
-                            $bus["total"]++;
-                            $vehicles->updateOne(
-                                ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
-                                ['$set' => $bus]
-                            );
-                            $vehicles->updateOne(
-                                ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($camions) {
+                            ['$set' => $voitures]
+                        );
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $voitures->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($specialityTransDecla) {
+                        $specialityTransDecla["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityTransDecla->_id
+                                ),
+                            ],
+                            ['$set' => $specialityTransDecla]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityTransDecla->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                } elseif ($specialite == "Assistance à la Conduite") {
+                    if ($bus) {
+                        $bus["total"]++;
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
+                            ['$set' => $bus]
+                        );
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($camions) {
+                        $camions["total"]++;
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($camions->_id)],
+                            ['$set' => $camions]
+                        );
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($camions->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($chariots) {
+                        $chariots["total"]++;
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $chariots->_id
+                                ),
+                            ],
+                            ['$set' => $chariots]
+                        );
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $chariots->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($engins) {
+                        $engins["total"]++;
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($engins->_id)],
+                            ['$set' => $engins]
+                        );
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($engins->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($voitures) {
+                        $voitures["total"]++;
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $voitures->_id
+                                ),
+                            ],
+                            ['$set' => $voitures]
+                        );
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $voitures->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($specialityElecDecla) {
+                        $specialityElecDecla["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityElecDecla->_id
+                                ),
+                            ],
+                            ['$set' => $specialityElecDecla]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityElecDecla->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                } elseif ($specialite == "Boite de Transfert") {
+                    if ($camions) {
+                        if (
+                            $camions->brand == "RENAULT TRUCK" ||
+                            $camions->brand == "MERCEDES TRUCK" ||
+                            $camions->brand == "SINOTRUK"
+                        ) {
                             $camions["total"]++;
                             $vehicles->updateOne(
                                 [
@@ -2701,20 +3755,310 @@ if (!isset($_SESSION["id"])) {
                                 ]
                             );
                         }
-                        if ($engins) {
-                            $engins["total"]++;
+                    }
+                    if ($chariots) {
+                        $chariots["total"]++;
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $chariots->_id
+                                ),
+                            ],
+                            ['$set' => $chariots]
+                        );
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $chariots->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($voitures) {
+                        $voitures["total"]++;
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $voitures->_id
+                                ),
+                            ],
+                            ['$set' => $voitures]
+                        );
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $voitures->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($specialityTransDecla) {
+                        $specialityTransDecla["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityTransDecla->_id
+                                ),
+                            ],
+                            ['$set' => $specialityTransDecla]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityTransDecla->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                } elseif ($specialite == "Boite de Vitesse") {
+                    if ($bus) {
+                        $bus["total"]++;
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
+                            ['$set' => $bus]
+                        );
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($camions) {
+                        $camions["total"]++;
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($camions->_id)],
+                            ['$set' => $camions]
+                        );
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($camions->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($chariots) {
+                        $chariots["total"]++;
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $chariots->_id
+                                ),
+                            ],
+                            ['$set' => $chariots]
+                        );
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $chariots->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($engins) {
+                        $engins["total"]++;
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($engins->_id)],
+                            ['$set' => $engins]
+                        );
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($engins->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($voitures) {
+                        $voitures["total"]++;
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $voitures->_id
+                                ),
+                            ],
+                            ['$set' => $voitures]
+                        );
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $voitures->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($specialityTransDecla) {
+                        $specialityTransDecla["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityTransDecla->_id
+                                ),
+                            ],
+                            ['$set' => $specialityTransDecla]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityTransDecla->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                } elseif ($specialite == "Boite de Vitesse Automatique") {
+                    if ($voitures) {
+                        $voitures["total"]++;
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $voitures->_id
+                                ),
+                            ],
+                            ['$set' => $voitures]
+                        );
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $voitures->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($specialityTransDecla) {
+                        $specialityTransDecla["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityTransDecla->_id
+                                ),
+                            ],
+                            ['$set' => $specialityTransDecla]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityTransDecla->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                } elseif ($specialite == "Boite de Vitesse Mécanique") {
+                    if ($bus) {
+                        $bus["total"]++;
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
+                            ['$set' => $bus]
+                        );
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($camions) {
+                        $camions["total"]++;
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($camions->_id)],
+                            ['$set' => $camions]
+                        );
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($camions->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($chariots) {
+                        if ($chariots->brand == "TOYOTA FORKLIFT") {
+                            $chariots["total"]++;
                             $vehicles->updateOne(
                                 [
                                     "_id" => new MongoDB\BSON\ObjectId(
-                                        $engins->_id
+                                        $chariots->_id
                                     ),
                                 ],
-                                ['$set' => $engins]
+                                ['$set' => $chariots]
                             );
                             $vehicles->updateOne(
                                 [
                                     "_id" => new MongoDB\BSON\ObjectId(
-                                        $engins->_id
+                                        $chariots->_id
                                     ),
                                 ],
                                 [
@@ -2726,50 +4070,151 @@ if (!isset($_SESSION["id"])) {
                                 ]
                             );
                         }
-                        if ($voitures) {
-                            $voitures["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $voitures->_id
+                    }
+                    if ($engins) {
+                        $engins["total"]++;
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($engins->_id)],
+                            ['$set' => $engins]
+                        );
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($engins->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
                                     ),
                                 ],
-                                ['$set' => $voitures]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $voitures->_id
+                            ]
+                        );
+                    }
+                    if ($voitures) {
+                        $voitures["total"]++;
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $voitures->_id
+                                ),
+                            ],
+                            ['$set' => $voitures]
+                        );
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $voitures->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
                                     ),
                                 ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                    } elseif ($specialite == "Assistance à la Conduite") {
-                        if ($bus) {
-                            $bus["total"]++;
-                            $vehicles->updateOne(
-                                ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
-                                ['$set' => $bus]
-                            );
-                            $vehicles->updateOne(
-                                ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($camions) {
+                            ]
+                        );
+                    }
+                    if ($specialityTransDecla) {
+                        $specialityTransDecla["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityTransDecla->_id
+                                ),
+                            ],
+                            ['$set' => $specialityTransDecla]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityTransDecla->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                } elseif (
+                    $specialite == "Boite de Vitesse à Variation Continue"
+                ) {
+                    if ($voitures) {
+                        $voitures["total"]++;
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $voitures->_id
+                                ),
+                            ],
+                            ['$set' => $voitures]
+                        );
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $voitures->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($specialityTransDecla) {
+                        $specialityTransDecla["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityTransDecla->_id
+                                ),
+                            ],
+                            ['$set' => $specialityTransDecla]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityTransDecla->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                } elseif ($specialite == "Climatisation") {
+                    if ($bus) {
+                        $bus["total"]++;
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
+                            ['$set' => $bus]
+                        );
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($camions) {
+                        if (
+                            $camions->brand == "RENAULT TRUCK" ||
+                            $camions->brand == "MERCEDES TRUCK" ||
+                            $camions->brand == "SINOTRUK"
+                        ) {
                             $camions["total"]++;
                             $vehicles->updateOne(
                                 [
@@ -2794,7 +4239,136 @@ if (!isset($_SESSION["id"])) {
                                 ]
                             );
                         }
-                        if ($chariots) {
+                    }
+                    if ($chariots) {
+                        $chariots["total"]++;
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $chariots->_id
+                                ),
+                            ],
+                            ['$set' => $chariots]
+                        );
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $chariots->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($engins) {
+                        $engins["total"]++;
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($engins->_id)],
+                            ['$set' => $engins]
+                        );
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($engins->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($voitures) {
+                        $voitures["total"]++;
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $voitures->_id
+                                ),
+                            ],
+                            ['$set' => $voitures]
+                        );
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $voitures->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($specialityElecDecla) {
+                        $specialityElecDecla["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityElecDecla->_id
+                                ),
+                            ],
+                            ['$set' => $specialityElecDecla]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityElecDecla->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                } elseif ($specialite == "Demi Arbre de Roue") {
+                    if ($bus) {
+                        $bus["total"]++;
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
+                            ['$set' => $bus]
+                        );
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($camions) {
+                        $camions["total"]++;
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($camions->_id)],
+                            ['$set' => $camions]
+                        );
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($camions->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($chariots) {
+                        if ($chariots->brand == "TOYOTA FORKLIFT") {
                             $chariots["total"]++;
                             $vehicles->updateOne(
                                 [
@@ -2819,89 +4393,458 @@ if (!isset($_SESSION["id"])) {
                                 ]
                             );
                         }
-                        if ($engins) {
-                            $engins["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $engins->_id
+                    }
+                    if ($engins) {
+                        $engins["total"]++;
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($engins->_id)],
+                            ['$set' => $engins]
+                        );
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($engins->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
                                     ),
                                 ],
-                                ['$set' => $engins]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $engins->_id
+                            ]
+                        );
+                    }
+                    if ($voitures) {
+                        $voitures["total"]++;
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $voitures->_id
+                                ),
+                            ],
+                            ['$set' => $voitures]
+                        );
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $voitures->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
                                     ),
                                 ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($voitures) {
-                            $voitures["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $voitures->_id
+                            ]
+                        );
+                    }
+                    if ($specialityTransDecla) {
+                        $specialityTransDecla["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityTransDecla->_id
+                                ),
+                            ],
+                            ['$set' => $specialityTransDecla]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityTransDecla->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
                                     ),
                                 ],
-                                ['$set' => $voitures]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $voitures->_id
+                            ]
+                        );
+                    }
+                } elseif ($specialite == "Direction") {
+                    if ($bus) {
+                        $bus["total"]++;
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
+                            ['$set' => $bus]
+                        );
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
                                     ),
                                 ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                    } elseif ($specialite == "Boite de Transfert") {
-                        if ($camions) {
-                            if (
-                                $camions->brand == "RENAULT TRUCK" ||
-                                $camions->brand == "MERCEDES TRUCK" ||
-                                $camions->brand == "SINOTRUK"
-                            ) {
-                                $camions["total"]++;
-                                $vehicles->updateOne(
-                                    [
-                                        "_id" => new MongoDB\BSON\ObjectId(
-                                            $camions->_id
-                                        ),
-                                    ],
-                                    ['$set' => $camions]
-                                );
-                                $vehicles->updateOne(
-                                    [
-                                        "_id" => new MongoDB\BSON\ObjectId(
-                                            $camions->_id
-                                        ),
-                                    ],
-                                    [
-                                        '$push' => [
-                                            "quizzes" => new MongoDB\BSON\ObjectId(
-                                                $insert->getInsertedId()
-                                            ),
-                                        ],
-                                    ]
-                                );
-                            }
-                        }
-                        if ($chariots) {
+                            ]
+                        );
+                    }
+                    if ($camions) {
+                        $camions["total"]++;
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($camions->_id)],
+                            ['$set' => $camions]
+                        );
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($camions->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($chariots) {
+                        $chariots["total"]++;
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $chariots->_id
+                                ),
+                            ],
+                            ['$set' => $chariots]
+                        );
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $chariots->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($engins) {
+                        $engins["total"]++;
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($engins->_id)],
+                            ['$set' => $engins]
+                        );
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($engins->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($voitures) {
+                        $voitures["total"]++;
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $voitures->_id
+                                ),
+                            ],
+                            ['$set' => $voitures]
+                        );
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $voitures->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($specialityHydroDecla) {
+                        $specialityHydroDecla["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityHydroDecla->_id
+                                ),
+                            ],
+                            ['$set' => $specialityHydroDecla]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityHydroDecla->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                } elseif ($specialite == "Electricité et Electronique") {
+                    if ($bus) {
+                        $bus["total"]++;
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
+                            ['$set' => $bus]
+                        );
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($camions) {
+                        $camions["total"]++;
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($camions->_id)],
+                            ['$set' => $camions]
+                        );
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($camions->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($chariots) {
+                        $chariots["total"]++;
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $chariots->_id
+                                ),
+                            ],
+                            ['$set' => $chariots]
+                        );
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $chariots->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($engins) {
+                        $engins["total"]++;
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($engins->_id)],
+                            ['$set' => $engins]
+                        );
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($engins->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($voitures) {
+                        $voitures["total"]++;
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $voitures->_id
+                                ),
+                            ],
+                            ['$set' => $voitures]
+                        );
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $voitures->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($specialityElecDecla) {
+                        $specialityElecDecla["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityElecDecla->_id
+                                ),
+                            ],
+                            ['$set' => $specialityElecDecla]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityElecDecla->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                } elseif ($specialite == "Freinage") {
+                    if ($bus) {
+                        $bus["total"]++;
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
+                            ['$set' => $bus]
+                        );
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($camions) {
+                        ++$camions["total"];
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($camions->_id)],
+                            ['$set' => $camions]
+                        );
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($camions->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($chariots) {
+                        $chariots["total"]++;
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $chariots->_id
+                                ),
+                            ],
+                            ['$set' => $chariots]
+                        );
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $chariots->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($engins) {
+                        $engins["total"]++;
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($engins->_id)],
+                            ['$set' => $engins]
+                        );
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($engins->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($voitures) {
+                        $voitures["total"]++;
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $voitures->_id
+                                ),
+                            ],
+                            ['$set' => $voitures]
+                        );
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $voitures->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($specialityHydroDecla) {
+                        $specialityHydroDecla["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityHydroDecla->_id
+                                ),
+                            ],
+                            ['$set' => $specialityHydroDecla]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityHydroDecla->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                } elseif ($specialite == "Freinage Electromagnétique") {
+                    if ($chariots) {
+                        if ($chariots->brand == "TOYOTA BT") {
                             $chariots["total"]++;
                             $vehicles->updateOne(
                                 [
@@ -2926,50 +4869,192 @@ if (!isset($_SESSION["id"])) {
                                 ]
                             );
                         }
-                        if ($voitures) {
-                            $voitures["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $voitures->_id
+                    }
+                    if ($specialityHydroDecla) {
+                        $specialityHydroDecla["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityHydroDecla->_id
+                                ),
+                            ],
+                            ['$set' => $specialityHydroDecla]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityHydroDecla->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
                                     ),
                                 ],
-                                ['$set' => $voitures]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $voitures->_id
+                            ]
+                        );
+                    }
+                } elseif ($specialite == "Freinage Hydraulique") {
+                    if ($chariots) {
+                        $chariots["total"]++;
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $chariots->_id
+                                ),
+                            ],
+                            ['$set' => $chariots]
+                        );
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $chariots->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
                                     ),
                                 ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                    } elseif ($specialite == "Boite de Vitesse") {
-                        if ($bus) {
-                            $bus["total"]++;
-                            $vehicles->updateOne(
-                                ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
-                                ['$set' => $bus]
-                            );
-                            $vehicles->updateOne(
-                                ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($camions) {
+                            ]
+                        );
+                    }
+                    if ($engins) {
+                        $engins["total"]++;
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($engins->_id)],
+                            ['$set' => $engins]
+                        );
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($engins->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($voitures) {
+                        $voitures["total"]++;
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $voitures->_id
+                                ),
+                            ],
+                            ['$set' => $voitures]
+                        );
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $voitures->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($specialityHydroDecla) {
+                        $specialityHydroDecla["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityHydroDecla->_id
+                                ),
+                            ],
+                            ['$set' => $specialityHydroDecla]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityHydroDecla->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                } elseif ($specialite == "Freinage Pneumatique") {
+                    if ($bus) {
+                        $bus["total"]++;
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
+                            ['$set' => $bus]
+                        );
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($camions) {
+                        $camions["total"]++;
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($camions->_id)],
+                            ['$set' => $camions]
+                        );
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($camions->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($specialityHydroDecla) {
+                        $specialityHydroDecla["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityHydroDecla->_id
+                                ),
+                            ],
+                            ['$set' => $specialityHydroDecla]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityHydroDecla->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                } elseif ($specialite == "Hydraulique") {
+                    if ($camions) {
+                        if (
+                            $camions->brand == "RENAULT TRUCK" ||
+                            $camions->brand == "MERCEDES TRUCK" ||
+                            $camions->brand == "SINOTRUK"
+                        ) {
                             $camions["total"]++;
                             $vehicles->updateOne(
                                 [
@@ -2994,7 +5079,644 @@ if (!isset($_SESSION["id"])) {
                                 ]
                             );
                         }
-                        if ($chariots) {
+                    }
+                    if ($chariots) {
+                        $chariots["total"]++;
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $chariots->_id
+                                ),
+                            ],
+                            ['$set' => $chariots]
+                        );
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $chariots->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($engins) {
+                        $engins["total"]++;
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($engins->_id)],
+                            ['$set' => $engins]
+                        );
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($engins->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($specialityHydroDecla) {
+                        $specialityHydroDecla["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityHydroDecla->_id
+                                ),
+                            ],
+                            ['$set' => $specialityHydroDecla]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityHydroDecla->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                } elseif ($specialite == "Moteur Diesel") {
+                    if ($bus) {
+                        $bus["total"]++;
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
+                            ['$set' => $bus]
+                        );
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($camions) {
+                        $camions["total"]++;
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($camions->_id)],
+                            ['$set' => $camions]
+                        );
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($camions->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($chariots) {
+                        $chariots["total"]++;
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $chariots->_id
+                                ),
+                            ],
+                            ['$set' => $chariots]
+                        );
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $chariots->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($engins) {
+                        $engins["total"]++;
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($engins->_id)],
+                            ['$set' => $engins]
+                        );
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($engins->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($voitures) {
+                        $voitures["total"]++;
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $voitures->_id
+                                ),
+                            ],
+                            ['$set' => $voitures]
+                        );
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $voitures->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($specialityMoteurDecla) {
+                        $specialityMoteurDecla["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityMoteurDecla->_id
+                                ),
+                            ],
+                            ['$set' => $specialityMoteurDecla]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityMoteurDecla->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                } elseif ($specialite == "Moteur Electrique") {
+                    if ($chariots) {
+                        $chariots["total"]++;
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $chariots->_id
+                                ),
+                            ],
+                            ['$set' => $chariots]
+                        );
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $chariots->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($voitures) {
+                        $voitures["total"]++;
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $voitures->_id
+                                ),
+                            ],
+                            ['$set' => $voitures]
+                        );
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $voitures->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($specialityMoteurDecla) {
+                        $specialityMoteurDecla["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityMoteurDecla->_id
+                                ),
+                            ],
+                            ['$set' => $specialityMoteurDecla]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityMoteurDecla->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                } elseif ($specialite == "Moteur Essence") {
+                    if ($chariots) {
+                        $chariots["total"]++;
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $chariots->_id
+                                ),
+                            ],
+                            ['$set' => $chariots]
+                        );
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $chariots->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($voitures) {
+                        $voitures["total"]++;
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $voitures->_id
+                                ),
+                            ],
+                            ['$set' => $voitures]
+                        );
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $voitures->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($specialityMoteurDecla) {
+                        $specialityMoteurDecla["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityMoteurDecla->_id
+                                ),
+                            ],
+                            ['$set' => $specialityMoteurDecla]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityMoteurDecla->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                } elseif ($specialite == "Moteur Thermique") {
+                    if ($bus) {
+                        $bus["total"]++;
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
+                            ['$set' => $bus]
+                        );
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($camions) {
+                        ++$camions["total"];
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($camions->_id)],
+                            ['$set' => $camions]
+                        );
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($camions->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($chariots) {
+                        $chariots["total"]++;
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $chariots->_id
+                                ),
+                            ],
+                            ['$set' => $chariots]
+                        );
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $chariots->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($engins) {
+                        $engins["total"]++;
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($engins->_id)],
+                            ['$set' => $engins]
+                        );
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($engins->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($voitures) {
+                        $voitures["total"]++;
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $voitures->_id
+                                ),
+                            ],
+                            ['$set' => $voitures]
+                        );
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $voitures->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($specialityMoteurDecla) {
+                        $specialityMoteurDecla["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityMoteurDecla->_id
+                                ),
+                            ],
+                            ['$set' => $specialityMoteurDecla]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityMoteurDecla->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                } elseif ($specialite == "Réseaux de Communication") {
+                    if ($bus) {
+                        $bus["total"]++;
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
+                            ['$set' => $bus]
+                        );
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($camions) {
+                        $camions["total"]++;
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($camions->_id)],
+                            ['$set' => $camions]
+                        );
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($camions->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($chariots) {
+                        $chariots["total"]++;
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $chariots->_id
+                                ),
+                            ],
+                            ['$set' => $chariots]
+                        );
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $chariots->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($engins) {
+                        $engins["total"]++;
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($engins->_id)],
+                            ['$set' => $engins]
+                        );
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($engins->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($voitures) {
+                        $voitures["total"]++;
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $voitures->_id
+                                ),
+                            ],
+                            ['$set' => $voitures]
+                        );
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $voitures->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($specialityElecDecla) {
+                        $specialityElecDecla["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityElecDecla->_id
+                                ),
+                            ],
+                            ['$set' => $specialityElecDecla]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityElecDecla->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                } elseif ($specialite == "Pont") {
+                    if ($bus) {
+                        $bus["total"]++;
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
+                            ['$set' => $bus]
+                        );
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($camions) {
+                        $camions["total"]++;
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($camions->_id)],
+                            ['$set' => $camions]
+                        );
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($camions->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($chariots) {
+                        if ($chariots->brand == "TOYOTA FORFLIT") {
                             $chariots["total"]++;
                             $vehicles->updateOne(
                                 [
@@ -3019,101 +5741,572 @@ if (!isset($_SESSION["id"])) {
                                 ]
                             );
                         }
-                        if ($engins) {
-                            $engins["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $engins->_id
+                    }
+                    if ($engins) {
+                        $engins["total"]++;
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($engins->_id)],
+                            ['$set' => $engins]
+                        );
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($engins->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
                                     ),
                                 ],
-                                ['$set' => $engins]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $engins->_id
+                            ]
+                        );
+                    }
+                    if ($voitures) {
+                        $voitures["total"]++;
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $voitures->_id
+                                ),
+                            ],
+                            ['$set' => $voitures]
+                        );
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $voitures->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
                                     ),
                                 ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($voitures) {
-                            $voitures["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $voitures->_id
+                            ]
+                        );
+                    }
+                    if ($specialityTransDecla) {
+                        $specialityTransDecla["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityTransDecla->_id
+                                ),
+                            ],
+                            ['$set' => $specialityTransDecla]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityTransDecla->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
                                     ),
                                 ],
-                                ['$set' => $voitures]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $voitures->_id
+                            ]
+                        );
+                    }
+                } elseif ($specialite == "Reducteur") {
+                    if ($bus) {
+                        $bus["total"]++;
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
+                            ['$set' => $bus]
+                        );
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
                                     ),
                                 ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                    } elseif ($specialite == "Boite de Vitesse Automatique") {
-                        if ($voitures) {
-                            $voitures["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $voitures->_id
+                            ]
+                        );
+                    }
+                    if ($camions) {
+                        $camions["total"]++;
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($camions->_id)],
+                            ['$set' => $camions]
+                        );
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($camions->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
                                     ),
                                 ],
-                                ['$set' => $voitures]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $voitures->_id
+                            ]
+                        );
+                    }
+                    if ($chariots) {
+                        $chariots["total"]++;
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $chariots->_id
+                                ),
+                            ],
+                            ['$set' => $chariots]
+                        );
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $chariots->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
                                     ),
                                 ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                    } elseif ($specialite == "Boite de Vitesse Mécanique") {
-                        if ($bus) {
-                            $bus["total"]++;
-                            $vehicles->updateOne(
-                                ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
-                                ['$set' => $bus]
-                            );
-                            $vehicles->updateOne(
-                                ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($camions) {
+                            ]
+                        );
+                    }
+                    if ($engins) {
+                        $engins["total"]++;
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($engins->_id)],
+                            ['$set' => $engins]
+                        );
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($engins->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($specialityTransDecla) {
+                        $specialityTransDecla["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityTransDecla->_id
+                                ),
+                            ],
+                            ['$set' => $specialityTransDecla]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityTransDecla->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                } elseif ($specialite == "Pneumatique") {
+                    if ($bus) {
+                        $bus["total"]++;
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
+                            ['$set' => $bus]
+                        );
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($camions) {
+                        $camions["total"]++;
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($camions->_id)],
+                            ['$set' => $camions]
+                        );
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($camions->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($chariots) {
+                        $chariots["total"]++;
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $chariots->_id
+                                ),
+                            ],
+                            ['$set' => $chariots]
+                        );
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $chariots->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($engins) {
+                        $engins["total"]++;
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($engins->_id)],
+                            ['$set' => $engins]
+                        );
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($engins->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($voitures) {
+                        $voitures["total"]++;
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $voitures->_id
+                                ),
+                            ],
+                            ['$set' => $voitures]
+                        );
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $voitures->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($specialityHydroDecla) {
+                        $specialityHydroDecla["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityHydroDecla->_id
+                                ),
+                            ],
+                            ['$set' => $specialityHydroDecla]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityHydroDecla->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                } elseif ($specialite == "Suspension") {
+                    if ($bus) {
+                        $bus["total"]++;
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
+                            ['$set' => $bus]
+                        );
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($camions) {
+                        ++$camions["total"];
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($camions->_id)],
+                            ['$set' => $camions]
+                        );
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($camions->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($chariots) {
+                        $chariots["total"]++;
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $chariots->_id
+                                ),
+                            ],
+                            ['$set' => $chariots]
+                        );
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $chariots->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($engins) {
+                        $engins["total"]++;
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($engins->_id)],
+                            ['$set' => $engins]
+                        );
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($engins->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($voitures) {
+                        $voitures["total"]++;
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $voitures->_id
+                                ),
+                            ],
+                            ['$set' => $voitures]
+                        );
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $voitures->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($specialityHydroDecla) {
+                        $specialityHydroDecla["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityHydroDecla->_id
+                                ),
+                            ],
+                            ['$set' => $specialityHydroDecla]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityHydroDecla->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                } elseif ($specialite == "Suspension à Lame") {
+                    if ($bus) {
+                        $bus["total"]++;
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
+                            ['$set' => $bus]
+                        );
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($camions) {
+                        $camions["total"]++;
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($camions->_id)],
+                            ['$set' => $camions]
+                        );
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($camions->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($voitures) {
+                        $voitures["total"]++;
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $voitures->_id
+                                ),
+                            ],
+                            ['$set' => $voitures]
+                        );
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $voitures->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($specialityHydroDecla) {
+                        $specialityHydroDecla["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityHydroDecla->_id
+                                ),
+                            ],
+                            ['$set' => $specialityHydroDecla]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityHydroDecla->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                } elseif ($specialite == "Suspension Ressort") {
+                    if ($voitures) {
+                        $voitures["total"]++;
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $voitures->_id
+                                ),
+                            ],
+                            ['$set' => $voitures]
+                        );
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $voitures->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($specialityHydroDecla) {
+                        $specialityHydroDecla["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityHydroDecla->_id
+                                ),
+                            ],
+                            ['$set' => $specialityHydroDecla]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityHydroDecla->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                } elseif ($specialite == "Suspension Pneumatique") {
+                    if ($camions) {
+                        if (
+                            ($camions && $camions->brand == "RENAULT TRUCK") ||
+                            $camions->brand == "MERCEDES TRUCK"
+                        ) {
                             $camions["total"]++;
                             $vehicles->updateOne(
                                 [
@@ -3138,2090 +6331,9 @@ if (!isset($_SESSION["id"])) {
                                 ]
                             );
                         }
-                        if ($chariots) {
-                            if ($chariots->brand == "TOYOTA FORKLIFT") {
-                                $chariots["total"]++;
-                                $vehicles->updateOne(
-                                    [
-                                        "_id" => new MongoDB\BSON\ObjectId(
-                                            $chariots->_id
-                                        ),
-                                    ],
-                                    ['$set' => $chariots]
-                                );
-                                $vehicles->updateOne(
-                                    [
-                                        "_id" => new MongoDB\BSON\ObjectId(
-                                            $chariots->_id
-                                        ),
-                                    ],
-                                    [
-                                        '$push' => [
-                                            "quizzes" => new MongoDB\BSON\ObjectId(
-                                                $insert->getInsertedId()
-                                            ),
-                                        ],
-                                    ]
-                                );
-                            }
-                        }
-                        if ($engins) {
-                            $engins["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $engins->_id
-                                    ),
-                                ],
-                                ['$set' => $engins]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $engins->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($voitures) {
-                            $voitures["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $voitures->_id
-                                    ),
-                                ],
-                                ['$set' => $voitures]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $voitures->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                    } elseif (
-                        $specialite == "Boite de Vitesse à Variation Continue"
-                    ) {
-                        if ($voitures) {
-                            $voitures["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $voitures->_id
-                                    ),
-                                ],
-                                ['$set' => $voitures]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $voitures->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                    } elseif ($specialite == "Climatisation") {
-                        if ($bus) {
-                            $bus["total"]++;
-                            $vehicles->updateOne(
-                                ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
-                                ['$set' => $bus]
-                            );
-                            $vehicles->updateOne(
-                                ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($camions) {
-                            if (
-                                $camions->brand == "RENAULT TRUCK" ||
-                                $camions->brand == "MERCEDES TRUCK" ||
-                                $camions->brand == "SINOTRUK"
-                            ) {
-                                $camions["total"]++;
-                                $vehicles->updateOne(
-                                    [
-                                        "_id" => new MongoDB\BSON\ObjectId(
-                                            $camions->_id
-                                        ),
-                                    ],
-                                    ['$set' => $camions]
-                                );
-                                $vehicles->updateOne(
-                                    [
-                                        "_id" => new MongoDB\BSON\ObjectId(
-                                            $camions->_id
-                                        ),
-                                    ],
-                                    [
-                                        '$push' => [
-                                            "quizzes" => new MongoDB\BSON\ObjectId(
-                                                $insert->getInsertedId()
-                                            ),
-                                        ],
-                                    ]
-                                );
-                            }
-                        }
-                        if ($chariots) {
-                            $chariots["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $chariots->_id
-                                    ),
-                                ],
-                                ['$set' => $chariots]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $chariots->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($engins) {
-                            $engins["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $engins->_id
-                                    ),
-                                ],
-                                ['$set' => $engins]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $engins->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($voitures) {
-                            $voitures["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $voitures->_id
-                                    ),
-                                ],
-                                ['$set' => $voitures]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $voitures->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                    } elseif ($specialite == "Demi Arbre de Roue") {
-                        if ($bus) {
-                            $bus["total"]++;
-                            $vehicles->updateOne(
-                                ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
-                                ['$set' => $bus]
-                            );
-                            $vehicles->updateOne(
-                                ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($camions) {
-                            $camions["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $camions->_id
-                                    ),
-                                ],
-                                ['$set' => $camions]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $camions->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($chariots) {
-                            if ($chariots->brand == "TOYOTA FORKLIFT") {
-                                $chariots["total"]++;
-                                $vehicles->updateOne(
-                                    [
-                                        "_id" => new MongoDB\BSON\ObjectId(
-                                            $chariots->_id
-                                        ),
-                                    ],
-                                    ['$set' => $chariots]
-                                );
-                                $vehicles->updateOne(
-                                    [
-                                        "_id" => new MongoDB\BSON\ObjectId(
-                                            $chariots->_id
-                                        ),
-                                    ],
-                                    [
-                                        '$push' => [
-                                            "quizzes" => new MongoDB\BSON\ObjectId(
-                                                $insert->getInsertedId()
-                                            ),
-                                        ],
-                                    ]
-                                );
-                            }
-                        }
-                        if ($engins) {
-                            $engins["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $engins->_id
-                                    ),
-                                ],
-                                ['$set' => $engins]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $engins->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($voitures) {
-                            $voitures["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $voitures->_id
-                                    ),
-                                ],
-                                ['$set' => $voitures]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $voitures->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                    } elseif ($specialite == "Direction") {
-                        if ($bus) {
-                            $bus["total"]++;
-                            $vehicles->updateOne(
-                                ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
-                                ['$set' => $bus]
-                            );
-                            $vehicles->updateOne(
-                                ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($camions) {
-                            $camions["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $camions->_id
-                                    ),
-                                ],
-                                ['$set' => $camions]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $camions->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($chariots) {
-                            $chariots["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $chariots->_id
-                                    ),
-                                ],
-                                ['$set' => $chariots]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $chariots->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($engins) {
-                            $engins["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $engins->_id
-                                    ),
-                                ],
-                                ['$set' => $engins]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $engins->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($voitures) {
-                            $voitures["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $voitures->_id
-                                    ),
-                                ],
-                                ['$set' => $voitures]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $voitures->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                    } elseif ($specialite == "Electricité et Electronique") {
-                        if ($bus) {
-                            $bus["total"]++;
-                            $vehicles->updateOne(
-                                ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
-                                ['$set' => $bus]
-                            );
-                            $vehicles->updateOne(
-                                ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($camions) {
-                            $camions["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $camions->_id
-                                    ),
-                                ],
-                                ['$set' => $camions]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $camions->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($chariots) {
-                            $chariots["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $chariots->_id
-                                    ),
-                                ],
-                                ['$set' => $chariots]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $chariots->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($engins) {
-                            $engins["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $engins->_id
-                                    ),
-                                ],
-                                ['$set' => $engins]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $engins->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($voitures) {
-                            $voitures["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $voitures->_id
-                                    ),
-                                ],
-                                ['$set' => $voitures]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $voitures->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                    } elseif ($specialite == "Freinage") {
-                        if ($bus) {
-                            $bus["total"]++;
-                            $vehicles->updateOne(
-                                ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
-                                ['$set' => $bus]
-                            );
-                            $vehicles->updateOne(
-                                ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($camions) {
-                            ++$camions["total"];
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $camions->_id
-                                    ),
-                                ],
-                                ['$set' => $camions]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $camions->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($chariots) {
-                            $chariots["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $chariots->_id
-                                    ),
-                                ],
-                                ['$set' => $chariots]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $chariots->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($engins) {
-                            $engins["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $engins->_id
-                                    ),
-                                ],
-                                ['$set' => $engins]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $engins->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($voitures) {
-                            $voitures["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $voitures->_id
-                                    ),
-                                ],
-                                ['$set' => $voitures]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $voitures->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                    } elseif ($specialite == "Freinage Electromagnétique") {
-                        if ($chariots) {
-                            if ($chariots->brand == "TOYOTA BT") {
-                                $chariots["total"]++;
-                                $vehicles->updateOne(
-                                    [
-                                        "_id" => new MongoDB\BSON\ObjectId(
-                                            $chariots->_id
-                                        ),
-                                    ],
-                                    ['$set' => $chariots]
-                                );
-                                $vehicles->updateOne(
-                                    [
-                                        "_id" => new MongoDB\BSON\ObjectId(
-                                            $chariots->_id
-                                        ),
-                                    ],
-                                    [
-                                        '$push' => [
-                                            "quizzes" => new MongoDB\BSON\ObjectId(
-                                                $insert->getInsertedId()
-                                            ),
-                                        ],
-                                    ]
-                                );
-                            }
-                        }
-                    } elseif ($specialite == "Freinage Hydraulique") {
-                        if ($chariots) {
-                            $chariots["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $chariots->_id
-                                    ),
-                                ],
-                                ['$set' => $chariots]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $chariots->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($engins) {
-                            $engins["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $engins->_id
-                                    ),
-                                ],
-                                ['$set' => $engins]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $engins->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($voitures) {
-                            $voitures["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $voitures->_id
-                                    ),
-                                ],
-                                ['$set' => $voitures]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $voitures->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                    } elseif ($specialite == "Freinage Pneumatique") {
-                        if ($bus) {
-                            $bus["total"]++;
-                            $vehicles->updateOne(
-                                ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
-                                ['$set' => $bus]
-                            );
-                            $vehicles->updateOne(
-                                ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($camions) {
-                            $camions["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $camions->_id
-                                    ),
-                                ],
-                                ['$set' => $camions]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $camions->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                    } elseif ($specialite == "Hydraulique") {
-                        if ($camions) {
-                            if (
-                                $camions->brand == "RENAULT TRUCK" ||
-                                $camions->brand == "MERCEDES TRUCK" ||
-                                $camions->brand == "SINOTRUK"
-                            ) {
-                                $camions["total"]++;
-                                $vehicles->updateOne(
-                                    [
-                                        "_id" => new MongoDB\BSON\ObjectId(
-                                            $camions->_id
-                                        ),
-                                    ],
-                                    ['$set' => $camions]
-                                );
-                                $vehicles->updateOne(
-                                    [
-                                        "_id" => new MongoDB\BSON\ObjectId(
-                                            $camions->_id
-                                        ),
-                                    ],
-                                    [
-                                        '$push' => [
-                                            "quizzes" => new MongoDB\BSON\ObjectId(
-                                                $insert->getInsertedId()
-                                            ),
-                                        ],
-                                    ]
-                                );
-                            }
-                        }
-                        if ($chariots) {
-                            $chariots["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $chariots->_id
-                                    ),
-                                ],
-                                ['$set' => $chariots]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $chariots->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($engins) {
-                            $engins["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $engins->_id
-                                    ),
-                                ],
-                                ['$set' => $engins]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $engins->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                    } elseif ($specialite == "Moteur Diesel") {
-                        if ($bus) {
-                            $bus["total"]++;
-                            $vehicles->updateOne(
-                                ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
-                                ['$set' => $bus]
-                            );
-                            $vehicles->updateOne(
-                                ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($camions) {
-                            $camions["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $camions->_id
-                                    ),
-                                ],
-                                ['$set' => $camions]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $camions->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($chariots) {
-                            $chariots["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $chariots->_id
-                                    ),
-                                ],
-                                ['$set' => $chariots]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $chariots->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($engins) {
-                            $engins["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $engins->_id
-                                    ),
-                                ],
-                                ['$set' => $engins]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $engins->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($voitures) {
-                            $voitures["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $voitures->_id
-                                    ),
-                                ],
-                                ['$set' => $voitures]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $voitures->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                    } elseif ($specialite == "Moteur Electrique") {
-                        if ($chariots) {
-                            $chariots["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $chariots->_id
-                                    ),
-                                ],
-                                ['$set' => $chariots]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $chariots->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($voitures) {
-                            $voitures["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $voitures->_id
-                                    ),
-                                ],
-                                ['$set' => $voitures]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $voitures->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                    } elseif ($specialite == "Moteur Essence") {
-                        if ($chariots) {
-                            $chariots["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $chariots->_id
-                                    ),
-                                ],
-                                ['$set' => $chariots]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $chariots->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($voitures) {
-                            $voitures["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $voitures->_id
-                                    ),
-                                ],
-                                ['$set' => $voitures]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $voitures->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                    } elseif ($specialite == "Moteur Thermique") {
-                        if ($bus) {
-                            $bus["total"]++;
-                            $vehicles->updateOne(
-                                ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
-                                ['$set' => $bus]
-                            );
-                            $vehicles->updateOne(
-                                ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($camions) {
-                            ++$camions["total"];
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $camions->_id
-                                    ),
-                                ],
-                                ['$set' => $camions]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $camions->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($chariots) {
-                            $chariots["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $chariots->_id
-                                    ),
-                                ],
-                                ['$set' => $chariots]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $chariots->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($engins) {
-                            $engins["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $engins->_id
-                                    ),
-                                ],
-                                ['$set' => $engins]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $engins->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($voitures) {
-                            $voitures["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $voitures->_id
-                                    ),
-                                ],
-                                ['$set' => $voitures]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $voitures->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                    } elseif ($specialite == "Multiplexage") {
-                        if ($bus) {
-                            $bus["total"]++;
-                            $vehicles->updateOne(
-                                ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
-                                ['$set' => $bus]
-                            );
-                            $vehicles->updateOne(
-                                ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($camions) {
-                            $camions["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $camions->_id
-                                    ),
-                                ],
-                                ['$set' => $camions]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $camions->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($chariots) {
-                            $chariots["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $chariots->_id
-                                    ),
-                                ],
-                                ['$set' => $chariots]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $chariots->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($engins) {
-                            $engins["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $engins->_id
-                                    ),
-                                ],
-                                ['$set' => $engins]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $engins->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($voitures) {
-                            $voitures["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $voitures->_id
-                                    ),
-                                ],
-                                ['$set' => $voitures]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $voitures->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                    } elseif ($specialite == "Pont") {
-                        if ($bus) {
-                            $bus["total"]++;
-                            $vehicles->updateOne(
-                                ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
-                                ['$set' => $bus]
-                            );
-                            $vehicles->updateOne(
-                                ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($camions) {
-                            $camions["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $camions->_id
-                                    ),
-                                ],
-                                ['$set' => $camions]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $camions->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($chariots) {
-                            if ($chariots->brand == "TOYOTA FORFLIT") {
-                                $chariots["total"]++;
-                                $vehicles->updateOne(
-                                    [
-                                        "_id" => new MongoDB\BSON\ObjectId(
-                                            $chariots->_id
-                                        ),
-                                    ],
-                                    ['$set' => $chariots]
-                                );
-                                $vehicles->updateOne(
-                                    [
-                                        "_id" => new MongoDB\BSON\ObjectId(
-                                            $chariots->_id
-                                        ),
-                                    ],
-                                    [
-                                        '$push' => [
-                                            "quizzes" => new MongoDB\BSON\ObjectId(
-                                                $insert->getInsertedId()
-                                            ),
-                                        ],
-                                    ]
-                                );
-                            }
-                        }
-                        if ($engins) {
-                            $engins["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $engins->_id
-                                    ),
-                                ],
-                                ['$set' => $engins]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $engins->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($voitures) {
-                            $voitures["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $voitures->_id
-                                    ),
-                                ],
-                                ['$set' => $voitures]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $voitures->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                    } elseif ($specialite == "Reducteur") {
-                        if ($bus) {
-                            $bus["total"]++;
-                            $vehicles->updateOne(
-                                ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
-                                ['$set' => $bus]
-                            );
-                            $vehicles->updateOne(
-                                ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($camions) {
-                            $camions["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $camions->_id
-                                    ),
-                                ],
-                                ['$set' => $camions]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $camions->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($chariots) {
-                            $chariots["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $chariots->_id
-                                    ),
-                                ],
-                                ['$set' => $chariots]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $chariots->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($engins) {
-                            $engins["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $engins->_id
-                                    ),
-                                ],
-                                ['$set' => $engins]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $engins->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                    } elseif ($specialite == "Pneumatique") {
-                        if ($bus) {
-                            $bus["total"]++;
-                            $vehicles->updateOne(
-                                ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
-                                ['$set' => $bus]
-                            );
-                            $vehicles->updateOne(
-                                ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($camions) {
-                            $camions["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $camions->_id
-                                    ),
-                                ],
-                                ['$set' => $camions]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $camions->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($chariots) {
-                            $chariots["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $chariots->_id
-                                    ),
-                                ],
-                                ['$set' => $chariots]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $chariots->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($engins) {
-                            $engins["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $engins->_id
-                                    ),
-                                ],
-                                ['$set' => $engins]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $engins->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($voitures) {
-                            $voitures["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $voitures->_id
-                                    ),
-                                ],
-                                ['$set' => $voitures]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $voitures->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                    } elseif ($specialite == "Suspension") {
-                        if ($bus) {
-                            $bus["total"]++;
-                            $vehicles->updateOne(
-                                ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
-                                ['$set' => $bus]
-                            );
-                            $vehicles->updateOne(
-                                ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($camions) {
-                            ++$camions["total"];
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $camions->_id
-                                    ),
-                                ],
-                                ['$set' => $camions]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $camions->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($chariots) {
-                            $chariots["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $chariots->_id
-                                    ),
-                                ],
-                                ['$set' => $chariots]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $chariots->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($engins) {
-                            $engins["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $engins->_id
-                                    ),
-                                ],
-                                ['$set' => $engins]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $engins->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($voitures) {
-                            $voitures["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $voitures->_id
-                                    ),
-                                ],
-                                ['$set' => $voitures]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $voitures->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                    } elseif ($specialite == "Suspension à Lame") {
-                        if ($bus) {
-                            $bus["total"]++;
-                            $vehicles->updateOne(
-                                ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
-                                ['$set' => $bus]
-                            );
-                            $vehicles->updateOne(
-                                ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($camions) {
-                            $camions["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $camions->_id
-                                    ),
-                                ],
-                                ['$set' => $camions]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $camions->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($voitures) {
-                            $voitures["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $voitures->_id
-                                    ),
-                                ],
-                                ['$set' => $voitures]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $voitures->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                    } elseif ($specialite == "Suspension Ressort") {
-                        if ($voitures) {
-                            $voitures["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $voitures->_id
-                                    ),
-                                ],
-                                ['$set' => $voitures]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $voitures->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                    } elseif ($specialite == "Suspension Pneumatique") {
-                        if ($camions) {
-                            if (
-                                ($camions &&
-                                    $camions->brand == "RENAULT TRUCK") ||
-                                $camions->brand == "MERCEDES TRUCK"
-                            ) {
-                                $camions["total"]++;
-                                $vehicles->updateOne(
-                                    [
-                                        "_id" => new MongoDB\BSON\ObjectId(
-                                            $camions->_id
-                                        ),
-                                    ],
-                                    ['$set' => $camions]
-                                );
-                                $vehicles->updateOne(
-                                    [
-                                        "_id" => new MongoDB\BSON\ObjectId(
-                                            $camions->_id
-                                        ),
-                                    ],
-                                    [
-                                        '$push' => [
-                                            "quizzes" => new MongoDB\BSON\ObjectId(
-                                                $insert->getInsertedId()
-                                            ),
-                                        ],
-                                    ]
-                                );
-                            }
-                        }
-                        if ($voitures) {
-                            if ($voitures->brand != "SUZUKI") {
-                                $voitures["total"]++;
-                                $vehicles->updateOne(
-                                    [
-                                        "_id" => new MongoDB\BSON\ObjectId(
-                                            $voitures->_id
-                                        ),
-                                    ],
-                                    ['$set' => $voitures]
-                                );
-                                $vehicles->updateOne(
-                                    [
-                                        "_id" => new MongoDB\BSON\ObjectId(
-                                            $voitures->_id
-                                        ),
-                                    ],
-                                    [
-                                        '$push' => [
-                                            "quizzes" => new MongoDB\BSON\ObjectId(
-                                                $insert->getInsertedId()
-                                            ),
-                                        ],
-                                    ]
-                                );
-                            }
-                        }
-                    } elseif ($specialite == "Transversale") {
-                        if ($bus) {
-                            $bus["total"]++;
-                            $vehicles->updateOne(
-                                ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
-                                ['$set' => $bus]
-                            );
-                            $vehicles->updateOne(
-                                ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($camions) {
-                            $camions["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $camions->_id
-                                    ),
-                                ],
-                                ['$set' => $camions]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $camions->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($chariots) {
-                            $chariots["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $chariots->_id
-                                    ),
-                                ],
-                                ['$set' => $chariots]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $chariots->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($engins) {
-                            $engins["total"]++;
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $engins->_id
-                                    ),
-                                ],
-                                ['$set' => $engins]
-                            );
-                            $vehicles->updateOne(
-                                [
-                                    "_id" => new MongoDB\BSON\ObjectId(
-                                        $engins->_id
-                                    ),
-                                ],
-                                [
-                                    '$push' => [
-                                        "quizzes" => new MongoDB\BSON\ObjectId(
-                                            $insert->getInsertedId()
-                                        ),
-                                    ],
-                                ]
-                            );
-                        }
-                        if ($voitures) {
+                    }
+                    if ($voitures) {
+                        if ($voitures->brand != "SUZUKI") {
                             $voitures["total"]++;
                             $vehicles->updateOne(
                                 [
@@ -5247,9 +6359,236 @@ if (!isset($_SESSION["id"])) {
                             );
                         }
                     }
+                    if ($specialityHydroDecla) {
+                        $specialityHydroDecla["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityHydroDecla->_id
+                                ),
+                            ],
+                            ['$set' => $specialityHydroDecla]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityHydroDecla->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                } elseif ($specialite == "Transversale") {
+                    if ($bus) {
+                        $bus["total"]++;
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
+                            ['$set' => $bus]
+                        );
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($bus->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($camions) {
+                        $camions["total"]++;
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($camions->_id)],
+                            ['$set' => $camions]
+                        );
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($camions->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($chariots) {
+                        $chariots["total"]++;
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $chariots->_id
+                                ),
+                            ],
+                            ['$set' => $chariots]
+                        );
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $chariots->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($engins) {
+                        $engins["total"]++;
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($engins->_id)],
+                            ['$set' => $engins]
+                        );
+                        $vehicles->updateOne(
+                            ["_id" => new MongoDB\BSON\ObjectId($engins->_id)],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($voitures) {
+                        $voitures["total"]++;
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $voitures->_id
+                                ),
+                            ],
+                            ['$set' => $voitures]
+                        );
+                        $vehicles->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $voitures->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($specialityTransDecla) {
+                        $specialityTransDecla["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityTransDecla->_id
+                                ),
+                            ],
+                            ['$set' => $specialityTransDecla]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityTransDecla->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($specialityElecDecla) {
+                        $specialityElecDecla["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityElecDecla->_id
+                                ),
+                            ],
+                            ['$set' => $specialityElecDecla]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityElecDecla->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($specialityHydroDecla) {
+                        $specialityHydroDecla["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityHydroDecla->_id
+                                ),
+                            ],
+                            ['$set' => $specialityHydroDecla]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityHydroDecla->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
+                    if ($specialityMoteurDecla) {
+                        $specialityMoteurDecla["total"]++;
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityMoteurDecla->_id
+                                ),
+                            ],
+                            ['$set' => $specialityMoteurDecla]
+                        );
+                        $academu->specialities->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $specialityMoteurDecla->_id
+                                ),
+                            ],
+                            [
+                                '$push' => [
+                                    "quizzes" => new MongoDB\BSON\ObjectId(
+                                        $insert->getInsertedId()
+                                    ),
+                                ],
+                            ]
+                        );
+                    }
                 }
-                $success_msg = $success_question;
             }
+            $success_msg = $success_question;
         }
     }
     ?>
@@ -5324,7 +6663,7 @@ if (!isset($_SESSION["id"])) {
                     <!--begin::Input group-->
                     <div class='fv-row mb-7'>
                         <!--begin::Label-->
-                        <label class='required form-label fw-bolder text-dark fs-6'><?php echo $titre_question; ?></label>
+                        <label class='form-label fw-bolder text-dark fs-6'><?php echo $titre_question; ?></label>
                         <!--end::Label-->
                         <!--begin::Input-->
                         <input type='text' class='form-control form-control-solid' placeholder='' name='title' />
@@ -5414,7 +6753,7 @@ if (!isset($_SESSION["id"])) {
                         <!--begin::Col-->
                         <div class='col-md-6 fv-row'>
                             <!--begin::Label-->
-                            <label class='form-label fw-bolder text-dark fs-6'><?php echo $proposal; ?>
+                            <label class='form-label fw-bolder required text-dark fs-6'><?php echo $proposal; ?>
                                 3</label>
                             <!--end::Label-->
                             <!--begin::Input-->
@@ -5425,7 +6764,7 @@ if (!isset($_SESSION["id"])) {
                         <!--begin::Col-->
                         <div class='col-md-6 fv-row'>
                             <!--begin::Label-->
-                            <label class='form-label fw-bolder text-dark fs-6'><?php echo $proposal; ?>
+                            <label class='form-label fw-bolder required text-dark fs-6'><?php echo $proposal; ?>
                                 4</label>
                             <!--end::Label-->
                             <!--begin::Input-->
@@ -5438,10 +6777,22 @@ if (!isset($_SESSION["id"])) {
                     <!--begin::Input group-->
                     <div class='fv-row mb-7' id='answer'>
                         <!--begin::Label-->
-                        <label class='form-label fw-bolder text-dark fs-6'><?php echo $answer; ?></label>
+                        <label class='form-label fw-bolder required text-dark fs-6'><?php echo $answer; ?></label>
                         <!--end::Label-->
                         <!--begin::Input-->
-                        <input type='text' class='form-control form-control-solid' placeholder='' name='answer' />
+                        <div>
+                          <input type="radio" id="contactChoice1" name="answer" value="proposal1" />
+                          <label class="fw-bold"><?php echo $proposal; ?> 1</label>
+                    
+                          <input type="radio" id="contactChoice2" name="answer" value="proposal2" />
+                          <label class="fw-bold"><?php echo $proposal; ?> 2</label>
+                    
+                          <input type="radio" id="contactChoice3" name="answer" value="proposal3" />
+                          <label class="fw-bold"><?php echo $proposal; ?> 3</label>
+                    
+                          <input type="radio" id="contactChoice3" name="answer" value="proposal4" />
+                          <label class="fw-bold"><?php echo $proposal; ?> 4</label>
+                        </div>
                         <!--end::Input-->
                     </div>
                     <!--end::Input group-->
@@ -5518,7 +6869,7 @@ if (!isset($_SESSION["id"])) {
                                 <option value="Moteur Thermique">
                                     <?php echo $moteurThermique; ?>
                                 </option>
-                                <option value="Multiplexage">
+                                <option value="Réseaux de Communication">
                                     <?php echo $multiplexage; ?>
                                 </option>
                                 <option value="Pneumatique">

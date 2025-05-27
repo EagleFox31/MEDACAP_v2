@@ -266,10 +266,10 @@ if (!isset($_SESSION["id"])) {
                                 <div class="dataTables_length">
                                     <label><select id="kt_customers_table_length" name="kt_customers_table_length"
                                             class="form-select form-select-sm form-select-solid">
-                                            <option value="10">10</option>
-                                            <option value="25">25</option>
-                                            <option value="50">50</option>
                                             <option value="100">100</option>
+                                            <option value="200">200</option>
+                                            <option value="300">300</option>
+                                            <option value="500">500</option>
                                         </select></label>
                                 </div>
                             </div>

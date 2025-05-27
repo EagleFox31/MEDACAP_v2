@@ -8,9 +8,12 @@ if (!isset($_SESSION["id"])) {
 } else {
      ?>
 <?php
-require_once "../vendor/autoload.php"; // Create connection
-$conn = new MongoDB\Client("mongodb://localhost:27017"); // Connecting in database
-$academy = $conn->academy; // Connecting in collections
+require_once "../vendor/autoload.php"; 
+// Create connection
+$conn = new MongoDB\Client("mongodb://localhost:27017"); 
+// Connecting in database
+$academy = $conn->academy; 
+// Connecting in collections
 $users = $academy->users;
 $quizzes = $academy->quizzes;
 $questions = $academy->questions;
@@ -20,8 +23,19 @@ if (isset($_POST["active"])) {
     $id = new MongoDB\BSON\ObjectId($_POST["questionID"]);
     $question = $questions->findOne(["_id" => $id]);
     $question->active = true;
-    $question->updated = date("d-m-Y");
+    $question->updated = date("d-m-Y H:I:S");
     $questions->updateOne(["_id" => $id], ['$set' => $question]);
+    $quiz = $quizzes->findOne([
+        '$and' => [
+            [
+                "speciality" => $question->speciality,
+                "active" => true
+            ],
+        ],
+    ]);
+    $quiz['total']++;
+    $quizzes->updateOne(["_id" => $quiz->_id], ['$set' => $quiz]);
+    $quizzes->updateOne(["_id" => new MongoDB\BSON\ObjectId($quiz->_id)], ['$push' => [ "questions" => $id ]]);
     $success_msg = $question_restore;
 }
 ?>
@@ -194,10 +208,15 @@ if (isset($_POST["active"])) {
                                                     value="1"> -->
                                             </div>
                                         </th>
+                                        <th class="min-w-100px sorting" tabindex="0" aria-controls="kt_customers_table"
+                                            rowspan="1" colspan="1"
+                                            aria-label="Customer Name: activate to sort column ascending"
+                                            style="width: 125px;"><?php echo $Ref ?>
+                                        </th>
                                         <th class="min-w-300px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Customer Name: activate to sort column ascending"
-                                            style="width: 125px;"><?php echo $question; ?>
+                                            style="width: 125px;"><?php echo $questionType; ?>
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
@@ -238,12 +257,17 @@ if (isset($_POST["active"])) {
                                         <td data-filter="search">
                                             <a href="#" data-bs-toggle="modal" data-bs-target="#kt_modal_add_customer"
                                                 class="text-gray-800 text-hover-primary mb-1">
+                                                <?php echo $question->ref; ?>
+                                            </a>
+                                        </td>
+                                        <td data-filter="search">
+                                            <a href="#" data-bs-toggle="modal" data-bs-target="#kt_modal_add_customer"
+                                                class="text-gray-800 text-hover-primary mb-1">
                                                 <?php echo $question->label; ?>
                                             </a>
                                         </td>
                                         <td data-filter="phone">
-                                            <?php echo $question->answer ??
-                                                ""; ?>
+                                            <?php echo $question->answer ?? ""; ?>
                                         </td>
                                         <td data-order="subsidiary">
                                             <?php if (
@@ -288,7 +312,7 @@ if (isset($_POST["active"])) {
                                             <?php echo $question->speciality; ?>
                                         </td>
                                         <td>
-                                            <button class="btn btn-icon btn-light-warning w-30px h-30px me-3" data-bs-toggle="modal" data-bs-target="#kt_modal_desactivate<?php echo $quiz->_id; ?>">
+                                            <button class="btn btn-icon btn-light-warning w-30px h-30px me-3" data-bs-toggle="modal" data-bs-target="#kt_modal_desactivate<?php echo $question->_id; ?>">
                                                 <i class="fas fa-history fs-2"><span class="path1"></span><span
                                                     class="path2"></span></i></button>
                                         </td>
@@ -372,10 +396,10 @@ if (isset($_POST["active"])) {
                                 <div class="dataTables_length">
                                     <label><select id="kt_customers_table_length" name="kt_customers_table_length"
                                             class="form-select form-select-sm form-select-solid">
-                                            <option value="10">10</option>
-                                            <option value="25">25</option>
-                                            <option value="50">50</option>
                                             <option value="100">100</option>
+                                            <option value="200">200</option>
+                                            <option value="300">300</option>
+                                            <option value="500">500</option>
                                         </select></label>
                                 </div>
                             </div>
@@ -407,6 +431,19 @@ if (isset($_POST["active"])) {
     <!--end::Post-->
 </div>
 <!--end::Body-->
+<script>
+    
+    // Function to handle closing of the alert message
+    document.addEventListener('DOMContentLoaded', function() {
+        const closeButtons = document.querySelectorAll('.alert .close');
+        closeButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                const alert = this.closest('.alert');
+                alert.remove();
+            });
+        });
+    });
+</script>
 <?php include_once "partials/footer.php"; ?>
 <?php
 } ?>

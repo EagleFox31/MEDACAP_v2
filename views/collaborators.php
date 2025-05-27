@@ -35,14 +35,12 @@ if (isset($_POST["excel"])) {
     $activeSheet->setCellValue("I1", "Niveau technique");
     $activeSheet->setCellValue("J1", "Pays");
     $activeSheet->setCellValue("K1", "Profil");
-    $activeSheet->setCellValue("L1", "Spécialité Junior");
-    $activeSheet->setCellValue("M1", "Spécialité Senior");
-    $activeSheet->setCellValue("N1", "Diplôme");
-    $activeSheet->setCellValue("O1", "Filiale");
-    $activeSheet->setCellValue("P1", "Département");
-    $activeSheet->setCellValue("Q1", "Fonction");
-    $activeSheet->setCellValue("R1", "Date de recrutement");
-    $activeSheet->setCellValue("S1", "Manager");
+    $activeSheet->setCellValue("L1", "Diplôme");
+    $activeSheet->setCellValue("M1", "Filiale");
+    $activeSheet->setCellValue("N1", "Département");
+    $activeSheet->setCellValue("O1", "Fonction");
+    $activeSheet->setCellValue("P1", "Date de recrutement");
+    $activeSheet->setCellValue("Q1", "Manager");
     $myObj = $users->find([
         '$and' => [
             [
@@ -66,15 +64,13 @@ if (isset($_POST["excel"])) {
             $activeSheet->setCellValue("I" . $i, $row->level);
             $activeSheet->setCellValue("J" . $i, $row->country);
             $activeSheet->setCellValue("K" . $i, $row->profile);
-            $activeSheet->setCellValue("L" . $i, $row->specialityJunior);
-            $activeSheet->setCellValue("M" . $i, $row->specialitySenior);
-            $activeSheet->setCellValue("N" . $i, $row->certificate);
-            $activeSheet->setCellValue("O" . $i, $row->subsidiary);
-            $activeSheet->setCellValue("P" . $i, $row->department);
-            $activeSheet->setCellValue("Q" . $i, $row->role);
-            $activeSheet->setCellValue("R" . $i, $row->recrutmentDate);
+            $activeSheet->setCellValue("L" . $i, $row->certificate);
+            $activeSheet->setCellValue("M" . $i, $row->subsidiary);
+            $activeSheet->setCellValue("N" . $i, $row->department);
+            $activeSheet->setCellValue("O" . $i, $row->role);
+            $activeSheet->setCellValue("P" . $i, $row->recrutmentDate);
             $activeSheet->setCellValue(
-                "S" . $i,
+                "Q" . $i,
                 $_SESSION["firstName"] . " " . $_SESSION["lastName"]
             );
             $i++;
@@ -346,9 +342,17 @@ if (isset($_POST["excel"])) {
                                         <td data-order="subsidiary">
                                             <?php echo $user->phone; ?>
                                         </td>
+                                        <?php if (
+                                            $user["profile"] == "Manager" && $user["test"] == true
+                                        ) { ?>
+                                        <td data-order="subsidiary">
+                                            Manager - Technicien
+                                        </td>
+                                        <?php } else { ?>
                                         <td data-order="subsidiary">
                                             <?php echo $user->profile; ?>
                                         </td>
+                                        <?php } ?>
                                         <td data-order="subsidiary">
                                             <?php echo $user->level; ?>
                                         </td>
@@ -368,10 +372,10 @@ if (isset($_POST["excel"])) {
                                 <div class="dataTables_length">
                                     <label><select id="kt_customers_table_length" name="kt_customers_table_length"
                                             class="form-select form-select-sm form-select-solid">
-                                            <option value="10">10</option>
-                                            <option value="25">25</option>
-                                            <option value="50">50</option>
                                             <option value="100">100</option>
+                                            <option value="200">200</option>
+                                            <option value="300">300</option>
+                                            <option value="500">500</option>
                                         </select></label>
                                 </div>
                             </div>

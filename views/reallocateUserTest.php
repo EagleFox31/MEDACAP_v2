@@ -35,40 +35,42 @@ if (!isset($_SESSION["id"])) {
                 ],
             ]);
 
-            $allocateFac = $allocations->findOne([
+            $allocateFac = $allocations->find([
                 '$and' => [
                     ["user" => new MongoDB\BSON\ObjectId($technician)],
-                    ["type" => "Factuel"],
-                    ["active" => true],
+                    ["type" => "Factuel"]
                 ],
             ]);
 
-            $allocateDecla = $allocations->findOne([
+            $allocateDecla = $allocations->find([
                 '$and' => [
                     ["user" => new MongoDB\BSON\ObjectId($technician)],
-                    ["type" => "Declaratif"],
-                    ["active" => true],
+                    ["type" => "Declaratif"]
                 ],
             ]);
 
-            $allocations->updateOne(
-                ["_id" => new MongoDB\BSON\ObjectId($allocateDecla["_id"])],
-                [
-                    '$set' => [
-                        "activeManager" => false,
-                        "active" => false
-                    ],
-                ]
-            );
+            foreach ($allocateDecla as $allocateDecla) {
+                $allocations->updateOne(
+                    ["_id" => new MongoDB\BSON\ObjectId($allocateDecla["_id"])],
+                    [
+                        '$set' => [
+                            "activeManager" => false,
+                            "active" => false
+                        ],
+                    ]
+                );
+            }
             
-            $allocations->updateOne(
-                ["_id" => new MongoDB\BSON\ObjectId($allocateFac["_id"])],
-                [
-                    '$set' => [
-                        "active" => false
-                    ],
-                ]
-            );
+            foreach ($allocateFac as $allocateFac) {
+                $allocations->updateOne(
+                    ["_id" => new MongoDB\BSON\ObjectId($allocateFac["_id"])],
+                    [
+                        '$set' => [
+                            "active" => false
+                        ],
+                    ]
+                );
+            }
 
             $result = $results->find([
                 '$and' => [
@@ -77,11 +79,12 @@ if (!isset($_SESSION["id"])) {
                 ],
             ]);
             foreach ($result as $result) {
-                $result['active'] = false;
                 $results->updateOne(
                     ["_id" => new MongoDB\BSON\ObjectId($result->_id)],
                     [
-                        '$set' => $result
+                        '$set' => [
+                            "active" => false
+                        ],
                     ]
                 );
             }
@@ -176,7 +179,18 @@ if (!isset($_SESSION["id"])) {
 <!--end::Post-->
 </div>
 <!--end::Body-->
-
+<script>
+    // Function to handle closing of the alert message
+    document.addEventListener('DOMContentLoaded', function() {
+        const closeButtons = document.querySelectorAll('.alert .close');
+        closeButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                const alert = this.closest('.alert');
+                alert.remove();
+            });
+        });
+    });
+</script>
 <?php include_once "partials/footer.php"; ?>
 <?php
 } ?>

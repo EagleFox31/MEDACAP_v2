@@ -133,7 +133,7 @@ if (!isset($_SESSION["id"])) {
                 <div id="kt_customers_table_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
                     <div class="table-responsi">
                         <table aria-describedby=""
-                            class="table align-middle table-bordered table-row-dashed gy-5 dataTable no-footer"
+                            class="table align-middle table-bordered table-row-dashed fs-7 gy-3 dataTable no-footer"
                             id="kt_customers_table">
                             <thead>
                                 <tr class="text-start text-gray-400 fw-bold text-uppercase gs-0">
@@ -255,7 +255,7 @@ if (!isset($_SESSION["id"])) {
                                         ),
                                     ]);
                                     ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <?php if (
                                         isset($groupeFac->answers[$i])
                                     ) { ?>
@@ -330,7 +330,7 @@ if (!isset($_SESSION["id"])) {
                                         ]);
                                     }
                                     ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="text-center">
                                         <?php echo $questionFac->label; ?>
                                     </td>
@@ -404,7 +404,7 @@ if (!isset($_SESSION["id"])) {
                                         ),
                                     ]);
                                     ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="text-center">
                                         <?php echo $questionFac->label; ?>
                                     </td>

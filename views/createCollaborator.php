@@ -27,11 +27,10 @@ if (!isset($_SESSION["id"])) {
         $lastName = $_POST["lastName"];
         $emailAddress = $_POST["email"];
         $phone = $_POST["phone"];
-        $matriculation = $_POST["matricule"];
+        $matriculation = $_POST["matricule"] ?? 99999999;
         $userName = $_POST["username"];
         $departement = $_POST["department"];
         $fonction = $_POST["role"];
-        $profile = $_POST["profile"];
         $sex = $_POST["gender"];
         $agency = $_POST["agency"];
         $certificate = $_POST["certificate"];
@@ -74,19 +73,10 @@ if (!isset($_SESSION["id"])) {
         if (
             empty($firstName) ||
             empty($lastName) ||
-            empty($fonction) ||
             empty($userName) ||
-            empty($matriculation) ||
-            empty($birthDate) ||
-            empty($certificate) ||
-            empty($departement) ||
-            empty($recrutementDate) ||
-            empty($sex) ||
-            empty($agency) ||
-            empty($level) ||
-            empty($brandJunior) ||
-            !filter_var($emailAddress, FILTER_VALIDATE_EMAIL) ||
-            preg_match('/^[\D]{15}$/', $phone) 
+            empty($agency)
+            // !filter_var($emailAddress, FILTER_VALIDATE_EMAIL) ||
+            // preg_match('/^[\D]{15}$/', $phone) 
             // preg_match(
             //     '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{6,}$/',
             //     $passWord
@@ -110,7 +100,7 @@ if (!isset($_SESSION["id"])) {
                 "gender" => $sex,
                 "level" => $level,
                 "country" => $manager["country"],
-                "profile" => $profile,
+                "profile" => "Technicien",
                 "birthdate" => $birthDate,
                 "recrutmentDate" => $recrutementDate,
                 "certificate" => ucfirst($certificate), 
@@ -127,7 +117,7 @@ if (!isset($_SESSION["id"])) {
                 "visiblePassword" => $passWord,
                 "manager" => new MongoDB\BSON\ObjectId($_SESSION["id"]),
                 "active" => true,
-                "created" => date("d-m-Y"),
+                "created" => date("d-m-Y H:I:S"),
             ];
             $user = $users->insertOne($person);
 
@@ -187,7 +177,7 @@ if (!isset($_SESSION["id"])) {
                     "level" => "Junior",
                     "total" => 0,
                     "active" => true,
-                    "created" => date("d-m-y"),
+                    "created" => date("d-m-y h:i:s"),
                 ];
                 $insertFac = $tests->insertOne($testFac);
   
@@ -201,7 +191,7 @@ if (!isset($_SESSION["id"])) {
                     "level" => "Junior",
                     "total" => 0,
                     "active" => true,
-                    "created" => date("d-m-y"),
+                    "created" => date("d-m-y h:i:s"),
                 ];
                 $insertDecla = $tests->insertOne($testDecla);
   
@@ -293,7 +283,7 @@ if (!isset($_SESSION["id"])) {
                     "level" => "Junior",
                     "activeTest" => false,
                     "active" => false,
-                    "created" => date("d-m-Y"),
+                    "created" => date("d-m-Y H:I:S"),
                 ];
                 $allocations->insertOne($allocateFac);
   
@@ -324,7 +314,7 @@ if (!isset($_SESSION["id"])) {
                     "activeTest" => false,
                     "activeManager" => false,
                     "active" => false,
-                    "created" => date("d-m-Y"),
+                    "created" => date("d-m-Y H:I:S"),
                 ];
                 $allocations->insertOne($allocateDecla);
   
@@ -343,7 +333,7 @@ if (!isset($_SESSION["id"])) {
                     "level" => "Junior",
                     "total" => 0,
                     "active" => true,
-                    "created" => date("d-m-y"),
+                    "created" => date("d-m-y h:i:s"),
                 ];
                 $insertFac = $tests->insertOne($testJuFac);
   
@@ -357,7 +347,7 @@ if (!isset($_SESSION["id"])) {
                     "level" => "Junior",
                     "total" => 0,
                     "active" => true,
-                    "created" => date("d-m-y"),
+                    "created" => date("d-m-y h:i:s"),
                 ];
                 $insertDecla = $tests->insertOne($testJuDecla);
   
@@ -371,7 +361,7 @@ if (!isset($_SESSION["id"])) {
                     "level" => "Senior",
                     "total" => 0,
                     "active" => true,
-                    "created" => date("d-m-y"),
+                    "created" => date("d-m-y h:i:s"),
                 ];
                 $insertSeFac = $tests->insertOne($testSeFac);
   
@@ -385,7 +375,7 @@ if (!isset($_SESSION["id"])) {
                     "level" => "Senior",
                     "total" => 0,
                     "active" => true,
-                    "created" => date("d-m-y"),
+                    "created" => date("d-m-y h:i:s"),
                 ];
                 $insertSeDecla = $tests->insertOne($testSeDecla);
   
@@ -538,7 +528,7 @@ if (!isset($_SESSION["id"])) {
                     "level" => "Junior",
                     "activeTest" => false,
                     "active" => false,
-                    "created" => date("d-m-Y"),
+                    "created" => date("d-m-Y H:I:S"),
                 ];
                 $allocations->insertOne($allocateFac);
   
@@ -569,7 +559,7 @@ if (!isset($_SESSION["id"])) {
                     "activeTest" => false,
                     "activeManager" => false,
                     "active" => false,
-                    "created" => date("d-m-Y"),
+                    "created" => date("d-m-Y H:I:S"),
                 ];
                 $allocations->insertOne($allocateDecla);
   
@@ -599,7 +589,7 @@ if (!isset($_SESSION["id"])) {
                     "level" => "Senior",
                     "activeTest" => false,
                     "active" => false,
-                    "created" => date("d-m-Y"),
+                    "created" => date("d-m-Y H:I:S"),
                 ];
                 $allocations->insertOne($allocateSeFac);
   
@@ -632,7 +622,7 @@ if (!isset($_SESSION["id"])) {
                     "activeTest" => false,
                     "activeManager" => false,
                     "active" => false,
-                    "created" => date("d-m-Y"),
+                    "created" => date("d-m-Y H:I:S"),
                 ];
                 $allocations->insertOne($allocateSeDecla);
   
@@ -651,7 +641,7 @@ if (!isset($_SESSION["id"])) {
                     "level" => "Junior",
                     "total" => 0,
                     "active" => true,
-                    "created" => date("d-m-y"),
+                    "created" => date("d-m-y h:i:s"),
                 ];
                 $insertFac = $tests->insertOne($testJuFac);
   
@@ -665,7 +655,7 @@ if (!isset($_SESSION["id"])) {
                     "level" => "Junior",
                     "total" => 0,
                     "active" => true,
-                    "created" => date("d-m-y"),
+                    "created" => date("d-m-y h:i:s"),
                 ];
                 $insertDecla = $tests->insertOne($testJuDecla);
   
@@ -679,7 +669,7 @@ if (!isset($_SESSION["id"])) {
                     "level" => "Senior",
                     "total" => 0,
                     "active" => true,
-                    "created" => date("d-m-y"),
+                    "created" => date("d-m-y h:i:s"),
                 ];
                 $insertSeFac = $tests->insertOne($testSeFac);
   
@@ -693,7 +683,7 @@ if (!isset($_SESSION["id"])) {
                     "level" => "Senior",
                     "total" => 0,
                     "active" => true,
-                    "created" => date("d-m-y"),
+                    "created" => date("d-m-y h:i:s"),
                 ];
                 $insertSeDecla = $tests->insertOne($testSeDecla);
   
@@ -707,7 +697,7 @@ if (!isset($_SESSION["id"])) {
                     "level" => "Expert",
                     "total" => 0,
                     "active" => true,
-                    "created" => date("d-m-y"),
+                    "created" => date("d-m-y h:i:s"),
                 ];
                 $insertExFac = $tests->insertOne($testExFac);
   
@@ -721,7 +711,7 @@ if (!isset($_SESSION["id"])) {
                     "level" => "Expert",
                     "total" => 0,
                     "active" => true,
-                    "created" => date("d-m-y"),
+                    "created" => date("d-m-y h:i:s"),
                 ];
                 $insertExDecla = $tests->insertOne($testExDecla);
   
@@ -935,7 +925,7 @@ if (!isset($_SESSION["id"])) {
                     "level" => "Junior",
                     "activeTest" => false,
                     "active" => false,
-                    "created" => date("d-m-Y"),
+                    "created" => date("d-m-Y H:I:S"),
                 ];
                 $allocations->insertOne($allocateFac);
   
@@ -966,7 +956,7 @@ if (!isset($_SESSION["id"])) {
                     "activeTest" => false,
                     "activeManager" => false,
                     "active" => false,
-                    "created" => date("d-m-Y"),
+                    "created" => date("d-m-Y H:I:S"),
                 ];
                 $allocations->insertOne($allocateDecla);
   
@@ -996,7 +986,7 @@ if (!isset($_SESSION["id"])) {
                     "level" => "Senior",
                     "activeTest" => false,
                     "active" => false,
-                    "created" => date("d-m-Y"),
+                    "created" => date("d-m-Y H:I:S"),
                 ];
                 $allocations->insertOne($allocateSeFac);
   
@@ -1029,7 +1019,7 @@ if (!isset($_SESSION["id"])) {
                     "activeTest" => false,
                     "activeManager" => false,
                     "active" => false,
-                    "created" => date("d-m-Y"),
+                    "created" => date("d-m-Y H:I:S"),
                 ];
                 $allocations->insertOne($allocateSeDecla);
   
@@ -1059,7 +1049,7 @@ if (!isset($_SESSION["id"])) {
                     "level" => "Expert",
                     "activeTest" => false,
                     "active" => false,
-                    "created" => date("d-m-Y"),
+                    "created" => date("d-m-Y H:I:S"),
                 ];
                 $allocations->insertOne($allocateExFac);
   
@@ -1092,7 +1082,7 @@ if (!isset($_SESSION["id"])) {
                     "activeTest" => false,
                     "activeManager" => false,
                     "active" => false,
-                    "created" => date("d-m-Y"),
+                    "created" => date("d-m-Y H:I:S"),
                 ];
                 $allocations->insertOne($allocateExDecla);
   
@@ -1386,7 +1376,7 @@ if (!isset($_SESSION["id"])) {
                 <option value="Motors">
                   Motors
                 </option>
-                <option value="Equipment, Motors">
+                <option value="Equipment & Motors">
                   Equipment & Motors
                 </option>
               </select>
@@ -2151,7 +2141,7 @@ if (!isset($_SESSION["id"])) {
         brandMotorsEx.classList.add('d-none');
         brandEquipmentEx.classList.add('d-none');
         brandEqMoEx.classList.add('d-none');
-      } else if(departValue == 'Equipment, Motors') {
+      } else if(departValue == 'Equipment & Motors') {
         brandMotorsJu.classList.add('d-none');
         brandEquipmentJu.classList.add('d-none');
         brandEqMoJu.classList.remove('d-none');
@@ -2183,7 +2173,7 @@ if (!isset($_SESSION["id"])) {
         brandMotorsEx.classList.add('d-none');
         brandEquipmentEx.classList.add('d-none');
         brandEqMoEx.classList.add('d-none');
-      } else if(departValue == 'Equipment, Motors') {
+      } else if(departValue == 'Equipment & Motors') {
         brandMotorsJu.classList.add('d-none');
         brandEquipmentJu.classList.add('d-none');
         brandEqMoJu.classList.remove('d-none');
@@ -2215,7 +2205,7 @@ if (!isset($_SESSION["id"])) {
         brandMotorsEx.classList.add('d-none');
         brandEquipmentEx.classList.remove('d-none');
         brandEqMoEx.classList.add('d-none');
-      } else if(departValue == 'Equipment, Motors') {
+      } else if(departValue == 'Equipment & Motors') {
         brandMotorsJu.classList.add('d-none');
         brandEquipmentJu.classList.add('d-none');
         brandEqMoJu.classList.remove('d-none');

@@ -15,73 +15,6 @@ $users = $academy->users;
 $quizzes = $academy->quizzes;
 $questions = $academy->questions;
 $allocations = $academy->allocations;
-if (isset($_POST["update"])) {
-    $id = $_POST["questionID"];
-    $ref = $_POST["ref"];
-    $label = $_POST["label"];
-    $proposal1 = $_POST["proposal1"];
-    $proposal2 = $_POST["proposal2"];
-    $proposal3 = $_POST["proposal3"];
-    $proposal4 = $_POST["proposal4"];
-    $answer = $_POST["answer"];
-    $type = $_POST["type"];
-    $speciality = $_POST["speciality"];
-    $level = $_POST["level"];
-    $image = $_FILES["image"]["name"];
-    $question = [
-        "ref" => $ref,
-        "label" => ucfirst($label),
-        "proposal1" => ucfirst($proposal1),
-        "proposal2" => ucfirst($proposal2),
-        "proposal3" => ucfirst($proposal3),
-        "proposal4" => ucfirst($proposal4),
-        "type" => ucfirst($type),
-        "speciality" => ucfirst($speciality),
-        "level" => ucfirst($level),
-        "answer" => ucfirst($answer),
-        "updated" => date("d-m-Y"),
-    ]; // If there is a file, update the question data with the image URL
-    if (!empty($image)) {
-        $tmp_name = $_FILES["image"]["tmp_name"];
-        $folder = "../public/files/" . $image;
-        move_uploaded_file($tmp_name, $folder);
-        $questions->updateOne(
-            ["_id" => new MongoDB\BSON\ObjectId($id)],
-            [
-                '$set' => [
-                    "ref" => $ref,
-                    "label" => ucfirst($label),
-                    "proposal1" => ucfirst($proposal1),
-                    "proposal2" => ucfirst($proposal2),
-                    "proposal3" => ucfirst($proposal3),
-                    "proposal4" => ucfirst($proposal4),
-                    "type" => ucfirst($type),
-                    "speciality" => ucfirst($speciality),
-                    "level" => ucfirst($level),
-                    "answer" => ucfirst($answer),
-                    "image" => $image,
-                    "updated" => date("d-m-Y"),
-                ],
-            ]
-        );
-        $success_msg = "Question modifiée avec succès.";
-    } else {
-        // Update the question in the collection
-        $questions->updateOne(
-            ["_id" => new MongoDB\BSON\ObjectId($id)],
-            ['$set' => $question]
-        );
-        $success_msg = "Question modifiée avec succès.";
-    }
-}
-if (isset($_POST["delet"])) {
-    $id = new MongoDB\BSON\ObjectId($_POST["questionID"]);
-    $question = $questions->findOne(["_id" => $id]);
-    $question->active = false;
-    $question->updated = date("d-m-Y");
-    $questions->updateOne(["_id" => $id], ['$set' => $question]);
-    $success_msg = "Question supprimée avec succes.";
-}
 ?>
 <?php include_once "partials/header.php"; ?>
 <!--begin::Title-->
@@ -286,10 +219,6 @@ if (isset($_POST["delet"])) {
                                     foreach ($question as $question) { ?>
                                     <tr class="odd" etat="<?php echo $question->active; ?>">
                                         <td>
-                                            <div class="form-check form-check-sm form-check-custom form-check-solid">
-                                                <input class="form-check-input" id="checkbox" type="checkbox"
-                                                    onclick="enable()" value="<?php echo $question->_id; ?>">
-                                            </div>
                                         </td>
                                         <td data-filter="search">
                                             <a href="#" data-bs-toggle="modal" data-bs-target="#kt_modal_add_customer"
@@ -362,10 +291,10 @@ if (isset($_POST["delet"])) {
                                 <div class="dataTables_length">
                                     <label><select id="kt_customers_table_length" name="kt_customers_table_length"
                                             class="form-select form-select-sm form-select-solid">
-                                            <option value="10">10</option>
-                                            <option value="25">25</option>
-                                            <option value="50">50</option>
                                             <option value="100">100</option>
+                                            <option value="200">200</option>
+                                            <option value="300">300</option>
+                                            <option value="500">500</option>
                                         </select></label>
                                 </div>
                             </div>
@@ -384,12 +313,15 @@ if (isset($_POST["delet"])) {
             </div>
             <!--end::Card-->
             <!--begin::Export dropdown-->
-            <!-- <div class="d-flex justify-content-end align-items-center" style="margin-top: 20px;">
-                <button type="button" id="excel" title="Cliquez ici pour importer la table" class="btn btn-primary">
-                    <i class="ki-duotone ki-exit-up fs-2"><span class="path1"></span><span class="path2"></span></i>
-                    Excel
+            <div class="d-flex justify-content-end align-items-center" style="margin-top: 20px;">
+                <!--begin::Export-->
+                <button type="button" id="excel" class="btn btn-light-primary me-3" data-bs-toggle="modal"
+                    data-bs-target="#kt_customers_export_modal">
+                    <i class="ki-duotone ki-exit-up fs-2"><span class="path1"></span><span
+                            class="path2"></span></i> <?php echo $excel ?>
                 </button>
-            </div> -->
+                <!--end::Export-->
+            </div>
             <!--end::Export dropdown-->
         </div>
         <!--end::Container-->
@@ -397,6 +329,23 @@ if (isset($_POST["delet"])) {
     <!--end::Post-->
 </div>
 <!--end::Body-->
+<script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/gh/linways/table-to-excel@v1.0.4/dist/tableToExcel.js">
+</script>
+<script src="../public/js/main.js"></script>
+<script>
+    
+$(document).ready(function() {
+    $("#excel").on("click", function() {
+        let table = document.getElementsByTagName("table");
+        debugger;
+        TableToExcel.convert(table[0], {
+            name: `Questions.xlsx`
+        })
+    });
+});
+</script>
 <?php include_once "partials/footer.php"; ?>
 <?php
 } ?>

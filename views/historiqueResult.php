@@ -187,7 +187,7 @@ if (!isset($_SESSION["id"])) {
                 <div id="kt_customers_table_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
                     <div class="table-responsi">
                         <table aria-describedby=""
-                            class="table align-middle table-bordered table-row-dashed gy-5 dataTable no-footer"
+                            class="table align-middle table-bordered table-row-dashed fs-7 gy-3 dataTable no-footer"
                             id="kt_customers_table">
                             <thead>
                                 <tr class="text-start text-gray-400 fw-bold text-uppercase gs-0">
@@ -303,11 +303,11 @@ if (!isset($_SESSION["id"])) {
                                     $transmissionDecla &&
                                     $transmissionMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $transmissionFac->speciality; ?>&level=<?php echo $transmissionFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
@@ -455,11 +455,11 @@ if (!isset($_SESSION["id"])) {
                                     $assistanceConduiteDecla &&
                                     $assistanceConduiteMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $assistanceConduiteFac->speciality; ?>&level=<?php echo $assistanceConduiteFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
@@ -605,11 +605,11 @@ if (!isset($_SESSION["id"])) {
                                     $transfertDecla &&
                                     $transfertMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $transfertFac->speciality; ?>&level=<?php echo $transfertFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
@@ -744,11 +744,11 @@ if (!isset($_SESSION["id"])) {
                                     $boiteDecla &&
                                     $boiteMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $boiteFac->speciality; ?>&level=<?php echo $boiteFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
@@ -893,11 +893,11 @@ if (!isset($_SESSION["id"])) {
                                     $boiteAutoDecla &&
                                     $boiteAutoMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $boiteAutoFac->speciality; ?>&level=<?php echo $boiteAutoFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
@@ -1042,11 +1042,11 @@ if (!isset($_SESSION["id"])) {
                                     $boiteManDecla &&
                                     $boiteManMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $boiteManFac->speciality; ?>&level=<?php echo $boiteManFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
@@ -1191,11 +1191,11 @@ if (!isset($_SESSION["id"])) {
                                     $boiteVaCoDecla &&
                                     $boiteVaCoMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $boiteVaCoFac->speciality; ?>&level=<?php echo $boiteVaCoFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
@@ -1331,11 +1331,11 @@ if (!isset($_SESSION["id"])) {
                                     $climatisationDecla &&
                                     $climatisationMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $climatisationFac->speciality; ?>&level=<?php echo $climatisationFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
@@ -1474,11 +1474,11 @@ if (!isset($_SESSION["id"])) {
                                     $demiDecla &&
                                     $demiMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $demiFac->speciality; ?>&level=<?php echo $demiFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
@@ -1614,11 +1614,11 @@ if (!isset($_SESSION["id"])) {
                                     $directionDecla &&
                                     $directionMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $directionFac->speciality; ?>&level=<?php echo $directionFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
@@ -1763,11 +1763,11 @@ if (!isset($_SESSION["id"])) {
                                     $electriciteDecla &&
                                     $electriciteMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $electriciteFac->speciality; ?>&level=<?php echo $electriciteFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
@@ -1906,11 +1906,11 @@ if (!isset($_SESSION["id"])) {
                                     $freiDecla &&
                                     $freiMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $freiFac->speciality; ?>&level=<?php echo $freiFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
@@ -2055,11 +2055,11 @@ if (!isset($_SESSION["id"])) {
                                     $freinageElecDecla &&
                                     $freinageElecMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $freinageElecFac->speciality; ?>&level=<?php echo $freinageElecFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
@@ -2207,11 +2207,11 @@ if (!isset($_SESSION["id"])) {
                                     $freinageDecla &&
                                     $freinageMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $freinageFac->speciality; ?>&level=<?php echo $freinageFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
@@ -2356,11 +2356,11 @@ if (!isset($_SESSION["id"])) {
                                     $freinDecla &&
                                     $freinMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $freinFac->speciality; ?>&level=<?php echo $freinFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
@@ -2496,11 +2496,11 @@ if (!isset($_SESSION["id"])) {
                                     $hydrauliqueDecla &&
                                     $hydrauliqueMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $hydrauliqueFac->speciality; ?>&level=<?php echo $hydrauliqueFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
@@ -2639,11 +2639,11 @@ if (!isset($_SESSION["id"])) {
                                     $moteurDieselDecla &&
                                     $moteurDieselMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $moteurDieselFac->speciality; ?>&level=<?php echo $moteurDieselFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
@@ -2782,11 +2782,11 @@ if (!isset($_SESSION["id"])) {
                                     $moteurElecDecla &&
                                     $moteurElecMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $moteurElecFac->speciality; ?>&level=<?php echo $moteurElecFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
@@ -2924,11 +2924,11 @@ if (!isset($_SESSION["id"])) {
                                     $moteurEssenceDecla &&
                                     $moteurEssenceMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $moteurEssenceFac->speciality; ?>&level=<?php echo $moteurEssenceFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
@@ -3067,11 +3067,11 @@ if (!isset($_SESSION["id"])) {
                                     $moteurThermiqueDecla &&
                                     $moteurThermiqueMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $moteurThermiqueFac->speciality; ?>&level=<?php echo $moteurThermiqueFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
@@ -3167,7 +3167,7 @@ if (!isset($_SESSION["id"])) {
                                             ),
                                         ],
                                         ["level" => $level],
-                                        ["speciality" => "Multiplexage"],
+                                        ["speciality" => "Réseaux de Communication"],
                                         ["type" => "Factuel"],
                                         ["numberTest" => +$numberTest],
                                         ["active" => false],
@@ -3181,7 +3181,7 @@ if (!isset($_SESSION["id"])) {
                                             ),
                                         ],
                                         ["level" => $level],
-                                        ["speciality" => "Multiplexage"],
+                                        ["speciality" => "Réseaux de Communication"],
                                         ["type" => "Declaratif"],
                                         ["numberTest" => +$numberTest],
                                         ["active" => false],
@@ -3201,7 +3201,7 @@ if (!isset($_SESSION["id"])) {
                                         ],
                                         ["level" => $level],
                                         ["numberTest" => +$numberTest],
-                                        ["speciality" => "Multiplexage"],
+                                        ["speciality" => "Réseaux de Communication"],
                                         ["active" => false],
                                     ],
                                 ]);
@@ -3211,11 +3211,11 @@ if (!isset($_SESSION["id"])) {
                                     $multiplexageDecla &&
                                     $multiplexageMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $multiplexageFac->speciality; ?>&level=<?php echo $multiplexageFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
@@ -3354,11 +3354,11 @@ if (!isset($_SESSION["id"])) {
                                     $pneuDecla &&
                                     $pneuMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $pneuFac->speciality; ?>&level=<?php echo $pneuFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
@@ -3494,11 +3494,11 @@ if (!isset($_SESSION["id"])) {
                                     $pontDecla &&
                                     $pontMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $pontFac->speciality; ?>&level=<?php echo $pontFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
@@ -3590,7 +3590,7 @@ if (!isset($_SESSION["id"])) {
                                             ),
                                         ],
                                         ["level" => $level],
-                                        ["speciality" => "Réducteur"],
+                                        ["speciality" => "Reducteur"],
                                         ["type" => "Factuel"],
                                         ["numberTest" => +$numberTest],
                                         ["active" => false],
@@ -3604,7 +3604,7 @@ if (!isset($_SESSION["id"])) {
                                             ),
                                         ],
                                         ["level" => $level],
-                                        ["speciality" => "Réducteur"],
+                                        ["speciality" => "Reducteur"],
                                         ["type" => "Declaratif"],
                                         ["numberTest" => +$numberTest],
                                         ["active" => false],
@@ -3624,7 +3624,7 @@ if (!isset($_SESSION["id"])) {
                                         ],
                                         ["level" => $level],
                                         ["numberTest" => +$numberTest],
-                                        ["speciality" => "Réducteur"],
+                                        ["speciality" => "Reducteur"],
                                         ["active" => false],
                                     ],
                                 ]);
@@ -3634,11 +3634,11 @@ if (!isset($_SESSION["id"])) {
                                     $reducteurDecla &&
                                     $reducteurMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $reducteurFac->speciality; ?>&level=<?php echo $reducteurFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
@@ -3774,11 +3774,11 @@ if (!isset($_SESSION["id"])) {
                                     $suspensionDecla &&
                                     $suspensionMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $suspensionFac->speciality; ?>&level=<?php echo $suspensionFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
@@ -3916,11 +3916,11 @@ if (!isset($_SESSION["id"])) {
                                     $suspensionLameDecla &&
                                     $suspensionLameMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $suspensionLameFac->speciality; ?>&level=<?php echo $suspensionLameFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
@@ -4060,11 +4060,11 @@ if (!isset($_SESSION["id"])) {
                                     $suspensionRessortDecla &&
                                     $suspensionRessortMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $suspensionRessortFac->speciality; ?>&level=<?php echo $suspensionRessortFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
@@ -4221,11 +4221,11 @@ if (!isset($_SESSION["id"])) {
                                     $suspensionPneumatiqueDecla &&
                                     $suspensionPneumatiqueMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $suspensionPneumatiqueFac->speciality; ?>&level=<?php echo $suspensionPneumatiqueFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
@@ -4377,11 +4377,11 @@ if (!isset($_SESSION["id"])) {
                                     $transversaleDecla &&
                                     $transversaleMa
                                 ) { ?>
-                                <tr class="odd" style="background-color: #a3f1ff;">
+                                <tr class="odd" style="">
                                     <td class="min-w-125px sorting text-white text-center table-light text-uppercase gs-0"
                                         tabindex="0" aria-controls="kt_customers_table" rowspan=`${i}`
                                         aria-label="Email: activate to sort column ascending"
-                                        style="width: 155.266px; background-color: #a3f1ff;">
+                                        style="width: 155.266px; ">
                                         <a href="./system.php?numberTest=<?php echo $numberTest; ?>&speciality=<?php echo $transversaleFac->speciality; ?>&level=<?php echo $transversaleFac->level; ?>&user=<?php echo $technician->_id; ?>"
                                             class="btn btn-light btn-active-light-primary fw-bolder text-primary btn-sm"
                                             title="Cliquez ici pour voir le résultat du technicien pour le niveau senior"
@@ -4556,7 +4556,7 @@ if (!isset($_SESSION["id"])) {
                                         style="width: 126.516px;">Total par test
                                     </th>
                                     <th class="min-w-125px sorting  text-white fw-bold text-center table-light text-uppercase gs-0" tabindex="0" aria-controls="kt_customers_table"
-                                        rowspan="1" colspan="1" style="background-color: #a3f1ff;"
+                                        rowspan="1" colspan="1" style=""
                                         aria-label="Created Date: activate to sort column ascending"
                                         style="width: 152.719px;">
                                         <?php echo ceil(
@@ -4564,7 +4564,7 @@ if (!isset($_SESSION["id"])) {
                                                 $resultFac->total); ?>%
                                     </th>
                                     <th class="min-w-125px sorting  text-white fw-bold text-center table-light text-uppercase gs-0" tabindex="0" aria-controls="kt_customers_table"
-                                        rowspan="1" colspan="1" style="background-color: #a3f1ff;"
+                                        rowspan="1" colspan="1" style=""
                                         aria-label="Created Date: activate to sort column ascending"
                                         style="width: 152.719px;">
                                         <?php echo ceil(
@@ -4579,7 +4579,7 @@ if (!isset($_SESSION["id"])) {
                                         style="width: 152.719px;">Total global
                                     </th>
                                     <th  class="min-w-125px sorting  text-white fw-bold text-center table-light text-uppercase gs-0" tabindex="0" aria-controls="kt_customers_table"
-                                        colspan="3" style="background-color: #a3f1ff;"
+                                        colspan="3" style=""
                                         aria-label="Created Date: activate to sort column ascending"
                                         style="width: 152.719px;">
                                         <?php echo ceil(

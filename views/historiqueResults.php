@@ -496,7 +496,7 @@ if (!isset($_SESSION["id"])) {
                                                 <?php echo $junior."%" ?>
                                             </a>
                                         </td>
-                                        <?php if ($resultFacSe) { ?>
+                                        <?php if ($resultFacSe && $resultDeclaSeTech && $resultDeclaSeMa) { ?>
                                         <td class="text-center">
                                             <span class="badge badge-light-success fs-7 m-1">
                                                 <?php echo $percentageFacSe."%" ?>
@@ -542,7 +542,7 @@ if (!isset($_SESSION["id"])) {
                                             </span>
                                         </td>
                                         <?php } ?>
-                                        <?php if ($resultFacEx) { ?>
+                                        <?php if ($resultFacEx && $resultDeclaExTech && $resultDeclaExMa) { ?>
                                         <td class="text-center">
                                             <span class="badge badge-light-success fs-7 m-1">
                                                 <?php echo $percentageFacEx."%" ?>
@@ -604,10 +604,10 @@ if (!isset($_SESSION["id"])) {
                                 <div class="dataTables_length">
                                     <label><select id="kt_customers_table_length" name="kt_customers_table_length"
                                             class="form-select form-select-sm form-select-solid">
-                                            <option value="10">10</option>
-                                            <option value="25">25</option>
-                                            <option value="50">50</option>
                                             <option value="100">100</option>
+                                            <option value="200">200</option>
+                                            <option value="300">300</option>
+                                            <option value="500">500</option>
                                         </select></label>
                                 </div>
                             </div>

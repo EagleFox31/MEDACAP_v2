@@ -113,153 +113,188 @@ if (!isset($_SESSION["id"])) {
                 $subBrand14 = strtoupper($row["32"]);
                 array_push($brandJunior, $subBrand14);
             }
-
             if (isset($row["33"]) != "") {
-                $subBrand1 = strtoupper($row["33"]);
-                array_push($brandSenior, $subBrand1);
+                $subBrand15 = strtoupper($row["33"]);
+                array_push($brandJunior, $subBrand15);
             }
             if (isset($row["34"]) != "") {
-                $subBrand2 = strtoupper($row["34"]);
-                array_push($brandSenior, $subBrand2);
+                $subBrand16 = strtoupper($row["34"]);
+                array_push($brandJunior, $subBrand16);
             }
             if (isset($row["35"]) != "") {
-                $subBrand3 = strtoupper($row["35"]);
-                array_push($brandSenior, $subBrand3);
+                $subBrand17 = strtoupper($row["35"]);
+                array_push($brandJunior, $subBrand17);
             }
+
             if (isset($row["36"]) != "") {
-                $subBrand4 = strtoupper($row["36"]);
-                array_push($brandSenior, $subBrand4);
+                $subBrand1 = strtoupper($row["36"]);
+                array_push($brandSenior, $subBrand1);
             }
             if (isset($row["37"]) != "") {
-                $subBrand5 = strtoupper($row["37"]);
-                array_push($brandSenior, $subBrand5);
+                $subBrand2 = strtoupper($row["37"]);
+                array_push($brandSenior, $subBrand2);
             }
             if (isset($row["38"]) != "") {
-                $subBrand6 = strtoupper($row["38"]);
-                array_push($brandSenior, $subBrand6);
+                $subBrand3 = strtoupper($row["38"]);
+                array_push($brandSenior, $subBrand3);
             }
             if (isset($row["39"]) != "") {
-                $subBrand7 = strtoupper($row["39"]);
-                array_push($brandSenior, $subBrand7);
+                $subBrand4 = strtoupper($row["39"]);
+                array_push($brandSenior, $subBrand4);
             }
             if (isset($row["40"]) != "") {
-                $subBrand8 = strtoupper($row["40"]);
-                array_push($brandSenior, $subBrand8);
+                $subBrand5 = strtoupper($row["40"]);
+                array_push($brandSenior, $subBrand5);
             }
             if (isset($row["41"]) != "") {
-                $subBrand9 = strtoupper($row["41"]);
-                array_push($brandSenior, $subBrand9);
+                $subBrand6 = strtoupper($row["41"]);
+                array_push($brandSenior, $subBrand6);
             }
             if (isset($row["42"]) != "") {
-                $subBrand10 = strtoupper($row["42"]);
-                array_push($brandSenior, $subBrand10);
+                $subBrand7 = strtoupper($row["42"]);
+                array_push($brandSenior, $subBrand7);
             }
             if (isset($row["43"]) != "") {
-                $subBrand11 = strtoupper($row["43"]);
-                array_push($brandSenior, $subBrand11);
+                $subBrand8 = strtoupper($row["43"]);
+                array_push($brandSenior, $subBrand8);
             }
             if (isset($row["44"]) != "") {
-                $subBrand12 = strtoupper($row["44"]);
-                array_push($brandSenior, $subBrand12);
+                $subBrand9 = strtoupper($row["44"]);
+                array_push($brandSenior, $subBrand9);
             }
             if (isset($row["45"]) != "") {
-                $subBrand13 = strtoupper($row["45"]);
-                array_push($brandSenior, $subBrand13);
+                $subBrand10 = strtoupper($row["45"]);
+                array_push($brandSenior, $subBrand10);
             }
             if (isset($row["46"]) != "") {
-                $subBrand14 = strtoupper($row["46"]);
-                array_push($brandSenior, $subBrand14);
+                $subBrand11 = strtoupper($row["46"]);
+                array_push($brandSenior, $subBrand11);
             }
-
             if (isset($row["47"]) != "") {
-                $subBrand1 = strtoupper($row["47"]);
-                array_push($brandExpert, $subBrand1);
+                $subBrand12 = strtoupper($row["47"]);
+                array_push($brandSenior, $subBrand12);
             }
             if (isset($row["48"]) != "") {
-                $subBrand2 = strtoupper($row["48"]);
-                array_push($brandExpert, $subBrand2);
+                $subBrand13 = strtoupper($row["48"]);
+                array_push($brandSenior, $subBrand13);
             }
             if (isset($row["49"]) != "") {
-                $subBrand3 = strtoupper($row["49"]);
-                array_push($brandExpert, $subBrand3);
+                $subBrand14 = strtoupper($row["49"]);
+                array_push($brandSenior, $subBrand14);
             }
             if (isset($row["50"]) != "") {
-                $subBrand4 = strtoupper($row["50"]);
-                array_push($brandExpert, $subBrand4);
+                $subBrand15 = strtoupper($row["50"]);
+                array_push($brandSenior, $subBrand15);
             }
             if (isset($row["51"]) != "") {
-                $subBrand5 = strtoupper($row["51"]);
-                array_push($brandExpert, $subBrand5);
+                $subBrand16 = strtoupper($row["51"]);
+                array_push($brandSenior, $subBrand16);
             }
             if (isset($row["52"]) != "") {
-                $subBrand6 = strtoupper($row["52"]);
-                array_push($brandExpert, $subBrand6);
+                $subBrand17 = strtoupper($row["52"]);
+                array_push($brandSenior, $subBrand17);
             }
+
             if (isset($row["53"]) != "") {
-                $subBrand7 = strtoupper($row["53"]);
-                array_push($brandExpert, $subBrand7);
+                $subBrand1 = strtoupper($row["53"]);
+                array_push($brandExpert, $subBrand1);
             }
             if (isset($row["54"]) != "") {
-                $subBrand8 = strtoupper($row["54"]);
-                array_push($brandExpert, $subBrand8);
+                $subBrand2 = strtoupper($row["54"]);
+                array_push($brandExpert, $subBrand2);
             }
             if (isset($row["55"]) != "") {
-                $subBrand9 = strtoupper($row["55"]);
-                array_push($brandExpert, $subBrand9);
+                $subBrand3 = strtoupper($row["55"]);
+                array_push($brandExpert, $subBrand3);
             }
             if (isset($row["56"]) != "") {
-                $subBrand10 = strtoupper($row["56"]);
-                array_push($brandExpert, $subBrand10);
+                $subBrand4 = strtoupper($row["56"]);
+                array_push($brandExpert, $subBrand4);
             }
             if (isset($row["57"]) != "") {
-                $subBrand11 = strtoupper($row["57"]);
-                array_push($brandExpert, $subBrand11);
+                $subBrand5 = strtoupper($row["57"]);
+                array_push($brandExpert, $subBrand5);
             }
             if (isset($row["58"]) != "") {
-                $subBrand12 = strtoupper($row["58"]);
-                array_push($brandExpert, $subBrand12);
+                $subBrand6 = strtoupper($row["58"]);
+                array_push($brandExpert, $subBrand6);
             }
             if (isset($row["59"]) != "") {
-                $subBrand13 = strtoupper($row["59"]);
-                array_push($brandExpert, $subBrand13);
+                $subBrand7 = strtoupper($row["59"]);
+                array_push($brandExpert, $subBrand7);
             }
             if (isset($row["60"]) != "") {
-                $subBrand14 = strtoupper($row["60"]);
-                array_push($brandExpert, $subBrand14);
+                $subBrand8 = strtoupper($row["60"]);
+                array_push($brandExpert, $subBrand8);
             }
-
-            
             if (isset($row["61"]) != "") {
-                $specialitySenior1 = ucfirst($row["61"]);
-                array_push($specialitySenior, $specialitySenior1);
+                $subBrand9 = ucfirst($row["61"]);
+                array_push($brandExpert, $subBrand9);
             }
             if (isset($row["62"]) != "") {
-                $specialitySenior2 = ucfirst($row["62"]);
-                array_push($specialitySenior, $specialitySenior2);
+                $subBrand10 = ucfirst($row["62"]);
+                array_push($brandExpert, $subBrand10);
             }
             if (isset($row["63"]) != "") {
-                $specialitySenior3 = ucfirst($row["63"]);
-                array_push($specialitySenior, $specialitySenior3);
+                $subBrand11 = ucfirst($row["63"]);
+                array_push($brandExpert, $subBrand11);
             }
             if (isset($row["64"]) != "") {
-                $specialitySenior4 = ucfirst($row["64"]);
-                array_push($specialitySenior, $specialitySenior4);
+                $subBrand12 = ucfirst($row["64"]);
+                array_push($brandExpert, $subBrand12);
             }
-
             if (isset($row["65"]) != "") {
-                $specialityExpert1 = ucfirst($row["65"]);
-                array_push($specialityExpert, $specialityExpert1);
+                $subBrand13 = ucfirst($row["65"]);
+                array_push($brandExpert, $subBrand13);
             }
             if (isset($row["66"]) != "") {
-                $specialityExpert2 = ucfirst($row["66"]);
-                array_push($specialityExpert, $specialityExpert2);
+                $subBrand14 = ucfirst($row["66"]);
+                array_push($brandExpert, $subBrand14);
             }
             if (isset($row["67"]) != "") {
-                $specialityExpert3 = ucfirst($row["67"]);
-                array_push($specialityExpert, $specialityExpert3);
+                $subBrand15 = ucfirst($row["67"]);
+                array_push($brandExpert, $subBrand15);
             }
             if (isset($row["68"]) != "") {
-                $specialityExpert4 = ucfirst($row["68"]);
+                $subBrand16 = ucfirst($row["68"]);
+                array_push($brandExpert, $subBrand16);
+            }
+            if (isset($row["69"]) != "") {
+                $subBrand17 = ucfirst($row["69"]);
+                array_push($brandExpert, $subBrand17);
+            }
+            
+            if (isset($row["70"]) != "") {
+                $specialitySenior1 = ucfirst($row["70"]);
+                array_push($specialitySenior, $specialitySenior1);
+            }
+            if (isset($row["71"]) != "") {
+                $specialitySenior2 = ucfirst($row["71"]);
+                array_push($specialitySenior, $specialitySenior2);
+            }
+            if (isset($row["72"]) != "") {
+                $specialitySenior3 = ucfirst($row["72"]);
+                array_push($specialitySenior, $specialitySenior3);
+            }
+            if (isset($row["73"]) != "") {
+                $specialitySenior4 = ucfirst($row["73"]);
+                array_push($specialitySenior, $specialitySenior4);
+            }
+            
+            if (isset($row["74"]) != "") {
+                $specialityExpert1 = ucfirst($row["74"]);
+                array_push($specialityExpert, $specialityExpert1);
+            }
+            if (isset($row["75"]) != "") {
+                $specialityExpert2 = ucfirst($row["75"]);
+                array_push($specialityExpert, $specialityExpert2);
+            }
+            if (isset($row["76"]) != "") {
+                $specialityExpert3 = ucfirst($row["76"]);
+                array_push($specialityExpert, $specialityExpert3);
+            }
+            if (isset($row["77"]) != "") {
+                $specialityExpert4 = ucfirst($row["77"]);
                 array_push($specialityExpert, $specialityExpert4);
             }
 
@@ -277,12 +312,42 @@ if (!isset($_SESSION["id"])) {
                 ]);
             }
             if ($member) {
-                $error_msg =
-                    "Cet utilisateur " .
-                    $firstName .
-                    " " .
-                    $lastName .
-                    " existe déjà";
+                $person = [
+                    "matricule" => $matricule,
+                    "firstName" => ucfirst($firstName),
+                    "lastName" => strtoupper($lastName),
+                    "email" => $email,
+                    "phone" => +$phone,
+                    "gender" => $gender,
+                    "level" => $level,
+                    "country" => $country,
+                    "profile" => $profile,
+                    "birthdate" => $birthdate,
+                    "recrutmentDate" => $recrutmentDate,
+                    "certificate" => ucfirst($certificate),
+                    "subsidiary" => strtoupper($subsidiary),
+                    "agency" => ucfirst($agency),
+                    "department" => ucfirst($department),
+                    "role" => ucfirst($role),
+                    "password" => $password,
+                    "visiblePassword" => $row["18"],
+                    "updated" => date("d-m-Y H:I:S"),
+                ];
+                $users->updateOne(
+                    ["_id" => new MongoDB\BSON\ObjectId($member->_id)],
+                    [
+                        '$set' => $person
+                    ]
+                );
+                if ($profile == "Technicien") {
+                    $success_msg = $success_tech;
+                }
+                if ($profile == "Manager") {
+                    $success_msg = $success_manager;
+                }
+                if ($profile == "Admin") {
+                    $success_msg = $success_admin;
+                }
             } elseif ($profile == "Technicien") {
                 if (isset($usernameManager)) {
                     $person = [
@@ -310,10 +375,11 @@ if (!isset($_SESSION["id"])) {
                         "specialityExpert" => $specialityExpert ?? [],
                         "role" => ucfirst($role),
                         "password" => $password,
-                        "visiblePassword" => $row["19"],
+                        "visiblePassword" => $row["18"],
                         "manager" => new MongoDB\BSON\ObjectId($manager->_id),
+                        "test" => true,
                         "active" => true,
-                        "created" => date("d-m-Y"),
+                        "created" => date("d-m-Y H:I:S"),
                     ];
                     $user = $users->insertOne($person);
 
@@ -355,8 +421,9 @@ if (!isset($_SESSION["id"])) {
                         "password" => $password,
                         "visiblePassword" => $_POST["18"],
                         "manager" => "",
+                        "test" => true,
                         "active" => true,
-                        "created" => date("d-m-Y"),
+                        "created" => date("d-m-Y H:I:S"),
                     ];
                     $user = $users->insertOne($person);
                 }
@@ -406,7 +473,7 @@ if (!isset($_SESSION["id"])) {
                         "level" => "Junior",
                         "total" => 0,
                         "active" => true,
-                        "created" => date("d-m-y"),
+                        "created" => date("d-m-y h:i:s"),
                     ];
                     $insertFac = $tests->insertOne($testFac);
 
@@ -420,7 +487,7 @@ if (!isset($_SESSION["id"])) {
                         "level" => "Junior",
                         "total" => 0,
                         "active" => true,
-                        "created" => date("d-m-y"),
+                        "created" => date("d-m-y h:i:s"),
                     ];
                     $insertDecla = $tests->insertOne($testDecla);
 
@@ -510,9 +577,9 @@ if (!isset($_SESSION["id"])) {
                         ),
                         "type" => "Factuel",
                         "level" => "Junior",
-                        "activeTest" => false,
+                        "activeTest" => true,
                         "active" => false,
-                        "created" => date("d-m-Y"),
+                        "created" => date("d-m-Y H:I:S"),
                     ];
                     $allocations->insertOne($allocateFac);
 
@@ -540,10 +607,10 @@ if (!isset($_SESSION["id"])) {
                         ),
                         "type" => "Declaratif",
                         "level" => "Junior",
-                        "activeTest" => false,
+                        "activeTest" => true,
                         "activeManager" => false,
                         "active" => false,
-                        "created" => date("d-m-Y"),
+                        "created" => date("d-m-Y H:I:S"),
                     ];
                     $allocations->insertOne($allocateDecla);
 
@@ -562,7 +629,7 @@ if (!isset($_SESSION["id"])) {
                         "level" => "Junior",
                         "total" => 0,
                         "active" => true,
-                        "created" => date("d-m-y"),
+                        "created" => date("d-m-y h:i:s"),
                     ];
                     $insertFac = $tests->insertOne($testJuFac);
 
@@ -576,7 +643,7 @@ if (!isset($_SESSION["id"])) {
                         "level" => "Junior",
                         "total" => 0,
                         "active" => true,
-                        "created" => date("d-m-y"),
+                        "created" => date("d-m-y h:i:s"),
                     ];
                     $insertDecla = $tests->insertOne($testJuDecla);
 
@@ -590,7 +657,7 @@ if (!isset($_SESSION["id"])) {
                         "level" => "Senior",
                         "total" => 0,
                         "active" => true,
-                        "created" => date("d-m-y"),
+                        "created" => date("d-m-y h:i:s"),
                     ];
                     $insertSeFac = $tests->insertOne($testSeFac);
 
@@ -604,7 +671,7 @@ if (!isset($_SESSION["id"])) {
                         "level" => "Senior",
                         "total" => 0,
                         "active" => true,
-                        "created" => date("d-m-y"),
+                        "created" => date("d-m-y h:i:s"),
                     ];
                     $insertSeDecla = $tests->insertOne($testSeDecla);
 
@@ -669,6 +736,70 @@ if (!isset($_SESSION["id"])) {
                             }
                         }
                     }
+                    
+                    for ($n = 0; $n < count($person['specialitySenior']); ++$n) {
+                        $specialityFacSe = $academy->specialities->findOne([
+                            '$and' => [
+                                ["label" => $person['specialitySenior'][$n]],
+                                ["type" => "Factuelle"],
+                                ["level" => "Senior"],
+                                ["active" => true],
+                            ],
+                        ]);
+                        if ($specialityFacSe) {
+                            for (
+                                $a = 0;
+                                $a < count($specialityFacSe->quizzes);
+                                ++$a
+                            ) {
+                                $tests->updateOne(
+                                    [
+                                        "_id" => new MongoDB\BSON\ObjectId(
+                                            $insertSeFac->getInsertedId()
+                                        ),
+                                    ],
+                                    [
+                                        '$addToSet' => [
+                                            "quizzes" =>
+                                                $specialityFacSe->quizzes[$a],
+                                        ],
+                                    ]
+                                );
+                            }
+                        }
+
+                        $specialityDeclacSe = $academy->specialities->findOne([
+                            '$and' => [
+                                ["label" => $person['specialitySenior'][$n]],
+                                ["type" => "Declarative"],
+                                ["level" => "Senior"],
+                                ["active" => true],
+                            ],
+                        ]);
+
+                        if ($specialityDeclacSe) {
+                            for (
+                                $a = 0;
+                                $a < count($specialityDeclacSe->quizzes);
+                                ++$a
+                            ) {
+                                $tests->updateOne(
+                                    [
+                                        "_id" => new MongoDB\BSON\ObjectId(
+                                            $insertSeDecla->getInsertedId()
+                                        ),
+                                    ],
+                                    [
+                                        '$addToSet' => [
+                                            "quizzes" =>
+                                                $specialityDeclacSe->quizzes[$a],
+                                        ],
+                                    ]
+                                );
+                            }
+                        }
+                    }
+                    
                     for ($n = 0; $n < count($person['brandSenior']); ++$n) {
                         $vehicleFacSe = $vehicles->findOne([
                             '$and' => [
@@ -755,9 +886,9 @@ if (!isset($_SESSION["id"])) {
                         ),
                         "type" => "Factuel",
                         "level" => "Junior",
-                        "activeTest" => false,
+                        "activeTest" => true,
                         "active" => false,
-                        "created" => date("d-m-Y"),
+                        "created" => date("d-m-Y H:I:S"),
                     ];
                     $allocations->insertOne($allocateFac);
 
@@ -785,10 +916,10 @@ if (!isset($_SESSION["id"])) {
                         ),
                         "type" => "Declaratif",
                         "level" => "Junior",
-                        "activeTest" => false,
+                        "activeTest" => true,
                         "activeManager" => false,
                         "active" => false,
-                        "created" => date("d-m-Y"),
+                        "created" => date("d-m-Y H:I:S"),
                     ];
                     $allocations->insertOne($allocateDecla);
 
@@ -818,7 +949,7 @@ if (!isset($_SESSION["id"])) {
                         "level" => "Senior",
                         "activeTest" => false,
                         "active" => false,
-                        "created" => date("d-m-Y"),
+                        "created" => date("d-m-Y H:I:S"),
                     ];
                     $allocations->insertOne($allocateSeFac);
 
@@ -851,7 +982,7 @@ if (!isset($_SESSION["id"])) {
                         "activeTest" => false,
                         "activeManager" => false,
                         "active" => false,
-                        "created" => date("d-m-Y"),
+                        "created" => date("d-m-Y H:I:S"),
                     ];
                     $allocations->insertOne($allocateSeDecla);
 
@@ -870,7 +1001,7 @@ if (!isset($_SESSION["id"])) {
                         "level" => "Junior",
                         "total" => 0,
                         "active" => true,
-                        "created" => date("d-m-y"),
+                        "created" => date("d-m-y h:i:s"),
                     ];
                     $insertFac = $tests->insertOne($testJuFac);
 
@@ -884,7 +1015,7 @@ if (!isset($_SESSION["id"])) {
                         "level" => "Junior",
                         "total" => 0,
                         "active" => true,
-                        "created" => date("d-m-y"),
+                        "created" => date("d-m-y h:i:s"),
                     ];
                     $insertDecla = $tests->insertOne($testJuDecla);
 
@@ -898,7 +1029,7 @@ if (!isset($_SESSION["id"])) {
                         "level" => "Senior",
                         "total" => 0,
                         "active" => true,
-                        "created" => date("d-m-y"),
+                        "created" => date("d-m-y h:i:s"),
                     ];
                     $insertSeFac = $tests->insertOne($testSeFac);
 
@@ -912,7 +1043,7 @@ if (!isset($_SESSION["id"])) {
                         "level" => "Senior",
                         "total" => 0,
                         "active" => true,
-                        "created" => date("d-m-y"),
+                        "created" => date("d-m-y h:i:s"),
                     ];
                     $insertSeDecla = $tests->insertOne($testSeDecla);
 
@@ -926,7 +1057,7 @@ if (!isset($_SESSION["id"])) {
                         "level" => "Expert",
                         "total" => 0,
                         "active" => true,
-                        "created" => date("d-m-y"),
+                        "created" => date("d-m-y h:i:s"),
                     ];
                     $insertExFac = $tests->insertOne($testExFac);
 
@@ -940,7 +1071,7 @@ if (!isset($_SESSION["id"])) {
                         "level" => "Expert",
                         "total" => 0,
                         "active" => true,
-                        "created" => date("d-m-y"),
+                        "created" => date("d-m-y h:i:s"),
                     ];
                     $insertExDecla = $tests->insertOne($testExDecla);
 
@@ -1066,6 +1197,132 @@ if (!isset($_SESSION["id"])) {
                             }
                         }
                     }
+                    
+                    for ($n = 0; $n < count($person['specialitySenior']); ++$n) {
+                        $specialityFacSe = $academy->specialities->findOne([
+                            '$and' => [
+                                ["label" => $person['specialitySenior'][$n]],
+                                ["type" => "Factuelle"],
+                                ["level" => "Senior"],
+                                ["active" => true],
+                            ],
+                        ]);
+                        if ($specialityFacSe) {
+                            for (
+                                $a = 0;
+                                $a < count($specialityFacSe->quizzes);
+                                ++$a
+                            ) {
+                                $tests->updateOne(
+                                    [
+                                        "_id" => new MongoDB\BSON\ObjectId(
+                                            $insertSeFac->getInsertedId()
+                                        ),
+                                    ],
+                                    [
+                                        '$addToSet' => [
+                                            "quizzes" =>
+                                                $specialityFacSe->quizzes[$a],
+                                        ],
+                                    ]
+                                );
+                            }
+                        }
+
+                        $specialityDeclacSe = $academy->specialities->findOne([
+                            '$and' => [
+                                ["label" => $person['specialitySenior'][$n]],
+                                ["type" => "Declarative"],
+                                ["level" => "Senior"],
+                                ["active" => true],
+                            ],
+                        ]);
+
+                        if ($specialityDeclacSe) {
+                            for (
+                                $a = 0;
+                                $a < count($specialityDeclacSe->quizzes);
+                                ++$a
+                            ) {
+                                $tests->updateOne(
+                                    [
+                                        "_id" => new MongoDB\BSON\ObjectId(
+                                            $insertSeDecla->getInsertedId()
+                                        ),
+                                    ],
+                                    [
+                                        '$addToSet' => [
+                                            "quizzes" =>
+                                                $specialityDeclacSe->quizzes[$a],
+                                        ],
+                                    ]
+                                );
+                            }
+                        }
+                    }
+                    
+                    for ($n = 0; $n < count($person['specialityExpert']); ++$n) {
+                        $specialityFacEx = $academy->specialities->findOne([
+                            '$and' => [
+                                ["label" => $person['specialityExpert'][$n]],
+                                ["type" => "Factuelle"],
+                                ["level" => "Expert"],
+                                ["active" => true],
+                            ],
+                        ]);
+                        if ($specialityFacEx) {
+                            for (
+                                $a = 0;
+                                $a < count($specialityFacEx->quizzes);
+                                ++$a
+                            ) {
+                                $tests->updateOne(
+                                    [
+                                        "_id" => new MongoDB\BSON\ObjectId(
+                                            $insertExFac->getInsertedId()
+                                        ),
+                                    ],
+                                    [
+                                        '$addToSet' => [
+                                            "quizzes" =>
+                                                $specialityFacEx->quizzes[$a],
+                                        ],
+                                    ]
+                                );
+                            }
+                        }
+
+                        $specialityDeclacEx = $academy->specialities->findOne([
+                            '$and' => [
+                                ["label" => $person['specialityExpert'][$n]],
+                                ["type" => "Declarative"],
+                                ["level" => "Expert"],
+                                ["active" => true],
+                            ],
+                        ]);
+
+                        if ($specialityDeclacEx) {
+                            for (
+                                $a = 0;
+                                $a < count($specialityDeclacEx->quizzes);
+                                ++$a
+                            ) {
+                                $tests->updateOne(
+                                    [
+                                        "_id" => new MongoDB\BSON\ObjectId(
+                                            $insertExDecla->getInsertedId()
+                                        ),
+                                    ],
+                                    [
+                                        '$addToSet' => [
+                                            "quizzes" =>
+                                                $specialityDeclacEx->quizzes[$a],
+                                        ],
+                                    ]
+                                );
+                            }
+                        }
+                    }
                     for ($n = 0; $n < count($brandExpert); ++$n) {
                         $vehicleFacEx = $vehicles->findOne([
                             '$and' => [
@@ -1152,9 +1409,9 @@ if (!isset($_SESSION["id"])) {
                         ),
                         "type" => "Factuel",
                         "level" => "Junior",
-                        "activeTest" => false,
+                        "activeTest" => true,
                         "active" => false,
-                        "created" => date("d-m-Y"),
+                        "created" => date("d-m-Y H:I:S"),
                     ];
                     $allocations->insertOne($allocateFac);
 
@@ -1182,10 +1439,10 @@ if (!isset($_SESSION["id"])) {
                         ),
                         "type" => "Declaratif",
                         "level" => "Junior",
-                        "activeTest" => false,
+                        "activeTest" => true,
                         "activeManager" => false,
                         "active" => false,
-                        "created" => date("d-m-Y"),
+                        "created" => date("d-m-Y H:I:S"),
                     ];
                     $allocations->insertOne($allocateDecla);
 
@@ -1215,7 +1472,7 @@ if (!isset($_SESSION["id"])) {
                         "level" => "Senior",
                         "activeTest" => false,
                         "active" => false,
-                        "created" => date("d-m-Y"),
+                        "created" => date("d-m-Y H:I:S"),
                     ];
                     $allocations->insertOne($allocateSeFac);
 
@@ -1248,7 +1505,7 @@ if (!isset($_SESSION["id"])) {
                         "activeTest" => false,
                         "activeManager" => false,
                         "active" => false,
-                        "created" => date("d-m-Y"),
+                        "created" => date("d-m-Y H:I:S"),
                     ];
                     $allocations->insertOne($allocateSeDecla);
 
@@ -1278,7 +1535,7 @@ if (!isset($_SESSION["id"])) {
                         "level" => "Expert",
                         "activeTest" => false,
                         "active" => false,
-                        "created" => date("d-m-Y"),
+                        "created" => date("d-m-Y H:I:S"),
                     ];
                     $allocations->insertOne($allocateExFac);
 
@@ -1311,7 +1568,7 @@ if (!isset($_SESSION["id"])) {
                         "activeTest" => false,
                         "activeManager" => false,
                         "active" => false,
-                        "created" => date("d-m-Y"),
+                        "created" => date("d-m-Y H:I:S"),
                     ];
                     $allocations->insertOne($allocateExDecla);
 
@@ -1348,7 +1605,7 @@ if (!isset($_SESSION["id"])) {
                         "manager" => new MongoDB\BSON\ObjectId($manager->_id),
                         "test" => true,
                         "active" => true,
-                        "created" => date("d-m-Y"),
+                        "created" => date("d-m-Y H:I:S"),
                     ];
                     $user = $users->insertOne($personM);
                     $users->updateOne(
@@ -1391,7 +1648,7 @@ if (!isset($_SESSION["id"])) {
                         "manager" => "",
                         "test" => true,
                         "active" => true,
-                        "created" => date("d-m-Y"),
+                        "created" => date("d-m-Y H:I:S"),
                     ];
                     $user = $users->insertOne($personM);
                 }
@@ -1441,7 +1698,7 @@ if (!isset($_SESSION["id"])) {
                         "level" => "Junior",
                         "total" => 0,
                         "active" => true,
-                        "created" => date("d-m-y"),
+                        "created" => date("d-m-y h:i:s"),
                     ];
                     $insertFac = $tests->insertOne($testFac);
 
@@ -1455,7 +1712,7 @@ if (!isset($_SESSION["id"])) {
                         "level" => "Junior",
                         "total" => 0,
                         "active" => true,
-                        "created" => date("d-m-y"),
+                        "created" => date("d-m-y h:i:s"),
                     ];
                     $insertDecla = $tests->insertOne($testDecla);
 
@@ -1545,9 +1802,9 @@ if (!isset($_SESSION["id"])) {
                         ),
                         "type" => "Factuel",
                         "level" => "Junior",
-                        "activeTest" => false,
+                        "activeTest" => true,
                         "active" => false,
-                        "created" => date("d-m-Y"),
+                        "created" => date("d-m-Y H:I:S"),
                     ];
                     $allocations->insertOne($allocateFac);
 
@@ -1575,10 +1832,10 @@ if (!isset($_SESSION["id"])) {
                         ),
                         "type" => "Declaratif",
                         "level" => "Junior",
-                        "activeTest" => false,
+                        "activeTest" => true,
                         "activeManager" => false,
                         "active" => false,
-                        "created" => date("d-m-Y"),
+                        "created" => date("d-m-Y H:I:S"),
                     ];
                     $allocations->insertOne($allocateDecla);
 
@@ -1597,7 +1854,7 @@ if (!isset($_SESSION["id"])) {
                         "level" => "Junior",
                         "total" => 0,
                         "active" => true,
-                        "created" => date("d-m-y"),
+                        "created" => date("d-m-y h:i:s"),
                     ];
                     $insertFac = $tests->insertOne($testJuFac);
 
@@ -1611,7 +1868,7 @@ if (!isset($_SESSION["id"])) {
                         "level" => "Junior",
                         "total" => 0,
                         "active" => true,
-                        "created" => date("d-m-y"),
+                        "created" => date("d-m-y h:i:s"),
                     ];
                     $insertDecla = $tests->insertOne($testJuDecla);
 
@@ -1625,7 +1882,7 @@ if (!isset($_SESSION["id"])) {
                         "level" => "Senior",
                         "total" => 0,
                         "active" => true,
-                        "created" => date("d-m-y"),
+                        "created" => date("d-m-y h:i:s"),
                     ];
                     $insertSeFac = $tests->insertOne($testSeFac);
 
@@ -1639,7 +1896,7 @@ if (!isset($_SESSION["id"])) {
                         "level" => "Senior",
                         "total" => 0,
                         "active" => true,
-                        "created" => date("d-m-y"),
+                        "created" => date("d-m-y h:i:s"),
                     ];
                     $insertSeDecla = $tests->insertOne($testSeDecla);
 
@@ -1704,6 +1961,70 @@ if (!isset($_SESSION["id"])) {
                             }
                         }
                     }
+                    
+                    for ($n = 0; $n < count($person['specialitySenior']); ++$n) {
+                        $specialityFacSe = $academy->specialities->findOne([
+                            '$and' => [
+                                ["label" => $person['specialitySenior'][$n]],
+                                ["type" => "Factuelle"],
+                                ["level" => "Senior"],
+                                ["active" => true],
+                            ],
+                        ]);
+                        if ($specialityFacSe) {
+                            for (
+                                $a = 0;
+                                $a < count($specialityFacSe->quizzes);
+                                ++$a
+                            ) {
+                                $tests->updateOne(
+                                    [
+                                        "_id" => new MongoDB\BSON\ObjectId(
+                                            $insertSeFac->getInsertedId()
+                                        ),
+                                    ],
+                                    [
+                                        '$addToSet' => [
+                                            "quizzes" =>
+                                                $specialityFacSe->quizzes[$a],
+                                        ],
+                                    ]
+                                );
+                            }
+                        }
+
+                        $specialityDeclacSe = $academy->specialities->findOne([
+                            '$and' => [
+                                ["label" => $person['specialitySenior'][$n]],
+                                ["type" => "Declarative"],
+                                ["level" => "Senior"],
+                                ["active" => true],
+                            ],
+                        ]);
+
+                        if ($specialityDeclacSe) {
+                            for (
+                                $a = 0;
+                                $a < count($specialityDeclacSe->quizzes);
+                                ++$a
+                            ) {
+                                $tests->updateOne(
+                                    [
+                                        "_id" => new MongoDB\BSON\ObjectId(
+                                            $insertSeDecla->getInsertedId()
+                                        ),
+                                    ],
+                                    [
+                                        '$addToSet' => [
+                                            "quizzes" =>
+                                                $specialityDeclacSe->quizzes[$a],
+                                        ],
+                                    ]
+                                );
+                            }
+                        }
+                    }
+                    
                     for ($n = 0; $n < count($person['brandSenior']); ++$n) {
                         $vehicleFacSe = $vehicles->findOne([
                             '$and' => [
@@ -1790,9 +2111,9 @@ if (!isset($_SESSION["id"])) {
                         ),
                         "type" => "Factuel",
                         "level" => "Junior",
-                        "activeTest" => false,
+                        "activeTest" => true,
                         "active" => false,
-                        "created" => date("d-m-Y"),
+                        "created" => date("d-m-Y H:I:S"),
                     ];
                     $allocations->insertOne($allocateFac);
 
@@ -1820,10 +2141,10 @@ if (!isset($_SESSION["id"])) {
                         ),
                         "type" => "Declaratif",
                         "level" => "Junior",
-                        "activeTest" => false,
+                        "activeTest" => true,
                         "activeManager" => false,
                         "active" => false,
-                        "created" => date("d-m-Y"),
+                        "created" => date("d-m-Y H:I:S"),
                     ];
                     $allocations->insertOne($allocateDecla);
 
@@ -1853,7 +2174,7 @@ if (!isset($_SESSION["id"])) {
                         "level" => "Senior",
                         "activeTest" => false,
                         "active" => false,
-                        "created" => date("d-m-Y"),
+                        "created" => date("d-m-Y H:I:S"),
                     ];
                     $allocations->insertOne($allocateSeFac);
 
@@ -1886,7 +2207,7 @@ if (!isset($_SESSION["id"])) {
                         "activeTest" => false,
                         "activeManager" => false,
                         "active" => false,
-                        "created" => date("d-m-Y"),
+                        "created" => date("d-m-Y H:I:S"),
                     ];
                     $allocations->insertOne($allocateSeDecla);
 
@@ -1905,7 +2226,7 @@ if (!isset($_SESSION["id"])) {
                         "level" => "Junior",
                         "total" => 0,
                         "active" => true,
-                        "created" => date("d-m-y"),
+                        "created" => date("d-m-y h:i:s"),
                     ];
                     $insertFac = $tests->insertOne($testJuFac);
 
@@ -1919,7 +2240,7 @@ if (!isset($_SESSION["id"])) {
                         "level" => "Junior",
                         "total" => 0,
                         "active" => true,
-                        "created" => date("d-m-y"),
+                        "created" => date("d-m-y h:i:s"),
                     ];
                     $insertDecla = $tests->insertOne($testJuDecla);
 
@@ -1933,7 +2254,7 @@ if (!isset($_SESSION["id"])) {
                         "level" => "Senior",
                         "total" => 0,
                         "active" => true,
-                        "created" => date("d-m-y"),
+                        "created" => date("d-m-y h:i:s"),
                     ];
                     $insertSeFac = $tests->insertOne($testSeFac);
 
@@ -1947,7 +2268,7 @@ if (!isset($_SESSION["id"])) {
                         "level" => "Senior",
                         "total" => 0,
                         "active" => true,
-                        "created" => date("d-m-y"),
+                        "created" => date("d-m-y h:i:s"),
                     ];
                     $insertSeDecla = $tests->insertOne($testSeDecla);
 
@@ -1961,7 +2282,7 @@ if (!isset($_SESSION["id"])) {
                         "level" => "Expert",
                         "total" => 0,
                         "active" => true,
-                        "created" => date("d-m-y"),
+                        "created" => date("d-m-y h:i:s"),
                     ];
                     $insertExFac = $tests->insertOne($testExFac);
 
@@ -1975,7 +2296,7 @@ if (!isset($_SESSION["id"])) {
                         "level" => "Expert",
                         "total" => 0,
                         "active" => true,
-                        "created" => date("d-m-y"),
+                        "created" => date("d-m-y h:i:s"),
                     ];
                     $insertExDecla = $tests->insertOne($testExDecla);
 
@@ -2101,6 +2422,132 @@ if (!isset($_SESSION["id"])) {
                             }
                         }
                     }
+                    
+                    for ($n = 0; $n < count($person['specialitySenior']); ++$n) {
+                        $specialityFacSe = $academy->specialities->findOne([
+                            '$and' => [
+                                ["label" => $person['specialitySenior'][$n]],
+                                ["type" => "Factuelle"],
+                                ["level" => "Senior"],
+                                ["active" => true],
+                            ],
+                        ]);
+                        if ($specialityFacSe) {
+                            for (
+                                $a = 0;
+                                $a < count($specialityFacSe->quizzes);
+                                ++$a
+                            ) {
+                                $tests->updateOne(
+                                    [
+                                        "_id" => new MongoDB\BSON\ObjectId(
+                                            $insertSeFac->getInsertedId()
+                                        ),
+                                    ],
+                                    [
+                                        '$addToSet' => [
+                                            "quizzes" =>
+                                                $specialityFacSe->quizzes[$a],
+                                        ],
+                                    ]
+                                );
+                            }
+                        }
+
+                        $specialityDeclacSe = $academy->specialities->findOne([
+                            '$and' => [
+                                ["label" => $person['specialitySenior'][$n]],
+                                ["type" => "Declarative"],
+                                ["level" => "Senior"],
+                                ["active" => true],
+                            ],
+                        ]);
+
+                        if ($specialityDeclacSe) {
+                            for (
+                                $a = 0;
+                                $a < count($specialityDeclacSe->quizzes);
+                                ++$a
+                            ) {
+                                $tests->updateOne(
+                                    [
+                                        "_id" => new MongoDB\BSON\ObjectId(
+                                            $insertSeDecla->getInsertedId()
+                                        ),
+                                    ],
+                                    [
+                                        '$addToSet' => [
+                                            "quizzes" =>
+                                                $specialityDeclacSe->quizzes[$a],
+                                        ],
+                                    ]
+                                );
+                            }
+                        }
+                    }
+                    
+                    for ($n = 0; $n < count($person['specialityExpert']); ++$n) {
+                        $specialityFacEx = $academy->specialities->findOne([
+                            '$and' => [
+                                ["label" => $person['specialityExpert'][$n]],
+                                ["type" => "Factuelle"],
+                                ["level" => "Expert"],
+                                ["active" => true],
+                            ],
+                        ]);
+                        if ($specialityFacEx) {
+                            for (
+                                $a = 0;
+                                $a < count($specialityFacEx->quizzes);
+                                ++$a
+                            ) {
+                                $tests->updateOne(
+                                    [
+                                        "_id" => new MongoDB\BSON\ObjectId(
+                                            $insertExFac->getInsertedId()
+                                        ),
+                                    ],
+                                    [
+                                        '$addToSet' => [
+                                            "quizzes" =>
+                                                $specialityFacEx->quizzes[$a],
+                                        ],
+                                    ]
+                                );
+                            }
+                        }
+
+                        $specialityDeclacEx = $academy->specialities->findOne([
+                            '$and' => [
+                                ["label" => $person['specialityExpert'][$n]],
+                                ["type" => "Declarative"],
+                                ["level" => "Expert"],
+                                ["active" => true],
+                            ],
+                        ]);
+
+                        if ($specialityDeclacEx) {
+                            for (
+                                $a = 0;
+                                $a < count($specialityDeclacEx->quizzes);
+                                ++$a
+                            ) {
+                                $tests->updateOne(
+                                    [
+                                        "_id" => new MongoDB\BSON\ObjectId(
+                                            $insertExDecla->getInsertedId()
+                                        ),
+                                    ],
+                                    [
+                                        '$addToSet' => [
+                                            "quizzes" =>
+                                                $specialityDeclacEx->quizzes[$a],
+                                        ],
+                                    ]
+                                );
+                            }
+                        }
+                    }
                     for ($n = 0; $n < count($brandExpert); ++$n) {
                         $vehicleFacEx = $vehicles->findOne([
                             '$and' => [
@@ -2187,9 +2634,9 @@ if (!isset($_SESSION["id"])) {
                         ),
                         "type" => "Factuel",
                         "level" => "Junior",
-                        "activeTest" => false,
+                        "activeTest" => true,
                         "active" => false,
-                        "created" => date("d-m-Y"),
+                        "created" => date("d-m-Y H:I:S"),
                     ];
                     $allocations->insertOne($allocateFac);
 
@@ -2217,10 +2664,10 @@ if (!isset($_SESSION["id"])) {
                         ),
                         "type" => "Declaratif",
                         "level" => "Junior",
-                        "activeTest" => false,
+                        "activeTest" => true,
                         "activeManager" => false,
                         "active" => false,
-                        "created" => date("d-m-Y"),
+                        "created" => date("d-m-Y H:I:S"),
                     ];
                     $allocations->insertOne($allocateDecla);
 
@@ -2250,7 +2697,7 @@ if (!isset($_SESSION["id"])) {
                         "level" => "Senior",
                         "activeTest" => false,
                         "active" => false,
-                        "created" => date("d-m-Y"),
+                        "created" => date("d-m-Y H:I:S"),
                     ];
                     $allocations->insertOne($allocateSeFac);
 
@@ -2283,7 +2730,7 @@ if (!isset($_SESSION["id"])) {
                         "activeTest" => false,
                         "activeManager" => false,
                         "active" => false,
-                        "created" => date("d-m-Y"),
+                        "created" => date("d-m-Y H:I:S"),
                     ];
                     $allocations->insertOne($allocateSeDecla);
 
@@ -2313,7 +2760,7 @@ if (!isset($_SESSION["id"])) {
                         "level" => "Expert",
                         "activeTest" => false,
                         "active" => false,
-                        "created" => date("d-m-Y"),
+                        "created" => date("d-m-Y H:I:S"),
                     ];
                     $allocations->insertOne($allocateExFac);
 
@@ -2346,7 +2793,7 @@ if (!isset($_SESSION["id"])) {
                         "activeTest" => false,
                         "activeManager" => false,
                         "active" => false,
-                        "created" => date("d-m-Y"),
+                        "created" => date("d-m-Y H:I:S"),
                     ];
                     $allocations->insertOne($allocateExDecla);
 
@@ -2376,12 +2823,13 @@ if (!isset($_SESSION["id"])) {
                     "visiblePassword" => $row["18"],
                     "test" => false,
                     "active" => true,
-                    "created" => date("d-m-Y"),
+                    "created" => date("d-m-Y H:I:S"),
                 ];
                 $user = $users->insertOne($personM);
                 $success_msg = $success_manager;
             } elseif ($profile == "Admin") {
                 $personA = [
+                    "users" => [],
                     "username" => $username,
                     "matricule" => $matricule,
                     "firstName" => ucfirst($firstName),
@@ -2402,28 +2850,59 @@ if (!isset($_SESSION["id"])) {
                     "password" => $password,
                     "visiblePassword" => $row["18"],
                     "active" => true,
-                    "created" => date("d-m-Y"),
+                    "created" => date("d-m-Y H:I:S"),
                 ];
                 $users->insertOne($personA);
                 $success_msg = $success_admin;
+            } elseif ($profile == "Directeur Filiale" || $profile == "Directeur Groupe") {
+                $personD = [
+                    "users" => [],
+                    "username" => $username,
+                    "matricule" => $matricule,
+                    "firstName" => ucfirst($firstName),
+                    "lastName" => strtoupper($lastName),
+                    "email" => $email,
+                    "phone" => +$phone,
+                    "gender" => $gender,
+                    "level" => $level,
+                    "country" => $country,
+                    "profile" => $profile,
+                    "birthdate" => $birthdate,
+                    "recrutmentDate" => $recrutmentDate,
+                    "certificate" => ucfirst($certificate),
+                    "subsidiary" => ucfirst($subsidiary),
+                    "agency" => ucfirst($agency),
+                    "department" => ucfirst($department),
+                    "role" => ucfirst($role),
+                    "password" => $password,
+                    "visiblePassword" => $row["18"],
+                    "active" => true,
+                    "created" => date("d-m-Y H:I:S"),
+                ];
+                $users->insertOne($personD);
+                $success_msg = $success_directeur;
             }
         }
     }
     ?>
 <?php include_once "partials/header.php"; ?>
-
+<style>
+input {
+    background-color: #fff ! important;
+    border-style: solid;
+}
+</style>
 <!--begin::Title-->
 <title><?php echo $import_user ?> | CFAO Mobility Academy</title>
 <!--end::Title-->
 
 
 <!--begin::Body-->
-<div class="content fs-6 d-flex flex-column flex-column-fluid" id="kt_content"
-    data-select2-id="select2-data-kt_content">
+<div class="content fs-6 d-flex flex-column flex-column-fluid" id="kt_content">
     <!--begin::Post-->
-    <div class="post fs-6 d-flex flex-column-fluid" id="kt_post" data-select2-id="select2-data-kt_post">
+    <div class="post fs-6 d-flex flex-column-fluid" id="kt_post">
         <!--begin::Container-->
-        <div class=" container-xxl " data-select2-id="select2-data-194-27hh">
+        <div class="container-xxl">
             <!--begin::Modal body-->
             <div class="container mt-5 w-50 text-center">
                 <img src="../public/images/logo.png" alt="10" height="170" style="display: block; max-width: 75%; height: auto; margin-left: 25px;">
@@ -2448,24 +2927,28 @@ if (!isset($_SESSION["id"])) {
 
                 <form enctype='multipart/form-data' method='POST'><br>
                     <!--begin::Input group-->
-                    <div class='fv-row mb-7'>
+                    <div class="fv-row mb-7">
                         <!--begin::Label-->
-                        <label class='required form-label fw-bolder text-dark fs-6'>Importer des utilisateurs via
-                            <?php echo $excel ?></label>
+                        <label class="required form-label fw-bolder text-dark fs-6">Importer des utilisateurs via <?php echo $excel ?></label>
                         <!--end::Label-->
                         <!--begin::Input-->
-                        <input type='file' class='form-control form-control-solid' placeholder='' name='excel' />
+                        <div class="input-group">
+                            <input type="file" class="form-control form-control-solid" placeholder="" name="excel" style="text-align: center;" />
+                            <div class="input-group-append">
+                                <span class="input-group-text" style = "height: 10px !important; padding: 15px;">.xlsx</span>
+                            </div>
+                        </div>
                         <!--end::Input-->
                     </div>
                     <!--end::Input group-->
-                    <div class='modal-footer flex-center'>
+                    <div class="modal-footer flex-center">
                         <!--begin::Button-->
-                        <button type='submit' name='submit' class='btn btn-primary'>
-                            <span class='indicator-label'>
+                        <button type="submit" name="submit" class="btn btn-primary">
+                            <span class="indicator-label">
                                 <?php echo $valider ?>
                             </span>
-                            <span class='indicator-progress'>
-                                Patientez... <span class='spinner-border spinner-border-sm align-middle ms-2'></span>
+                            <span class="indicator-progress">
+                                Patientez... <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
                             </span>
                         </button>
                         <!--end::Button-->
@@ -2480,6 +2963,7 @@ if (!isset($_SESSION["id"])) {
     <!--end::Post-->
 </div>
 <!--end::Body-->
+
 <script>
     // Function to handle closing of the alert message
     document.addEventListener('DOMContentLoaded', function() {
@@ -2493,5 +2977,6 @@ if (!isset($_SESSION["id"])) {
     });
 </script>
 <?php include_once "partials/footer.php"; ?>
+
 <?php
 } ?>

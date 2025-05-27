@@ -10,18 +10,80 @@ if (!isset($_SESSION["profile"])) {
     header("Location: ../");
     exit();
 } else {
+    // Liste des spécialités
+    $specialities = [
+        'Boite de Vitesse' => $boite_vitesse,
+        'Electricté et Electronique' => $elec,
+        'Hydraulique' => $hydraulique,
+        'Moteur' => $moteur,
+        'Transmission' => $transmission
+    ];
+    
+    // Liste des pays
+    $countries = [
+        'Afghanistan', 'Albania', 'Algeria', 'American Samoa', 'Andorra', 'Angola', 
+        'Anguilla', 'Antarctica', 'Antigua and Barbuda', 'Argentina', 'Armenia', 
+        'Aruba', 'Australia', 'Austria', 'Azerbaijan', 'Bahamas', 'Bahrain', 
+        'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bermuda', 
+        'Bhutan', 'Bolivia', 'Bosnia and Herzegovina', 'Botswana', 'Bouvet Island', 
+        'Brazil', 'British Indian Ocean Territory', 'Brunei Darussalam', 'Bulgaria', 
+        'Burkina Faso', 'Burundi', 'Cambodia', 'Cameroun', 'Canada', 'Cape Verde', 
+        'Cayman Islands', 'RCA', 'Chad', 'Chile', 'China', 
+        'Christmas Island', 'Cocos (Keeling) Islands', 'Colombia', 'Comoros', 
+        'Congo', 'RDC', 'Cook Islands', 'Costa Rica', 
+        "Cote d'Ivoire", 'Croatia (Hrvatska)', 'Cuba', 'Cyprus', 'Czech Republic', 
+        'Denmark', 'Djibouti', 'Dominica', 'Dominican Republic', 'East Timor', 
+        'Ecuador', 'Egypt', 'El Salvador', 'Equatorial Guinea', 'Eritrea', 'Estonia', 
+        'Ethiopia', 'Falkland Islands (Malvinas)', 'Faroe Islands', 'Fiji', 'Finland', 
+        'France', 'France, Metropolitan', 'French Guiana', 'French Polynesia', 
+        'French Southern Territories', 'Gabon', 'Gambia', 'Georgia', 'Germany', 
+        'Ghana', 'Gibraltar', 'Greece', 'Greenland', 'Grenada', 'Guadeloupe', 
+        'Guam', 'Guatemala', 'Guinea', 'Guinea-Bissau', 'Guyana', 'Haiti', 
+        'Heard and Mc Donald Islands', 'Holy See (Vatican City State)', 'Honduras', 
+        'Hong Kong', 'Hungary', 'Iceland', 'India', 'Indonesia', 'Iran (Islamic Republic of)', 
+        'Iraq', 'Ireland', 'Israel', 'Italy', 'Jamaica', 'Japan', 'Jordan', 'Kazakhstan', 
+        'Kenya', 'Kiribati', 'Korea, Democratic People\'s Republic of', 'Korea, Republic of', 
+        'Kuwait', 'Kyrgyzstan', 'Lao People\'s Democratic Republic', 'Latvia', 'Lebanon', 
+        'Lesotho', 'Liberia', 'Libyan Arab Jamahiriya', 'Liechtenstein', 'Lithuania', 
+        'Luxembourg', 'Macau', 'Macedonia, The Former Yugoslav Republic of', 'Madagascar', 
+        'Malawi', 'Malaysia', 'Maldives', 'Mali', 'Malta', 'Marshall Islands', 'Martinique', 
+        'Mauritania', 'Mauritius', 'Mayotte', 'Mexico', 'Micronesia, Federated States of', 
+        'Moldova, Republic of', 'Monaco', 'Mongolia', 'Montserrat', 'Morocco', 
+        'Mozambique', 'Myanmar', 'Namibia', 'Nauru', 'Nepal', 'Netherlands', 
+        'Netherlands Antilles', 'New Caledonia', 'New Zealand', 'Nicaragua', 'Niger', 
+        'Nigeria', 'Niue', 'Norfolk Island', 'Northern Mariana Islands', 'Norway', 'Oman', 
+        'Pakistan', 'Palau', 'Panama', 'Papua New Guinea', 'Paraguay', 'Peru', 
+        'Philippines', 'Pitcairn', 'Poland', 'Portugal', 'Puerto Rico', 'Qatar', 
+        'Reunion', 'Romania', 'Russian Federation', 'Rwanda', 'Saint Kitts and Nevis', 
+        'Saint LUCIA', 'Saint Vincent and the Grenadines', 'Samoa', 'San Marino', 
+        'Sao Tome and Principe', 'Saudi Arabia', 'Senegal', 'Seychelles', 'Sierra Leone', 
+        'Singapore', 'Slovakia (Slovak Republic)', 'Slovenia', 'Solomon Islands', 'Somalia', 
+        'South Africa', 'South Georgia and the South Sandwich Islands', 'Spain', 
+        'Sri Lanka', 'St. Helena', 'St. Pierre and Miquelon', 'Sudan', 'Suriname', 
+        'Svalbard and Jan Mayen Islands', 'Swaziland', 'Sweden', 'Switzerland', 
+        'Syrian Arab Republic', 'Taiwan, Province of China', 'Tajikistan', 
+        'Tanzania, United Republic of', 'Thailand', 'Togo', 'Tokelau', 'Tonga', 
+        'Trinidad and Tobago', 'Tunisia', 'Turkey', 'Turkmenistan', 'Turks and Caicos Islands', 
+        'Tuvalu', 'Uganda', 'Ukraine', 'United Arab Emirates', 'United Kingdom', 
+        'United States', 'United States Minor Outlying Islands', 'Uruguay', 'Uzbekistan', 
+        'Vanuatu', 'Venezuela', 'Viet Nam', 'Virgin Islands (British)', 'Virgin Islands (U.S.)', 
+        'Wallis and Futuna Islands', 'Western Sahara', 'Yemen', 'Serbia', 'Zambia', 'Zimbabwe'
+    ];
+
      ?>
 <?php
 require_once "../vendor/autoload.php"; // Create connection
 $conn = new MongoDB\Client("mongodb://localhost:27017");
-// Connecting in database
+// Connexion à la base de donnée
 $academy = $conn->academy; 
-// Connecting in collections
+// Connexion aux collections
 $users = $academy->users;
 $tests = $academy->tests;
 $vehicles = $academy->vehicles;
 $allocations = $academy->allocations;
+$results = $academy->results;
 
+// Modification d'un ou plusieurs attributs d'un utilisateur 
 if (isset($_POST["update"])) {
     $id = $_POST["userID"];
     $firstName = $_POST["firstName"];
@@ -31,10 +93,11 @@ if (isset($_POST["update"])) {
     $matriculation = $_POST["matricule"];
     $userName = $_POST["username"];
     $subsidiary = $_POST["subsidiary"];
+    $agency = $_POST["agency"];
     $fonction = $_POST["role"];
     $sex = $_POST["gender"];
-    $pays = $_POST["country"];
-    $level = $_POST["level"];
+    $payss = $_POST["country"];
+    $niveau = $_POST["level"];
     $certificate = $_POST["certificate"];
     $birthDate = date("d-m-Y", strtotime($_POST["birthdate"]));
     $recrutementDate = date("d-m-Y", strtotime($_POST["recrutmentDate"]));
@@ -46,20 +109,69 @@ if (isset($_POST["update"])) {
         "email" => $email,
         "phone" => $phone,
         "gender" => $sex,
-        "level" => $level,
-        "country" => $pays,
+        "level" => $niveau,
+        "country" => $payss,
         "birthdate" => $birthDate,
         "recrutmentDate" => $recrutementDate,
         "certificate" => ucfirst($certificate),
         "subsidiary" => ucfirst($subsidiary),
+        "agency" => ucfirst($agency),
         "role" => ucfirst($fonction),
-        "updated" => date("d-m-Y"),
+        "updated" => date("d-m-Y H:I:S"),
     ];
+    // Requête de modification
     $users->updateOne(
         ["_id" => new MongoDB\BSON\ObjectId($id)],
         ['$set' => $person]
     );
     $success_msg = $success_user_edit;
+}
+
+
+// Modification du profile d'un utilisateur 
+if (isset($_POST["profile"])) {
+$id = $_POST["userID"];
+$userProfil = $_POST["profile"];
+
+if ($userProfil == 'Manager & Technicien') {
+    $users->updateOne(
+        ["_id" => new MongoDB\BSON\ObjectId($id)],
+        ['$set' => ['profile' => 'Manager', 'test' => true] ]
+    );  
+} else {
+    $users->updateOne(
+        ["_id" => new MongoDB\BSON\ObjectId($id)],
+        ['$set' => ['profile' => $userProfil, 'test' => false]]
+    );  
+}
+
+$success_msg = $success_user_edit;
+}
+
+
+// Modification de la spécialité Senior d'un utilisateur 
+if (isset($_POST["specialitySenior"])) {
+$id = $_POST["userID"];
+$specialitySenior = $_POST["specialitySenior"];
+
+$users->updateOne(
+    ["_id" => new MongoDB\BSON\ObjectId($id)],
+    ['$set' => ['specialitySenior' => $specialitySenior] ]
+);
+$success_msg = $success_user_edit;
+}
+
+
+// Modification de la spécialité Expert d'un utilisateur 
+if (isset($_POST["specialityExpert"])) {
+$id = $_POST["userID"];
+$specialityExpert = $_POST["specialityExpert"];
+
+$users->updateOne(
+    ["_id" => new MongoDB\BSON\ObjectId($id)],
+    ['$set' => ['specialityExpert' => $specialityExpert] ]
+);
+$success_msg = $success_user_edit;
 }
 
 if (isset($_POST["department"])) {
@@ -73,20 +185,35 @@ $users->updateOne(
 $success_msg = $success_user_edit;
 }
 
+
+// Modification du manager d'un utilisateur 
 if (isset($_POST["manager"])) {
   $id = $_POST["userID"];
   $manager = $_POST["manager"];
   
-  $users->updateOne(
-      ["_id" => new MongoDB\BSON\ObjectId($id)],
-      ['$set' => ['manager' => new MongoDB\BSON\ObjectId($manager)] ]
-  );
   $user = $users->findOne([
       '$and' => [
           ["users" => new MongoDB\BSON\ObjectId($id)],
           ["active" => true],
       ],
   ]);
+  $managerUser = $users->findOne([
+      '$and' => [
+          ["_id" => new MongoDB\BSON\ObjectId($id)],
+          ["active" => true],
+      ],
+  ]);
+  $result = $results->find([
+      '$and' => [
+          ["user" => new MongoDB\BSON\ObjectId($id)],
+          ["manager" => new MongoDB\BSON\ObjectId($managerUser['manager'])],
+          ["active" => true],
+      ],
+  ])->toArray();
+  $users->updateOne(
+      ["_id" => new MongoDB\BSON\ObjectId($id)],
+      ['$set' => ['manager' => new MongoDB\BSON\ObjectId($manager)] ]
+  );
   $users->updateOne(
       ["_id" => new MongoDB\BSON\ObjectId($user['_id'])],
       ['$pull' => ['users' => new MongoDB\BSON\ObjectId($id)] ]
@@ -95,850 +222,1384 @@ if (isset($_POST["manager"])) {
       ["_id" => new MongoDB\BSON\ObjectId($manager)],
       ['$push' => ['users' => new MongoDB\BSON\ObjectId($id)] ]
   );
+  foreach ($result as $res) {
+      $results->updateOne(
+          ["_id" => new MongoDB\BSON\ObjectId($res['_id'])],
+          ['$set' => ['manager' => new MongoDB\BSON\ObjectId($manager)] ]
+      );
+  }
   $success_msg = $success_user_edit;
 }
 
+
+// Modification des marques junior d'un utilisateur 
 if (isset($_POST["brandJu"])) {
-$id = $_POST["userID"];
-
-$brandJu = $_POST["brandJu"];
-$users->updateOne(
-    ["_id" => new MongoDB\BSON\ObjectId($id)],
-    [
-        '$set' => [
-            "brandJunior" => $brandJu,
-        ],
-    ]
-);
-$testFac = $tests->findOne([
-    '$and' => [
-        ["user" => new MongoDB\BSON\ObjectId($id)],
-        ["type" => "Factuel"],
-        ["level" => "Junior"],
-        ["active" => true],
-    ],
-]);
-$testDecla = $tests->findOne([
-    '$and' => [
-        ["user" => new MongoDB\BSON\ObjectId($id)],
-        ["type" => "Declaratif"],
-        ["level" => "Junior"],
-        ["active" => true],
-    ],
-]);
-$tests->updateOne(
-    ["_id" => new MongoDB\BSON\ObjectId($testFac["_id"])],
-    [
-        '$set' => [
-            "quizzes" => [],
-            "brand" => $brandJu,
-        ],
-    ]
-);
-$tests->updateOne(
-    ["_id" => new MongoDB\BSON\ObjectId($testDecla["_id"])],
-    [
-        '$set' => [
-            "quizzes" => [],
-            "brand" => $brandJu,
-        ],
-    ]
-);
-for ($n = 0; $n < count($brandJu); ++$n) {
-    $vehicleFac = $vehicles->findOne([
+    $id = $_POST["userID"];
+    
+    $brandJu = $_POST["brandJu"];
+    $resultJu = $results->find([
         '$and' => [
-            ["brand" => $brandJu[$n]],
+            ["user" => new MongoDB\BSON\ObjectId($user['_id'])],
+            ["level" => "Junior"],
+            ["active" => true],
+        ],
+    ]);
+    $allocateFacJu = $allocations->findOne([
+        '$and' => [
+            ["user" => new MongoDB\BSON\ObjectId($user['_id'])],
+            ["type" => "Factuel"],
+            ["level" => "Junior"],
+        ],
+    ]);
+    
+    $allocateDeclaJu = $allocations->findOne([
+        '$and' => [
+            ["user" => new MongoDB\BSON\ObjectId($user['_id'])],
+            ["type" => "Declaratif"],
+            ["level" => "Junior"]
+        ],
+    ]);
+    $users->updateOne(
+        ["_id" => new MongoDB\BSON\ObjectId($id)],
+        [
+            '$set' => [
+                "brandJunior" => $brandJu,
+            ],
+        ]
+    );
+    $testFac = $tests->findOne([
+        '$and' => [
+            ["user" => new MongoDB\BSON\ObjectId($id)],
             ["type" => "Factuel"],
             ["level" => "Junior"],
             ["active" => true],
         ],
     ]);
-    $vehicleDecla = $vehicles->findOne([
+    $testDecla = $tests->findOne([
         '$and' => [
-            ["brand" => $brandJu[$n]],
+            ["user" => new MongoDB\BSON\ObjectId($id)],
             ["type" => "Declaratif"],
             ["level" => "Junior"],
             ["active" => true],
         ],
     ]);
-    if ($vehicleFac) {
-        for (
-            $a = 0;
-            $a < count($vehicleFac->quizzes);
-            ++$a
-        ) {
-            $tests->updateOne(
-                [
-                    "_id" => new MongoDB\BSON\ObjectId(
-                        $testFac["_id"]
-                    ),
-                ],
-                [
-                    '$addToSet' => [
-                        "quizzes" =>
-                            $vehicleFac->quizzes[$a],
+    $tests->updateOne(
+        ["_id" => new MongoDB\BSON\ObjectId($testFac["_id"])],
+        [
+            '$set' => [
+                "quizzes" => [],
+                "brand" => $brandJu,
+            ],
+        ]
+    );
+    $tests->updateOne(
+        ["_id" => new MongoDB\BSON\ObjectId($testDecla["_id"])],
+        [
+            '$set' => [
+                "quizzes" => [],
+                "brand" => $brandJu,
+            ],
+        ]
+    );
+    for ($n = 0; $n < count($brandJu); ++$n) {
+        $vehicleFac = $vehicles->findOne([
+            '$and' => [
+                ["brand" => $brandJu[$n]],
+                ["type" => "Factuel"],
+                ["level" => "Junior"],
+                ["active" => true],
+            ],
+        ]);
+        $vehicleDecla = $vehicles->findOne([
+            '$and' => [
+                ["brand" => $brandJu[$n]],
+                ["type" => "Declaratif"],
+                ["level" => "Junior"],
+                ["active" => true],
+            ],
+        ]);
+        if ($vehicleFac) {
+            for (
+                $a = 0;
+                $a < count($vehicleFac->quizzes);
+                ++$a
+            ) {
+                $tests->updateOne(
+                    [
+                        "_id" => new MongoDB\BSON\ObjectId(
+                            $testFac["_id"]
+                        ),
                     ],
-                ]
-            );
+                    [
+                        '$addToSet' => [
+                            "quizzes" =>
+                                $vehicleFac->quizzes[$a],
+                        ],
+                    ]
+                );
+            }
+        }
+        if ($vehicleDecla) {
+            for (
+                $a = 0;
+                $a < count($vehicleDecla->quizzes);
+                ++$a
+            ) {
+                $tests->updateOne(
+                    [
+                        "_id" => new MongoDB\BSON\ObjectId(
+                            $testDecla["_id"]
+                        ),
+                    ],
+                    [
+                        '$addToSet' => [
+                            "quizzes" =>
+                                $vehicleDecla->quizzes[$a],
+                        ],
+                    ]
+                );
+            }
         }
     }
-    if ($vehicleDecla) {
-        for (
-            $a = 0;
-            $a < count($vehicleDecla->quizzes);
-            ++$a
-        ) {
-            $tests->updateOne(
-                [
-                    "_id" => new MongoDB\BSON\ObjectId(
-                        $testDecla["_id"]
-                    ),
-                ],
-                [
-                    '$addToSet' => [
-                        "quizzes" =>
-                            $vehicleDecla->quizzes[$a],
-                    ],
-                ]
-            );
-        }
-    }
-}
-$saveTestFac = $tests->findOne([
-    "_id" => new MongoDB\BSON\ObjectId(
-        $testFac["_id"]
-    ),
-]);
-$saveTestDecla = $tests->findOne([
-    "_id" => new MongoDB\BSON\ObjectId(
-        $testDecla["_id"]
-    ),
-]);
-
-$tests->updateOne(
-    ["_id" => new MongoDB\BSON\ObjectId($saveTestFac["_id"])],
-    [
-        '$set' => [
-            "total" => count($saveTestFac["quizzes"])
-        ],
-    ]
-);
-$tests->updateOne(
-    ["_id" => new MongoDB\BSON\ObjectId($saveTestDecla["_id"])],
-    [
-        '$set' => [
-            "total" => count($saveTestDecla["quizzes"])
-        ],
-    ]
-);
-$success_msg = $success_user_edit;
+    $saveTestFac = $tests->findOne([
+        "_id" => new MongoDB\BSON\ObjectId(
+            $testFac["_id"]
+        ),
+    ]);
+    $saveTestDecla = $tests->findOne([
+        "_id" => new MongoDB\BSON\ObjectId(
+            $testDecla["_id"]
+        ),
+    ]);
+    
+    $tests->updateOne(
+        ["_id" => new MongoDB\BSON\ObjectId($saveTestFac["_id"])],
+        [
+            '$set' => [
+                "total" => count($saveTestFac["quizzes"])
+            ],
+        ]
+    );
+    $tests->updateOne(
+        ["_id" => new MongoDB\BSON\ObjectId($saveTestDecla["_id"])],
+        [
+            '$set' => [
+                "total" => count($saveTestDecla["quizzes"])
+            ],
+        ]
+    );
+    $success_msg = $success_user_edit;
 }
 
+
+// Modification des marques senior d'un utilisateur 
 if (isset($_POST["brandSe"])) {
-$id = $_POST["userID"];
-
-$brandSe = $_POST["brandSe"];
-$users->updateOne(
-    ["_id" => new MongoDB\BSON\ObjectId($id)],
-    [
-        '$set' => [
-            "brandSenior" => $brandSe,
+    $id = $_POST["userID"];
+    
+    $brandSe = $_POST["brandSe"];
+    $resultJu = $results->find([
+        '$and' => [
+            ["user" => new MongoDB\BSON\ObjectId($user['_id'])],
+            ["level" => "Junior"],
+            ["active" => true],
         ],
-    ]
-);
-foreach ($brandSe as $bran) {
+    ]);
+    $resultSe = $results->find([
+        '$and' => [
+            ["user" => new MongoDB\BSON\ObjectId($user['_id'])],
+            ["level" => "Senior"],
+            ["active" => true],
+        ],
+    ]);
+    $allocateFacJu = $allocations->findOne([
+        '$and' => [
+            ["user" => new MongoDB\BSON\ObjectId($user['_id'])],
+            ["type" => "Factuel"],
+            ["level" => "Junior"],
+        ],
+    ]);
+    $allocateFacSe = $allocations->findOne([
+        '$and' => [
+            ["user" => new MongoDB\BSON\ObjectId($user['_id'])],
+            ["type" => "Factuel"],
+            ["level" => "Senior"],
+        ],
+    ]);
+    $allocateDeclaJu = $allocations->findOne([
+        '$and' => [
+            ["user" => new MongoDB\BSON\ObjectId($user['_id'])],
+            ["type" => "Declaratif"],
+            ["level" => "Junior"]
+        ],
+    ]);
+    $allocateDeclaSe = $allocations->findOne([
+        '$and' => [
+            ["user" => new MongoDB\BSON\ObjectId($user['_id'])],
+            ["type" => "Declaratif"],
+            ["level" => "Senior"],
+        ],
+    ]);
     $users->updateOne(
         ["_id" => new MongoDB\BSON\ObjectId($id)],
         [
-            '$addToSet' => [
-                "brandJunior" => $bran,
+            '$set' => [
+                "brandSenior" => $brandSe,
             ],
         ]
     );
-}
-$user = $users->findOne([
-    '$and' => [
-        ["_id" => new MongoDB\BSON\ObjectId($id)],
-        ["active" => true],
-    ],
-]);
-$testFac = $tests->findOne([
-    '$and' => [
-        ["user" => new MongoDB\BSON\ObjectId($id)],
-        ["type" => "Factuel"],
-        ["level" => "Junior"],
-        ["active" => true],
-    ],
-]);
-$testDecla = $tests->findOne([
-    '$and' => [
-        ["user" => new MongoDB\BSON\ObjectId($id)],
-        ["type" => "Declaratif"],
-        ["level" => "Junior"],
-        ["active" => true],
-    ],
-]);
-$testFacSe = $tests->findOne([
-    '$and' => [
-        ["user" => new MongoDB\BSON\ObjectId($id)],
-        ["type" => "Factuel"],
-        ["level" => "Senior"],
-        ["active" => true],
-    ],
-]);
-$testDeclaSe = $tests->findOne([
-    '$and' => [
-        ["user" => new MongoDB\BSON\ObjectId($id)],
-        ["type" => "Declaratif"],
-        ["level" => "Senior"],
-        ["active" => true],
-    ],
-]);
-$tests->updateOne(
-    ["_id" => new MongoDB\BSON\ObjectId($testFac["_id"])],
-    [
-        '$set' => [
-            "quizzes" => [],
-            "brand" => $user['brandJunior'],
-        ],
-    ]
-);
-$tests->updateOne(
-    ["_id" => new MongoDB\BSON\ObjectId($testDecla["_id"])],
-    [
-        '$set' => [
-            "quizzes" => [],
-            "brand" => $user['brandJunior'],
-        ],
-    ]
-);
-$tests->updateOne(
-    ["_id" => new MongoDB\BSON\ObjectId($testFacSe["_id"])],
-    [
-        '$set' => [
-            "quizzes" => [],
-            "brand" => $brandSe,
-        ],
-    ]
-);
-$tests->updateOne(
-    ["_id" => new MongoDB\BSON\ObjectId($testDeclaSe["_id"])],
-    [
-        '$set' => [
-            "quizzes" => [],
-            "brand" => $brandSe,
-        ],
-    ]
-);
-$saveTestFac = $tests->findOne([
-    "_id" => new MongoDB\BSON\ObjectId(
-        $testFac["_id"]
-    ),
-]);
-$saveTestDecla = $tests->findOne([
-    "_id" => new MongoDB\BSON\ObjectId(
-        $testDecla["_id"]
-    ),
-]);
-for ($n = 0; $n < count($saveTestFac["brand"]); ++$n) {
-    $vehicleFac = $vehicles->findOne([
+    foreach ($brandSe as $bran) {
+        $users->updateOne(
+            ["_id" => new MongoDB\BSON\ObjectId($id)],
+            [
+                '$addToSet' => [
+                    "brandJunior" => $bran,
+                ],
+            ]
+        );
+    }
+    $user = $users->findOne([
         '$and' => [
-            ["brand" => $saveTestFac["brand"][$n]],
+            ["_id" => new MongoDB\BSON\ObjectId($id)],
+            ["active" => true],
+        ],
+    ]);
+    $testFac = $tests->findOne([
+        '$and' => [
+            ["user" => new MongoDB\BSON\ObjectId($id)],
             ["type" => "Factuel"],
             ["level" => "Junior"],
             ["active" => true],
         ],
     ]);
-    $vehicleDecla = $vehicles->findOne([
+    $testDecla = $tests->findOne([
         '$and' => [
-            ["brand" => $saveTestDecla["brand"][$n]],
+            ["user" => new MongoDB\BSON\ObjectId($id)],
             ["type" => "Declaratif"],
             ["level" => "Junior"],
             ["active" => true],
         ],
     ]);
-    if ($vehicleFac) {
-        for (
-            $a = 0;
-            $a < count($vehicleFac->quizzes);
-            ++$a
-        ) {
-            $tests->updateOne(
-                [
-                    "_id" => new MongoDB\BSON\ObjectId(
-                        $testFac["_id"]
-                    ),
-                ],
-                [
-                    '$addToSet' => [
-                        "quizzes" =>
-                            $vehicleFac->quizzes[$a],
-                    ],
-                ]
-            );
-        }
-    }
-    if ($vehicleDecla) {
-        for (
-            $a = 0;
-            $a < count($vehicleDecla->quizzes);
-            ++$a
-        ) {
-            $tests->updateOne(
-                [
-                    "_id" => new MongoDB\BSON\ObjectId(
-                        $testDecla["_id"]
-                    ),
-                ],
-                [
-                    '$addToSet' => [
-                        "quizzes" =>
-                            $vehicleDecla->quizzes[$a],
-                    ],
-                ]
-            );
-        }
-    }
-}
-for ($n = 0; $n < count($brandSe); ++$n) {
-    $vehicleFacSe = $vehicles->findOne([
+    $testFacSe = $tests->findOne([
         '$and' => [
-            ["brand" => $brandSe[$n]],
+            ["user" => new MongoDB\BSON\ObjectId($id)],
             ["type" => "Factuel"],
             ["level" => "Senior"],
             ["active" => true],
         ],
     ]);
-    $vehicleDeclaSe = $vehicles->findOne([
+    $testDeclaSe = $tests->findOne([
         '$and' => [
-            ["brand" => $brandSe[$n]],
+            ["user" => new MongoDB\BSON\ObjectId($id)],
             ["type" => "Declaratif"],
             ["level" => "Senior"],
             ["active" => true],
         ],
     ]);
-    if ($vehicleFacSe) {
-        for (
-            $a = 0;
-            $a < count($vehicleFacSe->quizzes);
-            ++$a
-        ) {
-            $tests->updateOne(
-                [
-                    "_id" => new MongoDB\BSON\ObjectId(
-                        $testFacSe["_id"]
-                    ),
-                ],
-                [
-                    '$addToSet' => [
-                        "quizzes" =>
-                            $vehicleFacSe->quizzes[$a],
+    $tests->updateOne(
+        ["_id" => new MongoDB\BSON\ObjectId($testFac["_id"])],
+        [
+            '$set' => [
+                "quizzes" => [],
+                "brand" => $user['brandJunior'],
+            ],
+        ]
+    );
+    $tests->updateOne(
+        ["_id" => new MongoDB\BSON\ObjectId($testDecla["_id"])],
+        [
+            '$set' => [
+                "quizzes" => [],
+                "brand" => $user['brandJunior'],
+            ],
+        ]
+    );
+    
+    for ($n = 0; $n < count($user['brandJunior']); ++$n) {
+        $vehicleFac = $vehicles->findOne([
+            '$and' => [
+                ["brand" => $user['brandJunior'][$n]],
+                ["type" => "Factuel"],
+                ["level" => "Junior"],
+                ["active" => true],
+            ],
+        ]);
+        $vehicleDecla = $vehicles->findOne([
+            '$and' => [
+                ["brand" => $user['brandJunior'][$n]],
+                ["type" => "Declaratif"],
+                ["level" => "Junior"],
+                ["active" => true],
+            ],
+        ]);
+        if ($vehicleFac) {
+            for (
+                $a = 0;
+                $a < count($vehicleFac->quizzes);
+                ++$a
+            ) {
+                $tests->updateOne(
+                    [
+                        "_id" => new MongoDB\BSON\ObjectId(
+                            $testFac["_id"]
+                        ),
                     ],
-                ]
-            );
+                    [
+                        '$addToSet' => [
+                            "quizzes" =>
+                                $vehicleFac->quizzes[$a],
+                        ],
+                    ]
+                );
+            }
+        }
+        if ($vehicleDecla) {
+            for (
+                $a = 0;
+                $a < count($vehicleDecla->quizzes);
+                ++$a
+            ) {
+                $tests->updateOne(
+                    [
+                        "_id" => new MongoDB\BSON\ObjectId(
+                            $testDecla["_id"]
+                        ),
+                    ],
+                    [
+                        '$addToSet' => [
+                            "quizzes" =>
+                                $vehicleDecla->quizzes[$a],
+                        ],
+                    ]
+                );
+            }
         }
     }
-    if ($vehicleDeclaSe) {
-        for (
-            $a = 0;
-            $a < count($vehicleDeclaSe->quizzes);
-            ++$a
-        ) {
-            $tests->updateOne(
-                [
-                    "_id" => new MongoDB\BSON\ObjectId(
-                        $testDeclaSe["_id"]
-                    ),
+    $saveTestFacJu = $tests->findOne([
+        "_id" => new MongoDB\BSON\ObjectId(
+            $testFac["_id"]
+        ),
+    ]);
+    $saveTestDeclaJu = $tests->findOne([
+        "_id" => new MongoDB\BSON\ObjectId(
+            $testDecla["_id"]
+        ),
+    ]);
+    
+    $tests->updateOne(
+        ["_id" => new MongoDB\BSON\ObjectId($saveTestFacJu["_id"])],
+        [
+            '$set' => [
+                "total" => count($saveTestFacJu["quizzes"])
+            ],
+        ]
+    );
+    $tests->updateOne(
+        ["_id" => new MongoDB\BSON\ObjectId($saveTestDeclaJu["_id"])],
+        [
+            '$set' => [
+                "total" => count($saveTestDeclaJu["quizzes"])
+            ],
+        ]
+    );
+    
+    if ($testFacSe) {
+        $tests->updateOne(
+            ["_id" => new MongoDB\BSON\ObjectId($testFacSe["_id"])],
+            [
+                '$set' => [
+                    "quizzes" => [],
+                    "brand" => $brandSe,
                 ],
-                [
-                    '$addToSet' => [
-                        "quizzes" =>
-                            $vehicleDeclaSe->quizzes[$a],
-                    ],
+            ]
+        );
+        for ($n = 0; $n < count($brandSe); ++$n) {
+            $vehicleFacSe = $vehicles->findOne([
+                '$and' => [
+                    ["brand" => $brandSe[$n]],
+                    ["type" => "Factuel"],
+                    ["level" => "Senior"],
+                    ["active" => true],
+                ],
+            ]);
+            if ($vehicleFacSe) {
+                for (
+                    $a = 0;
+                    $a < count($vehicleFacSe->quizzes);
+                    ++$a
+                ) {
+                    $tests->updateOne(
+                        [
+                            "_id" => new MongoDB\BSON\ObjectId(
+                                $testFacSe["_id"]
+                            ),
+                        ],
+                        [
+                            '$addToSet' => [
+                                "quizzes" =>
+                                    $vehicleFacSe->quizzes[$a],
+                            ],
+                        ]
+                    );
+                }
+            }
+        }
+        $saveTestFacSe = $tests->findOne([
+            "_id" => new MongoDB\BSON\ObjectId(
+                $testFacSe["_id"]
+            ),
+        ]);
+        
+        $tests->updateOne(
+            ["_id" => new MongoDB\BSON\ObjectId($saveTestFacSe["_id"])],
+            [
+                '$set' => [
+                    "total" => count($saveTestFacSe["quizzes"])
+                ],
+            ]
+        );
+    } else {
+        $newTest = [
+            "quizzes" => [],
+            "user" => new MongoDB\BSON\ObjectId($id),
+            "brand" => $brandSe,
+            "type" => "Factuel",
+            "level" =>"Senior",
+            "total" => 0,
+            "active" => true,
+            "created" => date("d-m-y h:i:s"),
+        ];
+        $insert = $tests->insertOne($newTest);
+    
+        for ($n = 0; $n < count($brandSe); ++$n) {
+            $vehicleFacSe = $vehicles->findOne([
+                '$and' => [
+                    ["brand" => $brandSe[$n]],
+                    ["type" => "Factuel"],
+                    ["level" => "Senior"],
+                    ["active" => true],
+                ],
+            ]);
+            if ($vehicleFacSe) {
+                for (
+                    $a = 0;
+                    $a < count($vehicleFacSe->quizzes);
+                    ++$a
+                ) {
+                    $tests->updateOne(
+                        [
+                            "_id" => new MongoDB\BSON\ObjectId(
+                                $insert->getInsertedId()
+                            ),
+                        ],
+                        [
+                            '$addToSet' => [
+                                "quizzes" =>
+                                    $vehicleFacSe->quizzes[$a],
+                            ],
+                        ]
+                    );
+                }
+            }
+        }
+        $test = $tests->findOne([
+            '$and' => [
+                ["_id" => new MongoDB\BSON\ObjectId($insert->getInsertedId())],
+                ["active" => true],
+            ],
+        ]);
+        $test['total'] = count($test['quizzes']);
+        $tests->updateOne(
+            ["_id" => new MongoDB\BSON\ObjectId($insert->getInsertedId())],
+            [
+                '$set' => $test
+            ]
+        );
+        $allocate = [
+            'user' => new MongoDB\BSON\ObjectId($user['_id']),
+            'test' => new MongoDB\BSON\ObjectId($insert->getInsertedId()),
+            'type' => 'Factuel',
+            'level' => "Senior",
+            'activeTest' => false,
+            'active' => false,
+            'created' => date("d-m-y h:i:s"),
+        ];
+        $allocations->insertOne($allocate);
+    }
+    
+    if ($testDeclaSe) {
+        $tests->updateOne(
+            ["_id" => new MongoDB\BSON\ObjectId($testDeclaSe["_id"])],
+            [
+                '$set' => [
+                    "quizzes" => [],
+                    "brand" => $brandSe,
+                ],
+            ]
+        );
+        
+        for ($n = 0; $n < count($brandSe); ++$n) {
+            $vehicleDeclaSe = $vehicles->findOne([
+                '$and' => [
+                    ["brand" => $brandSe[$n]],
+                    ["type" => "Declaratif"],
+                    ["level" => "Senior"],
+                    ["active" => true],
+                ],
+            ]);
+        
+            if ($vehicleDeclaSe) {
+                for (
+                    $a = 0;
+                    $a < count($vehicleDeclaSe->quizzes);
+                    ++$a
+                ) {
+                    $tests->updateOne(
+                        [
+                            "_id" => new MongoDB\BSON\ObjectId(
+                                $testDeclaSe["_id"]
+                            ),
+                        ],
+                        [
+                            '$addToSet' => [
+                                "quizzes" =>
+                                    $vehicleDeclaSe->quizzes[$a],
+                            ],
+                        ]
+                    );
+                }
+            }
+        }
+        $saveTestDeclaSe = $tests->findOne([
+            "_id" => new MongoDB\BSON\ObjectId(
+                $testDeclaSe["_id"]
+            ),
+        ]);
+        
+        
+        $tests->updateOne(
+            ["_id" => new MongoDB\BSON\ObjectId($saveTestDeclaSe["_id"])],
+            [
+                '$set' => [
+                    "total" => count($saveTestDeclaSe["quizzes"])
+                ],
                 ]
             );
+    } else {
+        $newTest = [
+            "quizzes" => [],
+            "user" => new MongoDB\BSON\ObjectId($id),
+            "brand" => $brandSe,
+            "type" => "Declaratif",
+            "level" =>"Senior",
+            "total" => 0,
+            "active" => true,
+            "created" => date("d-m-y h:i:s"),
+        ];
+        $insertDecla = $tests->insertOne($newTest);
+    
+        for ($n = 0; $n < count($brandSe); ++$n) {
+            $vehicleDeclaSe = $vehicles->findOne([
+                '$and' => [
+                    ["brand" => $brandSe[$n]],
+                    ["type" => "Declaratif"],
+                    ["level" => "Senior"],
+                    ["active" => true],
+                ],
+            ]);
+            if ($vehicleDeclaSe) {
+                for (
+                    $a = 0;
+                    $a < count($vehicleDeclaSe->quizzes);
+                    ++$a
+                ) {
+                    $tests->updateOne(
+                        [
+                            "_id" => new MongoDB\BSON\ObjectId(
+                                $insertDecla->getInsertedId()
+                            ),
+                        ],
+                        [
+                            '$addToSet' => [
+                                "quizzes" =>
+                                    $vehicleDeclaSe->quizzes[$a],
+                            ],
+                        ]
+                    );
+                }
+            }
         }
+        $test = $tests->findOne([
+            '$and' => [
+                ["_id" => new MongoDB\BSON\ObjectId($insertDecla->getInsertedId())],
+                ["active" => true],
+            ],
+        ]);
+        $test['total'] = count($test['quizzes']);
+        $tests->updateOne(
+            ["_id" => new MongoDB\BSON\ObjectId($insertDecla->getInsertedId())],
+            [
+                '$set' => $test
+            ]
+        );
+        $allocate = [
+            'user' => new MongoDB\BSON\ObjectId($user['_id']),
+            'test' => new MongoDB\BSON\ObjectId($insertDecla->getInsertedId()),
+            'type' => 'Declaratif',
+            'level' => "Senior",
+            'activeTest' => false,
+            'activeManager' => false,
+            'active' => false,
+            'created' => date("d-m-y h:i:s"),
+        ];
+        $allocations->insertOne($allocate);
     }
-}
-$saveTestFacJu = $tests->findOne([
-    "_id" => new MongoDB\BSON\ObjectId(
-        $testFac["_id"]
-    ),
-]);
-$saveTestDeclaJu = $tests->findOne([
-    "_id" => new MongoDB\BSON\ObjectId(
-        $testDecla["_id"]
-    ),
-]);
-$saveTestFacSe = $tests->findOne([
-    "_id" => new MongoDB\BSON\ObjectId(
-        $testFacSe["_id"]
-    ),
-]);
-$saveTestDeclaSe = $tests->findOne([
-    "_id" => new MongoDB\BSON\ObjectId(
-        $testDeclaSe["_id"]
-    ),
-]);
-
-$tests->updateOne(
-    ["_id" => new MongoDB\BSON\ObjectId($saveTestFacJu["_id"])],
-    [
-        '$set' => [
-            "total" => count($saveTestFacJu["quizzes"])
-        ],
-    ]
-);
-$tests->updateOne(
-    ["_id" => new MongoDB\BSON\ObjectId($saveTestDeclaJu["_id"])],
-    [
-        '$set' => [
-            "total" => count($saveTestDeclaJu["quizzes"])
-        ],
-    ]
-);
-
-$tests->updateOne(
-    ["_id" => new MongoDB\BSON\ObjectId($saveTestFacSe["_id"])],
-    [
-        '$set' => [
-            "total" => count($saveTestFacSe["quizzes"])
-        ],
-    ]
-);
-$tests->updateOne(
-    ["_id" => new MongoDB\BSON\ObjectId($saveTestDeclaSe["_id"])],
-    [
-        '$set' => [
-            "total" => count($saveTestDeclaSe["quizzes"])
-        ],
-    ]
-);
-$success_msg = $success_user_edit;
+        $success_msg = $success_user_edit;
 }
 
+
+// Modification des marques expert d'un utilisateur 
 if (isset($_POST["brandEx"])) {
-$id = $_POST["userID"];
+    $id = $_POST["userID"];
+    $brandEx = $_POST["brandEx"];
 
-$brandEx = $_POST["brandEx"];
-$users->updateOne(
-    ["_id" => new MongoDB\BSON\ObjectId($id)],
-    [
-        '$set' => [
-            "brandExpert" => $brandEx,
-        ],
-    ]
-);
-foreach ($brandEx as $bran) {
-    $users->updateOne(
-        ["_id" => new MongoDB\BSON\ObjectId($id)],
-        [
-            '$addToSet' => [
-                "brandJunior" => $bran,
-            ],
-        ]
-    );
-    $users->updateOne(
-        ["_id" => new MongoDB\BSON\ObjectId($id)],
-        [
-            '$addToSet' => [
-                "brandSenior" => $bran,
-            ],
-        ]
-    );
-}
-$user = $users->findOne([
-    '$and' => [
-        ["_id" => new MongoDB\BSON\ObjectId($id)],
-        ["active" => true],
-    ],
-]);
-$testFac = $tests->findOne([
-    '$and' => [
-        ["user" => new MongoDB\BSON\ObjectId($id)],
-        ["type" => "Factuel"],
-        ["level" => "Junior"],
-        ["active" => true],
-    ],
-]);
-$testDecla = $tests->findOne([
-    '$and' => [
-        ["user" => new MongoDB\BSON\ObjectId($id)],
-        ["type" => "Declaratif"],
-        ["level" => "Junior"],
-        ["active" => true],
-    ],
-]);
-$testFacSe = $tests->findOne([
-    '$and' => [
-        ["user" => new MongoDB\BSON\ObjectId($id)],
-        ["type" => "Factuel"],
-        ["level" => "Senior"],
-        ["active" => true],
-    ],
-]);
-$testDeclaSe = $tests->findOne([
-    '$and' => [
-        ["user" => new MongoDB\BSON\ObjectId($id)],
-        ["type" => "Declaratif"],
-        ["level" => "Senior"],
-        ["active" => true],
-    ],
-]);
-$testFacEx = $tests->findOne([
-    '$and' => [
-        ["user" => new MongoDB\BSON\ObjectId($id)],
-        ["type" => "Factuel"],
-        ["level" => "Expert"],
-        ["active" => true],
-    ],
-]);
-$testDeclaEx = $tests->findOne([
-    '$and' => [
-        ["user" => new MongoDB\BSON\ObjectId($id)],
-        ["type" => "Declaratif"],
-        ["level" => "Expert"],
-        ["active" => true],
-    ],
-]);
-$tests->updateOne(
-    ["_id" => new MongoDB\BSON\ObjectId($testFac["_id"])],
-    [
-        '$set' => [
-            "quizzes" => [],
-            "brand" => $user['brandJunior'],
-        ],
-    ]
-);
-$tests->updateOne(
-    ["_id" => new MongoDB\BSON\ObjectId($testDecla["_id"])],
-    [
-        '$set' => [
-            "quizzes" => [],
-            "brand" => $user['brandJunior'],
-        ],
-    ]
-);
-$tests->updateOne(
-    ["_id" => new MongoDB\BSON\ObjectId($testFacSe["_id"])],
-    [
-        '$set' => [
-            "quizzes" => [],
-            "brand" => $user['brandSenior'],
-        ],
-    ]
-);
-$tests->updateOne(
-    ["_id" => new MongoDB\BSON\ObjectId($testDeclaSe["_id"])],
-    [
-        '$set' => [
-            "quizzes" => [],
-            "brand" => $user['brandSenior'],
-        ],
-    ]
-);
-$tests->updateOne(
-    ["_id" => new MongoDB\BSON\ObjectId($testFacEx["_id"])],
-    [
-        '$set' => [
-            "quizzes" => [],
-            "brand" => $brandEx,
-        ],
-    ]
-);
-$tests->updateOne(
-    ["_id" => new MongoDB\BSON\ObjectId($testDeclaEx["_id"])],
-    [
-        '$set' => [
-            "quizzes" => [],
-            "brand" => $brandEx,
-        ],
-    ]
-);
-$saveTestFac = $tests->findOne([
-    "_id" => new MongoDB\BSON\ObjectId(
-        $testFac["_id"]
-    ),
-]);
-$saveTestDecla = $tests->findOne([
-    "_id" => new MongoDB\BSON\ObjectId(
-        $testDecla["_id"]
-    ),
-]);
-$saveTestFacSe = $tests->findOne([
-    "_id" => new MongoDB\BSON\ObjectId(
-        $testFacSe["_id"]
-    ),
-]);
-$saveTestDeclaSe = $tests->findOne([
-    "_id" => new MongoDB\BSON\ObjectId(
-        $testDeclaSe["_id"]
-    ),
-]);
-
-for ($n = 0; $n < count($saveTestFac["brand"]); ++$n) {
-    $vehicleFac = $vehicles->findOne([
+    $resultJu = $results->find([
         '$and' => [
-            ["brand" => $saveTestFac["brand"][$n]],
-            ["type" => "Factuel"],
+            ["user" => new MongoDB\BSON\ObjectId($user['_id'])],
             ["level" => "Junior"],
             ["active" => true],
         ],
     ]);
-    $vehicleDecla = $vehicles->findOne([
+    $resultSe = $results->find([
         '$and' => [
-            ["brand" => $saveTestDecla["brand"][$n]],
-            ["type" => "Declaratif"],
+            ["user" => new MongoDB\BSON\ObjectId($user['_id'])],
+            ["level" => "Senior"],
+            ["active" => true],
+        ],
+    ]);
+    $resultEx = $results->find([
+        '$and' => [
+            ["user" => new MongoDB\BSON\ObjectId($user['_id'])],
+            ["level" => "Expert"],
+            ["active" => true],
+        ],
+    ]);
+    $allocateFacJu = $allocations->findOne([
+        '$and' => [
+            ["user" => new MongoDB\BSON\ObjectId($user['_id'])],
+            ["type" => "Factuel"],
             ["level" => "Junior"],
-            ["active" => true],
         ],
     ]);
-    if ($vehicleFac) {
-        for (
-            $a = 0;
-            $a < count($vehicleFac->quizzes);
-            ++$a
-        ) {
-            $tests->updateOne(
-                [
-                    "_id" => new MongoDB\BSON\ObjectId(
-                        $testFac["_id"]
-                    ),
-                ],
-                [
-                    '$addToSet' => [
-                        "quizzes" =>
-                            $vehicleFac->quizzes[$a],
-                    ],
-                ]
-            );
-        }
-    }
-    if ($vehicleDecla) {
-        for (
-            $a = 0;
-            $a < count($vehicleDecla->quizzes);
-            ++$a
-        ) {
-            $tests->updateOne(
-                [
-                    "_id" => new MongoDB\BSON\ObjectId(
-                        $testDecla["_id"]
-                    ),
-                ],
-                [
-                    '$addToSet' => [
-                        "quizzes" =>
-                            $vehicleDecla->quizzes[$a],
-                    ],
-                ]
-            );
-        }
-    }
-}
-for ($n = 0; $n < count($$saveTestFacSe["brand"]); ++$n) {
-    $vehicleFacSe = $vehicles->findOne([
+    $allocateFacSe = $allocations->findOne([
         '$and' => [
-            ["brand" => $$saveTestFacSe["brand"][$n]],
+            ["user" => new MongoDB\BSON\ObjectId($user['_id'])],
             ["type" => "Factuel"],
             ["level" => "Senior"],
-            ["active" => true],
         ],
     ]);
-    $vehicleDeclaSe = $vehicles->findOne([
+    $allocateFacEx = $allocations->findOne([
         '$and' => [
-            ["brand" => $$saveTestDeclaSe["brand"][$n]],
-            ["type" => "Declaratif"],
-            ["level" => "Senior"],
-            ["active" => true],
-        ],
-    ]);
-    if ($vehicleFacSe) {
-        for (
-            $a = 0;
-            $a < count($vehicleFacSe->quizzes);
-            ++$a
-        ) {
-            $tests->updateOne(
-                [
-                    "_id" => new MongoDB\BSON\ObjectId(
-                        $testFacSe["_id"]
-                    ),
-                ],
-                [
-                    '$addToSet' => [
-                        "quizzes" =>
-                            $vehicleFacSe->quizzes[$a],
-                    ],
-                ]
-            );
-        }
-    }
-    if ($vehicleDeclaSe) {
-        for (
-            $a = 0;
-            $a < count($vehicleDeclaSe->quizzes);
-            ++$a
-        ) {
-            $tests->updateOne(
-                [
-                    "_id" => new MongoDB\BSON\ObjectId(
-                        $testDeclaSe["_id"]
-                    ),
-                ],
-                [
-                    '$addToSet' => [
-                        "quizzes" =>
-                            $vehicleDeclaSe->quizzes[$a],
-                    ],
-                ]
-            );
-        }
-    }
-}
-for ($n = 0; $n < count($brandEx); ++$n) {
-    $vehicleFacEx = $vehicles->findOne([
-        '$and' => [
-            ["brand" => $brandEx[$n]],
+            ["user" => new MongoDB\BSON\ObjectId($user['_id'])],
             ["type" => "Factuel"],
-            ["level" => "Senior"],
-            ["active" => true],
+            ["level" => "Expert"],
         ],
     ]);
-    $vehicleDeclaEx = $vehicles->findOne([
+    $allocateDeclaJu = $allocations->findOne([
         '$and' => [
-            ["brand" => $brandEx[$n]],
+            ["user" => new MongoDB\BSON\ObjectId($user['_id'])],
+            ["type" => "Declaratif"],
+            ["level" => "Junior"]
+        ],
+    ]);
+    $allocateDeclaSe = $allocations->findOne([
+        '$and' => [
+            ["user" => new MongoDB\BSON\ObjectId($user['_id'])],
             ["type" => "Declaratif"],
             ["level" => "Senior"],
-            ["active" => true],
         ],
     ]);
-    if ($vehicleFacEx) {
-        for (
-            $a = 0;
-            $a < count($vehicleFacEx->quizzes);
-            ++$a
-        ) {
-            $tests->updateOne(
-                [
-                    "_id" => new MongoDB\BSON\ObjectId(
-                        $testFacSe["_id"]
-                    ),
+    $allocateDeclaEx = $allocations->findOne([
+        '$and' => [
+            ["user" => new MongoDB\BSON\ObjectId($user['_id'])],
+            ["type" => "Declaratif"],
+            ["level" => "Expert"],
+        ],
+        ]);
+        $users->updateOne(
+            ["_id" => new MongoDB\BSON\ObjectId($id)],
+            [
+                '$set' => [
+                    "brandExpert" => $brandEx,
                 ],
+            ]
+        );
+        foreach ($brandEx as $bran) {
+            $users->updateOne(
+                ["_id" => new MongoDB\BSON\ObjectId($id)],
                 [
                     '$addToSet' => [
-                        "quizzes" =>
-                            $vehicleFacEx->quizzes[$a],
+                        "brandJunior" => $bran,
+                    ],
+                ]
+            );
+            $users->updateOne(
+                ["_id" => new MongoDB\BSON\ObjectId($id)],
+                [
+                    '$addToSet' => [
+                        "brandSenior" => $bran,
                     ],
                 ]
             );
         }
-    }
-    if ($vehicleDeclaEx) {
-        for (
-            $a = 0;
-            $a < count($vehicleDeclaEx->quizzes);
-            ++$a
-        ) {
-            $tests->updateOne(
-                [
-                    "_id" => new MongoDB\BSON\ObjectId(
-                        $testDeclaEx["_id"]
-                    ),
+        $user = $users->findOne([
+            '$and' => [
+                ["_id" => new MongoDB\BSON\ObjectId($id)],
+                ["active" => true],
+            ],
+        ]);
+        $testFac = $tests->findOne([
+            '$and' => [
+                ["user" => new MongoDB\BSON\ObjectId($id)],
+                ["type" => "Factuel"],
+                ["level" => "Junior"],
+                ["active" => true],
+            ],
+        ]);
+        $testDecla = $tests->findOne([
+            '$and' => [
+                ["user" => new MongoDB\BSON\ObjectId($id)],
+                ["type" => "Declaratif"],
+                ["level" => "Junior"],
+                ["active" => true],
+            ],
+        ]);
+        $testFacSe = $tests->findOne([
+            '$and' => [
+                ["user" => new MongoDB\BSON\ObjectId($id)],
+                ["type" => "Factuel"],
+                ["level" => "Senior"],
+                ["active" => true],
+            ],
+        ]);
+        $testDeclaSe = $tests->findOne([
+            '$and' => [
+                ["user" => new MongoDB\BSON\ObjectId($id)],
+                ["type" => "Declaratif"],
+                ["level" => "Senior"],
+                ["active" => true],
+            ],
+        ]);
+        $testFacEx = $tests->findOne([
+            '$and' => [
+                ["user" => new MongoDB\BSON\ObjectId($id)],
+                ["type" => "Factuel"],
+                ["level" => "Expert"],
+                ["active" => true],
+            ],
+        ]);
+        $testDeclaEx = $tests->findOne([
+            '$and' => [
+                ["user" => new MongoDB\BSON\ObjectId($id)],
+                ["type" => "Declaratif"],
+                ["level" => "Expert"],
+                ["active" => true],
+            ],
+        ]);
+        for ($n = 0; $n < count($user['brandJunior']); ++$n) {
+            $vehicleFac = $vehicles->findOne([
+                '$and' => [
+                    ["brand" => $user['brandJunior'][$n]],
+                    ["type" => "Factuel"],
+                    ["level" => "Junior"],
+                    ["active" => true],
                 ],
+            ]);
+            $vehicleDecla = $vehicles->findOne([
+                '$and' => [
+                    ["brand" => $user['brandJunior'][$n]],
+                    ["type" => "Declaratif"],
+                    ["level" => "Junior"],
+                    ["active" => true],
+                ],
+            ]);
+            if ($vehicleFac) {
+                for (
+                    $a = 0;
+                    $a < count($vehicleFac->quizzes);
+                    ++$a
+                ) {
+                    $tests->updateOne(
+                        [
+                            "_id" => new MongoDB\BSON\ObjectId(
+                                $testFac["_id"]
+                            ),
+                        ],
+                        [
+                            '$addToSet' => [
+                                "quizzes" =>
+                                    $vehicleFac->quizzes[$a],
+                            ],
+                        ]
+                    );
+                }
+            }
+            if ($vehicleDecla) {
+                for (
+                    $a = 0;
+                    $a < count($vehicleDecla->quizzes);
+                    ++$a
+                ) {
+                    $tests->updateOne(
+                        [
+                            "_id" => new MongoDB\BSON\ObjectId(
+                                $testDecla["_id"]
+                            ),
+                        ],
+                        [
+                            '$addToSet' => [
+                                "quizzes" =>
+                                    $vehicleDecla->quizzes[$a],
+                            ],
+                        ]
+                    );
+                }
+            }
+        }
+        $saveTestFacJu = $tests->findOne([
+            "_id" => new MongoDB\BSON\ObjectId(
+                $testFac["_id"]
+            ),
+        ]);
+        $saveTestDeclaJu = $tests->findOne([
+            "_id" => new MongoDB\BSON\ObjectId(
+                $testDecla["_id"]
+            ),
+        ]);
+        
+        $tests->updateOne(
+            ["_id" => new MongoDB\BSON\ObjectId($saveTestFacJu["_id"])],
+            [
+                '$set' => [
+                    "total" => count($saveTestFacJu["quizzes"])
+                ],
+            ]
+        );
+        $tests->updateOne(
+            ["_id" => new MongoDB\BSON\ObjectId($saveTestDeclaJu["_id"])],
+            [
+                '$set' => [
+                    "total" => count($saveTestDeclaJu["quizzes"])
+                ],
+            ]
+        );
+        
+        if ($testFacSe) {
+            $tests->updateOne(
+                ["_id" => new MongoDB\BSON\ObjectId($testFacSe["_id"])],
                 [
-                    '$addToSet' => [
-                        "quizzes" =>
-                            $vehicleDeclaEx->quizzes[$a],
+                    '$set' => [
+                        "quizzes" => [],
+                        "brand" => $user['brandSenior'],
                     ],
                 ]
             );
+            for ($n = 0; $n < count($user['brandSenior']); ++$n) {
+                $vehicleFacSe = $vehicles->findOne([
+                    '$and' => [
+                        ["brand" => $user['brandSenior'][$n]],
+                        ["type" => "Factuel"],
+                        ["level" => "Senior"],
+                        ["active" => true],
+                    ],
+                ]);
+                if ($vehicleFacSe) {
+                    for (
+                        $a = 0;
+                        $a < count($vehicleFacSe->quizzes);
+                        ++$a
+                    ) {
+                        $tests->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $testFacSe["_id"]
+                                ),
+                            ],
+                            [
+                                '$addToSet' => [
+                                    "quizzes" =>
+                                        $vehicleFacSe->quizzes[$a],
+                                ],
+                            ]
+                        );
+                    }
+                }
+            }
+            $saveTestFacSe = $tests->findOne([
+                "_id" => new MongoDB\BSON\ObjectId(
+                    $testFacSe["_id"]
+                ),
+            ]);
+            
+            $tests->updateOne(
+                ["_id" => new MongoDB\BSON\ObjectId($saveTestFacSe["_id"])],
+                [
+                    '$set' => [
+                        "total" => count($saveTestFacSe["quizzes"])
+                    ],
+                ]
+            );
+        } else {
+            $newTest = [
+                "quizzes" => [],
+                "user" => new MongoDB\BSON\ObjectId($id),
+                "brand" => $user['brandSenior'],
+                "type" => "Factuel",
+                "level" =>"Senior",
+                "total" => 0,
+                "active" => true,
+                "created" => date("d-m-y h:i:s"),
+            ];
+            $insert = $tests->insertOne($newTest);
+        
+            for ($n = 0; $n < count($user['brandSenior']); ++$n) {
+                $vehicleFacSe = $vehicles->findOne([
+                    '$and' => [
+                        ["brand" => $user['brandSenior'][$n]],
+                        ["type" => "Factuel"],
+                        ["level" => "Senior"],
+                        ["active" => true],
+                    ],
+                ]);
+                if ($vehicleFacSe) {
+                    for (
+                        $a = 0;
+                        $a < count($vehicleFacSe->quizzes);
+                        ++$a
+                    ) {
+                        $tests->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $insert->getInsertedId()
+                                ),
+                            ],
+                            [
+                                '$addToSet' => [
+                                    "quizzes" =>
+                                        $vehicleFacSe->quizzes[$a],
+                                ],
+                            ]
+                        );
+                    }
+                }
+            }
+            $test = $tests->findOne([
+                '$and' => [
+                    ["_id" => new MongoDB\BSON\ObjectId($insert->getInsertedId())],
+                    ["active" => true],
+                ],
+            ]);
+            $test['total'] = count($test['quizzes']);
+            $tests->updateOne(
+                ["_id" => new MongoDB\BSON\ObjectId($insert->getInsertedId())],
+                [
+                    '$set' => $test
+                ]
+            );
+            $allocate = [
+                'user' => new MongoDB\BSON\ObjectId($user['_id']),
+                'test' => new MongoDB\BSON\ObjectId($insert->getInsertedId()),
+                'type' => 'Factuel',
+                'level' => "Senior",
+                'activeTest' => false,
+                'active' => false,
+                'created' => date("d-m-y h:i:s"),
+            ];
+            $allocations->insertOne($allocate);
         }
-    }
+        
+        if ($testDeclaSe) {
+            $tests->updateOne(
+                ["_id" => new MongoDB\BSON\ObjectId($testDeclaSe["_id"])],
+                [
+                    '$set' => [
+                        "quizzes" => [],
+                        "brand" => $user['brandSenior'],
+                    ],
+                ]
+            );
+            
+            for ($n = 0; $n < count($user['brandSenior']); ++$n) {
+                $vehicleDeclaSe = $vehicles->findOne([
+                    '$and' => [
+                        ["brand" => $user['brandSenior'][$n]],
+                        ["type" => "Declaratif"],
+                        ["level" => "Senior"],
+                        ["active" => true],
+                    ],
+                ]);
+            
+                if ($vehicleDeclaSe) {
+                    for (
+                        $a = 0;
+                        $a < count($vehicleDeclaSe->quizzes);
+                        ++$a
+                    ) {
+                        $tests->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $testDeclaSe["_id"]
+                                ),
+                            ],
+                            [
+                                '$addToSet' => [
+                                    "quizzes" =>
+                                        $vehicleDeclaSe->quizzes[$a],
+                                ],
+                            ]
+                        );
+                    }
+                }
+            }
+            $saveTestDeclaSe = $tests->findOne([
+                "_id" => new MongoDB\BSON\ObjectId(
+                    $testDeclaSe["_id"]
+                ),
+            ]);
+            
+            
+            $tests->updateOne(
+                ["_id" => new MongoDB\BSON\ObjectId($saveTestDeclaSe["_id"])],
+                [
+                    '$set' => [
+                        "total" => count($saveTestDeclaSe["quizzes"])
+                    ],
+                    ]
+                );
+        } else {
+            $newTest = [
+                "quizzes" => [],
+                "user" => new MongoDB\BSON\ObjectId($id),
+                "brand" => $user['brandSenior'],
+                "type" => "Declaratif",
+                "level" =>"Senior",
+                "total" => 0,
+                "active" => true,
+                "created" => date("d-m-y h:i:s"),
+            ];
+            $insert = $tests->insertOne($newTest);
+        
+            for ($n = 0; $n < count($user['brandSenior']); ++$n) {
+                $vehicleDeclaSe = $vehicles->findOne([
+                    '$and' => [
+                        ["brand" => $user['brandSenior'][$n]],
+                        ["type" => "Declaratif"],
+                        ["level" => "Senior"],
+                        ["active" => true],
+                    ],
+                ]);
+                if ($vehicleDeclaSe) {
+                    for (
+                        $a = 0;
+                        $a < count($vehicleDeclaSe->quizzes);
+                        ++$a
+                    ) {
+                        $tests->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $insert->getInsertedId()
+                                ),
+                            ],
+                            [
+                                '$addToSet' => [
+                                    "quizzes" =>
+                                        $vehicleDeclaSe->quizzes[$a],
+                                ],
+                            ]
+                        );
+                    }
+                }
+            }
+            $test = $tests->findOne([
+                '$and' => [
+                    ["_id" => new MongoDB\BSON\ObjectId($insert->getInsertedId())],
+                    ["active" => true],
+                ],
+            ]);
+            $test['total'] = count($test['quizzes']);
+            $tests->updateOne(
+                ["_id" => new MongoDB\BSON\ObjectId($insert->getInsertedId())],
+                [
+                    '$set' => $test
+                ]
+            );
+            $allocate = [
+                'user' => new MongoDB\BSON\ObjectId($user['_id']),
+                'test' => new MongoDB\BSON\ObjectId($insert->getInsertedId()),
+                'type' => 'Declaratif',
+                'level' => "Senior",
+                'activeTest' => false,
+                'activeManager' => false,
+                'active' => false,
+                'created' => date("d-m-y h:i:s"),
+            ];
+            $allocations->insertOne($allocate);
+        }
+        
+        if ($testFacEx) {
+            $tests->updateOne(
+                ["_id" => new MongoDB\BSON\ObjectId($testFacEx["_id"])],
+                [
+                    '$set' => [
+                        "quizzes" => [],
+                        "brand" => $brandEx,
+                    ],
+                ]
+            );
+            for ($n = 0; $n < count($brandEx); ++$n) {
+                $vehicleFacEx = $vehicles->findOne([
+                    '$and' => [
+                        ["brand" => $brandEx[$n]],
+                        ["type" => "Factuel"],
+                        ["level" => "Expert"],
+                        ["active" => true],
+                    ],
+                ]);
+                if ($vehicleFacEx) {
+                    for (
+                        $a = 0;
+                        $a < count($vehicleFacEx->quizzes);
+                        ++$a
+                    ) {
+                        $tests->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $testFacEx["_id"]
+                                ),
+                            ],
+                            [
+                                '$addToSet' => [
+                                    "quizzes" =>
+                                        $vehicleFacEx->quizzes[$a],
+                                ],
+                            ]
+                        );
+                    }
+                }
+            }
+            $saveTestFacEx = $tests->findOne([
+                "_id" => new MongoDB\BSON\ObjectId(
+                    $testFacEx["_id"]
+                ),
+            ]);
+            
+            $tests->updateOne(
+                ["_id" => new MongoDB\BSON\ObjectId($saveTestFacEx["_id"])],
+                [
+                    '$set' => [
+                        "total" => count($saveTestFacEx["quizzes"])
+                    ],
+                ]
+            );
+        } else {
+            $newTest = [
+                "quizzes" => [],
+                "user" => new MongoDB\BSON\ObjectId($id),
+                "brand" => $brandEx,
+                "type" => "Factuel",
+                "level" =>"Expert",
+                "total" => 0,
+                "active" => true,
+                "created" => date("d-m-y h:i:s"),
+            ];
+            $insert = $tests->insertOne($newTest);
+        
+            for ($n = 0; $n < count($brandEx); ++$n) {
+                $vehicleFacEx = $vehicles->findOne([
+                    '$and' => [
+                        ["brand" => $brandEx[$n]],
+                        ["type" => "Factuel"],
+                        ["level" => "Expert"],
+                        ["active" => true],
+                    ],
+                ]);
+                if ($vehicleFacEx) {
+                    for (
+                        $a = 0;
+                        $a < count($vehicleFacEx->quizzes);
+                        ++$a
+                    ) {
+                        $tests->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $insert->getInsertedId()
+                                ),
+                            ],
+                            [
+                                '$addToSet' => [
+                                    "quizzes" =>
+                                        $vehicleFacEx->quizzes[$a],
+                                ],
+                            ]
+                        );
+                    }
+                }
+            }
+            $test = $tests->findOne([
+                '$and' => [
+                    ["_id" => new MongoDB\BSON\ObjectId($insert->getInsertedId())],
+                    ["active" => true],
+                ],
+            ]);
+            $test['total'] = count($test['quizzes']);
+            $tests->updateOne(
+                ["_id" => new MongoDB\BSON\ObjectId($insert->getInsertedId())],
+                [
+                    '$set' => $test
+                ]
+            );
+            $allocate = [
+                'user' => new MongoDB\BSON\ObjectId($user['_id']),
+                'test' => new MongoDB\BSON\ObjectId($insert->getInsertedId()),
+                'type' => 'Factuel',
+                'level' => "Expert",
+                'activeTest' => false,
+                'active' => false,
+                'created' => date("d-m-y h:i:s"),
+            ];
+            $allocations->insertOne($allocate);
+        }
+        
+        if ($testDeclaEx) {
+            $tests->updateOne(
+                ["_id" => new MongoDB\BSON\ObjectId($testDeclaEx["_id"])],
+                [
+                    '$set' => [
+                        "quizzes" => [],
+                        "brand" => $brandEx,
+                    ],
+                ]
+            );
+            
+            for ($n = 0; $n < count($brandEx); ++$n) {
+                $vehicleDeclaEx = $vehicles->findOne([
+                    '$and' => [
+                        ["brand" => $brandEx[$n]],
+                        ["type" => "Declaratif"],
+                        ["level" => "Expert"],
+                        ["active" => true],
+                    ],
+                ]);
+            
+                if ($vehicleDeclaEx) {
+                    for (
+                        $a = 0;
+                        $a < count($vehicleDeclaEx->quizzes);
+                        ++$a
+                    ) {
+                        $tests->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $testDeclaEx["_id"]
+                                ),
+                            ],
+                            [
+                                '$addToSet' => [
+                                    "quizzes" =>
+                                        $vehicleDeclaEx->quizzes[$a],
+                                ],
+                            ]
+                        );
+                    }
+                }
+            }
+            $saveTestDeclaEx = $tests->findOne([
+                "_id" => new MongoDB\BSON\ObjectId(
+                    $testDeclaEx["_id"]
+                ),
+            ]);
+            
+            
+            $tests->updateOne(
+                ["_id" => new MongoDB\BSON\ObjectId($saveTestDeclaEx["_id"])],
+                [
+                    '$set' => [
+                        "total" => count($saveTestDeclaEx["quizzes"])
+                    ],
+                    ]
+                );
+        } else {
+            $newTest = [
+                "quizzes" => [],
+                "user" => new MongoDB\BSON\ObjectId($id),
+                "brand" => $brandEx,
+                "type" => "Declaratif",
+                "level" =>"Expert",
+                "total" => 0,
+                "active" => true,
+                "created" => date("d-m-y h:i:s"),
+            ];
+            $insert = $tests->insertOne($newTest);
+        
+            for ($n = 0; $n < count($brandEx); ++$n) {
+                $vehicleDeclaEx = $vehicles->findOne([
+                    '$and' => [
+                        ["brand" => $brandEx[$n]],
+                        ["type" => "Declaratif"],
+                        ["level" => "Expert"],
+                        ["active" => true],
+                    ],
+                ]);
+                if ($vehicleDeclaEx) {
+                    for (
+                        $a = 0;
+                        $a < count($vehicleDeclaEx->quizzes);
+                        ++$a
+                    ) {
+                        $tests->updateOne(
+                            [
+                                "_id" => new MongoDB\BSON\ObjectId(
+                                    $insert->getInsertedId()
+                                ),
+                            ],
+                            [
+                                '$addToSet' => [
+                                    "quizzes" =>
+                                        $vehicleDeclaEx->quizzes[$a],
+                                ],
+                            ]
+                        );
+                    }
+                }
+            }
+            $test = $tests->findOne([
+                '$and' => [
+                    ["_id" => new MongoDB\BSON\ObjectId($insert->getInsertedId())],
+                    ["active" => true],
+                ],
+            ]);
+            $test['total'] = count($test['quizzes']);
+            $tests->updateOne(
+                ["_id" => new MongoDB\BSON\ObjectId($insert->getInsertedId())],
+                [
+                    '$set' => $test
+                ]
+            );
+            $allocate = [
+                'user' => new MongoDB\BSON\ObjectId($user['_id']),
+                'test' => new MongoDB\BSON\ObjectId($insert->getInsertedId()),
+                'type' => 'Declaratif',
+                'level' => "Expert",
+                'activeTest' => false,
+                'activeManager' => false,
+                'active' => false,
+                'created' => date("d-m-y h:i:s"),
+            ];
+            $allocations->insertOne($allocate);
+        }
+    $success_msg = $success_user_edit;
 }
-$saveTestFacJu = $tests->findOne([
-    "_id" => new MongoDB\BSON\ObjectId(
-        $testFac["_id"]
-    ),
-]);
-$saveTestDeclaJu = $tests->findOne([
-    "_id" => new MongoDB\BSON\ObjectId(
-        $testDecla["_id"]
-    ),
-]);
-$saveTestFacSeSe = $tests->findOne([
-    "_id" => new MongoDB\BSON\ObjectId(
-        $testFacSe["_id"]
-    ),
-]);
-$saveTestDeclaSeSe = $tests->findOne([
-    "_id" => new MongoDB\BSON\ObjectId(
-        $testDeclaSe["_id"]
-    ),
-]);
-$saveTestFacEx = $tests->findOne([
-    "_id" => new MongoDB\BSON\ObjectId(
-        $testFacEx["_id"]
-    ),
-]);
-$saveTestDeclaEx = $tests->findOne([
-    "_id" => new MongoDB\BSON\ObjectId(
-        $testDeclaEx["_id"]
-    ),
-]);
 
-$tests->updateOne(
-    ["_id" => new MongoDB\BSON\ObjectId($saveTestFacJu["_id"])],
-    [
-        '$set' => [
-            "total" => count($saveTestFacJu["quizzes"])
-        ],
-    ]
-);
-$tests->updateOne(
-    ["_id" => new MongoDB\BSON\ObjectId($saveTestDeclaJu["_id"])],
-    [
-        '$set' => [
-            "total" => count($saveTestDeclaJu["quizzes"])
-        ],
-    ]
-);
-
-$tests->updateOne(
-    ["_id" => new MongoDB\BSON\ObjectId($saveTestFacSeSe["_id"])],
-    [
-        '$set' => [
-            "total" => count($saveTestFacSeSe["quizzes"])
-        ],
-    ]
-);
-$tests->updateOne(
-    ["_id" => new MongoDB\BSON\ObjectId($saveTestDeclaSeSe["_id"])],
-    [
-        '$set' => [
-            "total" => count($saveTestDeclaSeSe["quizzes"])
-        ],
-    ]
-);
-
-$tests->updateOne(
-    ["_id" => new MongoDB\BSON\ObjectId($saveTestFacEx["_id"])],
-    [
-        '$set' => [
-            "total" => count($saveTestFacEx["quizzes"])
-        ],
-    ]
-);
-$tests->updateOne(
-    ["_id" => new MongoDB\BSON\ObjectId($saveTestDeclaEx["_id"])],
-    [
-        '$set' => [
-            "total" => count($saveTestDeclaEx["quizzes"])
-        ],
-    ]
-);
-$success_msg = $success_user_edit;
-}
+// Expert de la table des utilisateurs
 if (isset($_POST["excel"])) {
     $spreadsheet = new Spreadsheet();
     $excel_writer = new Xlsx($spreadsheet);
@@ -975,7 +1636,7 @@ if (isset($_POST["password"])) {
         $password_hash = sha1($passWord);
         $users->updateOne(
             ["_id" => new MongoDB\BSON\ObjectId($id)],
-            ['$set' => ["password" => $password_hash, "updated" => date("d-m-Y"), "visiblePassword" => $passWord]]
+            ['$set' => ["password" => $password_hash, "updated" => date("d-m-Y H:I:S"), "visiblePassword" => $passWord]]
         );
         $success_msg = $success_user_edit;
     }
@@ -983,13 +1644,25 @@ if (isset($_POST["password"])) {
 if (isset($_POST["delete"])) {
     $id = $_POST["userID"];
     $member = $users->findOne([
-        '$and' => [["_id" => new MongoDB\BSON\ObjectId($id), "active" => true]],
+        '$and' => [
+            [
+                "_id" => new MongoDB\BSON\ObjectId($id),
+                "active" => true
+            ]
+        ],
     ]);
     $member["active"] = false;
+    $member->deleted = date("d-m-Y H:I:S");
     $users->updateOne(
         ["_id" => new MongoDB\BSON\ObjectId($id)],
         ['$set' => $member]
     );
+    if ($member['profile'] == 'Technicien') {
+        $users->updateOne(
+            ["_id" => new MongoDB\BSON\ObjectId($member['manager'])],
+            ['$pull' => [ 'users' => new MongoDB\BSON\ObjectId($id) ] ]
+        );
+    }
     $success_msg = $success_user_delet;
 }
 if (isset($_POST["retire-technician-manager"])) {
@@ -1215,14 +1888,22 @@ if (isset($_POST["retire-technician-manager"])) {
                                             aria-label="Customer Name: activate to sort column ascending"
                                             style="width: 125px;"><?php echo $prenomsNoms ?>
                                         </th>
+                                        <?php if ($_SESSION["profile"] == "Admin" ) { ?>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Email: activate to sort column ascending"
-                                            style="width: 155.266px;"><?php echo $Email ?></th>
+                                            style="width: 155.266px;"><?php echo $email ?></th>
+                                        <?php } ?>
+                                        <?php if ($_SESSION["profile"] == "Super Admin" ) { ?>
+                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
+                                            rowspan="1" colspan="1"
+                                            aria-label="Email: activate to sort column ascending"
+                                            style="width: 155.266px;"><?php echo $pays ?></th>
+                                        <?php } ?>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
-                                            style="width: 152.719px;"><?php echo $phoneNumber ?></th>
+                                            style="width: 152.719px;"><?php echo $role ?></th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
@@ -1233,11 +1914,6 @@ if (isset($_POST["retire-technician-manager"])) {
                                             aria-label="Created Date: activate to sort column ascending"
                                             style="width: 152.719px;"><?php echo $levelTech ?>
                                         </th>
-                                        <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
-                                            rowspan="1" colspan="1"
-                                            aria-label="Created Date: activate to sort column ascending"
-                                            style="width: 152.719px;">
-                                            <?php echo $Department ?></th>
                                         <th class="min-w-50px sorting" tabindex="0" aria-controls="kt_customers_table"
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
@@ -1248,7 +1924,7 @@ if (isset($_POST["retire-technician-manager"])) {
                                             rowspan="1" colspan="1"
                                             aria-label="Created Date: activate to sort column ascending"
                                             style="width: 152.719px;">
-                                            <?php echo $delet ?></th>
+                                            <?php echo $delete ?></th>
                                         <?php } ?>
                                     </tr>
                                 </thead>
@@ -1261,7 +1937,7 @@ if (isset($_POST["retire-technician-manager"])) {
                                     ) { ?>
                                     <?php if (
                                         $user["profile"] != "Admin" &&
-                                        $user["profile"] != "Super Admin"
+                                        $user["profile"] != "Super Admin" && $_SESSION["subsidiary"] == $user["subsidiary"]
                                     ) { ?>
                                     <tr class="odd" etat="<?php echo $user->active; ?>">
                                         <!-- <td>
@@ -1278,16 +1954,21 @@ if (isset($_POST["retire-technician-manager"])) {
                                             <?php echo $user->email; ?>
                                         </td>
                                         <td data-order="subsidiary">
-                                            <?php echo $user->phone; ?>
+                                            <?php echo $user->role; ?>
                                         </td>
+                                        <?php if (
+                                            $user["profile"] == "Manager" && $user["test"] == true
+                                        ) { ?>
+                                        <td data-order="subsidiary">
+                                            Manager - Technicien
+                                        </td>
+                                        <?php } else { ?>
                                         <td data-order="subsidiary">
                                             <?php echo $user->profile; ?>
                                         </td>
+                                        <?php } ?>
                                         <td data-order="subsidiary">
                                             <?php echo $user->level; ?>
-                                        </td>
-                                        <td data-order="department">
-                                            <?php echo $user->department; ?>
                                         </td>
                                         <td>
                                             <button class="btn btn-icon btn-light-success w-30px h-30px me-3" data-bs-toggle="modal" data-bs-target="#kt_modal_update_details<?php echo $user->_id; ?>">
@@ -1322,19 +2003,24 @@ if (isset($_POST["retire-technician-manager"])) {
                                             <?php echo $user->firstName; ?> <?php echo $user->lastName; ?>
                                         </td>
                                         <td data-filter="email">
-                                            <?php echo $user->email; ?>
+                                            <?php echo $user->country; ?>
                                         </td>
                                         <td data-order="subsidiary">
-                                            <?php echo $user->phone; ?>
+                                            <?php echo $user->role; ?>
                                         </td>
+                                        <?php if (
+                                            $user["profile"] == "Manager" && $user["test"] == true
+                                        ) { ?>
+                                        <td data-order="subsidiary">
+                                            Manager - Technicien
+                                        </td>
+                                        <?php } else { ?>
                                         <td data-order="subsidiary">
                                             <?php echo $user->profile; ?>
                                         </td>
+                                        <?php } ?>
                                         <td data-order="subsidiary">
                                             <?php echo $user->level; ?>
-                                        </td>
-                                        <td data-order="department">
-                                            <?php echo $user->department; ?>
                                         </td>
                                         <td>
                                             <button class="btn btn-icon btn-light-success w-30px h-30px me-3" data-bs-toggle="modal" data-bs-target="#kt_modal_update_details<?php echo $user->_id; ?>">
@@ -1545,18 +2231,25 @@ if (isset($_POST["retire-technician-manager"])) {
                                                                 </div>
                                                                 <!--end::Input group-->
                                                                 <!--begin::Input group-->
-                                                                <div class="fv-row mb-7">
-                                                                    <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2">
-                                                                        <span><?php echo $gender ?></span>
-                                                                    </label>
-                                                                    <!--end::Label-->
-                                                                    <!--begin::Input-->
-                                                                    <input type="text"
-                                                                        class="form-control form-control-solid"
-                                                                        placeholder="" name="gender"
-                                                                        value="<?php echo $user->gender; ?>" />
-                                                                    <!--end::Input-->
+                                                                <div class="d-flex flex-column mb-7 fv-row">
+                                                                  <!--begin::Label-->
+                                                                  <label class="form-label fw-bolder text-dark fs-6">
+                                                                      <span class=""><?php echo $gender ?></span> <span class='ms-1' data-bs-toggle='tooltip' title="Choississez le sexe de l' utilisateur">
+                                                                      <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                                                                      </span>
+                                                                  </label>
+                                                                  <!--end::Label-->
+                                                                  <!--begin::Input-->
+                                                                  <select name="gender" aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $user->gender ?>" class="form-select form-select-solid fw-bold">
+                                                                      <option value="<?php echo $user->gender ?>"><?php echo $user->gender ?></option>
+                                                                      <option value='Feminin'>
+                                                                          <?php echo $female ?>
+                                                                      </option>
+                                                                      <option value='Masculin'>
+                                                                          <?php echo $male ?>
+                                                                      </option>
+                                                                  </select>
+                                                                  <!--end::Input-->
                                                                 </div>
                                                                 <!--end::Input group-->
                                                                 <!--begin::Input group-->
@@ -1586,29 +2279,95 @@ if (isset($_POST["retire-technician-manager"])) {
                                                                 </div>
                                                                 <!--end::Input group-->
                                                                 <!--begin::Input group-->
-                                                                <div class="fv-row mb-7">
-                                                                    <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $levelTech ?></label>
-                                                                    <!--end::Label-->
-                                                                    <!--begin::Input-->
-                                                                    <input type="text"
-                                                                        class="form-control form-control-solid"
-                                                                        placeholder="" name="level"
-                                                                        value="<?php echo $user->level; ?>" />
-                                                                    <!--end::Input-->
+                                                                <div class='d-flex flex-column mb-7 fv-row'>
+                                                                  <!--begin::Label-->
+                                                                  <label class='form-label fw-bolder text-dark fs-6'>
+                                                                    <span><?php echo $levelTech ?></span> <span class='ms-1' data-bs-toggle='tooltip' title="Votre niveau technique">
+                                                                      <i class='ki-duotone ki-information fs-7'><span class='path1'></span><span class='path2'></span><span class='path3'></span></i>
+                                                                    </span>
+                                                                  </label>
+                                                                  <!--end::Label-->
+                                                                  <!--begin::Input-->
+                                                                  <select name='level' aria-label='Select a Country' data-control='select2' data-placeholder='Votre niveau technique' class='form-select form-select-solid fw-bold'>
+                                                                  <option value="<?php echo $user->level; ?>"><?php echo $user->level; ?></option>
+                                                                  <option value="Junior"><?php echo $junior ?></option>
+                                                                  <option value="Senior"><?php echo $senior ?></option>
+                                                                  <option value="Expert"><?php echo $expert ?></option>
+                                                                  </select>
+                                                                  <!--end::Input-->
                                                                 </div>
                                                                 <!--end::Input group-->
                                                                 <!--begin::Input group-->
-                                                                <div class="fv-row mb-7">
-                                                                    <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $country ?></label>
-                                                                    <!--end::Label-->
-                                                                    <!--begin::Input-->
-                                                                    <input type="text"
-                                                                        class="form-control form-control-solid"
-                                                                        placeholder="" name="country"
-                                                                        value="<?php echo $user->country; ?>" />
-                                                                    <!--end::Input-->
+                                                                <div class='d-flex flex-column mb-7 fv-row'>
+                                                                  <!--begin::Label-->
+                                                                  <label class='form-label fw-bolder text-dark fs-6'>
+                                                                    <span><?php echo $pays ?></span> <span class='ms-1' data-bs-toggle='tooltip' title="Votre pays d'origine">
+                                                                      <i class='ki-duotone ki-information fs-7'><span class='path1'></span><span class='path2'></span><span class='path3'></span></i>
+                                                                    </span>
+                                                                  </label>
+                                                                  <!--end::Label-->
+                                                                  <!--begin::Input-->
+                                                                  <select name='country' aria-label='Select a Country' data-control='select2' data-placeholder='<?php echo $user->country; ?>' class='form-select form-select-solid fw-bold'>
+                                                                      <option value="<?php echo $user->country; ?>"><?php echo $user->country; ?></option>
+                                                                      <?php
+                                                                      foreach ($countries as $country) {
+                                                                          echo "<option value='$country'>$country</option>";
+                                                                      }
+                                                                      ?>
+                                                                  </select>
+                                                                  <!--end::Input-->
+                                                                </div>
+                                                                <!--end::Input group-->
+                                                                <!--begin::Input group-->
+                                                                <div class="d-flex flex-column mb-7 fv-row">
+                                                                  <!--begin::Label-->
+                                                                  <label class="form-label fw-bolder text-dark fs-6">
+                                                                    <span><?php echo $profil ?></span> <span class='ms-1' data-bs-toggle='tooltip' title="Choississez le profile de l' utilisateur">
+                                                                      <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                                                                    </span>
+                                                                  </label>
+                                                                  <!--end::Label-->
+                                                                  <!--begin::Input-->
+                                                                  <select name="profile" aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $user->profile ?>" class="form-select form-select-solid fw-bold">
+                                                                      <?php if (
+                                                                          $user["profile"] == "Manager" && $user["test"] == true
+                                                                      ) { ?>
+                                                                        <option value="<?php echo $user->profile; ?>">Manager - Technicien</option>
+                                                                      <?php } else { ?>
+                                                                        <option value="<?php echo $user->profile; ?>"><?php echo $user->profile; ?></option>
+                                                                      <?php } ?>
+                                                                    <?php if ($user["profile"] == "Technicien") { ?>
+                                                                    <option value="Manager">
+                                                                      Manager
+                                                                    </option>
+                                                                    <option value="Manager & Technicien">
+                                                                      Manager - <?php echo $technicien ?>
+                                                                    </option>
+                                                                    <?php } elseif ($user["profile"] == "Manager" && $user["test"] == true) { ?>
+                                                                    <option value="Manager">
+                                                                      Manager
+                                                                    </option>
+                                                                    <option value="Technicien">
+                                                                      <?php echo $technicien ?>
+                                                                    </option>
+                                                                    <?php } else { ?>
+                                                                    <?php if ($_SESSION["profile"] == "Super Admin") { ?>
+                                                                    <option value="Admin">
+                                                                      <?php echo $admin ?>
+                                                                    </option>
+                                                                    <option value="Directeur Filiale">
+                                                                      <?php echo $directeur_filiale ?>
+                                                                    </option>
+                                                                    <option value="Directeur Groupe">
+                                                                      <?php echo $directeur_groupe ?>
+                                                                    </option>
+                                                                    <?php } ?>
+                                                                    <option value="Manager">
+                                                                      Manager
+                                                                    </option>
+                                                                    <?php } ?>
+                                                                  </select>
+                                                                  <!--end::Input-->
                                                                 </div>
                                                                 <!--end::Input group-->
                                                                 <!--begin::Input group-->
@@ -1625,15 +2384,100 @@ if (isset($_POST["retire-technician-manager"])) {
                                                                 </div>
                                                                 <!--end::Input group-->
                                                                 <!--begin::Input group-->
+                                                                <div class="d-flex flex-column mb-7 fv-row">
+                                                                  <!--begin::Label-->
+                                                                  <label class="form-label fw-bolder text-dark fs-6">
+                                                                    <span class="required"><?php echo $filiale ?></span> <span class="ms-1" data-bs-toggle="tooltip" title="<?php echo $select_subsidiary ?>">
+                                                                      <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                                                                    </span>
+                                                                  </label>
+                                                                  <!--end::Label-->
+                                                                  <!--begin::Input-->
+                                                                  <select name="subsidiary" aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $user->department; ?>" class="form-select form-select-solid fw-bold">
+                                                                    <option value="<?php echo $user->subsidiary ?>"><?php echo $user->subsidiary ?></option>
+                                                                    <option value="CAMEROON MOTORS INDUSTRIES">
+                                                                      <?php echo $cami ?>
+                                                                    </option>
+                                                                    <option value="CFAO MOTORS BENIN">
+                                                                      <?php echo $cfao_benin ?>
+                                                                    </option>
+                                                                    <option value="CFAO MOTORS BURKINA">
+                                                                      <?php echo $cfao_burkina ?>
+                                                                    </option>
+                                                                    <option value="CFAO MOTORS CENTRAFRIQUE">
+                                                                      <?php echo $cfao_centrafrique ?>
+                                                                    </option>
+                                                                    <option value="CFAO MOTORS CONGO">
+                                                                      <?php echo $cfao_congo ?>
+                                                                    </option>
+                                                                    <option value="CFAO MOTORS COTE D'IVOIRE">
+                                                                      <?php echo $cfao_cote_divoire ?>
+                                                                    </option>
+                                                                    <option value="CFAO MOTORS GABON">
+                                                                      <?php echo $cfao_gabon ?>
+                                                                    </option>
+                                                                    <option value="CFAO (GAMBIA) LIMITED">
+                                                                      <?php echo $cfao_gambia ?>
+                                                                    </option>
+                                                                    <option value="CFAO MOTORS GHANA">
+                                                                      <?php echo $cfao_ghana ?>
+                                                                    </option>
+                                                                    <option value="CFAO MOTORS GUINEE">
+                                                                      <?php echo $cfao_guinee ?>
+                                                                    </option>
+                                                                    <option value="CFAO MOTORS GUINEE BISSAU">
+                                                                      <?php echo $cfao_guinee_bissau ?>
+                                                                    </option>
+                                                                    <option value="CFAO MOTORS GUINEA EQUATORIAL">
+                                                                      <?php echo $cfao_guinee_equatorial ?>
+                                                                    </option>
+                                                                    <option value="CFAO MOTORS MADAGASCAR">
+                                                                      <?php echo $cfao_madagascar ?>
+                                                                    </option>
+                                                                    <option value="CFAO MOTORS MALI">
+                                                                      <?php echo $cfao_mali ?>
+                                                                    </option>
+                                                                    <option value="CFAO MOTORS NIGER">
+                                                                      <?php echo $cfao_niger ?>
+                                                                    </option>
+                                                                    <option value="CFAO MOTORS NIGERIA">
+                                                                      <?php echo $cfao_nigeria ?>
+                                                                    </option>
+                                                                    <option value="CFAO MOTORS RDC">
+                                                                      <?php echo $cfao_rdc ?>
+                                                                    </option>
+                                                                    <option value="CFAO MOTORS SENEGAL">
+                                                                      <?php echo $cfao_senegal ?>
+                                                                    </option>
+                                                                    <option value="CFAO MOTORS TCHAD">
+                                                                      <?php echo $cfao_tchad ?>
+                                                                    </option>
+                                                                    <option value="CFAO MOTORS TOGO">
+                                                                      <?php echo $cfao_togo ?>
+                                                                    </option>
+                                                                    <option value="COMPAGNIE MAURITANIENNE DE DISTRIBUTION AUTOMOBILE">
+                                                                      <?php echo $cfao_cmda ?>
+                                                                    </option>
+                                                                  </select>
+                                                                  <!--end::Input-->
+                                                                  <?php if (isset($error)) { ?>
+                                                                  <span class='text-danger'>
+                                                                    <?php echo $error; ?>
+                                                                  </span>
+                                                                  <?php } ?>
+                                                                </div>
+                                                                <!--end::Input group-->
+                                                                <!--begin::Input group-->
                                                                 <div class="fv-row mb-7">
                                                                     <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $filiale ?></label>
+                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $agence ?>
+                                                                        </label>
                                                                     <!--end::Label-->
                                                                     <!--begin::Input-->
                                                                     <input type="text"
                                                                         class="form-control form-control-solid"
-                                                                        placeholder="" name="subsidiary"
-                                                                        value="<?php echo $user->subsidiary; ?>" />
+                                                                        placeholder="" name="agency"
+                                                                        value="<?php echo $user->agency ?? ""?>" />
                                                                     <!--end::Input-->
                                                                 </div>
                                                                 <!--end::Input group-->
@@ -1642,23 +2486,46 @@ if (isset($_POST["retire-technician-manager"])) {
                                                                   <!--begin::Label-->
                                                                   <label class="form-label fw-bolder text-dark fs-6">
                                                                     <span><?php echo $Department ?></span>
-                                                                    <span class="ms-1" data-bs-toggle="tooltip" title="Choississez les questionnaires">
+                                                                    <span class="ms-1" data-bs-toggle="tooltip" title="Choississez le departement">
                                                                       <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
                                                                     </span>
                                                                   </label>
                                                                   <!--end::Label-->
                                                                   <!--begin::Input-->
-                                                                  <select name="department" aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_department ?>" class="form-select form-select-solid fw-bold">
-                                                                    <option value="<?php echo $user->department; ?>"><?php echo $select_department ?></option>
+                                                                  <select name="department" aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $user->department; ?>" class="form-select form-select-solid fw-bold">
+                                                                    <option value="<?php echo $user->department; ?>"><?php echo $user->department; ?></option>
+                                                                    <?php if ($user->department == "Motors") { ?>
+                                                                    <option value="Equipment">
+                                                                      Equipment
+                                                                    </option>
+                                                                    <option value="Equipment & Motors">
+                                                                      Equipment & Motors
+                                                                    </option>
+                                                                    <?php } elseif ($user->department == "Equipment") { ?>
+                                                                    <option value="Motors">
+                                                                      Motors
+                                                                    </option>
+                                                                    <option value="Equipment & Motors">
+                                                                      Equipment & Motors
+                                                                    </option>
+                                                                    <?php } elseif ($user->department == "Equipment & Motors") { ?>
                                                                     <option value="Equipment">
                                                                       Equipment
                                                                     </option>
                                                                     <option value="Motors">
                                                                       Motors
                                                                     </option>
-                                                                    <option value="Equipment, Motors">
-                                                                      Equipment, Motors
+                                                                    <?php } else { ?>
+                                                                    <option value="Equipment">
+                                                                      Equipment
                                                                     </option>
+                                                                    <option value="Motors">
+                                                                      Motors
+                                                                    </option>
+                                                                    <option value="Equipment & Motors">
+                                                                      Equipment & Motors
+                                                                    </option>
+                                                                    <?php } ?>
                                                                   </select>
                                                                   <!--end::Input-->
                                                                 </div>
@@ -1683,73 +2550,190 @@ if (isset($_POST["retire-technician-manager"])) {
                                                                   <!--begin::Label-->
                                                                   <label class="form-label fw-bolder text-dark fs-6">
                                                                     <span><?php echo $brand ?> <?php echo $junior ?></span>
-                                                                    <span class="ms-1" data-bs-toggle="tooltip" title="Choississez les questionnaires">
+                                                                    <span class="ms-1" data-bs-toggle="tooltip" title="Choississez les marques">
                                                                       <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
                                                                     </span>
                                                                   </label>
                                                                   <!--end::Label-->
                                                                   <!--begin::Input-->
-                                                                  <select name="brandJu[]" multiple aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_brand ?>" class="form-select form-select-solid fw-bold">
-                                                                    <option value=""><?php echo $select_brand ?></option>
-                                                                    <option value="FUSO">
-                                                                      <?php echo $fuso ?>
-                                                                    </option>
-                                                                    <option value="HINO">
-                                                                      <?php echo $hino ?>
-                                                                    </option>
-                                                                    <option value="JCB">
-                                                                      <?php echo $jcb ?>
-                                                                    </option>
-                                                                    <option value="KING LONG">
-                                                                      <?php echo $kingLong ?>
-                                                                    </option>
-                                                                    <option value="LOVOL">
-                                                                      <?php echo $lovol ?>
-                                                                    </option>
-                                                                    <option value="MERCEDES TRUCK">
-                                                                      <?php echo $mercedesTruck ?>
-                                                                    </option>
-                                                                    <option value="RENAULT TRUCK">
-                                                                      <?php echo $renaultTruck ?>
-                                                                    </option>
-                                                                    <option value="SINOTRUCK">
-                                                                      <?php echo $sinotruk ?>
-                                                                    </option>
-                                                                    <option value="TOYOTA BT">
-                                                                      <?php echo $toyotaBt ?>
-                                                                    </option>
-                                                                    <option value="TOYOTA FORKLIFT">
-                                                                      <?php echo $toyotaForklift ?>
-                                                                    </option>
-                                                                    <option value="BYD">
-                                                                      <?php echo $byd ?>
-                                                                    </option>
-                                                                    <option value="CITROEN">
-                                                                      <?php echo $citroen ?>
-                                                                    </option>
-                                                                    <option value="MERCEDES">
-                                                                      <?php echo $mercedes ?>
-                                                                    </option>
-                                                                    <option value="MUTSUBISHI">
-                                                                      <?php echo $mutsubishi ?>
-                                                                    </option>
-                                                                    <option value="PEUGEOT">
-                                                                      <?php echo $peugeot ?>
-                                                                    </option>
-                                                                    <option value="SUZUKI">
-                                                                      <?php echo $suzuki ?>
-                                                                    </option>
-                                                                    <option value="TOYOTA">
-                                                                      <?php echo $toyota ?>
-                                                                    </option>
-                                                                    <option value="YAMAHA BATEAU">
-                                                                      <?php echo $yamahaBateau ?>
-                                                                    </option>
-                                                                    <option value="YAMAHA MOTO">
-                                                                      <?php echo $yamahaMoto ?>
-                                                                    </option>
-                                                                  </select>
-                                                                  <!--end::Input-->
+                                                                    <select name="brandJu[]" multiple aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_brand ?>" class="form-select form-select-solid fw-bold">
+                                                                    <?php $userBrands = []; 
+                                                                    foreach ($user['brandJunior'] as $bra) {
+                                                                        array_push($userBrands, $bra);
+                                                                    }
+                                                                    if (in_array("FUSO", $userBrands)) { ?>
+                                                                        <option value="FUSO" selected>
+                                                                          <?php echo $fuso ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="FUSO">
+                                                                          <?php echo $fuso ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("HINO", $userBrands)) { ?>
+                                                                        <option value="HINO" selected>
+                                                                          <?php echo $hino ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="HINO">
+                                                                          <?php echo $hino ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("JCB", $userBrands)) { ?>
+                                                                        <option value="JCB" selected>
+                                                                          <?php echo $jcb ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="JCB">
+                                                                          <?php echo $jcb ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("KING LONG", $userBrands)) { ?>
+                                                                        <option value="KING LONG" selected>
+                                                                          <?php echo $kingLong ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="KING LONG">
+                                                                          <?php echo $kingLong ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("LOVOL", $userBrands)) { ?>
+                                                                        <option value="LOVOL" selected>
+                                                                          <?php echo $lovol ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="LOVOL">
+                                                                          <?php echo $lovol ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("MERCEDES TRUCK", $userBrands)) { ?>
+                                                                        <option value="MERCEDES TRUCK" selected>
+                                                                          <?php echo $mercedesTruck ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="MERCEDES TRUCK">
+                                                                          <?php echo $mercedesTruck ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("RENAULT TRUCK", $userBrands)) { ?>
+                                                                        <option value="RENAULT TRUCK" selected>
+                                                                          <?php echo $renaultTruck ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="RENAULT TRUCK">
+                                                                          <?php echo $renaultTruck ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("SINOTRUK", $userBrands)) { ?>
+                                                                        <option value="SINOTRUK" selected>
+                                                                          <?php echo $sinotruk ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="SINOTRUK">
+                                                                          <?php echo $sinotruk ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("TOYOTA BT", $userBrands)) { ?>
+                                                                        <option value="TOYOTA BT" selected>
+                                                                          <?php echo $toyotaBt ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="TOYOTA BT">
+                                                                          <?php echo $toyotaBt ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("TOYOTA FORKLIFT", $userBrands)) { ?>
+                                                                        <option value="TOYOTA FORKLIFT" selected>
+                                                                          <?php echo $toyotaForklift ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="TOYOTA FORKLIFT">
+                                                                          <?php echo $toyotaForklift ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("BYD", $userBrands)) { ?>
+                                                                        <option value="BYD" selected>
+                                                                          <?php echo $byd ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="BYD">
+                                                                          <?php echo $byd ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("CITROEN", $userBrands)) { ?>
+                                                                        <option value="CITROEN" selected>
+                                                                          <?php echo $citroen ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="CITROEN">
+                                                                          <?php echo $citroen ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("MERCEDES", $userBrands)) { ?>
+                                                                        <option value="MERCEDES" selected>
+                                                                          <?php echo $mercedes ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="MERCEDES">
+                                                                          <?php echo $mercedes ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("MiTSUBISHI", $userBrands)) { ?>
+                                                                        <option value="MiTSUBISHI" selected>
+                                                                          <?php echo $mutsubishi ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="MiTSUBISHI">
+                                                                          <?php echo $mutsubishi ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("PEUGEOT", $userBrands)) { ?>
+                                                                        <option value="PEUGEOT" selected>
+                                                                          <?php echo $peugeot ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="PEUGEOT">
+                                                                          <?php echo $peugeot ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("SUZUKI", $userBrands)) { ?>
+                                                                        <option value="SUZUKI" selected>
+                                                                          <?php echo $suzuki ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="SUZUKI">
+                                                                          <?php echo $suzuki ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("TOYOTA", $userBrands)) { ?>
+                                                                        <option value="TOYOTA" selected>
+                                                                          <?php echo $toyota ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="TOYOTA">
+                                                                          <?php echo $toyota ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("YAMAHA BATEAU", $userBrands)) { ?>
+                                                                        <option value="YAMAHA BATEAU" selected>
+                                                                          <?php echo $yamahaBateau ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="YAMAHA BATEAU">
+                                                                          <?php echo $yamahaBateau ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("YAMAHA MOTO", $userBrands)) { ?>
+                                                                        <option value="YAMAHA MOTO" selected>
+                                                                          <?php echo $yamahaMoto ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="YAMAHA MOTO">
+                                                                          <?php echo $yamahaMoto ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    </select>
+                                                                    <!--end::Input-->
                                                                 </div>
                                                                 <!--end::Input group-->
                                                                 <!--begin::Input group-->
@@ -1757,73 +2741,188 @@ if (isset($_POST["retire-technician-manager"])) {
                                                                   <!--begin::Label-->
                                                                   <label class="form-label fw-bolder text-dark fs-6">
                                                                     <span><?php echo $brand ?> <?php echo $senior ?></span>
-                                                                    <span class="ms-1" data-bs-toggle="tooltip" title="Choississez les questionnaires">
+                                                                    <span class="ms-1" data-bs-toggle="tooltip" title="Choississez les marques">
                                                                       <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
                                                                     </span>
                                                                   </label>
                                                                   <!--end::Label-->
                                                                   <!--begin::Input-->
-                                                                  <select name="brandSe[]" multiple aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_brand ?>" class="form-select form-select-solid fw-bold">
-                                                                    <option value=""><?php echo $select_brand ?></option>
-                                                                    <option value="FUSO">
-                                                                      <?php echo $fuso ?>
-                                                                    </option>
-                                                                    <option value="HINO">
-                                                                      <?php echo $hino ?>
-                                                                    </option>
-                                                                    <option value="JCB">
-                                                                      <?php echo $jcb ?>
-                                                                    </option>
-                                                                    <option value="KING LONG">
-                                                                      <?php echo $kingLong ?>
-                                                                    </option>
-                                                                    <option value="LOVOL">
-                                                                      <?php echo $lovol ?>
-                                                                    </option>
-                                                                    <option value="MERCEDES TRUCK">
-                                                                      <?php echo $mercedesTruck ?>
-                                                                    </option>
-                                                                    <option value="RENAULT TRUCK">
-                                                                      <?php echo $renaultTruck ?>
-                                                                    </option>
-                                                                    <option value="SINOTRUCK">
-                                                                      <?php echo $sinotruk ?>
-                                                                    </option>
-                                                                    <option value="TOYOTA BT">
-                                                                      <?php echo $toyotaBt ?>
-                                                                    </option>
-                                                                    <option value="TOYOTA FORKLIFT">
-                                                                      <?php echo $toyotaForklift ?>
-                                                                    </option>
-                                                                    <option value="BYD">
-                                                                      <?php echo $byd ?>
-                                                                    </option>
-                                                                    <option value="CITROEN">
-                                                                      <?php echo $citroen ?>
-                                                                    </option>
-                                                                    <option value="MERCEDES">
-                                                                      <?php echo $mercedes ?>
-                                                                    </option>
-                                                                    <option value="MUTSUBISHI">
-                                                                      <?php echo $mutsubishi ?>
-                                                                    </option>
-                                                                    <option value="PEUGEOT">
-                                                                      <?php echo $peugeot ?>
-                                                                    </option>
-                                                                    <option value="SUZUKI">
-                                                                      <?php echo $suzuki ?>
-                                                                    </option>
-                                                                    <option value="TOYOTA">
-                                                                      <?php echo $toyota ?>
-                                                                    </option>
-                                                                    <option value="YAMAHA BATEAU">
-                                                                      <?php echo $yamahaBateau ?>
-                                                                    </option>
-                                                                    <option value="YAMAHA MOTO">
-                                                                      <?php echo $yamahaMoto ?>
-                                                                    </option>
-                                                                  </select>
-                                                                  <!--end::Input-->
+                                                                <select name="brandSe[]" multiple aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_brand ?>" class="form-select form-select-solid fw-bold">
+                                                                    <?php $userBrands = []; 
+                                                                    foreach ($user['brandSenior'] as $bra) {
+                                                                        array_push($userBrands, $bra);
+                                                                    }if (in_array("FUSO", $userBrands)) { ?>
+                                                                        <option value="FUSO" selected>
+                                                                          <?php echo $fuso ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="FUSO">
+                                                                          <?php echo $fuso ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("HINO", $userBrands)) { ?>
+                                                                        <option value="HINO" selected>
+                                                                          <?php echo $hino ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="HINO">
+                                                                          <?php echo $hino ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("JCB", $userBrands)) { ?>
+                                                                        <option value="JCB" selected>
+                                                                          <?php echo $jcb ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="JCB">
+                                                                          <?php echo $jcb ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("KING LONG", $userBrands)) { ?>
+                                                                        <option value="KING LONG" selected>
+                                                                          <?php echo $kingLong ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="KING LONG">
+                                                                          <?php echo $kingLong ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("LOVOL", $userBrands)) { ?>
+                                                                        <option value="LOVOL" selected>
+                                                                          <?php echo $lovol ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="LOVOL">
+                                                                          <?php echo $lovol ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("MERCEDES TRUCK", $userBrands)) { ?>
+                                                                        <option value="MERCEDES TRUCK" selected>
+                                                                          <?php echo $mercedesTruck ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="MERCEDES TRUCK">
+                                                                          <?php echo $mercedesTruck ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("RENAULT TRUCK", $userBrands)) { ?>
+                                                                        <option value="RENAULT TRUCK" selected>
+                                                                          <?php echo $renaultTruck ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="RENAULT TRUCK">
+                                                                          <?php echo $renaultTruck ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("SINOTRUK", $userBrands)) { ?>
+                                                                        <option value="SINOTRUK" selected>
+                                                                          <?php echo $sinotruk ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="SINOTRUK">
+                                                                          <?php echo $sinotruk ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("TOYOTA BT", $userBrands)) { ?>
+                                                                        <option value="TOYOTA BT" selected>
+                                                                          <?php echo $toyotaBt ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="TOYOTA BT">
+                                                                          <?php echo $toyotaBt ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("TOYOTA FORKLIFT", $userBrands)) { ?>
+                                                                        <option value="TOYOTA FORKLIFT" selected>
+                                                                          <?php echo $toyotaForklift ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="TOYOTA FORKLIFT">
+                                                                          <?php echo $toyotaForklift ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("BYD", $userBrands)) { ?>
+                                                                        <option value="BYD" selected>
+                                                                          <?php echo $byd ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="BYD">
+                                                                          <?php echo $byd ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("CITROEN", $userBrands)) { ?>
+                                                                        <option value="CITROEN" selected>
+                                                                          <?php echo $citroen ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="CITROEN">
+                                                                          <?php echo $citroen ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("MERCEDES", $userBrands)) { ?>
+                                                                        <option value="MERCEDES" selected>
+                                                                          <?php echo $mercedes ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="MERCEDES">
+                                                                          <?php echo $mercedes ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("MiTSUBISHI", $userBrands)) { ?>
+                                                                        <option value="MiTSUBISHI" selected>
+                                                                          <?php echo $mutsubishi ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="MiTSUBISHI">
+                                                                          <?php echo $mutsubishi ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("PEUGEOT", $userBrands)) { ?>
+                                                                        <option value="PEUGEOT" selected>
+                                                                          <?php echo $peugeot ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="PEUGEOT">
+                                                                          <?php echo $peugeot ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("SUZUKI", $userBrands)) { ?>
+                                                                        <option value="SUZUKI" selected>
+                                                                          <?php echo $suzuki ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="SUZUKI">
+                                                                          <?php echo $suzuki ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("TOYOTA", $userBrands)) { ?>
+                                                                        <option value="TOYOTA" selected>
+                                                                          <?php echo $toyota ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="TOYOTA">
+                                                                          <?php echo $toyota ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("YAMAHA BATEAU", $userBrands)) { ?>
+                                                                        <option value="YAMAHA BATEAU" selected>
+                                                                          <?php echo $yamahaBateau ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="YAMAHA BATEAU">
+                                                                          <?php echo $yamahaBateau ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("YAMAHA MOTO", $userBrands)) { ?>
+                                                                        <option value="YAMAHA MOTO" selected>
+                                                                          <?php echo $yamahaMoto ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="YAMAHA MOTO">
+                                                                          <?php echo $yamahaMoto ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                </select>
                                                                 </div>
                                                                 <!--end::Input group-->
                                                                 <!--begin::Input group-->
@@ -1831,99 +2930,319 @@ if (isset($_POST["retire-technician-manager"])) {
                                                                   <!--begin::Label-->
                                                                   <label class="form-label fw-bolder text-dark fs-6">
                                                                     <span><?php echo $brand ?> <?php echo $expert ?></span>
-                                                                    <span class="ms-1" data-bs-toggle="tooltip" title="Choississez les questionnaires">
+                                                                    <span class="ms-1" data-bs-toggle="tooltip" title="Choississez les marques">
                                                                       <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
                                                                     </span>
                                                                   </label>
                                                                   <!--end::Label-->
                                                                   <!--begin::Input-->
-                                                                  <select name="brandEx[]" multiple aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_brand ?>" class="form-select form-select-solid fw-bold">
-                                                                    <option value=""><?php echo $select_brand ?></option>
-                                                                    <option value="FUSO">
-                                                                      <?php echo $fuso ?>
-                                                                    </option>
-                                                                    <option value="HINO">
-                                                                      <?php echo $hino ?>
-                                                                    </option>
-                                                                    <option value="JCB">
-                                                                      <?php echo $jcb ?>
-                                                                    </option>
-                                                                    <option value="KING LONG">
-                                                                      <?php echo $kingLong ?>
-                                                                    </option>
-                                                                    <option value="LOVOL">
-                                                                      <?php echo $lovol ?>
-                                                                    </option>
-                                                                    <option value="MERCEDES TRUCK">
-                                                                      <?php echo $mercedesTruck ?>
-                                                                    </option>
-                                                                    <option value="RENAULT TRUCK">
-                                                                      <?php echo $renaultTruck ?>
-                                                                    </option>
-                                                                    <option value="SINOTRUCK">
-                                                                      <?php echo $sinotruk ?>
-                                                                    </option>
-                                                                    <option value="TOYOTA BT">
-                                                                      <?php echo $toyotaBt ?>
-                                                                    </option>
-                                                                    <option value="TOYOTA FORKLIFT">
-                                                                      <?php echo $toyotaForklift ?>
-                                                                    </option>
-                                                                    <option value="BYD">
-                                                                      <?php echo $byd ?>
-                                                                    </option>
-                                                                    <option value="CITROEN">
-                                                                      <?php echo $citroen ?>
-                                                                    </option>
-                                                                    <option value="MERCEDES">
-                                                                      <?php echo $mercedes ?>
-                                                                    </option>
-                                                                    <option value="MUTSUBISHI">
-                                                                      <?php echo $mutsubishi ?>
-                                                                    </option>
-                                                                    <option value="PEUGEOT">
-                                                                      <?php echo $peugeot ?>
-                                                                    </option>
-                                                                    <option value="SUZUKI">
-                                                                      <?php echo $suzuki ?>
-                                                                    </option>
-                                                                    <option value="TOYOTA">
-                                                                      <?php echo $toyota ?>
-                                                                    </option>
-                                                                    <option value="YAMAHA BATEAU">
-                                                                      <?php echo $yamahaBateau ?>
-                                                                    </option>
-                                                                    <option value="YAMAHA MOTO">
-                                                                      <?php echo $yamahaMoto ?>
-                                                                    </option>
-                                                                  </select>
+                                                                <select name="brandEx[]" multiple aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_brand ?>" class="form-select form-select-solid fw-bold">
+                                                                    <?php $userBrands = []; 
+                                                                    foreach ($user['brandExpert'] as $bra) {
+                                                                        array_push($userBrands, $bra);
+                                                                    }
+                                                                    if (in_array("FUSO", $userBrands)) { ?>
+                                                                        <option value="FUSO" selected>
+                                                                          <?php echo $fuso ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="FUSO">
+                                                                          <?php echo $fuso ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("HINO", $userBrands)) { ?>
+                                                                        <option value="HINO" selected>
+                                                                          <?php echo $hino ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="HINO">
+                                                                          <?php echo $hino ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("JCB", $userBrands)) { ?>
+                                                                        <option value="JCB" selected>
+                                                                          <?php echo $jcb ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="JCB">
+                                                                          <?php echo $jcb ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("KING LONG", $userBrands)) { ?>
+                                                                        <option value="KING LONG" selected>
+                                                                          <?php echo $kingLong ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="KING LONG">
+                                                                          <?php echo $kingLong ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("LOVOL", $userBrands)) { ?>
+                                                                        <option value="LOVOL" selected>
+                                                                          <?php echo $lovol ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="LOVOL">
+                                                                          <?php echo $lovol ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("MERCEDES TRUCK", $userBrands)) { ?>
+                                                                        <option value="MERCEDES TRUCK" selected>
+                                                                          <?php echo $mercedesTruck ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="MERCEDES TRUCK">
+                                                                          <?php echo $mercedesTruck ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("RENAULT TRUCK", $userBrands)) { ?>
+                                                                        <option value="RENAULT TRUCK" selected>
+                                                                          <?php echo $renaultTruck ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="RENAULT TRUCK">
+                                                                          <?php echo $renaultTruck ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("SINOTRUK", $userBrands)) { ?>
+                                                                        <option value="SINOTRUK" selected>
+                                                                          <?php echo $sinotruk ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="SINOTRUK">
+                                                                          <?php echo $sinotruk ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("TOYOTA BT", $userBrands)) { ?>
+                                                                        <option value="TOYOTA BT" selected>
+                                                                          <?php echo $toyotaBt ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="TOYOTA BT">
+                                                                          <?php echo $toyotaBt ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("TOYOTA FORKLIFT", $userBrands)) { ?>
+                                                                        <option value="TOYOTA FORKLIFT" selected>
+                                                                          <?php echo $toyotaForklift ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="TOYOTA FORKLIFT">
+                                                                          <?php echo $toyotaForklift ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("BYD", $userBrands)) { ?>
+                                                                        <option value="BYD" selected>
+                                                                          <?php echo $byd ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="BYD">
+                                                                          <?php echo $byd ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("CITROEN", $userBrands)) { ?>
+                                                                        <option value="CITROEN" selected>
+                                                                          <?php echo $citroen ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="CITROEN">
+                                                                          <?php echo $citroen ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("MERCEDES", $userBrands)) { ?>
+                                                                        <option value="MERCEDES" selected>
+                                                                          <?php echo $mercedes ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="MERCEDES">
+                                                                          <?php echo $mercedes ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("MiTSUBISHI", $userBrands)) { ?>
+                                                                        <option value="MiTSUBISHI" selected>
+                                                                          <?php echo $mutsubishi ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="MiTSUBISHI">
+                                                                          <?php echo $mutsubishi ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("PEUGEOT", $userBrands)) { ?>
+                                                                        <option value="PEUGEOT" selected>
+                                                                          <?php echo $peugeot ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="PEUGEOT">
+                                                                          <?php echo $peugeot ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("SUZUKI", $userBrands)) { ?>
+                                                                        <option value="SUZUKI" selected>
+                                                                          <?php echo $suzuki ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="SUZUKI">
+                                                                          <?php echo $suzuki ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("TOYOTA", $userBrands)) { ?>
+                                                                        <option value="TOYOTA" selected>
+                                                                          <?php echo $toyota ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="TOYOTA">
+                                                                          <?php echo $toyota ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("YAMAHA BATEAU", $userBrands)) { ?>
+                                                                        <option value="YAMAHA BATEAU" selected>
+                                                                          <?php echo $yamahaBateau ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="YAMAHA BATEAU">
+                                                                          <?php echo $yamahaBateau ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("YAMAHA MOTO", $userBrands)) { ?>
+                                                                        <option value="YAMAHA MOTO" selected>
+                                                                          <?php echo $yamahaMoto ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="YAMAHA MOTO">
+                                                                          <?php echo $yamahaMoto ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                </select>
+                                                                </div>
+                                                                <!--end::Input group-->
+                                                                <!--begin::Input group-->
+                                                                <div class="d-flex flex-column mb-7 fv-row">
+                                                                  <!--begin::Label-->
+                                                                  <label class="form-label fw-bolder text-dark fs-6">
+                                                                    <span><?php echo $Speciality ?> <?php echo $senior ?></span>
+                                                                    <span class="ms-1" data-bs-toggle="tooltip" title="Choississez les marques">
+                                                                      <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                                                                    </span>
+                                                                  </label>
+                                                                  <!--end::Label-->
+                                                                  <!--begin::Input-->
+                                                                  <select name="specialitySenior[]" multiple aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_speciality ?>" class="form-select form-select-solid fw-bold">
+                                                                    <?php $speciality = []; 
+                                                                    foreach ($user['specialitySenior'] as $special) {
+                                                                        array_push($speciality, $special);
+                                                                    }
+                                                                    if (in_array("Boite de Vitesse", $speciality)) { ?>
+                                                                        <option value="Boite de Vitesse" selected>
+                                                                        <?php echo $boite_vitesse ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="Boite de Vitesse">
+                                                                        <?php echo $boite_vitesse ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("Electricté et Electronique", $speciality)) { ?>
+                                                                        <option value="Electricté et Electronique" selected>
+                                                                          <?php echo $elec ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="Electricté et Electronique">
+                                                                          <?php echo $elec ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("Hydraulique", $speciality)) { ?>
+                                                                        <option value="Hydraulique" selected>
+                                                                          <?php echo $hydraulique ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="Hydraulique">
+                                                                          <?php echo $hydraulique ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("Moteur", $speciality)) { ?>
+                                                                        <option value="Moteur" selected>
+                                                                          <?php echo $moteur ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="Moteur">
+                                                                          <?php echo $moteur ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("Transmission", $speciality)) { ?>
+                                                                        <option value="Transmission" selected>
+                                                                          <?php echo $transmission ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="Transmission">
+                                                                          <?php echo $transmission ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                </select>
                                                                   <!--end::Input-->
                                                                 </div>
                                                                 <!--end::Input group-->
                                                                 <!--begin::Input group-->
-                                                                <div class="fv-row mb-7">
-                                                                    <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $Speciality ?> <?php echo $senior ?></label>
-                                                                    <!--end::Label-->
-                                                                    <!--begin::Input-->
-                                                                    <input type="text"
-                                                                        class="form-control form-control-solid"
-                                                                        placeholder="" name="specialitySenior"
-                                                                        value="<?php echo $user->specialitySenior; ?>" />
-                                                                    <!--end::Input-->
-                                                                </div>
-                                                                <!--end::Input group-->
-                                                                <!--begin::Input group-->
-                                                                <div class="fv-row mb-7">
-                                                                    <!--begin::Label-->
-                                                                    <label class="fs-6 fw-bold mb-2"><?php echo $Speciality ?> <?php echo $expert ?></label>
-                                                                    <!--end::Label-->
-                                                                    <!--begin::Input-->
-                                                                    <input type="text"
-                                                                        class="form-control form-control-solid"
-                                                                        placeholder="" name="specialityExpert"
-                                                                        value="<?php echo $user->specialityExpert; ?>" />
-                                                                    <!--end::Input-->
+                                                                <div class="d-flex flex-column mb-7 fv-row">
+                                                                  <!--begin::Label-->
+                                                                  <label class="form-label fw-bolder text-dark fs-6">
+                                                                    <span><?php echo $Speciality ?> <?php echo $expert ?></span>
+                                                                    <span class="ms-1" data-bs-toggle="tooltip" title="Choississez les marques">
+                                                                      <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                                                                    </span>
+                                                                  </label>
+                                                                  <!--end::Label-->
+                                                                  <!--begin::Input-->
+                                                                    <select name="specialityExpert[]" multiple aria-label="Select a Speciality" data-control="select2" data-placeholder="<?php echo $select_speciality ?>" class="form-select form-select-solid fw-bold">
+                                                                    <?php $speciality = []; 
+                                                                    foreach ($user['specialityExpert'] as $special) {
+                                                                        array_push($speciality, $special);
+                                                                    }
+                                                                    if (in_array("Boite de Vitesse", $speciality)) { ?>
+                                                                        <option value="Boite de Vitesse" selected>
+                                                                        <?php echo $boite_vitesse ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="Boite de Vitesse">
+                                                                        <?php echo $boite_vitesse ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("Electricté et Electronique", $speciality)) { ?>
+                                                                        <option value="Electricté et Electronique" selected>
+                                                                          <?php echo $elec ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="Electricté et Electronique">
+                                                                          <?php echo $elec ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("Hydraulique", $speciality)) { ?>
+                                                                        <option value="Hydraulique" selected>
+                                                                          <?php echo $hydraulique ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="Hydraulique">
+                                                                          <?php echo $hydraulique ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("Moteur", $speciality)) { ?>
+                                                                        <option value="Moteur" selected>
+                                                                          <?php echo $moteur ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="Moteur">
+                                                                          <?php echo $moteur ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("Transmission", $speciality)) { ?>
+                                                                        <option value="Transmission" selected>
+                                                                          <?php echo $transmission ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="Transmission">
+                                                                          <?php echo $transmission ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    </select>
+                                                                  <!--end::Input-->
                                                                 </div>
                                                                 <!--end::Input group-->
                                                                 <?php } ?>
@@ -1933,73 +3252,190 @@ if (isset($_POST["retire-technician-manager"])) {
                                                                   <!--begin::Label-->
                                                                   <label class="form-label fw-bolder text-dark fs-6">
                                                                     <span><?php echo $brand ?> <?php echo $junior ?></span>
-                                                                    <span class="ms-1" data-bs-toggle="tooltip" title="Choississez les questionnaires">
+                                                                    <span class="ms-1" data-bs-toggle="tooltip" title="Choississez les marques">
                                                                       <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
                                                                     </span>
                                                                   </label>
                                                                   <!--end::Label-->
                                                                   <!--begin::Input-->
-                                                                  <select name="brandJu[]" multiple aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_brand ?>" class="form-select form-select-solid fw-bold">
-                                                                    <option value=""><?php echo $select_brand ?></option>
-                                                                    <option value="FUSO">
-                                                                      <?php echo $fuso ?>
-                                                                    </option>
-                                                                    <option value="HINO">
-                                                                      <?php echo $hino ?>
-                                                                    </option>
-                                                                    <option value="JCB">
-                                                                      <?php echo $jcb ?>
-                                                                    </option>
-                                                                    <option value="KING LONG">
-                                                                      <?php echo $kingLong ?>
-                                                                    </option>
-                                                                    <option value="LOVOL">
-                                                                      <?php echo $lovol ?>
-                                                                    </option>
-                                                                    <option value="MERCEDES TRUCK">
-                                                                      <?php echo $mercedesTruck ?>
-                                                                    </option>
-                                                                    <option value="RENAULT TRUCK">
-                                                                      <?php echo $renaultTruck ?>
-                                                                    </option>
-                                                                    <option value="SINOTRUCK">
-                                                                      <?php echo $sinotruk ?>
-                                                                    </option>
-                                                                    <option value="TOYOTA BT">
-                                                                      <?php echo $toyotaBt ?>
-                                                                    </option>
-                                                                    <option value="TOYOTA FORKLIFT">
-                                                                      <?php echo $toyotaForklift ?>
-                                                                    </option>
-                                                                    <option value="BYD">
-                                                                      <?php echo $byd ?>
-                                                                    </option>
-                                                                    <option value="CITROEN">
-                                                                      <?php echo $citroen ?>
-                                                                    </option>
-                                                                    <option value="MERCEDES">
-                                                                      <?php echo $mercedes ?>
-                                                                    </option>
-                                                                    <option value="MUTSUBISHI">
-                                                                      <?php echo $mutsubishi ?>
-                                                                    </option>
-                                                                    <option value="PEUGEOT">
-                                                                      <?php echo $peugeot ?>
-                                                                    </option>
-                                                                    <option value="SUZUKI">
-                                                                      <?php echo $suzuki ?>
-                                                                    </option>
-                                                                    <option value="TOYOTA">
-                                                                      <?php echo $toyota ?>
-                                                                    </option>
-                                                                    <option value="YAMAHA BATEAU">
-                                                                      <?php echo $yamahaBateau ?>
-                                                                    </option>
-                                                                    <option value="YAMAHA MOTO">
-                                                                      <?php echo $yamahaMoto ?>
-                                                                    </option>
-                                                                  </select>
-                                                                  <!--end::Input-->
+                                                                    <select name="brandJu[]" multiple aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_brand ?>" class="form-select form-select-solid fw-bold">
+                                                                    <?php $userBrands = []; 
+                                                                    foreach ($user['brandJunior'] as $bra) {
+                                                                        array_push($userBrands, $bra);
+                                                                    }
+                                                                    if (in_array("FUSO", $userBrands)) { ?>
+                                                                        <option value="FUSO" selected>
+                                                                          <?php echo $fuso ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="FUSO">
+                                                                          <?php echo $fuso ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("HINO", $userBrands)) { ?>
+                                                                        <option value="HINO" selected>
+                                                                          <?php echo $hino ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="HINO">
+                                                                          <?php echo $hino ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("JCB", $userBrands)) { ?>
+                                                                        <option value="JCB" selected>
+                                                                          <?php echo $jcb ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="JCB">
+                                                                          <?php echo $jcb ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("KING LONG", $userBrands)) { ?>
+                                                                        <option value="KING LONG" selected>
+                                                                          <?php echo $kingLong ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="KING LONG">
+                                                                          <?php echo $kingLong ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("LOVOL", $userBrands)) { ?>
+                                                                        <option value="LOVOL" selected>
+                                                                          <?php echo $lovol ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="LOVOL">
+                                                                          <?php echo $lovol ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("MERCEDES TRUCK", $userBrands)) { ?>
+                                                                        <option value="MERCEDES TRUCK" selected>
+                                                                          <?php echo $mercedesTruck ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="MERCEDES TRUCK">
+                                                                          <?php echo $mercedesTruck ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("RENAULT TRUCK", $userBrands)) { ?>
+                                                                        <option value="RENAULT TRUCK" selected>
+                                                                          <?php echo $renaultTruck ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="RENAULT TRUCK">
+                                                                          <?php echo $renaultTruck ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("SINOTRUK", $userBrands)) { ?>
+                                                                        <option value="SINOTRUK" selected>
+                                                                          <?php echo $sinotruk ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="SINOTRUK">
+                                                                          <?php echo $sinotruk ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("TOYOTA BT", $userBrands)) { ?>
+                                                                        <option value="TOYOTA BT" selected>
+                                                                          <?php echo $toyotaBt ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="TOYOTA BT">
+                                                                          <?php echo $toyotaBt ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("TOYOTA FORKLIFT", $userBrands)) { ?>
+                                                                        <option value="TOYOTA FORKLIFT" selected>
+                                                                          <?php echo $toyotaForklift ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="TOYOTA FORKLIFT">
+                                                                          <?php echo $toyotaForklift ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("BYD", $userBrands)) { ?>
+                                                                        <option value="BYD" selected>
+                                                                          <?php echo $byd ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="BYD">
+                                                                          <?php echo $byd ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("CITROEN", $userBrands)) { ?>
+                                                                        <option value="CITROEN" selected>
+                                                                          <?php echo $citroen ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="CITROEN">
+                                                                          <?php echo $citroen ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("MERCEDES", $userBrands)) { ?>
+                                                                        <option value="MERCEDES" selected>
+                                                                          <?php echo $mercedes ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="MERCEDES">
+                                                                          <?php echo $mercedes ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("MiTSUBISHI", $userBrands)) { ?>
+                                                                        <option value="MiTSUBISHI" selected>
+                                                                          <?php echo $mutsubishi ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="MiTSUBISHI">
+                                                                          <?php echo $mutsubishi ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("PEUGEOT", $userBrands)) { ?>
+                                                                        <option value="PEUGEOT" selected>
+                                                                          <?php echo $peugeot ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="PEUGEOT">
+                                                                          <?php echo $peugeot ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("SUZUKI", $userBrands)) { ?>
+                                                                        <option value="SUZUKI" selected>
+                                                                          <?php echo $suzuki ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="SUZUKI">
+                                                                          <?php echo $suzuki ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("TOYOTA", $userBrands)) { ?>
+                                                                        <option value="TOYOTA" selected>
+                                                                          <?php echo $toyota ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="TOYOTA">
+                                                                          <?php echo $toyota ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("YAMAHA BATEAU", $userBrands)) { ?>
+                                                                        <option value="YAMAHA BATEAU" selected>
+                                                                          <?php echo $yamahaBateau ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="YAMAHA BATEAU">
+                                                                          <?php echo $yamahaBateau ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("YAMAHA MOTO", $userBrands)) { ?>
+                                                                        <option value="YAMAHA MOTO" selected>
+                                                                          <?php echo $yamahaMoto ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="YAMAHA MOTO">
+                                                                          <?php echo $yamahaMoto ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    </select>
+                                                                    <!--end::Input-->
                                                                 </div>
                                                                 <!--end::Input group-->
                                                                 <!--begin::Input group-->
@@ -2007,73 +3443,189 @@ if (isset($_POST["retire-technician-manager"])) {
                                                                   <!--begin::Label-->
                                                                   <label class="form-label fw-bolder text-dark fs-6">
                                                                     <span><?php echo $brand ?> <?php echo $senior ?></span>
-                                                                    <span class="ms-1" data-bs-toggle="tooltip" title="Choississez les questionnaires">
+                                                                    <span class="ms-1" data-bs-toggle="tooltip" title="Choississez les marques">
                                                                       <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
                                                                     </span>
                                                                   </label>
                                                                   <!--end::Label-->
                                                                   <!--begin::Input-->
-                                                                  <select name="brandSe[]" multiple aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_brand ?>" class="form-select form-select-solid fw-bold">
-                                                                    <option value=""><?php echo $select_brand ?></option>
-                                                                    <option value="FUSO">
-                                                                      <?php echo $fuso ?>
-                                                                    </option>
-                                                                    <option value="HINO">
-                                                                      <?php echo $hino ?>
-                                                                    </option>
-                                                                    <option value="JCB">
-                                                                      <?php echo $jcb ?>
-                                                                    </option>
-                                                                    <option value="KING LONG">
-                                                                      <?php echo $kingLong ?>
-                                                                    </option>
-                                                                    <option value="LOVOL">
-                                                                      <?php echo $lovol ?>
-                                                                    </option>
-                                                                    <option value="MERCEDES TRUCK">
-                                                                      <?php echo $mercedesTruck ?>
-                                                                    </option>
-                                                                    <option value="RENAULT TRUCK">
-                                                                      <?php echo $renaultTruck ?>
-                                                                    </option>
-                                                                    <option value="SINOTRUCK">
-                                                                      <?php echo $sinotruk ?>
-                                                                    </option>
-                                                                    <option value="TOYOTA BT">
-                                                                      <?php echo $toyotaBt ?>
-                                                                    </option>
-                                                                    <option value="TOYOTA FORKLIFT">
-                                                                      <?php echo $toyotaForklift ?>
-                                                                    </option>
-                                                                    <option value="BYD">
-                                                                      <?php echo $byd ?>
-                                                                    </option>
-                                                                    <option value="CITROEN">
-                                                                      <?php echo $citroen ?>
-                                                                    </option>
-                                                                    <option value="MERCEDES">
-                                                                      <?php echo $mercedes ?>
-                                                                    </option>
-                                                                    <option value="MUTSUBISHI">
-                                                                      <?php echo $mutsubishi ?>
-                                                                    </option>
-                                                                    <option value="PEUGEOT">
-                                                                      <?php echo $peugeot ?>
-                                                                    </option>
-                                                                    <option value="SUZUKI">
-                                                                      <?php echo $suzuki ?>
-                                                                    </option>
-                                                                    <option value="TOYOTA">
-                                                                      <?php echo $toyota ?>
-                                                                    </option>
-                                                                    <option value="YAMAHA BATEAU">
-                                                                      <?php echo $yamahaBateau ?>
-                                                                    </option>
-                                                                    <option value="YAMAHA MOTO">
-                                                                      <?php echo $yamahaMoto ?>
-                                                                    </option>
-                                                                  </select>
-                                                                  <!--end::Input-->
+                                                                <select name="brandSe[]" multiple aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_brand ?>" class="form-select form-select-solid fw-bold">
+                                                                    <?php $userBrands = []; 
+                                                                    foreach ($user['brandSenior'] as $bra) {
+                                                                        array_push($userBrands, $bra);
+                                                                    }
+                                                                    if (in_array("FUSO", $userBrands)) { ?>
+                                                                        <option value="FUSO" selected>
+                                                                          <?php echo $fuso ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="FUSO">
+                                                                          <?php echo $fuso ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("HINO", $userBrands)) { ?>
+                                                                        <option value="HINO" selected>
+                                                                          <?php echo $hino ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="HINO">
+                                                                          <?php echo $hino ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("JCB", $userBrands)) { ?>
+                                                                        <option value="JCB" selected>
+                                                                          <?php echo $jcb ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="JCB">
+                                                                          <?php echo $jcb ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("KING LONG", $userBrands)) { ?>
+                                                                        <option value="KING LONG" selected>
+                                                                          <?php echo $kingLong ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="KING LONG">
+                                                                          <?php echo $kingLong ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("LOVOL", $userBrands)) { ?>
+                                                                        <option value="LOVOL" selected>
+                                                                          <?php echo $lovol ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="LOVOL">
+                                                                          <?php echo $lovol ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("MERCEDES TRUCK", $userBrands)) { ?>
+                                                                        <option value="MERCEDES TRUCK" selected>
+                                                                          <?php echo $mercedesTruck ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="MERCEDES TRUCK">
+                                                                          <?php echo $mercedesTruck ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("RENAULT TRUCK", $userBrands)) { ?>
+                                                                        <option value="RENAULT TRUCK" selected>
+                                                                          <?php echo $renaultTruck ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="RENAULT TRUCK">
+                                                                          <?php echo $renaultTruck ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("SINOTRUK", $userBrands)) { ?>
+                                                                        <option value="SINOTRUK" selected>
+                                                                          <?php echo $sinotruk ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="SINOTRUK">
+                                                                          <?php echo $sinotruk ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("TOYOTA BT", $userBrands)) { ?>
+                                                                        <option value="TOYOTA BT" selected>
+                                                                          <?php echo $toyotaBt ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="TOYOTA BT">
+                                                                          <?php echo $toyotaBt ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("TOYOTA FORKLIFT", $userBrands)) { ?>
+                                                                        <option value="TOYOTA FORKLIFT" selected>
+                                                                          <?php echo $toyotaForklift ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="TOYOTA FORKLIFT">
+                                                                          <?php echo $toyotaForklift ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("BYD", $userBrands)) { ?>
+                                                                        <option value="BYD" selected>
+                                                                          <?php echo $byd ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="BYD">
+                                                                          <?php echo $byd ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("CITROEN", $userBrands)) { ?>
+                                                                        <option value="CITROEN" selected>
+                                                                          <?php echo $citroen ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="CITROEN">
+                                                                          <?php echo $citroen ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("MERCEDES", $userBrands)) { ?>
+                                                                        <option value="MERCEDES" selected>
+                                                                          <?php echo $mercedes ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="MERCEDES">
+                                                                          <?php echo $mercedes ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("MiTSUBISHI", $userBrands)) { ?>
+                                                                        <option value="MiTSUBISHI" selected>
+                                                                          <?php echo $mutsubishi ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="MiTSUBISHI">
+                                                                          <?php echo $mutsubishi ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("PEUGEOT", $userBrands)) { ?>
+                                                                        <option value="PEUGEOT" selected>
+                                                                          <?php echo $peugeot ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="PEUGEOT">
+                                                                          <?php echo $peugeot ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("SUZUKI", $userBrands)) { ?>
+                                                                        <option value="SUZUKI" selected>
+                                                                          <?php echo $suzuki ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="SUZUKI">
+                                                                          <?php echo $suzuki ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("TOYOTA", $userBrands)) { ?>
+                                                                        <option value="TOYOTA" selected>
+                                                                          <?php echo $toyota ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="TOYOTA">
+                                                                          <?php echo $toyota ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("YAMAHA BATEAU", $userBrands)) { ?>
+                                                                        <option value="YAMAHA BATEAU" selected>
+                                                                          <?php echo $yamahaBateau ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="YAMAHA BATEAU">
+                                                                          <?php echo $yamahaBateau ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("YAMAHA MOTO", $userBrands)) { ?>
+                                                                        <option value="YAMAHA MOTO" selected>
+                                                                          <?php echo $yamahaMoto ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="YAMAHA MOTO">
+                                                                          <?php echo $yamahaMoto ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                </select>
                                                                 </div>
                                                                 <!--end::Input group-->
                                                                 <!--begin::Input group-->
@@ -2081,77 +3633,322 @@ if (isset($_POST["retire-technician-manager"])) {
                                                                   <!--begin::Label-->
                                                                   <label class="form-label fw-bolder text-dark fs-6">
                                                                     <span><?php echo $brand ?> <?php echo $expert ?></span>
-                                                                    <span class="ms-1" data-bs-toggle="tooltip" title="Choississez les questionnaires">
+                                                                    <span class="ms-1" data-bs-toggle="tooltip" title="Choississez les marques">
                                                                       <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
                                                                     </span>
                                                                   </label>
                                                                   <!--end::Label-->
                                                                   <!--begin::Input-->
-                                                                  <select name="brandEx[]" multiple aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_brand ?>" class="form-select form-select-solid fw-bold">
-                                                                    <option value=""><?php echo $select_brand ?></option>
-                                                                    <option value="FUSO">
-                                                                      <?php echo $fuso ?>
-                                                                    </option>
-                                                                    <option value="HINO">
-                                                                      <?php echo $hino ?>
-                                                                    </option>
-                                                                    <option value="JCB">
-                                                                      <?php echo $jcb ?>
-                                                                    </option>
-                                                                    <option value="KING LONG">
-                                                                      <?php echo $kingLong ?>
-                                                                    </option>
-                                                                    <option value="LOVOL">
-                                                                      <?php echo $lovol ?>
-                                                                    </option>
-                                                                    <option value="MERCEDES TRUCK">
-                                                                      <?php echo $mercedesTruck ?>
-                                                                    </option>
-                                                                    <option value="RENAULT TRUCK">
-                                                                      <?php echo $renaultTruck ?>
-                                                                    </option>
-                                                                    <option value="SINOTRUCK">
-                                                                      <?php echo $sinotruk ?>
-                                                                    </option>
-                                                                    <option value="TOYOTA BT">
-                                                                      <?php echo $toyotaBt ?>
-                                                                    </option>
-                                                                    <option value="TOYOTA FORKLIFT">
-                                                                      <?php echo $toyotaForklift ?>
-                                                                    </option>
-                                                                    <option value="BYD">
-                                                                      <?php echo $byd ?>
-                                                                    </option>
-                                                                    <option value="CITROEN">
-                                                                      <?php echo $citroen ?>
-                                                                    </option>
-                                                                    <option value="MERCEDES">
-                                                                      <?php echo $mercedes ?>
-                                                                    </option>
-                                                                    <option value="MUTSUBISHI">
-                                                                      <?php echo $mutsubishi ?>
-                                                                    </option>
-                                                                    <option value="PEUGEOT">
-                                                                      <?php echo $peugeot ?>
-                                                                    </option>
-                                                                    <option value="SUZUKI">
-                                                                      <?php echo $suzuki ?>
-                                                                    </option>
-                                                                    <option value="TOYOTA">
-                                                                      <?php echo $toyota ?>
-                                                                    </option>
-                                                                    <option value="YAMAHA BATEAU">
-                                                                      <?php echo $yamahaBateau ?>
-                                                                    </option>
-                                                                    <option value="YAMAHA MOTO">
-                                                                      <?php echo $yamahaMoto ?>
-                                                                    </option>
-                                                                  </select>
+                                                                <select name="brandEx[]" multiple aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_brand ?>" class="form-select form-select-solid fw-bold">
+                                                                    <?php $userBrands = []; 
+                                                                    foreach ($user['brandExpert'] as $bra) {
+                                                                        array_push($userBrands, $bra);
+                                                                    }
+                                                                    if (in_array("FUSO", $userBrands)) { ?>
+                                                                        <option value="FUSO" selected>
+                                                                          <?php echo $fuso ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="FUSO">
+                                                                          <?php echo $fuso ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("HINO", $userBrands)) { ?>
+                                                                        <option value="HINO" selected>
+                                                                          <?php echo $hino ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="HINO">
+                                                                          <?php echo $hino ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("JCB", $userBrands)) { ?>
+                                                                        <option value="JCB" selected>
+                                                                          <?php echo $jcb ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="JCB">
+                                                                          <?php echo $jcb ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("KING LONG", $userBrands)) { ?>
+                                                                        <option value="KING LONG" selected>
+                                                                          <?php echo $kingLong ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="KING LONG">
+                                                                          <?php echo $kingLong ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("LOVOL", $userBrands)) { ?>
+                                                                        <option value="LOVOL" selected>
+                                                                          <?php echo $lovol ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="LOVOL">
+                                                                          <?php echo $lovol ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("MERCEDES TRUCK", $userBrands)) { ?>
+                                                                        <option value="MERCEDES TRUCK" selected>
+                                                                          <?php echo $mercedesTruck ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="MERCEDES TRUCK">
+                                                                          <?php echo $mercedesTruck ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("RENAULT TRUCK", $userBrands)) { ?>
+                                                                        <option value="RENAULT TRUCK" selected>
+                                                                          <?php echo $renaultTruck ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="RENAULT TRUCK">
+                                                                          <?php echo $renaultTruck ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("SINOTRUK", $userBrands)) { ?>
+                                                                        <option value="SINOTRUK" selected>
+                                                                          <?php echo $sinotruk ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="SINOTRUK">
+                                                                          <?php echo $sinotruk ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("TOYOTA BT", $userBrands)) { ?>
+                                                                        <option value="TOYOTA BT" selected>
+                                                                          <?php echo $toyotaBt ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="TOYOTA BT">
+                                                                          <?php echo $toyotaBt ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("TOYOTA FORKLIFT", $userBrands)) { ?>
+                                                                        <option value="TOYOTA FORKLIFT" selected>
+                                                                          <?php echo $toyotaForklift ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="TOYOTA FORKLIFT">
+                                                                          <?php echo $toyotaForklift ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("BYD", $userBrands)) { ?>
+                                                                        <option value="BYD" selected>
+                                                                          <?php echo $byd ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="BYD">
+                                                                          <?php echo $byd ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("CITROEN", $userBrands)) { ?>
+                                                                        <option value="CITROEN" selected>
+                                                                          <?php echo $citroen ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="CITROEN">
+                                                                          <?php echo $citroen ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("MERCEDES", $userBrands)) { ?>
+                                                                        <option value="MERCEDES" selected>
+                                                                          <?php echo $mercedes ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="MERCEDES">
+                                                                          <?php echo $mercedes ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("MiTSUBISHI", $userBrands)) { ?>
+                                                                        <option value="MiTSUBISHI" selected>
+                                                                          <?php echo $mutsubishi ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="MiTSUBISHI">
+                                                                          <?php echo $mutsubishi ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("PEUGEOT", $userBrands)) { ?>
+                                                                        <option value="PEUGEOT" selected>
+                                                                          <?php echo $peugeot ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="PEUGEOT">
+                                                                          <?php echo $peugeot ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("SUZUKI", $userBrands)) { ?>
+                                                                        <option value="SUZUKI" selected>
+                                                                          <?php echo $suzuki ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="SUZUKI">
+                                                                          <?php echo $suzuki ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("TOYOTA", $userBrands)) { ?>
+                                                                        <option value="TOYOTA" selected>
+                                                                          <?php echo $toyota ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="TOYOTA">
+                                                                          <?php echo $toyota ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("YAMAHA BATEAU", $userBrands)) { ?>
+                                                                        <option value="YAMAHA BATEAU" selected>
+                                                                          <?php echo $yamahaBateau ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="YAMAHA BATEAU">
+                                                                          <?php echo $yamahaBateau ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("YAMAHA MOTO", $userBrands)) { ?>
+                                                                        <option value="YAMAHA MOTO" selected>
+                                                                          <?php echo $yamahaMoto ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="YAMAHA MOTO">
+                                                                          <?php echo $yamahaMoto ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                </select>
+                                                                </div>
+                                                                <!--end::Input group-->
+                                                                <!--begin::Input group-->
+                                                                <div class="d-flex flex-column mb-7 fv-row">
+                                                                  <!--begin::Label-->
+                                                                  <label class="form-label fw-bolder text-dark fs-6">
+                                                                    <span><?php echo $Speciality ?> <?php echo $senior ?></span>
+                                                                    <span class="ms-1" data-bs-toggle="tooltip" title="Choississez les marques">
+                                                                      <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                                                                    </span>
+                                                                  </label>
+                                                                  <!--end::Label-->
+                                                                  <!--begin::Input-->
+                                                                  <select name="specialitySenior[]" multiple aria-label="Select a Country" data-control="select2" data-placeholder="<?php echo $select_speciality ?>" class="form-select form-select-solid fw-bold">
+                                                                    <?php $speciality = []; 
+                                                                    foreach ($user['specialitySenior'] as $special) {
+                                                                        array_push($speciality, $special);
+                                                                    }
+                                                                    if (in_array("Boite de Vitesse", $speciality)) { ?>
+                                                                        <option value="Boite de Vitesse" selected>
+                                                                        <?php echo $boite_vitesse ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="Boite de Vitesse">
+                                                                        <?php echo $boite_vitesse ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("Electricté et Electronique", $speciality)) { ?>
+                                                                        <option value="Electricté et Electronique" selected>
+                                                                          <?php echo $elec ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="Electricté et Electronique">
+                                                                          <?php echo $elec ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("Hydraulique", $speciality)) { ?>
+                                                                        <option value="Hydraulique" selected>
+                                                                          <?php echo $hydraulique ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="Hydraulique">
+                                                                          <?php echo $hydraulique ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("Moteur", $speciality)) { ?>
+                                                                        <option value="Moteur" selected>
+                                                                          <?php echo $moteur ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="Moteur">
+                                                                          <?php echo $moteur ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("Transmission", $speciality)) { ?>
+                                                                        <option value="Transmission" selected>
+                                                                          <?php echo $transmission ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="Transmission">
+                                                                          <?php echo $transmission ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                </select>
+                                                                  <!--end::Input-->
+                                                                </div>
+                                                                <!--end::Input group-->
+                                                                <!--begin::Input group-->
+                                                                <div class="d-flex flex-column mb-7 fv-row">
+                                                                  <!--begin::Label-->
+                                                                  <label class="form-label fw-bolder text-dark fs-6">
+                                                                    <span><?php echo $Speciality ?> <?php echo $expert ?></span>
+                                                                    <span class="ms-1" data-bs-toggle="tooltip" title="Choississez les marques">
+                                                                      <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                                                                    </span>
+                                                                  </label>
+                                                                  <!--end::Label-->
+                                                                  <!--begin::Input-->
+                                                                    <select name="specialityExpert[]" multiple aria-label="Select a Speciality" data-control="select2" data-placeholder="<?php echo $select_speciality ?>" class="form-select form-select-solid fw-bold">
+                                                                    <?php $speciality = []; 
+                                                                    foreach ($user['specialityExpert'] as $special) {
+                                                                        array_push($speciality, $special);
+                                                                    }
+                                                                    if (in_array("Boite de Vitesse", $speciality)) { ?>
+                                                                        <option value="Boite de Vitesse" selected>
+                                                                        <?php echo $boite_vitesse ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="Boite de Vitesse">
+                                                                        <?php echo $boite_vitesse ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("Electricté et Electronique", $speciality)) { ?>
+                                                                        <option value="Electricté et Electronique" selected>
+                                                                          <?php echo $elec ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="Electricté et Electronique">
+                                                                          <?php echo $elec ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("Hydraulique", $speciality)) { ?>
+                                                                        <option value="Hydraulique" selected>
+                                                                          <?php echo $hydraulique ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="Hydraulique">
+                                                                          <?php echo $hydraulique ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("Moteur", $speciality)) { ?>
+                                                                        <option value="Moteur" selected>
+                                                                          <?php echo $moteur ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="Moteur">
+                                                                          <?php echo $moteur ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    <?php if (in_array("Transmission", $speciality)) { ?>
+                                                                        <option value="Transmission" selected>
+                                                                          <?php echo $transmission ?>
+                                                                        </option>
+                                                                    <?php } else { ?>
+                                                                        <option value="Transmission">
+                                                                          <?php echo $transmission ?>
+                                                                        </option>
+                                                                    <?php } ?>
+                                                                    </select>
                                                                   <!--end::Input-->
                                                                 </div>
                                                                 <!--end::Input group-->
                                                                 <?php } ?>
-                                                                <!--begin::Input group-->
                                                                 <!--begin::Input group-->
                                                                 <div class="fv-row mb-7">
                                                                     <!--begin::Label-->
@@ -2186,24 +3983,81 @@ if (isset($_POST["retire-technician-manager"])) {
                                                                   </label>
                                                                   <!--end::Label-->
                                                                   <!--begin::Input-->
-                                                                  <select name="manager" aria-label="Select a Country" data-control="select2" data-placeholder="Sélectionnez votre manager..." class="form-select form-select-solid fw-bold">
+                                                                  <select name="manager" aria-label="Select a Country" data-control="select2" data-placeholder="" class="form-select form-select-solid fw-bold">
                                                                     <?php if ($user->manager) {
                                                                         $lead = $users->findOne([
                                                                             "_id" => $user["manager"],
                                                                         ]); ?>
                                                                     <option value="<?php echo $lead->_id; ?>">
-                                                                      <?php echo $manager_actuel ?>: <?php echo $lead->firstName; ?>
-                                                                      <?php echo $lead->lastName; ?>
+                                                                      <?php echo $lead->firstName; ?> <?php echo $lead->lastName; ?>
                                                                     </option>
                                                                     <?php
                                                                     } ?>
                                                                     <?php
-                                                                    $managers = $users->find([
-                                                                        '$and' => [
-                                                                            ["profile" => "Manager"],
-                                                                            ["active" => true],
-                                                                        ],
-                                                                    ]);
+                                                                    if ($_SESSION['profile'] == "Admin") {
+                                                                        $managers = $users->find([
+                                                                            '$and' => [
+                                                                                ["profile" => "Manager"],
+                                                                                ["subsidiary" => $_SESSION['subsidiary']],
+                                                                                ["active" => true],
+                                                                            ],
+                                                                        ]);
+                                                                    }
+                                                                    if ($_SESSION['profile'] == "Super Admin") {
+                                                                        $managers = $users->find([
+                                                                            '$and' => [
+                                                                                ["profile" => "Manager"],
+                                                                                ["active" => true],
+                                                                            ],
+                                                                        ]);
+                                                                    }
+                                                                    foreach ($managers as $manager) { ?>
+                                                                      <option value="<?php echo $manager->_id; ?>">
+                                                                        <?php echo $manager->firstName; ?>
+                                                                        <?php echo $manager->lastName; ?>
+                                                                      </option>
+                                                                      <?php }
+                                                                      ?>
+                                                                    </select>
+                                                                    <!--end::Input-->
+                                                                </div>
+                                                                <?php } ?>
+                                                                <?php if ($user->profile == "Manager" && $user->test == true) { ?>
+                                                                <div class="d-flex flex-column mb-7 fv-row">
+                                                                  <!--begin::Label-->
+                                                                  <label class="form-label fw-bolder text-dark fs-6">
+                                                                    <span><?php echo $userManager ?></span>
+                                                                    <span class="ms-1" data-bs-toggle="tooltip" title="Choississez le manager de ce technicien">
+                                                                      <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                                                                    </span>
+                                                                  </label>
+                                                                  <!--end::Label-->
+                                                                  <!--begin::Input-->
+                                                                    <?php if (isset($user->manager)) {
+                                                                        $lead = $users->findOne([
+                                                                            "_id" => $user["manager"],
+                                                                        ]); ?>
+                                                                  <select name="manager" aria-label="Select a Country" data-control="select2" data-placeholder="" class="form-select form-select-solid fw-bold">
+                                                                      <option value="<?php echo $lead->_id ?>"><?php echo $lead->firstName.' '.$lead->lastName; ?></option>
+                                                                    <?php } ?>
+                                                                    <?php
+                                                                    if ($_SESSION['profile'] == "Admin") {
+                                                                        $managers = $users->find([
+                                                                            '$and' => [
+                                                                                ["profile" => "Manager"],
+                                                                                ["subsidiary" => $_SESSION['subsidiary']],
+                                                                                ["active" => true],
+                                                                            ],
+                                                                        ]);
+                                                                    }
+                                                                    if ($_SESSION['profile'] == "Super Admin") {
+                                                                        $managers = $users->find([
+                                                                            '$and' => [
+                                                                                ["profile" => "Manager"],
+                                                                                ["active" => true],
+                                                                            ],
+                                                                        ]);
+                                                                    }
                                                                     foreach ($managers as $manager) { ?>
                                                                     <option value="<?php echo $manager->_id; ?>">
                                                                       <?php echo $manager->firstName; ?>
@@ -2354,10 +4208,10 @@ if (isset($_POST["retire-technician-manager"])) {
                                 <div class="dataTables_length">
                                     <label><select id="kt_customers_table_length" name="kt_customers_table_length"
                                             class="form-select form-select-sm form-select-solid">
-                                            <option value="10">10</option>
-                                            <option value="25">25</option>
-                                            <option value="50">50</option>
                                             <option value="100">100</option>
+                                            <option value="200">200</option>
+                                            <option value="300">300</option>
+                                            <option value="500">500</option>
                                         </select></label>
                                 </div>
                             </div>

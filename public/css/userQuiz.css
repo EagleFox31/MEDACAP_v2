@@ -22,7 +22,7 @@
   max-height: 450px;
   height: fit-content;
   position: sticky;
-  top: 60px;
+  top: 65px;
   background: #edf2f7;
 }
 
@@ -33,7 +33,7 @@
 }
 
 #image {
-  width: 350px;
+  width: 550px;
   border-radius: 10px;
   margin-bottom: 10px;
 }
@@ -162,10 +162,10 @@ input[type="radio"]:active + .design::after {
   transform: scale(2);
 }
 
-#image {
+/* #image {
   height: auto;
   width: 350px;
-}
+} */
 
 .submit {
   border: none;

@@ -468,39 +468,6 @@ if (!isset($_SESSION["id"])) {
                                                 "lastName"
                                             ]; ?>
                                         </td>
-                                        <!-- <?php if($allocateFacJu['active'] == true) { ?>
-                                        <td class="text-center">
-                                            <span class="badge badge-light-success fs-7 m-1">
-                                                <?php echo $percentageFacJu."%" ?>
-                                            </span>
-                                        </td>
-                                        <?php } else { ?>
-                                        <td class="text-center">
-                                                -
-                                        </td>
-                                        <?php } ?>
-                                        <?php if($allocateDeclaJu['active'] == true) { ?>
-                                        <td class="text-center">
-                                            <span class="badge badge-light-success fs-7 m-1">
-                                                <?php echo $percentageDeclaJuTech."%" ?>
-                                            </span>
-                                        </td>
-                                        <?php } else { ?>
-                                        <td class="text-center">
-                                                -
-                                        </td>
-                                        <?php } ?>
-                                        <?php if($allocateDeclaJu['activeManager'] == true) { ?>
-                                        <td class="text-center">
-                                            <span class="badge badge-light-success fs-7 m-1">
-                                                <?php echo $percentageDeclaJuMa."%" ?>
-                                            </span>
-                                        </td>
-                                        <?php } else { ?>
-                                        <td class="text-center">
-                                                -
-                                        </td>
-                                        <?php } ?> -->
                                         <?php if($allocateDeclaJu['activeManager'] == true && $allocateDeclaJu['active'] == true && $allocateFacJu['active'] == true) { ?>
                                         <td class="text-center">
                                             <a href="./managerBrandResult.php?numberTest=<?php echo $resultFacJu["numberTest"] ?>&level=Junior&user=<?php echo $user->_id; ?>"
@@ -516,39 +483,6 @@ if (!isset($_SESSION["id"])) {
                                         </td>
                                         <?php } ?>
                                         <?php if (isset($allocateFacSe) && isset($allocateDeclaSe)) { ?>
-                                        <?php if($allocateFacSe['active'] == true) { ?>
-                                        <!-- <td class="text-center">
-                                            <span class="badge badge-light-success fs-7 m-1">
-                                                <?php echo $percentageFacSe."%" ?>
-                                            </span>
-                                        </td>
-                                        <?php } else { ?>
-                                        <td class="text-center">
-                                                -
-                                        </td>
-                                        <?php } ?>
-                                        <?php if($allocateDeclaSe['active'] == true) { ?>
-                                        <td class="text-center">
-                                            <span class="badge badge-light-success fs-7 m-1">
-                                                <?php echo $percentageDeclaSeTech."%" ?>
-                                            </span>
-                                        </td>
-                                        <?php } else { ?>
-                                        <td class="text-center">
-                                                -
-                                        </td>
-                                        <?php } ?>
-                                        <?php if($allocateDeclaSe['activeManager'] == true) { ?>
-                                        <td class="text-center">
-                                            <span class="badge badge-light-success fs-7 m-1">
-                                                <?php echo $percentageDeclaSeMa."%" ?>
-                                            </span>
-                                        </td>
-                                        <?php } else { ?>
-                                        <td class="text-center">
-                                                -
-                                        </td>
-                                        <?php } ?> -->
                                         <?php if($allocateDeclaSe['activeManager'] == true && $allocateDeclaSe['active'] == true && $allocateFacSe['active'] == true) { ?>
                                         <td class="text-center">
                                             <a href="./managerBrandResult.php?numberTest=<?php echo $resultFacSe["numberTest"] ?>&level=Senior&user=<?php echo $user->_id; ?>"
@@ -564,49 +498,10 @@ if (!isset($_SESSION["id"])) {
                                         </td>
                                         <?php } ?>
                                         <?php } else { ?>
-                                        <!-- <td class="text-center" style="background-color: #7c8181;">
-                                        </td>
-                                        <td class="text-center" style="background-color: #7c8181;">
-                                        </td>
-                                        <td class="text-center" style="background-color: #7c8181;">
-                                        </td> -->
-                                        <td class="text-center" style="background-color: #7c8181;">
+                                        <td class="text-center" style="background-color: #f9f9f9;">
                                         </td>
                                         <?php } ?>
                                         <?php if (isset($allocateFacEx) && isset($allocateDeclaEx)) { ?>
-                                        <?php if($allocateFacEx['active'] == true) { ?>
-                                        <!-- <td class="text-center">
-                                            <span class="badge badge-light-success fs-7 m-1">
-                                                <?php echo $percentageFacEx."%" ?>
-                                            </span>
-                                        </td>
-                                        <?php } else { ?>
-                                        <td class="text-center">
-                                                -
-                                        </td>
-                                        <?php } ?>
-                                        <?php if($allocateDeclaEx['active'] == true) { ?>
-                                        <td class="text-center">
-                                            <span class="badge badge-light-success fs-7 m-1">
-                                                <?php echo $percentageDeclaExTech."%" ?>
-                                            </span>
-                                        </td>
-                                        <?php } else { ?>
-                                        <td class="text-center">
-                                                -
-                                        </td>
-                                        <?php } ?>
-                                        <?php if($allocateDeclaEx['activeManager'] == true) { ?>
-                                        <td class="text-center">
-                                            <span class="badge badge-light-success fs-7 m-1">
-                                                <?php echo $percentageDeclaExMa."%" ?>
-                                            </span>
-                                        </td>
-                                        <?php } else { ?>
-                                        <td class="text-center">
-                                                -
-                                        </td>
-                                        <?php } ?> -->
                                         <?php if($allocateDeclaEx['activeManager'] == true && $allocateDeclaEx['active'] == true && $allocateFacEx['active'] == true) { ?>
                                         <td class="text-center">
                                             <a href="./managerBrandResult.php?numberTest=<?php echo $resultFacEx["numberTest"] ?>&level=Expert&user=<?php echo $user->_id; ?>"
@@ -622,13 +517,7 @@ if (!isset($_SESSION["id"])) {
                                         </td>
                                         <?php } ?>
                                         <?php } else { ?>
-                                        <!-- <td class="text-center" style="background-color: #7c8181;">
-                                        </td>
-                                        <td class="text-center" style="background-color: #7c8181;">
-                                        </td>
-                                        <td class="text-center" style="background-color: #7c8181;">
-                                        </td> -->
-                                        <td class="text-center" style="background-color: #7c8181;">
+                                        <td class="text-center" style="background-color: #f9f9f9;">
                                         </td>
                                         <?php } ?>
                                         <!--end::Menu-->
@@ -644,10 +533,10 @@ if (!isset($_SESSION["id"])) {
                                 <div class="dataTables_length">
                                     <label><select id="kt_customers_table_length" name="kt_customers_table_length"
                                             class="form-select form-select-sm form-select-solid">
-                                            <option value="10">10</option>
-                                            <option value="25">25</option>
-                                            <option value="50">50</option>
                                             <option value="100">100</option>
+                                            <option value="200">200</option>
+                                            <option value="300">300</option>
+                                            <option value="500">500</option>
                                         </select></label>
                                 </div>
                             </div>

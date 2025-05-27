@@ -1,11 +1,142 @@
-/********** Template CSS **********/
-:root {
-    --primary: #d12e3f;
-    --secondary: #FE8800;
-    --light: #F5F5F5;
-    --dark: #14141F;
-    /* --primary: #86B817; */
+.highlight {
+
+	background:
+		linear-gradient(90deg,
+			#1e3c72,
+			#2a5298,
+			#6dd5fa,
+			#2980b9,
+			#1e3c72);
+
+	background-size:
+		400%;
+
+	-webkit-background-clip:
+		text;
+
+	-webkit-text-fill-color:
+		transparent;
+
+	animation: gradientMove 5s ease infinite;
+
 }
+
+
+@keyframes gradientMove {
+
+	0% {
+
+		background-position:
+			0%;
+
+	}
+
+	100% {
+
+		background-position:
+			100%;
+
+	}
+
+}
+
+
+/* Image fade animation */
+
+.fade-images {
+
+	position:
+		relative;
+
+	width:
+		353px;
+	/* Ensure same width for all images */
+
+	height:
+		auto;
+	/* Maintain aspect ratio */
+
+}
+
+
+.fade-images img {
+
+	position:
+		absolute;
+
+	top:
+		0;
+
+	left:
+		0;
+
+	width:
+		100%;
+
+	height:
+		auto;
+
+	transition: opacity 2s ease-out;
+
+}
+
+
+/* Floating image animation */
+
+.floating-image {
+
+	animation: float 6s ease-in-out infinite, fadeIn 3s ease-in-out 1;
+
+	position:
+		relative;
+
+}
+
+
+@keyframes float {
+
+	0% {
+
+		transform:
+			translateY(0px);
+
+	}
+
+	50% {
+
+		transform:
+			translateY(-20px);
+
+	}
+
+	100% {
+
+		transform:
+			translateY(0px);
+
+	}
+
+}
+
+
+@keyframes fadeIn {
+
+	0% {
+
+		opacity:
+			0;
+
+	}
+
+	100% {
+
+		opacity:
+			1;
+
+	}
+
+}
+
 
 .fw-medium {
     font-weight: 600 !important;

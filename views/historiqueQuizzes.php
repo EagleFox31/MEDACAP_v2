@@ -19,7 +19,7 @@ if (!isset($_SESSION["id"])) {
     $users = $academy->users;
     $quizzes = $academy->quizzes;
     $questions = $academy->questions;
-    $allocations = $academy->allocations;
+    $vehicles = $academy->vehicles;
 
 
     if (isset($_POST["active"])) {
@@ -221,9 +221,6 @@ if (!isset($_SESSION["id"])) {
                                             style="width: 29.8906px;">
                                             <div
                                                 class="form-check form-check-sm form-check-custom form-check-solid me-3">
-                                                <input class="form-check-input" type="checkbox" data-kt-check="true"
-                                                    data-kt-check-target="#kt_customers_table .form-check-input"
-                                                    value="1">
                                             </div>
                                         </th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_customers_table"
@@ -259,10 +256,6 @@ if (!isset($_SESSION["id"])) {
                                     foreach ($quiz as $quiz) { ?>
                                     <tr class="odd" etat="<?php echo $quiz->active; ?>">
                                         <td>
-                                            <div class="form-check form-check-sm form-check-custom form-check-solid">
-                                                <input class="form-check-input" id="checkbox" type="checkbox"
-                                                    onclick="enable()" value="<?php echo $quiz->_id; ?>">
-                                            </div>
                                         </td>
                                         <td data-filter=" search">
                                             <a href="#" data-bs-toggle="modal" data-bs-target="#kt_modal_add_customer"
@@ -372,7 +365,7 @@ if (!isset($_SESSION["id"])) {
                                                         </button>
                                                         <!--end::Button-->
                                                         <!--begin::Button-->
-                                                        <button type="submit" name="active" class=" btn btn-danger">
+                                                        <button type="submit" name="active" class=" btn btn-primary">
                                                             <?php echo $oui; ?>
                                                         </button>
                                                         <!--end::Button-->
@@ -420,10 +413,10 @@ if (!isset($_SESSION["id"])) {
                             <div class="dataTables_length">
                                 <label><select id="kt_customers_table_length" name="kt_customers_table_length"
                                         class="form-select form-select-sm form-select-solid">
-                                        <option value="10">10</option>
-                                        <option value="25">25</option>
-                                        <option value="50">50</option>
-                                        <option value="100">100</option>
+                                            <option value="100">100</option>
+                                            <option value="200">200</option>
+                                            <option value="300">300</option>
+                                            <option value="500">500</option>
                                     </select></label>
                             </div>
                         </div>

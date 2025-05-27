@@ -40,7 +40,7 @@ if (!isset($_SESSION["id"])) {
             "type" => $type,
             "level" => ucfirst($level),
             "total" => count($quize),
-            "updated" => date("d-m-Y"),
+            "updated" => date("d-m-Y H:I:S"),
         ];
 
         $vehicles->updateOne(
@@ -62,7 +62,7 @@ if (!isset($_SESSION["id"])) {
             "brand" => strtoupper($brand),
             "type" => $type,
             "level" => ucfirst($level),
-            "updated" => date("d-m-Y"),
+            "updated" => date("d-m-Y H:I:S"),
         ];
 
         $vehicles->updateOne(
@@ -114,13 +114,14 @@ if (!isset($_SESSION["id"])) {
         $id = new MongoDB\BSON\ObjectId($_POST["vehicleID"]);
         $vehicle = $vehicles->findOne(["_id" => $id]);
         $vehicle->active = false;
+        $vehicle->deleted = date("d-m-Y H:I:S");
         $vehicles->updateOne(["_id" => $id], ['$set' => $vehicle]);
         $success_msg = $success_vehicle_delet;
     }
     ?>
 <?php include_once "partials/header.php"; ?>
 <!--begin::Title-->
-<title><?php echo $title_edit_sup_question ?> | CFAO Mobility Academy</title>
+<title><?php echo $title_edit_sup_vehicle ?> | CFAO Mobility Academy</title>
 <!--end::Title-->
 
 <!--begin::Body-->
@@ -133,7 +134,7 @@ if (!isset($_SESSION["id"])) {
             <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
                 <!--begin::Title-->
                 <h1 class="text-dark fw-bold my-1 fs-2">
-                    <?php echo $title_edit_sup_question ?> </h1>
+                    <?php echo $title_edit_sup_vehicle ?> </h1>
                 <!--end::Title-->
                 <div class="card-title">
                     <!--begin::Search-->
@@ -419,6 +420,9 @@ if (!isset($_SESSION["id"])) {
                                             </span>
                                             <?php } ?>
                                         </td>
+                                        <td data-order="subsidiary">
+                                            <?php echo $vehicle->total; ?>
+                                        </td>
                                         <td>
                                             <button class="btn btn-icon btn-light-success w-30px h-30px me-3" data-bs-toggle="modal" data-bs-target="#kt_modal_update_details<?php echo $vehicle->_id; ?>">
                                                 <i class="fas fa-edit fs-5"></i></button>
@@ -694,10 +698,10 @@ if (!isset($_SESSION["id"])) {
                                 <div class="dataTables_length">
                                     <label><select id="kt_customers_table_length" name="kt_customers_table_length"
                                             class="form-select form-select-sm form-select-solid">
-                                            <option value="10">10</option>
-                                            <option value="25">25</option>
-                                            <option value="50">50</option>
                                             <option value="100">100</option>
+                                            <option value="200">200</option>
+                                            <option value="300">300</option>
+                                            <option value="500">500</option>
                                         </select></label>
                                 </div>
                             </div>

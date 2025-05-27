@@ -25,6 +25,7 @@ if (!isset($_SESSION["id"])) {
         $id = new MongoDB\BSON\ObjectId($_POST["vehicleID"]);
         $vehicle = $vehicles->findOne(["_id" => $id]);
         $vehicle->active = false;
+        $vehicle->updated = date("d-m-Y H:I:S");
         $vehicles->updateOne(["_id" => $id], ['$set' => $vehicle]);
         $success_msg = "Véhicule supprimé avec succes.";
     }
@@ -404,10 +405,10 @@ if (!isset($_SESSION["id"])) {
                                 <div class="dataTables_length">
                                     <label><select id="kt_customers_table_length" name="kt_customers_table_length"
                                             class="form-select form-select-sm form-select-solid">
-                                            <option value="10">10</option>
-                                            <option value="25">25</option>
-                                            <option value="50">50</option>
                                             <option value="100">100</option>
+                                            <option value="200">200</option>
+                                            <option value="300">300</option>
+                                            <option value="500">500</option>
                                         </select></label>
                                 </div>
                             </div>
@@ -439,6 +440,19 @@ if (!isset($_SESSION["id"])) {
     <!--end::Post-->
 </div>
 <!--end::Body-->
+<script>
+    
+    // Function to handle closing of the alert message
+    document.addEventListener('DOMContentLoaded', function() {
+        const closeButtons = document.querySelectorAll('.alert .close');
+        closeButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                const alert = this.closest('.alert');
+                alert.remove();
+            });
+        });
+    });
+</script>
 <?php include_once "partials/footer.php"; ?>
 <?php
 } ?>
