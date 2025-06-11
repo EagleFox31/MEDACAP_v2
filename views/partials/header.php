@@ -20,6 +20,7 @@
 
         return 'Module non défini';
     }
+
     // Map countries to their respective agencies
     $agencies = [
         "Burkina Faso"  => ["Ouaga"],

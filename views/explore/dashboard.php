@@ -3164,7 +3164,7 @@ foreach ($cursor as $doc) {
                         type: ['nonMaitrise', 'singleMaitrise', 'doubleMaitrise', 'others'],
                         total: statJu.totalQuestions,
                         percentage: [percentageJu.nonMaitrise, percentageJu.singleMaitrise, percentageJu.doubleMaitrise, percentageJu.others], // Test réalisés
-                        data: [statJu.nonMaitrise, statJu.singleMaitrise, statJu.doubleMaitrise, statJu.othersCount], // Test réalisés vs. Test à réaliser
+                        data: [statJu.nonMaitrise, statJu.singleMaitrise, statJu.doubleMaitrise, statJu.othersCount], // Test réalisés vs. Test to be completed
                         labels: ['<?php echo $legend_zero_mastery; ?>', '<?php echo $legend_one_mastery; ?>','<?php echo $legend_two_mastery; ?>','<?php echo $legend_more_mastery; ?>'],
                         backgroundColor: [
                             '#d3d3d3',   // Gris pour "Aucun technicien maîtrise"
@@ -3178,7 +3178,7 @@ foreach ($cursor as $doc) {
                         type: ['nonMaitrise', 'singleMaitrise', 'doubleMaitrise', 'others'],
                         total: statSe.totalQuestions,
                         percentage: [percentageSe.nonMaitrise, percentageSe.singleMaitrise, percentageSe.doubleMaitrise, percentageSe.others], // Test réalisés
-                        data: [statSe.nonMaitrise, statSe.singleMaitrise, statSe.doubleMaitrise, statSe.othersCount], // Test réalisés vs. Test à réaliser
+                        data: [statSe.nonMaitrise, statSe.singleMaitrise, statSe.doubleMaitrise, statSe.othersCount], // Test réalisés vs. Test to be completed
                         labels: ['<?php echo $legend_zero_mastery; ?>', '<?php echo $legend_one_mastery; ?>','<?php echo $legend_two_mastery; ?>','<?php echo $legend_more_mastery; ?>'],
                         backgroundColor: [
                             '#d3d3d3',   // Gris pour "Aucun technicien maîtrise"
@@ -3192,7 +3192,7 @@ foreach ($cursor as $doc) {
                         type: ['nonMaitrise', 'singleMaitrise', 'doubleMaitrise', 'others'],
                         total: statEx.totalQuestions,
                         percentage: [percentageEx.nonMaitrise, percentageEx.singleMaitrise, percentageEx.doubleMaitrise, percentageEx.others], // Test réalisés
-                        data: [statEx.nonMaitrise, statEx.singleMaitrise, statEx.doubleMaitrise, statEx.othersCount], // Test réalisés vs. Test à réaliser
+                        data: [statEx.nonMaitrise, statEx.singleMaitrise, statEx.doubleMaitrise, statEx.othersCount], // Test réalisés vs. Test to be completed
                         labels: ['<?php echo $legend_zero_mastery; ?>', '<?php echo $legend_one_mastery; ?>','<?php echo $legend_two_mastery; ?>','<?php echo $legend_more_mastery; ?>'],
                         backgroundColor: [
                             '#d3d3d3',   // Gris pour "Aucun technicien maîtrise"
@@ -3206,7 +3206,7 @@ foreach ($cursor as $doc) {
                         type: ['nonMaitrise', 'singleMaitrise', 'doubleMaitrise', 'others'],
                         total: statTo.totalQuestions,
                         percentage: [percentageTo.nonMaitrise, percentageTo.singleMaitrise, percentageTo.doubleMaitrise, percentageTo.others], // Test réalisés
-                        data: [statTo.nonMaitrise, statTo.singleMaitrise, statTo.doubleMaitrise, statTo.othersCount], // Test réalisés vs. Test à réaliser
+                        data: [statTo.nonMaitrise, statTo.singleMaitrise, statTo.doubleMaitrise, statTo.othersCount], // Test réalisés vs. Test to be completed
                         labels: ['<?php echo $legend_zero_mastery; ?>', '<?php echo $legend_one_mastery; ?>','<?php echo $legend_two_mastery; ?>','<?php echo $legend_more_mastery; ?>'],
                         backgroundColor: [
                             '#d3d3d3',   // Gris pour "Aucun technicien maîtrise"
@@ -3365,8 +3365,8 @@ foreach ($cursor as $doc) {
                         completed: <?php echo count($testsUserJu) ?>, // Test réalisés
                         data: [<?php echo count($testsUserJu) ?>,
                             <?php echo (count($testsTotalJu) - count($testsUserJu)) ?>
-                        ], // Test réalisés vs. Test à réaliser
-                        labels: ['Tests réalisés', 'Tests restants à réaliser'],
+                        ], // Test réalisés vs. Test to be completed
+                        labels: ['Completed Tests', 'Remaining Tests to Be Completed'],
                         backgroundColor: ['#4303ec', '#D3D3D3'] // Blue and Lightgrey
                     },
                     {
@@ -3375,8 +3375,8 @@ foreach ($cursor as $doc) {
                         completed: <?php echo count($testsUserSe) ?>, // Test réalisés
                         data: [<?php echo count($testsUserSe) ?>,
                             <?php echo (count($testsTotalSe) - count($testsUserSe)) ?>
-                        ], // Test réalisés vs. Test à réaliser
-                        labels: ['Tests réalisés', 'Tests restants à réaliser'],
+                        ], // Test réalisés vs. Test to be completed
+                        labels: ['Completed Tests', 'Remaining Tests to Be Completed'],
                         backgroundColor: ['#4303ec', '#D3D3D3'] // Blue and Lightgrey
                     },
                     {
@@ -3385,8 +3385,8 @@ foreach ($cursor as $doc) {
                         completed: <?php echo count($testsUserEx) ?>, // Test réalisés
                         data: [<?php echo count($testsUserEx) ?>,
                             <?php echo (count($testsTotalEx) - count($testsUserEx)) ?>
-                        ], // Test réalisés vs. Test à réaliser
-                        labels: ['Tests réalisés', 'Tests restants à réaliser'],
+                        ], // Test réalisés vs. Test to be completed
+                        labels: ['Completed Tests', 'Remaining Tests to Be Completed'],
                         backgroundColor: ['#4303ec', '#D3D3D3'] // Blue and Lightgrey
                     },
                     {
@@ -3395,8 +3395,8 @@ foreach ($cursor as $doc) {
                         completed: <?php echo count($testsUserJu) + count($testsUserSe) + count($testsUserEx) ?>, // Test réalisés
                         data: [<?php echo count($testsUserJu) + count($testsUserSe) + count($testsUserEx) ?>,
                             <?php echo (count($testsTotalJu) + count($testsTotalSe) + count($testsTotalEx)) - (count($testsUserJu) + count($testsUserSe) + count($testsUserEx)) ?>
-                        ], // Test réalisés vs. Test à réaliser
-                        labels: ['Tests réalisés', 'Tests restants à réaliser'],
+                        ], // Test réalisés vs. Test to be completed
+                        labels: ['Completed Tests', 'Remaining Tests to Be Completed'],
                         backgroundColor: ['#4303ec', '#D3D3D3'] // Blue and Lightgrey
                     }
                 ];
@@ -3414,7 +3414,7 @@ foreach ($cursor as $doc) {
                             <div class="card h-100">
                                 <div class="card-body d-flex justify-content-center text-center flex-column p-4">
                                     <h5>Total des Tests à réaliser: ${data.total}</h5>
-                                    <h5><strong>${completedPercentage}%</strong> des tests réalisés</h5>
+                                    <h5><strong>${completedPercentage}%</strong> des Completed Tests</h5>
                                     <canvas id="doughnutChart${index}" width="200" height="200"></canvas>
                                     <h5 class="mt-2">${data.title}</h5>
                                 </div>
@@ -3515,42 +3515,42 @@ foreach ($cursor as $doc) {
                 const chartDataM = [{
                         title: 'Résultat <?php echo count($doneTestJuTj) ?> / <?php echo count($countUsersJu) ?> Techniciens Niveau Junior',
                         total: 100,
-                        completed: <?php echo round(($percentageFacJuTj + $percentageDeclaJuTj) / 2)?>, // Moyenne des compétences acquises
+                        completed: <?php echo round(($percentageFacJuTj + $percentageDeclaJuTj) / 2)?>, // Moyenne acquired skills
                         data: [<?php echo round(($percentageFacJuTj + $percentageDeclaJuTj) / 2)?>,
                             100 -
                             <?php echo round(($percentageFacJuTj + $percentageDeclaJuTj) / 2)?>
-                        ], // Moyenne des compétences acquises vs. Moyenne des compétences à acquérir
+                        ], // Moyenne acquired skills vs. Moyenne skills to be acquired
                         labels: [
-                            '<?php echo round(($percentageFacJuTj + $percentageDeclaJuTj) / 2)?>% des compétences acquises',
-                            '<?php echo 100 - round(($percentageFacJuTj + $percentageDeclaJuTj) / 2)?>% des compétences à acquérir'
+                            '<?php echo round(($percentageFacJuTj + $percentageDeclaJuTj) / 2)?>%  Acquired skills',
+                            '<?php echo 100 - round(($percentageFacJuTj + $percentageDeclaJuTj) / 2)?>% skills to be acquired'
                         ],
                         backgroundColor: getBackgroundColor(<?php echo round(($percentageFacJuTj + $percentageDeclaJuTj) / 2) ?>)
                     },
                     {
                         title: 'Résultat <?php echo count($doneTestSeTs) ?> / <?php echo count($countUsersSe) ?> Techniciens Niveau Senior',
                         total: 100,
-                        completed: <?php echo round(($percentageFacSeTs + $percentageDeclaSeTs) / 2)?>, // Moyenne des compétences acquises
+                        completed: <?php echo round(($percentageFacSeTs + $percentageDeclaSeTs) / 2)?>, // Moyenne des Acquired skills
                         data: [<?php echo round(($percentageFacSeTs + $percentageDeclaSeTs) / 2)?>,
                             100 -
                             <?php echo round(($percentageFacSeTs + $percentageDeclaSeTs) / 2)?>
-                        ], // Moyenne des compétences acquises vs. Moyenne des compétences à acquérir
+                        ], // Moyenne acquired skills vs. Moyenne skills to be acquired
                         labels: [
-                            '<?php echo round(($percentageFacSeTs + $percentageDeclaSeTs) / 2)?>% des compétences acquises',
-                            '<?php echo 100 - round(($percentageFacSeTs + $percentageDeclaSeTs) / 2)?>% des compétences à acquérir'
+                            '<?php echo round(($percentageFacSeTs + $percentageDeclaSeTs) / 2)?>% acquired skills',
+                            '<?php echo 100 - round(($percentageFacSeTs + $percentageDeclaSeTs) / 2)?>% skills to be acquired'
                         ],
                         backgroundColor: getBackgroundColor(<?php echo round(($percentageFacSeTs + $percentageDeclaSeTs) / 2) ?>)
                     },
                     {
                         title: 'Résultat <?php echo count($doneTestExTx) ?> / <?php echo count($countUsersEx) ?> Techniciens Niveau Expert',
                         total: 100,
-                        completed: <?php echo round(($percentageFacEx + $percentageDeclaEx) / 2)?>, // Moyenne des compétences acquises
+                        completed: <?php echo round(($percentageFacEx + $percentageDeclaEx) / 2)?>, // Moyenne acquired skills
                         data: [<?php echo round(($percentageFacEx + $percentageDeclaEx) / 2)?>,
                             100 -
                             <?php echo round(($percentageFacEx + $percentageDeclaEx) / 2)?>
-                        ], // Moyenne des compétences acquises vs. Moyenne des compétences à acquérir
+                        ], // Moyenne acquired skills vs. Moyenne skills to be acquired
                         labels: [
-                            '<?php echo round(($percentageFacEx + $percentageDeclaEx) / 2)?>% des compétences acquises',
-                            '<?php echo 100 - round(($percentageFacEx + $percentageDeclaEx) / 2)?>% des compétences à acquérir'
+                            '<?php echo round(($percentageFacEx + $percentageDeclaEx) / 2)?>% acquired skills',
+                            '<?php echo 100 - round(($percentageFacEx + $percentageDeclaEx) / 2)?>% skills to be acquired'
                         ],
                         backgroundColor: getBackgroundColor(<?php echo round(($percentageFacEx + $percentageDeclaEx) / 2) ?>)
                     },
@@ -3573,8 +3573,8 @@ foreach ($cursor as $doc) {
                     completed: averageCompleted,
                     data: averageData,
                     labels: [
-                        `${averageCompleted}% des compétences acquises`,
-                        `${100 - averageCompleted}% des compétences à acquérir`
+                        `${averageCompleted}% acquired skills`,
+                        `${100 - averageCompleted}% skills to be acquired`
                     ],
                     backgroundColor: totalBackgroundColor
                 });
@@ -3642,7 +3642,7 @@ foreach ($cursor as $doc) {
                                     callbacks: {
                                         label: function(tooltipItem) {
                                             let percentage = Math.round((tooltipItem.raw / 100) * 100);
-                                            return `Compétences acquises: ${percentage}%`;
+                                            return `Acquired skills: ${percentage}%`;
                                         }
                                     }
                                 }
@@ -3957,9 +3957,9 @@ foreach ($cursor as $doc) {
                         completed: <?php echo count($testsJu) ?>, // Test réalisés
                         data: [<?php echo count($testsJu) ?>,
                             <?php echo (count($testTotalJu) - count($testsJu)) ?>
-                        ], // Test réalisés vs. Test à réaliser
-                        labels: ['<?php echo count($testsJu) ?> Tests réalisés',
-                            '<?php echo (count($testTotalJu)) - (count($testsJu)) ?> Tests restants à réaliser'
+                        ], // Test réalisés vs. Test to be completed
+                        labels: ['<?php echo count($testsJu) ?> Completed Tests',
+                            '<?php echo (count($testTotalJu)) - (count($testsJu)) ?> Remaining Tests to Be Completed'
                         ],
                         backgroundColor: ['#4303ec', '#D3D3D3'] // Blue and Lightgrey
                     },
@@ -3969,9 +3969,9 @@ foreach ($cursor as $doc) {
                         completed: <?php echo count($testsSe) ?>, // Test réalisés
                         data: [<?php echo count($testsSe) ?>,
                             <?php echo (count($testTotalSe) - count($testsSe)) ?>
-                        ], // Test réalisés vs. Test à réaliser
-                        labels: ['<?php echo count($testsSe) ?> Tests réalisés',
-                            '<?php echo (count($testTotalSe)) - (count($testsSe)) ?> Tests restants à réaliser'
+                        ], // Test réalisés vs. Test to be completed
+                        labels: ['<?php echo count($testsSe) ?> Completed Tests',
+                            '<?php echo (count($testTotalSe)) - (count($testsSe)) ?> Remaining Tests to Be Performed'
                         ],
                         backgroundColor: ['#4303ec', '#D3D3D3'] // Blue and Lightgrey
                     },
@@ -3981,9 +3981,9 @@ foreach ($cursor as $doc) {
                         completed: <?php echo count($testsEx) ?>, // Test réalisés
                         data: [<?php echo count($testsEx) ?>,
                             <?php echo (count($testTotalEx) - count($testsEx)) ?>
-                        ], // Test réalisés vs. Test à réaliser
-                        labels: ['<?php echo count($testsEx) ?> Tests réalisés',
-                            '<?php echo (count($testTotalEx)) - (count($testsEx)) ?> Tests restants à réaliser'
+                        ], // Test réalisés vs. Test to be completed
+                        labels: ['<?php echo count($testsEx) ?> Completed Tests',
+                            '<?php echo (count($testTotalEx)) - (count($testsEx)) ?> Remaining Tests to Be Completed'
                         ],
                         backgroundColor: ['#4303ec', '#D3D3D3'] // Blue and Lightgrey
                     },
@@ -3993,9 +3993,9 @@ foreach ($cursor as $doc) {
                         completed: <?php echo count($testsJu) + count($testsSe) + count($testsEx) ?>, // Test réalisés
                         data: [<?php echo count($testsJu) + count($testsSe) + count($testsEx) ?>,
                             <?php echo (count($testTotalJu) + count($testTotalSe) + count($testTotalEx)) - (count($testsJu) + count($testsSe) + count($testsEx)) ?>
-                        ], // Test réalisés vs. Test à réaliser
-                        labels: ['<?php echo count($testsJu) + count($testsSe) + count($testsEx) ?> Tests réalisés',
-                            '<?php echo (count($testTotalJu) + count($testTotalSe) + count($testTotalEx)) - (count($testsJu) + count($testsSe) + count($testsEx)) ?> Tests restants à réaliser'
+                        ], // Test réalisés vs. Test to be completed
+                        labels: ['<?php echo count($testsJu) + count($testsSe) + count($testsEx) ?> Completed Tests',
+                            '<?php echo (count($testTotalJu) + count($testTotalSe) + count($testTotalEx)) - (count($testsJu) + count($testsSe) + count($testsEx)) ?> Remaining Tests to Be Completed'
                         ],
                         backgroundColor: ['#4303ec', '#D3D3D3'] // Blue and Lightgrey
                     }
@@ -4105,42 +4105,42 @@ foreach ($cursor as $doc) {
                     {
                         title: 'Résultat <?php echo count($doneTestJuTjF) ?> / <?php echo count($techniciansJu)?> Techniciens Niveau Junior',
                         total: 100,
-                        completed: <?php echo round(($percentageFacJuTjF + $percentageDeclaJuTjF) / 2)?>, // Moyenne des compétences acquises
+                        completed: <?php echo round(($percentageFacJuTjF + $percentageDeclaJuTjF) / 2)?>, // Moyenne acquired skills
                         data: [<?php echo round(($percentageFacJuTjF + $percentageDeclaJuTjF) / 2)?>,
                             100 -
                             <?php echo round(($percentageFacJuTjF + $percentageDeclaJuTjF) / 2)?>
-                        ], // Moyenne des compétences acquises vs. Moyenne des compétences à acquérir
+                        ], // Moyenne acquired skills vs. Moyenne skills to be acquired
                         labels: [
-                            '<?php echo round(($percentageFacJuTjF + $percentageDeclaJuTjF) / 2)?>% des compétences acquises',
-                            '<?php echo 100 - round(($percentageFacJuTjF + $percentageDeclaJuTjF) / 2)?>% des compétences à acquérir'
+                            '<?php echo round(($percentageFacJuTjF + $percentageDeclaJuTjF) / 2)?>% acquired skills',
+                            '<?php echo 100 - round(($percentageFacJuTjF + $percentageDeclaJuTjF) / 2)?>% skills to be acquired'
                         ],
                         backgroundColor: getBackgroundColor(<?php echo round(($percentageFacJuTjF + $percentageDeclaJuTjF) / 2) ?>)
                     },
                     {
                         title: 'Résultat <?php echo count($doneTestSeTsF) ?> / <?php echo count($techniciansSe)?> Techniciens Niveau Senior',
                         total: 100,
-                        completed: <?php echo round(($percentageFacSeTsF + $percentageDeclaSeTsF) / 2)?>, // Moyenne des compétences acquises
+                        completed: <?php echo round(($percentageFacSeTsF + $percentageDeclaSeTsF) / 2)?>, // Moyenne acquired skills
                         data: [<?php echo round(($percentageFacSeTsF + $percentageDeclaSeTsF) / 2)?>,
                             100 -
                             <?php echo round(($percentageFacSeTsF + $percentageDeclaSeTsF) / 2)?>
-                        ], // Moyenne des compétences acquises vs. Moyenne des compétences à acquérir
+                        ], // Moyenne acquired skills vs. Moyenne skills to be acquired
                         labels: [
-                            '<?php echo round(($percentageFacSeTsF + $percentageDeclaSeTsF) / 2)?>% des compétences acquises',
-                            '<?php echo 100 - round(($percentageFacSeTsF + $percentageDeclaSeTsF) / 2)?>% des compétences à acquérir'
+                            '<?php echo round(($percentageFacSeTsF + $percentageDeclaSeTsF) / 2)?>% acquired skills',
+                            '<?php echo 100 - round(($percentageFacSeTsF + $percentageDeclaSeTsF) / 2)?>% skills to be acquired'
                         ],
                         backgroundColor: getBackgroundColor(<?php echo round(($percentageFacSeTsF + $percentageDeclaSeTsF) / 2) ?>)
                     },
                     {
                         title: 'Résultat <?php echo count($doneTestExTxF) ?> / <?php echo count($techniciansEx)?> Techniciens Niveau Expert',
                         total: 100,
-                        completed: <?php echo round(($percentageFacExF + $percentageDeclaExF) / 2)?>, // Moyenne des compétences acquises
+                        completed: <?php echo round(($percentageFacExF + $percentageDeclaExF) / 2)?>, // Moyenne acquired skills
                         data: [<?php echo round(($percentageFacExF + $percentageDeclaExF) / 2)?>,
                             100 -
                             <?php echo round(($percentageFacExF + $percentageDeclaExF) / 2)?>
-                        ], // Moyenne des compétences acquises vs. Moyenne des compétences à acquérir
+                        ], // Moyenne acquired skills vs. Moyenne skills to be acquired
                         labels: [
-                            '<?php echo round(($percentageFacExF + $percentageDeclaExF) / 2)?>% des compétences acquises',
-                            '<?php echo 100 - round(($percentageFacExF + $percentageDeclaExF) / 2)?>% des compétences à acquérir'
+                            '<?php echo round(($percentageFacExF + $percentageDeclaExF) / 2)?>% acquired skills',
+                            '<?php echo 100 - round(($percentageFacExF + $percentageDeclaExF) / 2)?>% skills to be acquired'
                         ],
                         backgroundColor: getBackgroundColor(<?php echo round(($percentageFacExF + $percentageDeclaExF) / 2) ?>)
                     }
@@ -4163,8 +4163,8 @@ foreach ($cursor as $doc) {
                     completed: averageCompleted,
                     data: averageData,
                     labels: [
-                        `${averageCompleted}% des compétences acquises`,
-                        `${100 - averageCompleted}% des compétences à acquérir`
+                        `${averageCompleted}% acquired skills`,
+                        `${100 - averageCompleted}% skills to be acquired`
                     ],
                     backgroundColor: totalBackgroundColor
                 });
@@ -4226,7 +4226,7 @@ foreach ($cursor as $doc) {
                                     callbacks: {
                                         label: function(tooltipItem) {
                                             let percentage = Math.round((tooltipItem.raw / 100) * 100);
-                                            return `Compétences acquises: ${percentage}%`;
+                                            return `Acquired skills: ${percentage}%`;
                                         }
                                     }
                                 }

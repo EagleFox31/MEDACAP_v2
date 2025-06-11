@@ -11,22 +11,34 @@ if (!isset($_SESSION["profile"])) {
     $lang = isset($_SESSION['lang']) ? $_SESSION['lang'] : 'fr';
 
     // Texte à afficher selon la langue
-    $texts = [
-        'en' => [
-            'numbers' => ['1.', '2.', '3.', '4.', '5.', '6.', '7.'],
-            'labels' => ['Measure', 'Explore', 'Define', 'Acquire', 'Certify', 'Apply', 'Perform']
-        ],
-        'fr' => [
-            'numbers' => ['1.', '2.', '3.', '4.', '5.', '6.', '7.'],
-            'labels' => ['Mesurer', 'Exploiter', 'Définir', 'Acquérir', 'Certifier', 'Appliquer', 'Performer']
-        ]
-    ];
+        $texts = [
+            'EN' => [                      //  ← NOUVEAU
+                'numbers' => ['1.','2.','3.','4.','5.','6.','7.'],
+                'labels'  => ['Measure','Explore','Define','Acquire','Certify','Apply','Perform']
+            ],
+            'FR' => [                      //  ← NOUVEAU
+                'numbers' => ['1.','2.','3.','4.','5.','6.','7.'],
+                'labels'  => ['Mesurer','Exploiter','Définir','Acquérir','Certifier','Appliquer','Performer']
+            ],
+            // (tes anciennes entrées en minuscules peuvent rester ou être supprimées)
+        ];
+
 
     // Changer la langue si l'utilisateur clique sur un bouton
     if (isset($_GET['lang'])) {
         $lang = $_GET['lang'];
         $_SESSION['lang'] = $lang;
     }
+
+          $lang = $_SESSION['lang']
+              ?? ($_COOKIE['lang'] ?? 'FR');
+
+
+              if ($lang === 'EN') {
+                  include_once "language_EN.php";
+              } else {
+                  include_once "language.php";
+              }
 
     // Récupérer le département de l'utilisateur depuis la session
     $department = isset($_SESSION['department']) ? $_SESSION['department'] : '';
@@ -629,10 +641,10 @@ if (!isset($_SESSION["profile"])) {
     <div class="main-container">
         <!-- Section du titre -->
         <div class="header-section">
-            <h1> Bienvenue sur <span>MEDACAP</span>
+            <h1> <?php echo $welcome_portal; ?> <span>MEDACAP</span>
                 <!-- <i class="fas fa-car three-d-icon fs-2x"></i> -->
             </h1>
-            <p>Développez votre expertise professionnelle</p>
+            <p><?php echo $message_portal ?></p>
         </div>
 
         <!-- Section centrale -->

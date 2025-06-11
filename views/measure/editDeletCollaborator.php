@@ -1937,7 +1937,7 @@ if (isset($_POST["retire-technician-manager"])) {
                                             $user["profile"] == "Manager" && $user["test"] == true
                                         ) { ?>
                                         <td data-order="subsidiary">
-                                            Manager - Technicien
+                                            Manager
                                         </td>
                                         <?php } else { ?>
                                         <td data-order="subsidiary">
