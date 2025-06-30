@@ -14,6 +14,7 @@
 
 use MongoDB\Client as MongoClient;
 use MongoDB\BSON\ObjectId;
+use MongoDB\BSON\Javascript;
 
 require_once __DIR__ . '/vendor/autoload.php'; // Ajustez selon votre autoloader / emplacement
 
@@ -398,7 +399,7 @@ $pipeline = [
                             ]
                         ]
                     ]
-                }
+                ]
             ],
             'as' => 'mbaDocs'
         ]
@@ -519,19 +520,17 @@ $pipeline = [
         '$addFields' => [
             'agencyCodesInfo' => [
                 '$function' => [
-                    'body' => new \MongoDB\BSON\Javascript("
-                        function(flatArr) {
-                            const dict = {};
-                            flatArr.forEach(obj => {
-                                const key = obj.code + '||' + obj.level;
-                                if (!dict[key]) {
-                                    dict[key] = { code: obj.code, level: obj.level, occurrences: 0 };
-                                }
-                                dict[key].occurrences += obj.occurrences;
-                            });
-                            return Object.values(dict);
-                        }
-                    "),
+                    'body' => "function(flatArr) {
+                        const dict = {};
+                        flatArr.forEach(obj => {
+                            const key = obj.code + '||' + obj.level;
+                            if (!dict[key]) {
+                                dict[key] = { code: obj.code, level: obj.level, occurrences: 0 };
+                            }
+                            dict[key].occurrences += obj.occurrences;
+                        });
+                        return Object.values(dict);
+                    }",
                     'args' => [ '$flattenedCodesDetailAgency' ],
                     'lang' => 'js'
                 ]
@@ -802,19 +801,17 @@ $pipeline = [
         '$addFields' => [
             'subsidiaryCodesInfo' => [
                 '$function' => [
-                    'body' => new \MongoDB\BSON\Javascript("
-                        function(flatArr) {
-                            const dict = {};
-                            flatArr.forEach(obj => {
-                                const key = obj.code + '||' + obj.level;
-                                if (!dict[key]) {
-                                    dict[key] = { code: obj.code, level: obj.level, occurrences: 0 };
-                                }
-                                dict[key].occurrences += obj.occurrences;
-                            });
-                            return Object.values(dict);
-                        }
-                    "),
+                    'body' => "function(flatArr) {
+                        const dict = {};
+                        flatArr.forEach(obj => {
+                            const key = obj.code + '||' + obj.level;
+                            if (!dict[key]) {
+                                dict[key] = { code: obj.code, level: obj.level, occurrences: 0 };
+                            }
+                            dict[key].occurrences += obj.occurrences;
+                        });
+                        return Object.values(dict);
+                    }",
                     'args' => [ '$flattenedCodesDetailSubsidiary' ],
                     'lang' => 'js'
                 ]
@@ -1075,19 +1072,17 @@ $pipeline = [
         '$addFields' => [
             'groupCodesInfo' => [
                 '$function' => [
-                    'body' => new \MongoDB\BSON\Javascript("
-                        function(flatArr) {
-                            const dict = {};
-                            flatArr.forEach(obj => {
-                                const key = obj.code + '||' + obj.level;
-                                if (!dict[key]) {
-                                    dict[key] = { code: obj.code, level: obj.level, occurrences: 0 };
-                                }
-                                dict[key].occurrences += obj.occurrences;
-                            });
-                            return Object.values(dict);
-                        }
-                    "),
+                    'body' => "function(flatArr) {
+                        const dict = {};
+                        flatArr.forEach(obj => {
+                            const key = obj.code + '||' + obj.level;
+                            if (!dict[key]) {
+                                dict[key] = { code: obj.code, level: obj.level, occurrences: 0 };
+                            }
+                            dict[key].occurrences += obj.occurrences;
+                        });
+                        return Object.values(dict);
+                    }",
                     'args' => [ '$flattenedCodesDetailGroup' ],
                     'lang' => 'js'
                 ]
@@ -1327,7 +1322,7 @@ $pipeline = [
 
 try {
     $cursor = $coll->aggregate($pipeline);
-    $docs   = $cursor->toArray();
+    $docs   = iterator_to_array($cursor);
 
     header("Content-Type: application/json; charset=utf-8");
     echo json_encode($docs, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);

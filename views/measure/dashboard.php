@@ -400,7 +400,7 @@
                     <!--begin::Row-->
                     <div class="row g-6 g-xl-9 mb-6 mb-xl-9">
                         <!--begin::Col-->
-                        <div class="col-md-6 col-lg-4 col-xl-3">
+                        <div class="col-md-6 col-lg-4 col-xl-4">
                             <!--begin::Card-->
                             <div class="card h-100 ">
                                 <!--begin::Card body-->
@@ -426,7 +426,7 @@
                         </div>
                         <!--end::Col-->
                         <!--begin::Col-->
-                        <div class="col-md-6 col-lg-4 col-xl-3">
+                        <div class="col-md-6 col-lg-4 col-xl-4">
                             <!--begin::Card-->
                             <div class="card h-100 ">
                                 <!--begin::Card body-->
@@ -452,7 +452,7 @@
                         </div>
                         <!--end::Col-->
                         <!--begin::Col-->
-                        <div class="col-md-6 col-lg-4 col-xl-3">
+                        <div class="col-md-6 col-lg-4 col-xl-4">
                             <!--begin::Card-->
                             <div class="card h-100 ">
                                 <!--begin::Card body-->
@@ -477,31 +477,7 @@
                             <!--end::Card-->
                         </div>
                         <!--end::Col-->
-                        <!--begin::Col-->
-                        <div class="col-md-6 col-lg-4 col-xl-3">
-                            <!--begin::Card-->
-                            <div class="card h-100 ">
-                                <!--begin::Card body-->
-                                <div class="card-body d-flex justify-content-center text-center flex-column p-8">
-                                    <!--begin::Name-->
-                                    <!--begin::Animation-->
-                                    <div
-                                        class="fs-lg-1hx fs-2x fw-bold text-gray-800 d-flex justify-content-center text-center">
-                                        <div class="min-w-70px" data-kt-countup="true"
-                                            data-kt-countup-value="<?php echo count($technicians) ?>">
-                                        </div>
-                                    </div>
-                                    <!--end::Animation-->
-                                    <!--begin::Title-->
-                                    <div class="fs-5 fw-bold mb-2">
-                                        <?php echo $technicienss ?> </div>
-                                    <!--end::Title-->
-                                    <!--end::Name-->
-                                </div>
-                                <!--end::Card body-->
-                            </div>
-                            <!--end::Card-->
-                        </div>
+                        
                         <!--end::Col-->
                         <!--begin::Toolbar-->
                         <div class="toolbar" id="kt_toolbar" style="margin-top: 50px; margin-bottom: -20px">
@@ -510,7 +486,7 @@
                                 <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
                                     <!--begin::Title-->
                                     <h1 class="text-dark fw-bold my-1 fs-2">
-                                        <?php echo $etat_avancement_qcm_tache_pro_manager ?>
+                                        <?php echo $etat_avancement_qcm ?>
                                     </h1>
                                     <!--end::Title-->
                                 </div>
@@ -687,7 +663,7 @@
                 } else {
                     percentage = (done * 100) / total;
                 }
-                return percentage;
+                return Math.round(percentage);
             }
             
             // Calculate percentages
@@ -805,7 +781,7 @@
                             <div class="card h-100">
                                 <div class="card-body d-flex justify-content-center text-center flex-column p-4">
                                     <h5><?php echo $qcm_connaissance_realise; ?> : ${completedPercentage}%</h5>
-                                    <canvas id="doughnutChart${index}" width="200" height="200"></canvas>
+                                    <canvas id="doughnutChart${index}" width="200" height="300"></canvas>
                                     <h5 class="mt-2">${data.title}</h5>
                                 </div>
                             </div>
@@ -871,7 +847,7 @@
             });
         });
     </script>
-<?php } else if ($_SESSION["profile"] == "Manager" && $_SESSION["test"] == true) { ?>
+    <?php } else if ($_SESSION["profile"] == "Manager" && $_SESSION["test"] == true) { ?>
     <script>
         // Graphiques pour les resultats du groupe
         document.addEventListener('DOMContentLoaded', function() {
@@ -882,7 +858,7 @@
                 } else {
                     percentage = (done * 100) / total;
                 }
-                return percentage;
+                return Math.round(percentage);
             }
             
             // Calculate percentages
@@ -901,86 +877,86 @@
             ];
 
             // Data for each chart
- /* === Tableau des jeux de données === */
-const chartData = [
-    /* 1️⃣  QCM CONNAISSANCES */
-    {
-        title: `<?php
-            echo sprintf(
-                '%s %d / %d QCM',
-                $nbre_qcm_connaissance,       // libellé traduit
-                $results['factuelDone'],
-                $results['factuelTotal']
-            );
-        ?>`,
-        total: 100,
-        completed: <?php
-            echo $results['factuelTotal'] > 0
-                ? round(($results['factuelDone'] * 100) / $results['factuelTotal'])
-                : 0;
-        ?>,
-        data: [
-            <?php
-                echo $results['factuelTotal'] > 0
-                    ? round(($results['factuelDone'] * 100) / $results['factuelTotal'])
-                    : 0;
-            ?>,
-            <?php
-                echo $results['factuelTotal'] > 0
-                    ? 100 - round(($results['factuelDone'] * 100) / $results['factuelTotal'])
-                    : 0;
-            ?>
-        ],
-        labels: [
-            `${<?php echo $results['factuelTotal'] > 0
+        /* === Tableau des jeux de données === */
+        const chartData = [
+            /* 1️⃣  QCM CONNAISSANCES */
+            {
+                title: `<?php
+                    echo sprintf(
+                        '%s %d / %d QCM',
+                        $nbre_qcm_connaissance,       // libellé traduit
+                        $results['factuelDone'],
+                        $results['factuelTotal']
+                    );
+                ?>`,
+                total: 100,
+                completed: <?php
+                    echo $results['factuelTotal'] > 0
                         ? round(($results['factuelDone'] * 100) / $results['factuelTotal'])
-                        : 0; ?>} <?php echo $qcm_connaissance_realise; ?>`,
-            `${<?php echo $results['factuelTotal'] > 0
-                        ? 100 - round(($results['factuelDone'] * 100) / $results['factuelTotal'])
-                        : 0; ?>} <?php echo $qcm_connaissance_a_realiser; ?>`
-        ],
-        backgroundColor: ['#4303ec', '#D3D3D3']
-    },
+                        : 0;
+                ?>,
+                data: [
+                    <?php
+                        echo $results['factuelTotal'] > 0
+                            ? round(($results['factuelDone'] * 100) / $results['factuelTotal'])
+                            : 0;
+                    ?>,
+                    <?php
+                        echo $results['factuelTotal'] > 0
+                            ? 100 - round(($results['factuelDone'] * 100) / $results['factuelTotal'])
+                            : 0;
+                    ?>
+                ],
+                labels: [
+                    `${<?php echo $results['factuelTotal'] > 0
+                                ? round(($results['factuelDone'] * 100) / $results['factuelTotal'])
+                                : 0; ?>} <?php echo $qcm_connaissance_realise; ?>`,
+                    `${<?php echo $results['factuelTotal'] > 0
+                                ? 100 - round(($results['factuelDone'] * 100) / $results['factuelTotal'])
+                                : 0; ?>} <?php echo $qcm_connaissance_a_realiser; ?>`
+                ],
+                backgroundColor: ['#4303ec', '#D3D3D3']
+            },
 
-    /* 2️⃣  QCM TÂCHES PROFESSIONNELLES – TECHNICIENS */
-    {
-        title: `<?php
-            echo sprintf(
-                '%s %d / %d QCM',
-                $nbre_qcm_tache_pro_tech,     // libellé traduit
-                $results['declaratifDone'],
-                $results['declaratifTotal']
-            );
-        ?>`,
-        total: 100,
-        completed: <?php
-            echo $results['declaratifTotal'] > 0
-                ? round(($results['declaratifDone'] * 100) / $results['declaratifTotal'])
-                : 0;
-        ?>,
-        data: [
-            <?php
-                echo $results['declaratifTotal'] > 0
-                    ? round(($results['declaratifDone'] * 100) / $results['declaratifTotal'])
-                    : 0;
-            ?>,
-            <?php
-                echo $results['declaratifTotal'] > 0
-                    ? 100 - round(($results['declaratifDone'] * 100) / $results['declaratifTotal'])
-                    : 0;
-            ?>
-        ],
-        labels: [
-            `${<?php echo $results['declaratifTotal'] > 0
+            /* 2️⃣  QCM TÂCHES PROFESSIONNELLES – TECHNICIENS */
+            {
+                title: `<?php
+                    echo sprintf(
+                        '%s %d / %d QCM',
+                        $nbre_qcm_tache_pro_tech,     // libellé traduit
+                        $results['declaratifDone'],
+                        $results['declaratifTotal']
+                    );
+                ?>`,
+                total: 100,
+                completed: <?php
+                    echo $results['declaratifTotal'] > 0
                         ? round(($results['declaratifDone'] * 100) / $results['declaratifTotal'])
-                        : 0; ?>} <?php echo $tache_pro_realise; ?>`,
-            `${<?php echo $results['declaratifTotal'] > 0
-                        ? 100 - round(($results['declaratifDone'] * 100) / $results['declaratifTotal'])
-                        : 0; ?>} <?php echo $tache_pro_a_realiser; ?>`
-        ],
-        backgroundColor: ['#4303ec', '#D3D3D3']
-    }
-];
+                        : 0;
+                ?>,
+                data: [
+                    <?php
+                        echo $results['declaratifTotal'] > 0
+                            ? round(($results['declaratifDone'] * 100) / $results['declaratifTotal'])
+                            : 0;
+                    ?>,
+                    <?php
+                        echo $results['declaratifTotal'] > 0
+                            ? 100 - round(($results['declaratifDone'] * 100) / $results['declaratifTotal'])
+                            : 0;
+                    ?>
+                ],
+                labels: [
+                    `${<?php echo $results['declaratifTotal'] > 0
+                                ? round(($results['declaratifDone'] * 100) / $results['declaratifTotal'])
+                                : 0; ?>} <?php echo $tache_pro_realise; ?>`,
+                    `${<?php echo $results['declaratifTotal'] > 0
+                                ? 100 - round(($results['declaratifDone'] * 100) / $results['declaratifTotal'])
+                                : 0; ?>} <?php echo $tache_pro_a_realiser; ?>`
+                ],
+                backgroundColor: ['#4303ec', '#D3D3D3']
+            }
+        ];
 
             
             // Calculate the average for "Total : 03 Niveaux" based on non-zero values
@@ -991,28 +967,28 @@ const chartData = [
             const averageData = [averageCompleted, 100 - averageCompleted];
             
            chartData.push({
-    /* ---- Titre : QCM TP managers (tous niveaux) ---- */
-    title: `<?php
-        echo sprintf(
-            '%s %d / %d QCM',
-            $nbre_qcm_tache_pro_manager,
-            $resultJu['declaratifDone'] + $resultSe['declaratifDone'] + $resultEx['declaratifDone'],
-            $resultJu['declaratifTotal'] + $resultSe['declaratifTotal'] + $resultEx['declaratifTotal']
-        );
-    ?>`,
+            /* ---- Titre : QCM TP managers (tous niveaux) ---- */
+            title: `<?php
+                echo sprintf(
+                    '%s %d / %d QCM',
+                    $nbre_qcm_tache_pro_manager,
+                    $resultJu['declaratifDone'] + $resultSe['declaratifDone'] + $resultEx['declaratifDone'],
+                    $resultJu['declaratifTotal'] + $resultSe['declaratifTotal'] + $resultEx['declaratifTotal']
+                );
+            ?>`,
 
-    total: 100,
-    completed: averageCompleted,
-    data: averageData,
+            total: 100,
+            completed: averageCompleted,
+            data: averageData,
 
-    /* ---- Libellés du doughnut ---- */
-    labels: [
-        `${averageCompleted} <?php echo $tache_pro_manager_realise; ?>`,
-        `${100 - averageCompleted} <?php echo $tache_pro_manager_a_realiser; ?>`
-    ],
+            /* ---- Libellés du doughnut ---- */
+            labels: [
+                `${averageCompleted} <?php echo $tache_pro_manager_realise; ?>`,
+                `${100 - averageCompleted} <?php echo $tache_pro_manager_a_realiser; ?>`
+            ],
 
-    backgroundColor: ['#4303ec', '#D3D3D3']
-});
+            backgroundColor: ['#4303ec', '#D3D3D3']
+        });
 
         
             const container = document.getElementById('chartQCM');
@@ -1024,16 +1000,16 @@ const chartData = [
         
                 // Create the card element
                 const cardHtml = `
-    <div class="col-md-6 col-lg-4 col-xl-3 mb-4">
-        <div class="card h-100">
-            <div class="card-body d-flex justify-content-center text-center flex-column p-4">
-                <h5><?php echo $pourcentage_qcm; ?>: ${completedPercentage}%</h5>
-                <canvas id="doughnutChart${index}" width="200" height="200"></canvas>
-                <h5 class="mt-2">${data.title}</h5>
+            <div class="col-md-6 col-lg-4 col-xl-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body d-flex justify-content-center text-center flex-column p-4">
+                        <h5><?php echo $pourcentage_qcm; ?>: ${completedPercentage}%</h5>
+                        <canvas id="doughnutChart${index}" width="200" height="300"></canvas>
+                        <h5 class="mt-2">${data.title}</h5>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-`;
+        `;
 
         
                 // Append the card to the container
@@ -1103,7 +1079,7 @@ const chartData = [
                 } else {
                     percentage = (done * 100) / total;
                 }
-                return percentage;
+                return Math.round(percentage);
             }
             
             // Calculate percentages
@@ -1196,6 +1172,52 @@ const chartData = [
         ],
 
         backgroundColor: ['#4303ec', '#D3D3D3']
+    },
+
+    /* 3️⃣ TOTAL TESTS */
+    {
+        title: `<?php
+            echo sprintf(
+                '%s %d / %d QCM',
+                $nbre_test,               // libellé traduit
+                $results['factuelDone'] + $results['declaratifDone'],
+                $results['factuelTotal'] + $results['declaratifTotal']
+            );
+        ?>`,
+
+        total: 100,
+
+        completed: <?php
+            $totalDone = $results['factuelDone'] + $results['declaratifDone'];
+            $totalTotal = $results['factuelTotal'] + $results['declaratifTotal'];
+            echo $totalTotal > 0
+                ? round(($totalDone * 100) / $totalTotal)
+                : 0;
+        ?>,
+
+        data: [
+            <?php
+                $totalDone = $results['factuelDone'] + $results['declaratifDone'];
+                $totalTotal = $results['factuelTotal'] + $results['declaratifTotal'];
+                echo $totalTotal > 0
+                    ? round(($totalDone * 100) / $totalTotal)
+                    : 0;
+            ?>,
+            <?php
+                $totalDone = $results['factuelDone'] + $results['declaratifDone'];
+                $totalTotal = $results['factuelTotal'] + $results['declaratifTotal'];
+                echo $totalTotal > 0
+                    ? 100 - round(($totalDone * 100) / $totalTotal)
+                    : 0;
+            ?>
+        ],
+
+        labels: [
+            `<?php echo $tests_completes; ?>`,
+            `<?php echo $tests_restants_completer; ?>`
+        ],
+
+        backgroundColor: ['#4303ec', '#D3D3D3']
     }
 ];
 
@@ -1209,11 +1231,11 @@ const chartData = [
         
                 // Create the card element
                 const cardHtml = `
-                    <div class="col-md-6 col-lg-6 col-xl-3 mb-4">
+                    <div class="col-md-6 col-lg-6 col-xl-4 mb-4">
                         <div class="card h-100">
                             <div class="card-body d-flex justify-content-center text-center flex-column p-4">
                                 <h5><?php echo $qcm_connaissance_realise; ?>: ${completedPercentage}%</h5>
-                                <canvas id="doughnutChart${index}" width="200" height="200"></canvas>
+                                <canvas id="doughnutChart${index}" width="200" height="300"></canvas>
                                 <h5 class="mt-2">${data.title}</h5>
                             </div>
                         </div>

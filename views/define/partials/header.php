@@ -107,7 +107,6 @@ $country = $_SESSION["country"] ?? '';
 $agencies = [
     "Burkina Faso" => ["Ouaga"],
     "Cameroun" => ["Bafoussam","Bertoua", "Douala", "Garoua", "Ngaoundere", "Yaoundé"],
-    "Congo" => ["Pointe - Noire"],
     "Cote d'Ivoire" => ["Vridi - Equip"],
     "Gabon" => ["Libreville"],
     "Madagascar" => ["Ankorondrano", "Anosizato", "Diego", "Moramanga", "Tamatave"],
@@ -376,14 +375,21 @@ $subsidiaries = [
                                                     echo '<a class="menu-link" href="./dashboard"><span class="menu-icon">';
                                                 }
                                             } else if (in_array($_SESSION['profile'], ["Admin", "Directeur Pièce et Service", "Directeur des Opérations", "Directeur Général"])) {
-                                                if (isset($_SESSION['subsidiary'], $_GET['agence'], $_GET['brand'], $_GET['level'], $_GET['managerId'], $_GET['technicianId'])) {
-                                                    echo '<a class="menu-link" href="./dashboard?filiale=' . $_SESSION['subsidiary'] . '&agence=' . $_GET['agence'] . '&managerId=' . $_GET['managerId'] . '&brand=' . $_GET['brand'] . '&technicianId=' . $_GET['technicianId'] . '&level=' . $_GET['level'] . '"><span class="menu-icon">';
+                                                if (isset($_SESSION['subsidiary'], $_GET['agency'], $_GET['brand'], $_GET['level'], $_GET['managerId'], $_GET['technicianId'])) {
+                                                    echo '<a class="menu-link" href="./dashboard?filiale=' . $_SESSION['subsidiary'] . '&agence=' . $_GET['agency'] . '&managerId=' . $_GET['managerId'] . '&brand=' . $_GET['brand'] . '&technicianId=' . $_GET['technicianId'] . '&level=' . $_GET['level'] . '"><span class="menu-icon">';
                                                 } else {
-                                                    echo '<a class="menu-link" href="./dashboard"><span class="menu-icon">';
+                                                    // Vérifier si nous sommes déjà sur la page dashboard pour éviter une boucle infinie
+                                                    // Utiliser l'identifiant de page défini par le contrôleur au lieu de $_SERVER['SCRIPT_NAME']
+                                                    // pour éviter les boucles infinies dans les applications MVC
+                                                    if (isset($GLOBALS['currentPage']) && $GLOBALS['currentPage'] === 'dashboard') {
+                                                        echo '<a class="menu-link" href="#"><span class="menu-icon">';
+                                                    } else {
+                                                        echo '<a class="menu-link" href="./dashboard"><span class="menu-icon">';
+                                                    }
                                                 }
                                             } else {
-                                                if (isset($_GET['filiale'], $_GET['agence'], $_GET['brand'], $_GET['level'], $_GET['managerId'], $_GET['technicianId'])) {
-                                                    echo '<a class="menu-link" href="./dashboard?filiale=' . $_GET['filiale'] . '&agence=' . $_GET['agence'] . '&managerId=' . $_GET['managerId'] . '&brand=' . $_GET['brand'] . '&technicianId=' . $_GET['technicianId'] . '&level=' . $_GET['level'] . '"><span class="menu-icon">';
+                                                if (isset($_GET['filiale'], $_GET['agency'], $_GET['brand'], $_GET['level'], $_GET['managerId'], $_GET['technicianId'])) {
+                                                    echo '<a class="menu-link" href="./dashboard?filiale=' . $_GET['filiale'] . '&agence=' . $_GET['agency'] . '&managerId=' . $_GET['managerId'] . '&brand=' . $_GET['brand'] . '&technicianId=' . $_GET['technicianId'] . '&level=' . $_GET['level'] . '"><span class="menu-icon">';
                                                 } else {
                                                     echo '<a class="menu-link" href="./dashboard"><span class="menu-icon">';
                                                 }
@@ -486,7 +492,7 @@ $subsidiaries = [
                 <div style="background:#e6e6e6;" id="kt_header" class="header " data-kt-sticky="true" data-kt-sticky-name="header"
                     data-kt-sticky-offset="{default: '200px', lg: '300px'}">
                     <!--begin::Container-->
-                    <div class=" container-fluid  d-flex align-items-stretch justify-content-between">
+                    <div class="container-fluid d-flex align-items-stretch justify-content-between px-2"> <!-- Added px-2 to reduce side padding -->
                         <!--begin::Logo bar-->
                         <div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0">
                             <!--begin::Aside Toggle-->

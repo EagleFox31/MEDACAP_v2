@@ -1,7 +1,12 @@
 <?php
 // manageGroups.ajax.php
+// Prevent PHP errors from breaking JSON output
+ini_set('display_errors', 0);
+error_reporting(E_ERROR);
+
 session_start();
 require_once "groupFunctions.php";
+require_once "moduleHelper.php";
 
 // Définir le Content-Type en JSON
 header('Content-Type: application/json');
@@ -16,10 +21,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Obtenir le module actuel
-    $currentModule = getCurrentModule();
+    $currentModule = ModuleHelper::getCurrentModule();
     if (empty($currentModule)) {
         echo json_encode(['error' => 'Current module not specified']);
         exit();
+    }
+    
+    // Si plusieurs modules sont actifs, utiliser le premier
+    if (is_array($currentModule) && count($currentModule) > 0) {
+        $currentModule = $currentModule[0];
     }
 
     $action = $_POST['action'] ?? '';
@@ -27,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         switch($action) {
             case 'create_group':
-                $name = trim($_POST['name'] ?? '');
+                $name = trim($_POST['newGroupName'] ?? '');
                 if ($name === '') {
                     echo json_encode(['error' => 'Name is required']);
                     exit();

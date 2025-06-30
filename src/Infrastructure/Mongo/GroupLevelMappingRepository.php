@@ -1,0 +1,56 @@
+<?php
+
+namespace Infrastructure\Mongo;
+
+use Domain\Repository\GroupLevelMappingRepositoryInterface;
+use Domain\Model\GroupLevelMapping;
+use MongoDB\BSON\ObjectId;
+
+class GroupLevelMappingRepository implements GroupLevelMappingRepositoryInterface
+{
+    private $collection;
+
+    public function __construct(MongoConnection $connection)
+    {
+        $this->collection = $connection->getDatabase()->selectCollection('groupLevelMappings');
+    }
+
+    public function findById($id): ?GroupLevelMapping
+    {
+        $doc = $this->collection->findOne(['_id' => new ObjectId($id)]);
+        return $doc ? $this->map($doc) : null;
+    }
+
+    public function findAll(): array
+    {
+        $cursor = $this->collection->find();
+        $result = [];
+        foreach ($cursor as $doc) {
+            $result[] = $this->map($doc);
+        }
+        return $result;
+    }
+
+    public function save(GroupLevelMapping $mapping): void
+    {
+        $data = [
+            'groupId' => $mapping->getGroupId(),
+            'levelId' => $mapping->getLevelId(),
+        ];
+        if ($mapping->getId()) {
+            $this->collection->updateOne(['_id' => new ObjectId($mapping->getId())], ['$set' => $data]);
+        } else {
+            $this->collection->insertOne($data);
+        }
+    }
+
+    public function delete($id): void
+    {
+        $this->collection->deleteOne(['_id' => new ObjectId($id)]);
+    }
+
+    private function map($doc): GroupLevelMapping
+    {
+        return new GroupLevelMapping((string)$doc['_id'], $doc['groupId'], $doc['levelId']);
+    }
+}

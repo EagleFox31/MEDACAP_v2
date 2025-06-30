@@ -655,7 +655,12 @@ if (!isset($_SESSION["profile"])) {
                 <div class="pyramid-level">
                     <?php
                     // Déterminer le lien et les classes en fonction du profil
-                    if ($_SESSION['profile'] == "Super Admin" || $_SESSION['profile'] == "Trainer" || $_SESSION['profile'] == "Technicien" || $_SESSION['profile'] == "Manager") {
+                    if ($_SESSION['profile'] == "Super Admin" || $_SESSION['profile'] == "Admin") {
+                        // Rediriger Admin et Super Admin vers dashboardAdmin
+                        $link = "measure/dashboardAdmin";
+                        $classes = "card-step authorized";
+                    } elseif ($_SESSION['profile'] == "Trainer" || $_SESSION['profile'] == "Technicien" || $_SESSION['profile'] == "Manager" || $_SESSION['profile'] == "Candidat") {
+                        // Les autres profils autorisés vont vers dashboard standard
                         $link = "measure/dashboard";
                         $classes = "card-step authorized";
                     } else {

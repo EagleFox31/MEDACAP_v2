@@ -3474,56 +3474,65 @@ if (!isset($_SESSION["id"])) {
                     } 
                 }
                 
-               // ---------------------------------------------------------------------------
-                //  NOTIFICATION « QCM Tâche Professionnelle Manager finalisé par le manageur »
                 // ---------------------------------------------------------------------------
-                if (isset($user['firstName'], $user['lastName'], $level)) {
+                //  NOTIFICATION « QCM Tâche Professionnelle Manager finalisé »
+                // ---------------------------------------------------------------------------
+                if (isset($user['firstName'], $user['lastName'], $level,
+                        $userManager['firstName'], $userManager['lastName'], $userManager['email'])) {
 
-                    /* 1️⃣  Administrateurs ciblés */
-                    $adminDocs = getAdminsDocs($user, $mongo);             // profil Admin
+                    /* 1️⃣  Administrateurs destinataires */
+                    $adminDocs = getAdminsDocs($user, $mongo);
                     if (!$adminDocs) {
-                        return;                                            // aucune cible : on stoppe
+                        return;
                     }
 
-                    /* 2️⃣  Copie (RH + DPS + manager) */
+                    /* 2️⃣  RH + DPS en copie */
                     $rhDpsEmails = getRhAndDpsEmails($user['subsidiary'], $mongo);
 
-                    /* 3️⃣  Salutation adaptée */
+                    /* 3️⃣  Salutation */
                     $salutation = buildAdminSalutation($adminDocs);
 
-                    /* 4️⃣  Sujet + corps (sans signature) */
+                    /* 4️⃣  Variables protégées */
+                    $mgrFirst = htmlspecialchars($userManager['firstName']);
+                    $mgrLast  = htmlspecialchars($userManager['lastName']);
+                    $techFirst= htmlspecialchars($user['firstName']);
+                    $techLast = htmlspecialchars($user['lastName']);
+                    $lvl      = htmlspecialchars($level);
+
+                    /* 5️⃣  Sujet incluant le nom du manageur */
                     $subject = sprintf(
-                        'QCM Tâche Professionnelle finalisé par le Manageur pour son collaborateur %s %s de niveau %s',
-                        $user['firstName'],
-                        $user['lastName'],
-                        $level
+                        'QCM Tâche Professionnelle finalisé par le Manageur %s %s pour son collaborateur %s %s – Niveau %s',
+                        $mgrFirst, $mgrLast,
+                        $techFirst, $techLast,
+                        $lvl
                     );
 
+                    /* 6️⃣  Corps du mail (sans signature) */
                     $body = sprintf(
                         '<p>%s</p>
-                        <p>Le QCM Tâche Professionnelle est maintenant finalisé par le Manageur
-                        pour son collaborateur <strong>%s&nbsp;%s</strong> de niveau <strong>%s</strong> ;
-                        vous pouvez le consulter sur la plateforme
-                        <a href="https://X.X.X.X/medacap">MEDACAP</a>.</p>',
+                        <p>Le Manageur <strong>%s&nbsp;%s</strong> vient de finaliser le
+                        <strong>QCM Tâche Professionnelle</strong> de son collaborateur
+                        <strong>%s&nbsp;%s</strong> au niveau <strong>%s</strong>.
+                        Vous pouvez consulter le résultat dans l’espace
+                        <em>Résultats des Techniciens par niveau</em> sur la plateforme.</p>',
                         $salutation,
-                        htmlspecialchars($user['firstName']),
-                        htmlspecialchars($user['lastName']),
-                        htmlspecialchars($level)
+                        $mgrFirst,  $mgrLast,
+                        $techFirst, $techLast,
+                        $lvl
                     );
 
-                    /* 5️⃣  Envoi */
+                    /* 7️⃣  Envoi */
                     sendMailQcmFinalized(
-                        $adminDocs,                  // TO : administrateurs
+                        $adminDocs,                  // TO : admins
                         $subject,
                         $body,                       // signature ajoutée par le helper
-                        $userManager['email'],       // manager en copie
-                        $rhDpsEmails                 // RH + DPS en copie
+                        $userManager['email'],       // manager en CC
+                        $rhDpsEmails                 // RH + DPS en CC
                     );
                 }
-
-                header("Location: ./congrat");
-            }
-        } else {
+                    header("Location: ./congrat");
+                }
+            } else {
             header("Location: ./congrat");
         }
     }

@@ -630,6 +630,14 @@ $tech_mesure = "Measured Technicians";
 $tech_pif = "Technicians with IDP";
 $pif_filiale = "Validated IDPs Subsidiaries"; // IDP = Individual Development Plan
 
+
+$candidate = "Candidate";
+$candidate_dashboard_title = "Candidate Dashboard";
+$candidate_only_factual = "Factual tests only";
+$candidate_space = "Recruitment Candidate";
+
+$bilan_test_tech_level= "Technician Level Test Report";
+
 $nbre_qcm_junior = 'Number of Junior Level Professional Task MCQs';
 $nbre_qcm_senior = 'Number of Senior Level Professional Task MCQs';
 $nbre_qcm_expert = 'Number of Expert Level Professional Task MCQs';
@@ -656,7 +664,7 @@ $tache_pro_tous_niveaux_realise = '% of All Levels Professional Task MCQs Comple
 $tache_pro_tous_niveaux_a_realiser = '% of All Levels Professional Task MCQs to Complete';
 $tache_pro_manager_realise = '% of Manager Professional Task MCQs Completed';
 $tache_pro_manager_a_realiser = '% of Manager Professional Task MCQs to Complete';
-
+$completed = 'Completed';
 
 /* ---------- MEDACAP Portal Modules ---------- */
 $module_acquire = '4 - Acquire technical skills';
@@ -668,5 +676,57 @@ $mon_equipe = 'My team';
 $evaluer_vos_collaborateurs = 'Evaluate your collaborators';
 $mesure_des_competences = 'Skills measurement';
 
+$test_niveau_junior = 'Junior Level Test';
+$test_niveau_senior = 'Senior Level Test';
+$test_niveau_expert = 'Expert Level Test';
+$total_03_niveaux = 'Total: 03 Levels';
+$total_tests_realiser = 'Total Tests to Complete';
+$pourcentage_complete = 'Completion Percentage';
+$tests_completes = 'of Completed Tests';
+$tests_restants_completer = 'Remaining Tests to Be Completed';
+$tests_restants_effectuer = 'Remaining Tests to Be Performed';
+$resultat_techniciens_junior = 'Junior Level Technicians Result';
+$resultat_techniciens_senior = 'Senior Level Technicians Result';
+$resultat_techniciens_expert = 'Expert Level Technicians Result';
+$resultat_techniciens_total = 'Total Technicians Result: 03 Levels';
+$competences_acquises = 'Acquired Skills';
+$competences_acquerir = '% Skills to be Acquired';
+$taux_acquisition_competences = 'Skills Acquisition Rate';
+$taux_realisation_tests = 'Test Completion Rate';
+$total_niveau_junior = 'Total Junior Level';
+$total_niveau_senior = 'Total Senior Level';
+$total_niveau_expert = 'Total Expert Level';
+$connaissances = 'Knowledge';
+$taches_professionnelles = 'Professional Tasks';
+$tests_lbl = 'Tests';;
+$competence = 'Competency';
+$techniciens_junior = 'Junior Technicians';
+$techniciens_senior = 'Senior Technicians';
+$techniciens_expert = 'Expert Technicians';
+$nombre = 'Number';
+$pourcentage = 'Percentage';
+$competences_acquises_tooltip = 'Acquired Skills';
+
 $portal = 'MEDACAP Portal';
+
+/* ---------- Dashboard Admin strings (EN) ---------- */
+$plus_details_resultats        = 'View Result Details';
+$plus_details_tests            = 'View Test Details';
+$resultats_niveau_junior       = 'Junior-Level Results';
+$resultats_niveau_senior       = 'Senior-Level Results';
+$resultats_niveau_expert       = 'Expert-Level Results';
+$nombres_taches_professionnelles = 'Number of Professional Tasks';
+$listes_taches_professionnelles  = 'Professional Task List';
+
+/* ---------- Charts ---------- */
+$aucun_test_prevu = 'No test scheduled';
+
+/* ---------- MCQ Abbreviations ---------- */
+$qcm_co = 'MCQ Know';
+$qcm_tp_tech = 'MCQ PT Technicians';
+$qcm_tp_man = 'MCQ PT Managers';
+$qcm_co_full = 'MCQ Knowledge';
+$qcm_tp_tech_full = 'MCQ Professional Tasks Technicians';
+$qcm_tp_man_full = 'MCQ Professional Tasks Managers';
+$qcm_legend = 'Legend: MCQ Know = MCQ Knowledge, MCQ PT Technicians = MCQ Professional Tasks Technicians, MCQ PT Managers = MCQ Professional Tasks Managers';
 ?>

@@ -134,7 +134,9 @@ function getApplicableSpecialties($technician, $config, $standardizedBrands)
                 $supportedBy[] = $brand;
             }
         }
-        $supportedBy = array_filter($supportedBy, fn($b) => !empty(trim($b)));
+        $supportedBy = array_filter($supportedBy, function($b) {
+            return !empty(trim($b));
+        });
         if (!empty($supportedBy)) {
             $applicable[$spec] = $supportedBy;
         }
@@ -448,16 +450,25 @@ foreach ($config['functionalGroupsByLevel'] as $lvl => $specs) {
                             } elseif ($tLevel === 'Junior') {
                                 $techBrandsRaw = $rawJunior;
                             }
-                            $techBrandsRaw = array_filter($techBrandsRaw, fn($x) => !empty(trim($x)));
-                            $techBrands    = [];
+                            // On vire les valeurs « vides » ou pleines d’espaces
+                            $techBrandsRaw = array_filter($techBrandsRaw, function ($x) {
+                                return !empty(trim($x));
+                            });
+
+                            $techBrands = [];
+
                             foreach ($techBrandsRaw as $b) {
                                 $bUpper = strtoupper(trim($b));
+
                                 if (isset($config['brandMappings'][$bUpper])) {
+                                    // Mapping métier défini dans ta conf → on normalise
                                     $techBrands[] = $config['brandMappings'][$bUpper];
                                 } else {
+                                    // Pas de mapping ? On garde la marque en majuscules, propre et nette
                                     $techBrands[] = $bUpper;
                                 }
                             }
+
                             $techBrands = array_unique($techBrands);
                             sort($techBrands);
 

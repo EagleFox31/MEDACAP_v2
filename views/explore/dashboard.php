@@ -703,51 +703,80 @@ $countUsers   = getUsersByLevel($users,  null,     $selectedBrand); // total
         if ($_SESSION['profile'] == 'Directeur Général' || $_SESSION['profile'] == 'Directeur Pièce et Service' || $_SESSION['profile'] == 'Directeur des Opérations' || $_SESSION['profile'] == 'Admin' || $_SESSION['profile'] == 'Ressource Humaine') {
             // Requête pour determiner les utilisateurs filiale
              // 1) Redéfinition de la fonction pour intégrer la marque
-        function getTechnicians($users, $subsidiary, $level = null, $brand = '') {
-            $query = [
-                'profile'    => ['$in'=> ['Technicien','Manager']],
-                'subsidiary' => $subsidiary,
-                'active'     => true,
-            ];
-            if ($level) {
-                $query['level'] = $level;
-            }
-            if ($brand !== '') {
-                switch ($level) {
-                    case 'Junior':
-                        $query['brandJunior'] = ['$in'=> [$brand]];
-                        break;
-                    case 'Senior':
-                        $query['brandSenior'] = ['$in'=> [$brand]];
-                        break;
-                    case 'Expert':
-                        $query['brandExpert'] = ['$in'=> [$brand]];
-                        break;
-                    default:
-                        $query['$or'] = [
-                            ['brandJunior'=> ['$in'=>[$brand]]],
-                            ['brandSenior'=> ['$in'=>[$brand]]],
-                            ['brandExpert'=> ['$in'=>[$brand]]],
-                        ];
+            /**
+             * Récupère la liste des _id des techniciens (et managers “test=true”)
+             * actifs d’une filiale, avec filtres optionnels niveau & marque.
+             *
+             * @param MongoDB\Collection $users       Collection « users »
+             * @param string             $subsidiary  Nom exact de la filiale
+             * @param string|null        $level       'Junior' | 'Senior' | 'Expert' | null = tous
+             * @param string             $brand       '' = toutes marques, sinon 'TOYOTA', …
+             * @return array             Tableau d’ObjectId (ou de chaînes) des utilisateurs trouvés
+             */
+            function getTechnicians(
+                $users,
+                string $subsidiary,
+                ?string $level = null,
+                string $brand = ''
+            ): array {
+
+                /* ─── filtre de base ─────────────────────────────────────────────── */
+                $query = [
+                    'active'     => true,
+                    'subsidiary' => $subsidiary,
+                    '$or'        => [
+                        ['profile' => 'Technicien'],
+                        ['profile' => 'Manager', 'test' => true],   // ← managers validés
+                    ],
+                ];
+
+                /* ─── niveau ─────────────────────────────────────────────────────── */
+                if ($level !== null) {
+                    $query['level'] = $level;
                 }
+
+                /* ─── filtre marque ──────────────────────────────────────────────── */
+                if ($brand !== '') {
+                    switch ($level) {
+
+                        case 'Junior':
+                            $query['brandJunior'] = ['$in' => [$brand]];
+                            break;
+
+                        case 'Senior':
+                            $query['brandSenior'] = ['$in' => [$brand]];
+                            break;
+
+                        case 'Expert':
+                            $query['brandExpert'] = ['$in' => [$brand]];
+                            break;
+
+                        default:         // total → on regarde dans les trois tableaux
+                            $query['$or'][] = ['brandJunior' => ['$in' => [$brand]]];
+                            $query['$or'][] = ['brandSenior' => ['$in' => [$brand]]];
+                            $query['$or'][] = ['brandExpert' => ['$in' => [$brand]]];
+                    }
+                }
+
+                /* ─── exécution & récupération des _id uniquement ────────────────── */
+                $ids = [];
+                foreach ($users->find($query, ['projection' => ['_id' => 1]]) as $doc) {
+                    // $ids[] = (string) $doc->_id;   // ← si tu préfères avoir des chaînes
+                    $ids[] = $doc->_id;               // ← ou laisse l’ObjectId MongoDB
+                }
+
+                return $ids;
             }
-            // On ne sélectionne que l’_id pour plus de performance
-            $cursor = $users->find($query, ['projection'=>['_id'=>1]]);
-            $ids = [];
-            foreach ($cursor as $doc) {
-                $ids[] = $doc->_id;
-            }
-            return $ids;
-        }
-    // 1) Définition du filtre commun
-$baseFilter = [
-    'subsidiary' => $_SESSION['subsidiary'],
-    'active'     => true,
-    '$or'        => [
-        ['profile' => 'Technicien'],
-        ['profile' => 'Manager', 'test' => true],
-    ],
-];
+
+            // 1) Définition du filtre commun
+            $baseFilter = [
+                'subsidiary' => $_SESSION['subsidiary'],
+                'active'     => true,
+                '$or'        => [
+                    ['profile' => 'Technicien'],
+                    ['profile' => 'Manager', 'test' => true],
+                ],
+            ];
 
 // 2) Pipeline d'agrégation pour extraire la liste unique des marques non vides
 $pipeline = [

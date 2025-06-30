@@ -9,6 +9,7 @@ if (!isset($_SESSION["id"]) || $_SESSION["profile"] != "Super Admin") {
 }
 
 require_once "groupFunctions.php";
+require_once "moduleHelper.php";
 
 // Générer un token CSRF
 if (empty($_SESSION['csrf_token'])) {
@@ -16,7 +17,10 @@ if (empty($_SESSION['csrf_token'])) {
 }
 
 // Obtenir le module actuel
-$currentModule = getCurrentModule();
+$client = getMongoClient();
+$academy = $client->academy;
+$functionalitiesCollection = $academy->functionalities;
+$currentModule = ModuleHelper::getCurrentModule($functionalitiesCollection);
 
 // Récupérer les groupes et fonctionnalités en fonction du module actuel
 $orderedGroups = getOrderedGroups($currentModule);
@@ -384,9 +388,24 @@ include_once "partials/header.php";
 
 <script>
 var csrfToken = '<?php echo htmlspecialchars($_SESSION["csrf_token"]); ?>';
+// Determine the correct AJAX URL based on the current path
+var currentPath = window.location.pathname;
+var ajaxUrl = 'manageGroups.ajax.php';
+
+// Check if we're in a subdirectory
+if (currentPath.includes('/explore/')) {
+    ajaxUrl = '../manageGroups.ajax.php';
+} else if (currentPath.includes('/measure/')) {
+    ajaxUrl = '../manageGroups.ajax.php';
+} else if (currentPath.includes('/define/')) {
+    ajaxUrl = '../manageGroups.ajax.php';
+}
+
+console.log('Current path:', currentPath, 'Using AJAX URL:', ajaxUrl);
 
 $(document).ready(function(){
     console.log('Document ready - jQuery');
+    console.log('Using AJAX URL:', ajaxUrl);
     $('#selectFunctionalities').select2();
     $('#selectGroupName').select2();
 });
@@ -440,7 +459,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         console.log('Reordering groups with new order:', groupNames);
 
-        $.post('manageGroups.ajax.php', {
+        $.post(ajaxUrl, {
             action: 'reorder_groups',
             groupNames: groupNames,
             csrf_token: csrfToken
@@ -466,7 +485,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         console.log('Saving functionalities order for group:', groupName, 'funcIds:', funcIds);
 
-        $.post('manageGroups.ajax.php', {
+        $.post(ajaxUrl, {
             action:'reorder_functionalities',
             groupName: groupName,
             funcIds: funcIds,
@@ -487,34 +506,104 @@ document.addEventListener('DOMContentLoaded', function() {
         var name = $('#newGroupName').val();
         console.log('Creating group with name:', name);
 
-        $.post('manageGroups.ajax.php', {
-            action:'create_group',
-            name:name,
-            csrf_token: csrfToken
-        }, function(response){
-            console.log('Response from create_group:', response);
-            if (response.success) {
-                // On a la création réussie avec 'group' dans response
-                // response.group devrait contenir le nom et le group_order
-                var groupName = response.group.name; 
-                
-                // Mettre à jour la liste des groupes dans la modal d'assignation
-                // Avant d'ouvrir la modal, on ajoute l'option du groupe créé s'il n'existe pas déjà
-                if ($('#selectGroupName option[value="'+groupName+'"]').length === 0) {
-                    $('#selectGroupName').append('<option value="'+groupName+'">'+groupName+'</option>');
-                }
-
-                // Sélectionner automatiquement le groupe nouvellement créé
-                $('#selectGroupName').val(groupName).trigger('change');
-
-                // Afficher la modal d'assignation
-                $('#assignFunctionalityModal').modal('show');
-            } else {
-                alert(response.error);
+        // Create a function to try multiple AJAX URLs if one fails
+        function tryCreateGroup(urls, index) {
+            if (index >= urls.length) {
+                alert('Failed to create group after trying all URLs. Check console for details.');
+                return;
             }
-        }, 'json').fail(function(jqXHR, textStatus, errorThrown){
-            console.error('AJAX failed for create_group:', textStatus, errorThrown);
-        });
+            
+            var currentUrl = urls[index];
+            console.log('Trying AJAX URL:', currentUrl);
+            
+            $.ajax({
+                url: currentUrl,
+                type: 'POST',
+                data: {
+                    action: 'create_group',
+                    newGroupName: name,
+                    csrf_token: csrfToken
+                },
+                dataType: 'json',
+                success: function(response) {
+                    console.log('Response from create_group:', response);
+                    if (response.success) {
+                        // On a la création réussie avec 'group' dans response
+                        // response.group devrait contenir le nom et le group_order
+                        var groupName = response.group.name;
+                        
+                        // Mettre à jour la liste des groupes dans la modal d'assignation
+                        // Avant d'ouvrir la modal, on ajoute l'option du groupe créé s'il n'existe pas déjà
+                        if ($('#selectGroupName option[value="'+groupName+'"]').length === 0) {
+                            $('#selectGroupName').append('<option value="'+groupName+'">'+groupName+'</option>');
+                        }
+
+                        // Sélectionner automatiquement le groupe nouvellement créé
+                        $('#selectGroupName').val(groupName).trigger('change');
+
+                        // Afficher la modal d'assignation
+                        $('#assignFunctionalityModal').modal('show');
+                    } else {
+                        alert(response.error);
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.error('AJAX failed for URL ' + currentUrl + ':', textStatus, errorThrown);
+                    console.log('Raw response:', jqXHR.responseText);
+                    
+                    // Try the next URL
+                    tryCreateGroup(urls, index + 1);
+                }
+            });
+        }
+        
+        // Get the form data directly from the form
+        var formData = $(this).serialize();
+        console.log("Form data:", formData);
+        
+        // Try different AJAX URLs in order of likelihood
+        var urlsToTry = [
+            ajaxUrl,                                  // Current dynamic URL
+            '../manageGroups.ajax.php',               // One directory up
+            '../../views/manageGroups.ajax.php',      // Two directories up
+            '/MEDACAP/views/manageGroups.ajax.php'    // Absolute path
+        ];
+        
+        // Use the serialized form data
+        function tryCreateGroup(urls, index) {
+            if (index >= urls.length) {
+                alert('Failed to create group after trying all URLs. Check console for details.');
+                return;
+            }
+            
+            var currentUrl = urls[index];
+            console.log('Trying AJAX URL:', currentUrl);
+            
+            $.ajax({
+                url: currentUrl,
+                type: 'POST',
+                data: formData,
+                dataType: 'json',
+                success: function(response) {
+                    console.log('Response from create_group:', response);
+                    if (response.success) {
+                        alert('Groupe créé avec succès. La page va être rechargée.');
+                        location.reload();
+                    } else {
+                        alert(response.error);
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.error('AJAX failed for URL ' + currentUrl + ':', textStatus, errorThrown);
+                    console.log('Raw response:', jqXHR.responseText);
+                    
+                    // Try the next URL
+                    tryCreateGroup(urls, index + 1);
+                }
+            });
+        }
+        
+        tryCreateGroup(urlsToTry, 0);
     });
 
     $('.edit-group-btn').on('click', function(){
@@ -531,7 +620,7 @@ document.addEventListener('DOMContentLoaded', function() {
         var newName = $('#renameGroupName').val();
         console.log('Renaming group:', oldName, 'to:', newName);
 
-        $.post('manageGroups.ajax.php', {
+        $.post(ajaxUrl, {
             action: 'rename_group',
             oldName: oldName,
             renameGroupName: newName,
@@ -553,7 +642,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (confirm('Êtes-vous sûr de vouloir supprimer ce groupe ?')) {
             var groupName = $(this).data('name');
             console.log('Deleting group:', groupName);
-            $.post('manageGroups.ajax.php', {
+            $.post(ajaxUrl, {
                 action:'delete_group',
                 groupName: groupName,
                 csrf_token: csrfToken
@@ -576,7 +665,7 @@ document.addEventListener('DOMContentLoaded', function() {
         var formData = $(this).serialize();
         console.log('Assigning functionalities, formData:', formData);
 
-        $.post('manageGroups.ajax.php', formData, function(response){
+        $.post(ajaxUrl, formData, function(response){
             console.log('Response from assign_functionalities:', response);
             if (response.success) {
                 location.reload();
@@ -595,7 +684,7 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('Functionality ID:', funcId);
 
         // Récupérer les détails de la fonctionnalité
-        $.post('manageGroups.ajax.php', {
+        $.post(ajaxUrl, {
             action: 'get_functionality',
             id: funcId,
             csrf_token: csrfToken
@@ -621,7 +710,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (confirm('Êtes-vous sûr de vouloir retirer cette fonctionnalité du groupe ?')) {
             var funcId = $(this).data('id');
             console.log('Removing functionality from group, ID:', funcId);
-            $.post('manageGroups.ajax.php', {
+            $.post(ajaxUrl, {
                 action:'remove_from_group',
                 functionality_id: funcId,
                 csrf_token: csrfToken

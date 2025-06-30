@@ -5219,8 +5219,14 @@ if (!isset($_SESSION["id"])) {
                                             if (
                                                 in_array("KING LONG", $brandselectedLevel)
                                             ) { ?>
-                                                <?php if ($allocateFac['active'] == true && $allocateDecla['active'] == true && $allocateDecla['activeManager'] == true && $kingLongFac != 0 && $kingLongDecla != 0) { ?>
-                                                <?php $percentageKingLong = round((($kingLongScoreFac * 100) / $kingLongFac + ($kingLongScore * 100) / $kingLongDecla) / 2); ?>
+                                                <?php if ($allocateFac['active'] == true) { ?>
+                                                    <?php if (isset($tech["candidat"]) && $tech["candidat"] == true && $kingLongFac != 0) { ?>
+                                                        <?php $percentageKingLong = round(($kingLongScoreFac * 100) / $kingLongFac); ?>
+                                                    <?php } else if ($allocateDecla['active'] == true && $allocateDecla['activeManager'] == true && $kingLongFac != 0 && $kingLongDecla != 0) { ?>
+                                                        <?php $percentageKingLong = round((($kingLongScoreFac * 100) / $kingLongFac + ($kingLongScore * 100) / $kingLongDecla) / 2); ?>
+                                                    <?php } else { ?>
+                                                        <?php $percentageKingLong = null; ?>
+                                                    <?php } ?>
                                                 <?php if($percentageKingLong < 60 ) { ?>
                                                 <span class="badge text-danger fs-7 m-1">
                                                     <?php echo $percentageKingLong ?>
@@ -5244,8 +5250,14 @@ if (!isset($_SESSION["id"])) {
                                             <?php if (
                                                 in_array('FUSO', $brandselectedLevel)
                                             ) { ?>
-                                                <?php if ($allocateFac['active'] == true && $allocateDecla['active'] == true && $allocateDecla['activeManager'] == true && $fusoFac != 0 && $fusoDecla != 0) { ?>
-                                                <?php $percentageFuso = round((($fusoScoreFac * 100) / $fusoFac + ($fusoScore * 100) / $fusoDecla) / 2); ?>
+                                                <?php if ($allocateFac['active'] == true) { ?>
+                                                    <?php if (isset($tech["candidat"]) && $tech["candidat"] == true && $fusoFac != 0) { ?>
+                                                        <?php $percentageFuso = round(($fusoScoreFac * 100) / $fusoFac); ?>
+                                                    <?php } else if ($allocateDecla['active'] == true && $allocateDecla['activeManager'] == true && $fusoFac != 0 && $fusoDecla != 0) { ?>
+                                                        <?php $percentageFuso = round((($fusoScoreFac * 100) / $fusoFac + ($fusoScore * 100) / $fusoDecla) / 2); ?>
+                                                    <?php } else { ?>
+                                                        <?php $percentageFuso = null; ?>
+                                                    <?php } ?>
                                                 <?php if($percentageFuso < 60 ) { ?>
                                                 <span class="badge text-danger fs-7 m-1">
                                                     <?php echo $percentageFuso ?>
@@ -5270,8 +5282,14 @@ if (!isset($_SESSION["id"])) {
                                             <?php if (
                                                 in_array('HINO', $brandselectedLevel)
                                             ) { ?>
-                                                <?php if ($allocateFac['active'] == true && $allocateDecla['active'] == true && $allocateDecla['activeManager'] == true && $hinoFac != 0 && $hinoDecla != 0) { ?>
-                                                <?php $percentageHino = round((($hinoScoreFac * 100) / $hinoFac + ($hinoScore * 100) / $hinoDecla) / 2); ?>
+                                                <?php if ($allocateFac['active'] == true) { ?>
+                                                    <?php if (isset($tech["candidat"]) && $tech["candidat"] == true && $hinoFac != 0) { ?>
+                                                        <?php $percentageHino = round(($hinoScoreFac * 100) / $hinoFac); ?>
+                                                    <?php } else if ($allocateDecla['active'] == true && $allocateDecla['activeManager'] == true && $hinoFac != 0 && $hinoDecla != 0) { ?>
+                                                        <?php $percentageHino = round((($hinoScoreFac * 100) / $hinoFac + ($hinoScore * 100) / $hinoDecla) / 2); ?>
+                                                    <?php } else { ?>
+                                                        <?php $percentageHino = null; ?>
+                                                    <?php } ?>
                                                 <?php if($percentageHino < 60 ) { ?>
                                                 <span class="badge text-danger fs-7 m-1">
                                                     <?php echo $percentageHino ?>
@@ -5296,8 +5314,14 @@ if (!isset($_SESSION["id"])) {
                                             <?php if (
                                                 in_array('MERCEDES TRUCK', $brandselectedLevel)
                                             ) { ?>
-                                                <?php if ($allocateFac['active'] == true && $allocateDecla['active'] == true && $allocateDecla['activeManager'] == true && $mercedesTruckFac != 0 && $mercedesTruckDecla != 0) { ?>
-                                                <?php $percentageMercedesTruck = round((($mercedesTruckScoreFac * 100) / $mercedesTruckFac + ($mercedesTruckScore * 100) / $mercedesTruckDecla) / 2); ?>
+                                                <?php if ($allocateFac['active'] == true) { ?>
+                                                    <?php if (isset($tech["candidat"]) && $tech["candidat"] == true && $mercedesTruckFac != 0) { ?>
+                                                        <?php $percentageMercedesTruck = round(($mercedesTruckScoreFac * 100) / $mercedesTruckFac); ?>
+                                                    <?php } else if ($allocateDecla['active'] == true && $allocateDecla['activeManager'] == true && $mercedesTruckFac != 0 && $mercedesTruckDecla != 0) { ?>
+                                                        <?php $percentageMercedesTruck = round((($mercedesTruckScoreFac * 100) / $mercedesTruckFac + ($mercedesTruckScore * 100) / $mercedesTruckDecla) / 2); ?>
+                                                    <?php } else { ?>
+                                                        <?php $percentageMercedesTruck = null; ?>
+                                                    <?php } ?>
                                                 <?php if($percentageMercedesTruck < 60 ) { ?>
                                                 <span class="badge text-danger fs-7 m-1">
                                                     <?php echo $percentageMercedesTruck ?>
@@ -5322,8 +5346,14 @@ if (!isset($_SESSION["id"])) {
                                             <?php if (
                                                 in_array('RENAULT TRUCK', $brandselectedLevel)
                                             ) { ?>
-                                                <?php if ($allocateFac['active'] == true && $allocateDecla['active'] == true && $allocateDecla['activeManager'] == true && $renaultTruckFac != 0 && $renaultTruckDecla != 0) { ?>
-                                                <?php $percentageRenaultTruck = round((($renaultTruckScoreFac * 100) / $renaultTruckFac + ($renaultTruckScore * 100) / $renaultTruckDecla) / 2); ?>
+                                                <?php if ($allocateFac['active'] == true) { ?>
+                                                    <?php if (isset($tech["candidat"]) && $tech["candidat"] == true && $renaultTruckFac != 0) { ?>
+                                                        <?php $percentageRenaultTruck = round(($renaultTruckScoreFac * 100) / $renaultTruckFac); ?>
+                                                    <?php } else if ($allocateDecla['active'] == true && $allocateDecla['activeManager'] == true && $renaultTruckFac != 0 && $renaultTruckDecla != 0) { ?>
+                                                        <?php $percentageRenaultTruck = round((($renaultTruckScoreFac * 100) / $renaultTruckFac + ($renaultTruckScore * 100) / $renaultTruckDecla) / 2); ?>
+                                                    <?php } else { ?>
+                                                        <?php $percentageRenaultTruck = null; ?>
+                                                    <?php } ?>
                                                 <?php if($percentageRenaultTruck < 60 ) { ?>
                                                 <span class="badge text-danger fs-7 m-1">
                                                     <?php echo $percentageRenaultTruck ?>
@@ -5348,8 +5378,14 @@ if (!isset($_SESSION["id"])) {
                                             <?php if (
                                                 in_array('SINOTRUK', $brandselectedLevel)
                                             ) { ?>
-                                                <?php if ($allocateFac['active'] == true && $allocateDecla['active'] == true && $allocateDecla['activeManager'] == true && $sinotrukFac != 0 && $sinotrukDecla != 0) { ?>
-                                                <?php $percentageSinotruk = round((($sinotrukScoreFac * 100) / $sinotrukFac + ($sinotrukScore * 100) / $sinotrukDecla) / 2); ?>
+                                                <?php if ($allocateFac['active'] == true) { ?>
+                                                    <?php if (isset($tech["candidat"]) && $tech["candidat"] == true && $sinotrukFac != 0) { ?>
+                                                        <?php $percentageSinotruk = round(($sinotrukScoreFac * 100) / $sinotrukFac); ?>
+                                                    <?php } else if ($allocateDecla['active'] == true && $allocateDecla['activeManager'] == true && $sinotrukFac != 0 && $sinotrukDecla != 0) { ?>
+                                                        <?php $percentageSinotruk = round((($sinotrukScoreFac * 100) / $sinotrukFac + ($sinotrukScore * 100) / $sinotrukDecla) / 2); ?>
+                                                    <?php } else { ?>
+                                                        <?php $percentageSinotruk = null; ?>
+                                                    <?php } ?>
                                                 <?php if($percentageSinotruk < 60 ) { ?>
                                                 <span class="badge text-danger fs-7 m-1">
                                                     <?php echo $percentageSinotruk ?>
@@ -5374,8 +5410,14 @@ if (!isset($_SESSION["id"])) {
                                             <?php if (
                                                 in_array('TOYOTA BT', $brandselectedLevel)
                                             ) { ?>
-                                                <?php if ($allocateFac['active'] == true && $allocateDecla['active'] == true && $allocateDecla['activeManager'] == true && $toyotaBtFac != 0 && $toyotaBtDecla != 0) { ?>
-                                                <?php $percentageToyotaBt = round((($toyotaBtScoreFac * 100) / $toyotaBtFac + ($toyotaBtScore * 100) / $toyotaBtDecla) / 2); ?>
+                                                <?php if ($allocateFac['active'] == true) { ?>
+                                                    <?php if (isset($tech["candidat"]) && $tech["candidat"] == true && $toyotaBtFac != 0) { ?>
+                                                        <?php $percentageToyotaBt = round(($toyotaBtScoreFac * 100) / $toyotaBtFac); ?>
+                                                    <?php } else if ($allocateDecla['active'] == true && $allocateDecla['activeManager'] == true && $toyotaBtFac != 0 && $toyotaBtDecla != 0) { ?>
+                                                        <?php $percentageToyotaBt = round((($toyotaBtScoreFac * 100) / $toyotaBtFac + ($toyotaBtScore * 100) / $toyotaBtDecla) / 2); ?>
+                                                    <?php } else { ?>
+                                                        <?php $percentageToyotaBt = null; ?>
+                                                    <?php } ?>
                                                 <?php if($percentageToyotaBt < 60 ) { ?>
                                                 <span class="badge text-danger fs-7 m-1">
                                                     <?php echo $percentageToyotaBt ?>
@@ -5400,8 +5442,14 @@ if (!isset($_SESSION["id"])) {
                                             <?php if (
                                                 in_array('TOYOTA FORKLIFT', $brandselectedLevel)
                                             ) { ?>
-                                                <?php if ($allocateFac['active'] == true && $allocateDecla['active'] == true && $allocateDecla['activeManager'] == true && $toyotaForfliftFac != 0 && $toyotaForfliftDecla != 0) { ?>
-                                                <?php $percentageToyotaForflift = round((($toyotaForfliftScoreFac * 100) / $toyotaForfliftFac + ($toyotaForfliftScore * 100) / $toyotaForfliftDecla) / 2); ?>
+                                                <?php if ($allocateFac['active'] == true) { ?>
+                                                    <?php if (isset($tech["candidat"]) && $tech["candidat"] == true && $toyotaForfliftFac != 0) { ?>
+                                                        <?php $percentageToyotaForflift = round(($toyotaForfliftScoreFac * 100) / $toyotaForfliftFac); ?>
+                                                    <?php } else if ($allocateDecla['active'] == true && $allocateDecla['activeManager'] == true && $toyotaForfliftFac != 0 && $toyotaForfliftDecla != 0) { ?>
+                                                        <?php $percentageToyotaForflift = round((($toyotaForfliftScoreFac * 100) / $toyotaForfliftFac + ($toyotaForfliftScore * 100) / $toyotaForfliftDecla) / 2); ?>
+                                                    <?php } else { ?>
+                                                        <?php $percentageToyotaForflift = null; ?>
+                                                    <?php } ?>
                                                 <?php if($percentageToyotaForflift < 60 ) { ?>
                                                 <span class="badge text-danger fs-7 m-1">
                                                     <?php echo $percentageToyotaForflift ?>
@@ -5426,8 +5474,14 @@ if (!isset($_SESSION["id"])) {
                                             <?php  if (
                                                 in_array('JCB', $brandselectedLevel)
                                             ) { ?>
-                                                <?php if ($allocateFac['active'] == true && $allocateDecla['active'] == true && $allocateDecla['activeManager'] == true && $jcbFac != 0 && $jcbDecla != 0) { ?>
-                                                <?php $percentageJcb = round((($jcbScoreFac * 100) / $jcbFac + ($jcbScore * 100) / $jcbDecla) / 2); ?>
+                                                <?php if ($allocateFac['active'] == true) { ?>
+                                                    <?php if (isset($tech["candidat"]) && $tech["candidat"] == true && $jcbFac != 0) { ?>
+                                                        <?php $percentageJcb = round(($jcbScoreFac * 100) / $jcbFac); ?>
+                                                    <?php } else if ($allocateDecla['active'] == true && $allocateDecla['activeManager'] == true && $jcbFac != 0 && $jcbDecla != 0) { ?>
+                                                        <?php $percentageJcb = round((($jcbScoreFac * 100) / $jcbFac + ($jcbScore * 100) / $jcbDecla) / 2); ?>
+                                                    <?php } else { ?>
+                                                        <?php $percentageJcb = null; ?>
+                                                    <?php } ?>
                                                 <?php if($percentageJcb < 60 ) { ?>
                                                 <span class="badge text-danger fs-7 m-1">
                                                     <?php echo $percentageJcb ?>
@@ -5449,37 +5503,65 @@ if (!isset($_SESSION["id"])) {
                                             <?php } ?>
                                             </td>
                                             <td class="text-center" id="lovol">
-                                            <?php if (
-                                                in_array('LOVOL', $brandselectedLevel)
-                                            ) { ?>
-                                                <?php if ($allocateFac['active'] == true && $allocateDecla['active'] == true && $allocateDecla['activeManager'] == true && $lovolFac != 0 && $lovolDecla != 0) { ?>
-                                                <?php $percentageLovol = round((($lovolScoreFac * 100) / $lovolFac + ($lovolScore * 100) / $lovolDecla) / 2); ?>
-                                                <?php if($percentageLovol < 60 ) { ?>
-                                                <span class="badge text-danger fs-7 m-1">
-                                                    <?php echo $percentageLovol ?>
-                                                </span>
-                                                <?php } else if($percentageLovol < 80 ) { ?>
-                                                    <?php if($percentageLovol > 60 ) { ?>
-                                                    <span class="badge text-warning fs-7 m-1">
-                                                        <?php echo $percentageLovol ?>
-                                                    </span>
+                                            <?php if (in_array('LOVOL', $brandselectedLevel)) { ?>
+                                                <?php if ($allocateFac['active'] === true) { ?>
+                                                    <?php
+                                                    /*-------------------------------------------------------
+                                                    | Calcul du pourcentage LOVOL – même logique que KING LONG
+                                                    |-------------------------------------------------------*/
+                                                    if (isset($tech['candidat']) && $tech['candidat'] === true && $lovolFac != 0) {
+                                                        // Cas Candidat : on ne considère que les scores de la FAC
+                                                        $percentageLovol = round(($lovolScoreFac * 100) / $lovolFac);
+                                                    } elseif (
+                                                        $allocateDecla['active'] === true &&
+                                                        $allocateDecla['activeManager'] === true &&
+                                                        $lovolFac != 0 &&
+                                                        $lovolDecla != 0
+                                                    ) {
+                                                        // Cas Mixte : moyenne FAC + DECLARATION
+                                                        $percentageLovol = round(
+                                                            (
+                                                                ($lovolScoreFac * 100) / $lovolFac +
+                                                                ($lovolScore * 100)   / $lovolDecla
+                                                            ) / 2
+                                                        );
+                                                    } else {
+                                                        // Pas de données exploitables
+                                                        $percentageLovol = null;
+                                                    }
+                                                    ?>
+
+                                                    <?php if ($percentageLovol < 60) { ?>
+                                                        <span class="badge text-danger fs-7 m-1">
+                                                            <?php echo $percentageLovol; ?>
+                                                        </span>
+                                                    <?php } elseif ($percentageLovol < 80 && $percentageLovol >= 60) { ?>
+                                                        <span class="badge text-warning fs-7 m-1">
+                                                            <?php echo $percentageLovol; ?>
+                                                        </span>
+                                                    <?php } elseif ($percentageLovol >= 80) { ?>
+                                                        <span class="badge text-success fs-7 m-1">
+                                                            <?php echo $percentageLovol; ?>
+                                                        </span>
                                                     <?php } ?>
-                                                <?php } else if($percentageLovol >= 80) { ?>
-                                                <span class="badge text-success fs-7 m-1">
-                                                    <?php echo $percentageLovol ?>
-                                                </span>
-                                                <?php } ?>
                                                 <?php } else { ?>
                                                     -
                                                 <?php } ?>
                                             <?php } ?>
+
                                             </td>
                                             <td class="text-center" id="byd">
                                             <?php if (
                                                 in_array('BYD', $brandselectedLevel)
                                             ) { ?>
-                                                <?php if ($allocateFac['active'] == true && $allocateDecla['active'] == true && $allocateDecla['activeManager'] == true && $bydFac != 0 && $bydDecla != 0) { ?>
-                                                <?php $percentageByd = round((($bydScoreFac * 100) / $bydFac + ($bydScore * 100) / $bydDecla) / 2); ?>
+                                                <?php if ($allocateFac['active'] == true) { ?>
+                                                    <?php if (isset($tech["candidat"]) && $tech["candidat"] == true && $bydFac != 0) { ?>
+                                                        <?php $percentageByd = round(($bydScoreFac * 100) / $bydFac); ?>
+                                                    <?php } else if ($allocateDecla['active'] == true && $allocateDecla['activeManager'] == true && $bydFac != 0 && $bydDecla != 0) { ?>
+                                                        <?php $percentageByd = round((($bydScoreFac * 100) / $bydFac + ($bydScore * 100) / $bydDecla) / 2); ?>
+                                                    <?php } else { ?>
+                                                        <?php $percentageByd = null; ?>
+                                                    <?php } ?>
                                                 <?php if($percentageByd < 60 ) { ?>
                                                 <span class="badge text-danger fs-7 m-1">
                                                     <?php echo $percentageByd ?>
@@ -5504,8 +5586,14 @@ if (!isset($_SESSION["id"])) {
                                             <?php if (
                                                 in_array('CITROEN', $brandselectedLevel)
                                             ) { ?>
-                                                <?php if ($allocateFac['active'] == true && $allocateDecla['active'] == true && $allocateDecla['activeManager'] == true && $citroenFac != 0 && $citroenDecla != 0) { ?>
-                                                <?php $percentageCitroen = round((($citroenScoreFac * 100) / $citroenFac + ($citroenScore * 100) / $citroenDecla) / 2); ?>
+                                                <?php if ($allocateFac['active'] == true) { ?>
+                                                    <?php if (isset($tech["candidat"]) && $tech["candidat"] == true && $citroenFac != 0) { ?>
+                                                        <?php $percentageCitroen = round(($citroenScoreFac * 100) / $citroenFac); ?>
+                                                    <?php } else if ($allocateDecla['active'] == true && $allocateDecla['activeManager'] == true && $citroenFac != 0 && $citroenDecla != 0) { ?>
+                                                        <?php $percentageCitroen = round((($citroenScoreFac * 100) / $citroenFac + ($citroenScore * 100) / $citroenDecla) / 2); ?>
+                                                    <?php } else { ?>
+                                                        <?php $percentageCitroen = null; ?>
+                                                    <?php } ?>
                                                 <?php if($percentageCitroen < 60 ) { ?>
                                                 <span class="badge text-danger fs-7 m-1">
                                                     <?php echo $percentageCitroen ?>
@@ -5530,8 +5618,14 @@ if (!isset($_SESSION["id"])) {
                                             <?php if (
                                                 in_array('MERCEDES', $brandselectedLevel)
                                             ) { ?>
-                                                <?php if ($allocateFac['active'] == true && $allocateDecla['active'] == true && $allocateDecla['activeManager'] == true && $mercedesFac != 0 && $mercedesDecla != 0) { ?>
-                                                <?php $percentageMercedes = round((($mercedesScoreFac * 100) / $mercedesFac + ($mercedesScore * 100) / $mercedesDecla) / 2); ?>
+                                                <?php if ($allocateFac['active'] == true) { ?>
+                                                    <?php if (isset($tech["candidat"]) && $tech["candidat"] == true && $mercedesFac != 0) { ?>
+                                                        <?php $percentageMercedes = round(($mercedesScoreFac * 100) / $mercedesFac); ?>
+                                                    <?php } else if ($allocateDecla['active'] == true && $allocateDecla['activeManager'] == true && $mercedesFac != 0 && $mercedesDecla != 0) { ?>
+                                                        <?php $percentageMercedes = round((($mercedesScoreFac * 100) / $mercedesFac + ($mercedesScore * 100) / $mercedesDecla) / 2); ?>
+                                                    <?php } else { ?>
+                                                        <?php $percentageMercedes = null; ?>
+                                                    <?php } ?>
                                                 <?php if($percentageMercedes < 60 ) { ?>
                                                 <span class="badge text-danger fs-7 m-1">
                                                     <?php echo $percentageMercedes ?>
@@ -5556,8 +5650,14 @@ if (!isset($_SESSION["id"])) {
                                             <?php if (
                                                 in_array('MITSUBISHI', $brandselectedLevel)
                                             ) { ?>
-                                                <?php if ($allocateFac['active'] == true && $allocateDecla['active'] == true && $allocateDecla['activeManager'] == true && $mitsubishiFac != 0 && $mitsubishiDecla != 0) { ?>
-                                                <?php $percentageMitsubishi = round((($mitsubishiScoreFac * 100) / $mitsubishiFac + ($mitsubishiScore * 100) / $mitsubishiDecla) / 2); ?>
+                                                <?php if ($allocateFac['active'] == true) { ?>
+                                                    <?php if (isset($tech["candidat"]) && $tech["candidat"] == true && $mitsubishiFac != 0) { ?>
+                                                        <?php $percentageMitsubishi = round(($mitsubishiScoreFac * 100) / $mitsubishiFac); ?>
+                                                    <?php } else if ($allocateDecla['active'] == true && $allocateDecla['activeManager'] == true && $mitsubishiFac != 0 && $mitsubishiDecla != 0) { ?>
+                                                        <?php $percentageMitsubishi = round((($mitsubishiScoreFac * 100) / $mitsubishiFac + ($mitsubishiScore * 100) / $mitsubishiDecla) / 2); ?>
+                                                    <?php } else { ?>
+                                                        <?php $percentageMitsubishi = null; ?>
+                                                    <?php } ?>
                                                 <?php if($percentageMitsubishi < 60 ) { ?>
                                                 <span class="badge text-danger fs-7 m-1">
                                                     <?php echo $percentageMitsubishi ?>
@@ -5582,8 +5682,14 @@ if (!isset($_SESSION["id"])) {
                                             <?php if (
                                                 in_array('PEUGEOT', $brandselectedLevel)
                                             ) { ?>
-                                                <?php if ($allocateFac['active'] == true && $allocateDecla['active'] == true && $allocateDecla['activeManager'] == true && $peugeotFac != 0 && $peugeotDecla != 0) { ?>
-                                                <?php $percentagePeugeot = round((($peugeotScoreFac * 100) / $peugeotFac + ($peugeotScore * 100) / $peugeotDecla) / 2); ?>
+                                                <?php if ($allocateFac['active'] == true) { ?>
+                                                    <?php if (isset($tech["candidat"]) && $tech["candidat"] == true && $peugeotFac != 0) { ?>
+                                                        <?php $percentagePeugeot = round(($peugeotScoreFac * 100) / $peugeotFac); ?>
+                                                    <?php } else if ($allocateDecla['active'] == true && $allocateDecla['activeManager'] == true && $peugeotFac != 0 && $peugeotDecla != 0) { ?>
+                                                        <?php $percentagePeugeot = round((($peugeotScoreFac * 100) / $peugeotFac + ($peugeotScore * 100) / $peugeotDecla) / 2); ?>
+                                                    <?php } else { ?>
+                                                        <?php $percentagePeugeot = null; ?>
+                                                    <?php } ?>
                                                 <?php if($percentagePeugeot < 60 ) { ?>
                                                 <span class="badge text-danger fs-7 m-1">
                                                     <?php echo $percentagePeugeot ?>
@@ -5608,8 +5714,14 @@ if (!isset($_SESSION["id"])) {
                                             <?php if (
                                                 in_array('SUZUKI', $brandselectedLevel)
                                             ) { ?>
-                                                <?php if ($allocateFac['active'] == true && $allocateDecla['active'] == true && $allocateDecla['activeManager'] == true && $suzukiFac != 0 && $suzukiDecla != 0) { ?>
-                                                <?php $percentageSuzuki = round((($suzukiScoreFac * 100) / $suzukiFac + ($suzukiScore * 100) / $suzukiDecla) / 2); ?>
+                                                <?php if ($allocateFac['active'] == true) { ?>
+                                                    <?php if (isset($tech["candidat"]) && $tech["candidat"] == true && $suzukiFac != 0) { ?>
+                                                        <?php $percentageSuzuki = round(($suzukiScoreFac * 100) / $suzukiFac); ?>
+                                                    <?php } else if ($allocateDecla['active'] == true && $allocateDecla['activeManager'] == true && $suzukiFac != 0 && $suzukiDecla != 0) { ?>
+                                                        <?php $percentageSuzuki = round((($suzukiScoreFac * 100) / $suzukiFac + ($suzukiScore * 100) / $suzukiDecla) / 2); ?>
+                                                    <?php } else { ?>
+                                                        <?php $percentageSuzuki = null; ?>
+                                                    <?php } ?>
                                                 <?php if($percentageSuzuki < 60 ) { ?>
                                                 <span class="badge text-danger fs-7 m-1">
                                                     <?php echo $percentageSuzuki ?>
@@ -5634,8 +5746,14 @@ if (!isset($_SESSION["id"])) {
                                             <?php if (
                                                 in_array('TOYOTA', $brandselectedLevel)
                                             ) { ?>
-                                                <?php if ($allocateFac['active'] == true && $allocateDecla['active'] == true && $allocateDecla['activeManager'] == true && $toyotaFac != 0 && $toyotaDecla != 0) { ?>
-                                                <?php $percentageToyota = round((($toyotaScoreFac * 100) / $toyotaFac + ($toyotaScore * 100) / $toyotaDecla) / 2); ?>
+                                                <?php if ($allocateFac['active'] == true) { ?>
+                                                    <?php if (isset($tech["candidat"]) && $tech["candidat"] == true && $toyotaFac != 0) { ?>
+                                                        <?php $percentageToyota = round(($toyotaScoreFac * 100) / $toyotaFac); ?>
+                                                    <?php } else if ($allocateDecla['active'] == true && $allocateDecla['activeManager'] == true && $toyotaFac != 0 && $toyotaDecla != 0) { ?>
+                                                        <?php $percentageToyota = round((($toyotaScoreFac * 100) / $toyotaFac + ($toyotaScore * 100) / $toyotaDecla) / 2); ?>
+                                                    <?php } else { ?>
+                                                        <?php $percentageToyota = null; ?>
+                                                    <?php } ?>
                                                 <?php if($percentageToyota < 60 ) { ?>
                                                 <span class="badge text-danger fs-7 m-1">
                                                     <?php echo $percentageToyota ?>
@@ -5656,111 +5774,196 @@ if (!isset($_SESSION["id"])) {
                                                 <?php } ?>
                                             <?php } ?>
                                             </td>
-                                        <?php if ($selectedLevel != 'Junior') { ?>
+                                            <?php if ($selectedLevel != 'Junior') { ?>
                                             <td class="text-center" id="specialityElectricite">
-                                            <?php if (
-                                                in_array('Electricité et Electronique', $specialityselectedLevel)
-                                            ) { ?>
-                                                <?php if ($allocateFac['active'] == true && $allocateDecla['active'] == true && $allocateDecla['activeManager'] == true && $specialityElectriciteFac != 0 && $specialityElectriciteDecla != 0) { ?>
-                                                <?php $percentageSpecialityElectricite = round((($specialityElectriciteScoreFac * 100) / $specialityElectriciteFac + ($specialityElectriciteScore * 100) / $specialityElectriciteDecla) / 2); ?>
-                                                <?php if($percentageSpecialityElectricite < 60 ) { ?>
-                                                <span class="badge text-danger fs-7 m-1">
-                                                    <?php echo $percentageSpecialityElectricite ?>
-                                                </span>
-                                                <?php } else if($percentageSpecialityElectricite < 80 ) { ?>
-                                                    <?php if($percentageSpecialityElectricite > 60 ) { ?>
-                                                    <span class="badge text-warning fs-7 m-1">
-                                                        <?php echo $percentageSpecialityElectricite ?>
-                                                    </span>
+                                                <?php if (in_array('Electricité et Electronique', $specialityselectedLevel)) { ?>
+                                                    <?php if ($allocateFac['active'] === true) { ?>
+                                                        <?php
+                                                        /*-------------------------------------------------------------
+                                                        | Calcul du pourcentage pour la spécialité Électricité/Électronique
+                                                        | même logique que KING LONG et LOVOL
+                                                        |-------------------------------------------------------------*/
+                                                        if (
+                                                            isset($tech['candidat']) &&
+                                                            $tech['candidat'] === true &&
+                                                            $specialityElectriciteFac != 0
+                                                        ) {
+                                                            // Cas Candidat : uniquement les scores FAC
+                                                            $percentageSpecialityElectricite = round(
+                                                                ($specialityElectriciteScoreFac * 100) / $specialityElectriciteFac
+                                                            );
+                                                        } elseif (
+                                                            $allocateDecla['active'] === true &&
+                                                            $allocateDecla['activeManager'] === true &&
+                                                            $specialityElectriciteFac  != 0 &&
+                                                            $specialityElectriciteDecla != 0
+                                                        ) {
+                                                            // Cas Mixte : moyenne FAC + DECLARATION
+                                                            $percentageSpecialityElectricite = round(
+                                                                (
+                                                                    ($specialityElectriciteScoreFac * 100) / $specialityElectriciteFac +
+                                                                    ($specialityElectriciteScore     * 100) / $specialityElectriciteDecla
+                                                                ) / 2
+                                                            );
+                                                        } else {
+                                                            // Pas de données valides
+                                                            $percentageSpecialityElectricite = null;
+                                                        }
+                                                        ?>
+
+                                                        <?php if ($percentageSpecialityElectricite < 60) { ?>
+                                                            <span class="badge text-danger fs-7 m-1">
+                                                                <?php echo $percentageSpecialityElectricite; ?>
+                                                            </span>
+                                                        <?php } elseif ($percentageSpecialityElectricite >= 60 && $percentageSpecialityElectricite < 80) { ?>
+                                                            <span class="badge text-warning fs-7 m-1">
+                                                                <?php echo $percentageSpecialityElectricite; ?>
+                                                            </span>
+                                                        <?php } elseif ($percentageSpecialityElectricite >= 80) { ?>
+                                                            <span class="badge text-success fs-7 m-1">
+                                                                <?php echo $percentageSpecialityElectricite; ?>
+                                                            </span>
+                                                        <?php } ?>
+                                                    <?php } else { ?>
+                                                        -
                                                     <?php } ?>
-                                                <?php } else if($percentageSpecialityElectricite >= 80) { ?>
-                                                <span class="badge text-success fs-7 m-1">
-                                                    <?php echo $percentageSpecialityElectricite ?>
-                                                </span>
                                                 <?php } ?>
-                                                <?php } else { ?>
-                                                    -
-                                                <?php } ?>
-                                            <?php } ?>
+
                                             </td>
+                                            <!-- ================== SPÉCIALITÉ : HYDRAULIQUE ================== -->
                                             <td class="text-center" id="specialityHydraulique">
-                                            <?php if (
-                                                in_array('Hydraulique', $specialityselectedLevel)
-                                            ) { ?>
-                                                <?php if ($allocateFac['active'] == true && $allocateDecla['active'] == true && $allocateDecla['activeManager'] == true && $specialityHydrauliqueFac != 0 && $specialityHydrauliqueDecla != 0) { ?>
-                                                <?php $percentageSpecialityHydraulique = round((($specialityHydrauliqueScoreFac * 100) / $specialityHydrauliqueFac + ($specialityHydrauliqueScore * 100) / $specialityHydrauliqueDecla) / 2); ?>
-                                                <?php if($percentageSpecialityHydraulique < 60 ) { ?>
-                                                <span class="badge text-danger fs-7 m-1">
-                                                    <?php echo $percentageSpecialityHydraulique ?>
-                                                </span>
-                                                <?php } else if($percentageSpecialityHydraulique < 80 ) { ?>
-                                                    <?php if($percentageSpecialityHydraulique > 60 ) { ?>
-                                                    <span class="badge text-warning fs-7 m-1">
-                                                        <?php echo $percentageSpecialityHydraulique ?>
-                                                    </span>
+                                            <?php if (in_array('Hydraulique', $specialityselectedLevel)) { ?>
+                                                <?php if ($allocateFac['active'] === true) { ?>
+                                                    <?php
+                                                    /*----------------------------------------------------
+                                                    | Calcul du pourcentage ― Hydraulique
+                                                    |----------------------------------------------------*/
+                                                    if (
+                                                        isset($tech['candidat']) &&
+                                                        $tech['candidat'] === true &&
+                                                        $specialityHydrauliqueFac != 0
+                                                    ) {
+                                                        // Cas Candidat : uniquement les scores FAC
+                                                        $percentageSpecialityHydraulique = round(
+                                                            ($specialityHydrauliqueScoreFac * 100) / $specialityHydrauliqueFac
+                                                        );
+                                                    } elseif (
+                                                        $allocateDecla['active'] === true &&
+                                                        $allocateDecla['activeManager'] === true &&
+                                                        $specialityHydrauliqueFac  != 0 &&
+                                                        $specialityHydrauliqueDecla != 0
+                                                    ) {
+                                                        // Cas Mixte : moyenne FAC + DECLARATION
+                                                        $percentageSpecialityHydraulique = round(
+                                                            (
+                                                                ($specialityHydrauliqueScoreFac * 100) / $specialityHydrauliqueFac +
+                                                                ($specialityHydrauliqueScore     * 100) / $specialityHydrauliqueDecla
+                                                            ) / 2
+                                                        );
+                                                    } else {
+                                                        $percentageSpecialityHydraulique = null;
+                                                    }
+                                                    ?>
+
+                                                    <?php if ($percentageSpecialityHydraulique < 60) { ?>
+                                                        <span class="badge text-danger fs-7 m-1"><?php echo $percentageSpecialityHydraulique; ?></span>
+                                                    <?php } elseif ($percentageSpecialityHydraulique >= 60 && $percentageSpecialityHydraulique < 80) { ?>
+                                                        <span class="badge text-warning fs-7 m-1"><?php echo $percentageSpecialityHydraulique; ?></span>
+                                                    <?php } elseif ($percentageSpecialityHydraulique >= 80) { ?>
+                                                        <span class="badge text-success fs-7 m-1"><?php echo $percentageSpecialityHydraulique; ?></span>
                                                     <?php } ?>
-                                                <?php } else if($percentageSpecialityHydraulique >= 80) { ?>
-                                                <span class="badge text-success fs-7 m-1">
-                                                    <?php echo $percentageSpecialityHydraulique ?>
-                                                </span>
-                                                <?php } ?>
-                                                <?php } else { ?>
-                                                    -
-                                                <?php } ?>
+                                                <?php } else { echo '-'; } ?>
                                             <?php } ?>
                                             </td>
+
+                                            <!-- ================== SPÉCIALITÉ : MOTEUR ================== -->
                                             <td class="text-center" id="specialityMoteur">
-                                            <?php if (
-                                                in_array('Moteur', $specialityselectedLevel)
-                                            ) { ?>
-                                                <?php if ($allocateFac['active'] == true && $allocateDecla['active'] == true && $allocateDecla['activeManager'] == true && $specialityMoteurFac != 0 && $specialityMoteurDecla != 0) { ?>
-                                                <?php $percentageSpecialityMoteur = round((($specialityMoteurScoreFac * 100) / $specialityMoteurFac + ($specialityMoteurScore * 100) / $specialityMoteurDecla) / 2); ?>
-                                                <?php if($percentageSpecialityMoteur < 60 ) { ?>
-                                                <span class="badge text-danger fs-7 m-1">
-                                                    <?php echo $percentageSpecialityMoteur ?>
-                                                </span>
-                                                <?php } else if($percentageSpecialityMoteur < 80 ) { ?>
-                                                    <?php if($percentageSpecialityMoteur > 60 ) { ?>
-                                                    <span class="badge text-warning fs-7 m-1">
-                                                        <?php echo $percentageSpecialityMoteur ?>
-                                                    </span>
+                                            <?php if (in_array('Moteur', $specialityselectedLevel)) { ?>
+                                                <?php if ($allocateFac['active'] === true) { ?>
+                                                    <?php
+                                                    /*----------------------------------------------------
+                                                    | Calcul du pourcentage ― Moteur
+                                                    |----------------------------------------------------*/
+                                                    if (
+                                                        isset($tech['candidat']) &&
+                                                        $tech['candidat'] === true &&
+                                                        $specialityMoteurFac != 0
+                                                    ) {
+                                                        $percentageSpecialityMoteur = round(
+                                                            ($specialityMoteurScoreFac * 100) / $specialityMoteurFac
+                                                        );
+                                                    } elseif (
+                                                        $allocateDecla['active'] === true &&
+                                                        $allocateDecla['activeManager'] === true &&
+                                                        $specialityMoteurFac  != 0 &&
+                                                        $specialityMoteurDecla != 0
+                                                    ) {
+                                                        $percentageSpecialityMoteur = round(
+                                                            (
+                                                                ($specialityMoteurScoreFac * 100) / $specialityMoteurFac +
+                                                                ($specialityMoteurScore     * 100) / $specialityMoteurDecla
+                                                            ) / 2
+                                                        );
+                                                    } else {
+                                                        $percentageSpecialityMoteur = null;
+                                                    }
+                                                    ?>
+
+                                                    <?php if ($percentageSpecialityMoteur < 60) { ?>
+                                                        <span class="badge text-danger fs-7 m-1"><?php echo $percentageSpecialityMoteur; ?></span>
+                                                    <?php } elseif ($percentageSpecialityMoteur >= 60 && $percentageSpecialityMoteur < 80) { ?>
+                                                        <span class="badge text-warning fs-7 m-1"><?php echo $percentageSpecialityMoteur; ?></span>
+                                                    <?php } elseif ($percentageSpecialityMoteur >= 80) { ?>
+                                                        <span class="badge text-success fs-7 m-1"><?php echo $percentageSpecialityMoteur; ?></span>
                                                     <?php } ?>
-                                                <?php } else if($percentageSpecialityMoteur >= 80) { ?>
-                                                <span class="badge text-success fs-7 m-1">
-                                                    <?php echo $percentageSpecialityMoteur ?>
-                                                </span>
-                                                <?php } ?>
-                                                <?php } else { ?>
-                                                    -
-                                                <?php } ?>
+                                                <?php } else { echo '-'; } ?>
                                             <?php } ?>
                                             </td>
+
+                                            <!-- ================== SPÉCIALITÉ : TRANSMISSION ================== -->
                                             <td class="text-center" id="specialityTransmission">
-                                            <?php if (
-                                                in_array('Transmission', $specialityselectedLevel)
-                                            ) { ?>
-                                                <?php if ($allocateFac['active'] == true && $allocateDecla['active'] == true && $allocateDecla['activeManager'] == true && $specialityTransmissionFac != 0 && $specialityTransmissionDecla != 0) { ?>
-                                                <?php $percentageSpecialityTransmission = round((($specialityTransmissionScoreFac * 100) / $specialityTransmissionFac + ($specialityTransmissionScore * 100) / $specialityTransmissionDecla) / 2); ?>
-                                                <?php if($percentageSpecialityTransmission < 60 ) { ?>
-                                                <span class="badge text-danger fs-7 m-1">
-                                                    <?php echo $percentageSpecialityTransmission ?>
-                                                </span>
-                                                <?php } else if($percentageSpecialityTransmission < 80 ) { ?>
-                                                    <?php if($percentageSpecialityTransmission > 60 ) { ?>
-                                                    <span class="badge text-warning fs-7 m-1">
-                                                        <?php echo $percentageSpecialityTransmission ?>
-                                                    </span>
+                                            <?php if (in_array('Transmission', $specialityselectedLevel)) { ?>
+                                                <?php if ($allocateFac['active'] === true) { ?>
+                                                    <?php
+                                                    /*----------------------------------------------------
+                                                    | Calcul du pourcentage ― Transmission
+                                                    |----------------------------------------------------*/
+                                                    if (
+                                                        isset($tech['candidat']) &&
+                                                        $tech['candidat'] === true &&
+                                                        $specialityTransmissionFac != 0
+                                                    ) {
+                                                        $percentageSpecialityTransmission = round(
+                                                            ($specialityTransmissionScoreFac * 100) / $specialityTransmissionFac
+                                                        );
+                                                    } elseif (
+                                                        $allocateDecla['active'] === true &&
+                                                        $allocateDecla['activeManager'] === true &&
+                                                        $specialityTransmissionFac  != 0 &&
+                                                        $specialityTransmissionDecla != 0
+                                                    ) {
+                                                        $percentageSpecialityTransmission = round(
+                                                            (
+                                                                ($specialityTransmissionScoreFac * 100) / $specialityTransmissionFac +
+                                                                ($specialityTransmissionScore     * 100) / $specialityTransmissionDecla
+                                                            ) / 2
+                                                        );
+                                                    } else {
+                                                        $percentageSpecialityTransmission = null;
+                                                    }
+                                                    ?>
+
+                                                    <?php if ($percentageSpecialityTransmission < 60) { ?>
+                                                        <span class="badge text-danger fs-7 m-1"><?php echo $percentageSpecialityTransmission; ?></span>
+                                                    <?php } elseif ($percentageSpecialityTransmission >= 60 && $percentageSpecialityTransmission < 80) { ?>
+                                                        <span class="badge text-warning fs-7 m-1"><?php echo $percentageSpecialityTransmission; ?></span>
+                                                    <?php } elseif ($percentageSpecialityTransmission >= 80) { ?>
+                                                        <span class="badge text-success fs-7 m-1"><?php echo $percentageSpecialityTransmission; ?></span>
                                                     <?php } ?>
-                                                <?php } else if($percentageSpecialityTransmission >= 80) { ?>
-                                                <span class="badge text-success fs-7 m-1">
-                                                    <?php echo $percentageSpecialityTransmission ?>
-                                                </span>
-                                                <?php } ?>
-                                                <?php } else { ?>
-                                                    -
-                                                <?php } ?>
+                                                <?php } else { echo '-'; } ?>
                                             <?php } ?>
                                             </td>
+
                                         <?php } ?>
                                             <td class="text-center" id="result">
                                                 <?php if (isset($resultFac) && isset($resultTechMa)) { ?>

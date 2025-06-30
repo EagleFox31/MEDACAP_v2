@@ -1,4 +1,3 @@
-
 <?php
 session_start();
 include_once "../language.php";
@@ -94,8 +93,6 @@ if (!isset($_SESSION["id"])) {
         ])
         ->toArray();
     $arrQuizzes = $testFac["quizzes"];
-    
-    
     for ($j = 0; $j < count($arrQuizzes); ++$j) {
         $assistanceFac = $quizzes->findOne([
             '$and' => [
@@ -1533,6 +1530,7 @@ if (!isset($_SESSION["id"])) {
                 $scorePont = 0;
                 $scorePneu = 0;
                 $scoreRe = 0;
+                $scoreRed = 0;
                 $scoreSus = 0;
                 $scoreSusL = 0;
                 $scoreSusH = 0;
@@ -4237,56 +4235,56 @@ if (!isset($_SESSION["id"])) {
                 $examData->active = false;
                 $exams->updateOne(["_id" => $examData->_id], ['$set' => $examData]);
                 
-                // Assurez-vous que les variables sont définies et valides
-                // ---------------------------------------------------------------------------
-//  NOTIFICATION « QCM Connaissance terminé »  –  Envoi à l’ADMIN
-// ---------------------------------------------------------------------------
-if (isset($technician['firstName'], $technician['lastName'], $level)) {
+            // ---------------------------------------------------------------------------
+            //  NOTIFICATION « QCM Connaissance terminé »  –  Envoi à l’ADMIN
+            // ---------------------------------------------------------------------------
+            if (isset($technician['firstName'], $technician['lastName'], $level)) {
 
-    /* 1️⃣  Destinataires principaux : administrateur(s) de la filiale  */
-    $adminDocs = getAdminsDocs($technician, $mongo);
-    if (!$adminDocs) {
-        return;                    // pas d’admin trouvé → on ne spamme personne
-    }
+                
 
-    /* 2️⃣  CC : manager + RH + DPS (les adresses statiques seront ajoutées
-            automatiquement par buildHeaders()) */
-    $rhDpsEmails = getRhAndDpsEmails($technician['subsidiary'], $mongo);
+                /* 1️⃣  Destinataires principaux : administrateur(s) de la filiale  */
+                $adminDocs = getAdminsDocs($technician, $conn);
+                if (!$adminDocs) {
+                    return;                    // pas d’admin trouvé → on ne spamme personne
+                }
 
-    /* 3️⃣  Salutation */
-    $salutation = buildAdminSalutation($adminDocs);
+                /* 2️⃣  CC : manager + RH + DPS (les adresses statiques seront ajoutées
+                        automatiquement par buildHeaders()) */
+                $rhDpsEmails = getRhAndDpsEmails($technician['subsidiary'], $conn);
 
-    /* 4️⃣  Sujet & contenu orientés « technicien » */
-    $subject = sprintf(
-        'QCM Connaissance terminé par le Technicien %s %s – Niveau %s',
-        $technician['firstName'],
-        $technician['lastName'],
-        $level
-    );
+                /* 3️⃣  Salutation */
+                $salutation = buildAdminSalutation($adminDocs);
 
-    $body = sprintf(
-        '<p>%s</p>
-         <p>Le QCM Connaissance vient d’être complété par le technicien
-         <strong>%s&nbsp;%s</strong> au niveau <strong>%s</strong>. Vous pouvez
-         consulter son résultat dans l’espace
-         <em>Résultats des Techniciens par niveau</em> de la plateforme MEDACAP.</p>',
-        $salutation,
-        htmlspecialchars($technician['firstName']),
-        htmlspecialchars($technician['lastName']),
-        htmlspecialchars($level)
-    );
+                /* 4️⃣  Sujet & contenu orientés « technicien » */
+                $subject = sprintf(
+                    'QCM Connaissance finalisé par le Technicien %s %s pour le Niveau %s',
+                    $technician['firstName'],
+                    $technician['lastName'],
+                    $level
+                );
 
-    /* 5️⃣  Envoi */
-    sendMailQcmFinalized(
-        $adminDocs,            // TO  : docs complets des admins
-        $subject,
-        $body,                 // signature ajoutée automatiquement
-        $manager['email'],     // manager en copie
-        $rhDpsEmails           // RH + DPS en copie
-    );
-}
+                $body = sprintf(
+                    '<p>%s</p>
+                    <p>Le QCM Connaissance vient d’être finalisé par le technicien
+                    <strong>%s&nbsp;%s</strong> pour le niveau <strong>%s</strong>. Vous pouvez
+                    consulter son résultat dans l’espace
+                    <em>Résultats des Techniciens par niveau</em> de la plateforme MEDACAP.</p>',
+                    $salutation,
+                    htmlspecialchars($technician['firstName']),
+                    htmlspecialchars($technician['lastName']),
+                    htmlspecialchars($level)
+                );
 
-                header("Location: ./congrat");
+                /* 5️⃣  Envoi */
+                sendMailQcmFinalized(
+                    $adminDocs,            // TO  : docs complets des admins
+                    $subject,
+                    $body,                 // signature ajoutée automatiquement
+                    $manager['email'],     // manager en copie
+                    $rhDpsEmails           // RH + DPS en copie
+                );
+            }
+               
             }
         } else {
             header("Location: ./congrat");

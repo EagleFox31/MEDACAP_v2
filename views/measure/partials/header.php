@@ -414,6 +414,10 @@ foreach ($menuStructure as $groupName => $items) {
                                     <div class="menu-content text-center"><span
                                             class="fw-bolder text-black text-uppercase fs-4"><?php echo $tech_space ?></span>
                                     </div>
+                                <?php } elseif ($_SESSION["profile"] == "Candidat") { ?>
+                                <div class="menu-content text-center"><span
+                                        class="fw-bolder text-black text-uppercase fs-4"><?php echo $candidate_space ?></span>
+                                </div>
                                 <?php } ?>
                                 <?php if ($_SESSION["profile"] != "Super Admin") { ?>
                                 <div class="menu-content text-center"><span
@@ -445,165 +449,189 @@ foreach ($menuStructure as $groupName => $items) {
                                         </div>
                                         <!-- Dynamic Menu Items -->
                                         <?php
-// Dans la section du menu dynamique, remplacez le code existant par :
+                                        // Dans la section du menu dynamique, remplacez le code existant par :
 
-/* ——— Manager ——— */
-if ($_SESSION['profile'] === 'Manager') {
-    foreach ($menuStructure as $groupName => $items) {
+                                        /* ——— Manager ——— */
+                                        if ($_SESSION['profile'] === 'Manager') {
+                                            foreach ($menuStructure as $groupName => $items) {
 
-        /* === MON ÉQUIPE ============================= */
-        if ($groupName === $mon_equipe) {
-            /* titre de groupe */
-            echo '<div class="menu-content">';
-            echo '<span class="fw-bold text-black text-uppercase fs-70">'
-                . htmlspecialchars(groupLabel($items, $lang))
-                . '</span></div>';
+                                                /* === MON ÉQUIPE ============================= */
+                                                if ($groupName === $mon_equipe) {
+                                                    /* titre de groupe */
+                                                    echo '<div class="menu-content">';
+                                                    echo '<span class="fw-bold text-black text-uppercase fs-70">'
+                                                        . htmlspecialchars(groupLabel($items, $lang))
+                                                        . '</span></div>';
 
-            /* items */
-            foreach ($items as $item) {
-                $iconType = $item['icon_type'] ?? 'font_awesome';
-                echo '<div class="menu-item"><a class="menu-link" href="'
-                    . htmlspecialchars($item['url']) . '">';
-                echo '<span class="menu-icon">';
-                if ($iconType === 'ki_duotone') {
-                    echo '<i class="' . htmlspecialchars($item['icon']) . ' fs-2"><span class="path1"></span><span class="path2"></span></i>';
-                } else {
-                    echo '<i class="' . htmlspecialchars($item['icon']) . ' fs-2"></i>';
-                }
-                echo '</span>';
-                echo '<span class="menu-title">'
-                    . htmlspecialchars(menuLabel($item, $lang))
-                    . '</span></a></div>';
-            }
-            /* séparateur */
-            echo '<div class="menu-item"><div class="menu-content"></div></div>';
-        }
+                                                    /* items */
+                                                    foreach ($items as $item) {
+                                                        $iconType = $item['icon_type'] ?? 'font_awesome';
+                                                        echo '<div class="menu-item"><a class="menu-link" href="'
+                                                            . htmlspecialchars($item['url']) . '">';
+                                                        echo '<span class="menu-icon">';
+                                                        if ($iconType === 'ki_duotone') {
+                                                            echo '<i class="' . htmlspecialchars($item['icon']) . ' fs-2"><span class="path1"></span><span class="path2"></span></i>';
+                                                        } else {
+                                                            echo '<i class="' . htmlspecialchars($item['icon']) . ' fs-2"></i>';
+                                                        }
+                                                        echo '</span>';
+                                                        echo '<span class="menu-title">'
+                                                            . htmlspecialchars(menuLabel($item, $lang))
+                                                            . '</span></a></div>';
+                                                    }
+                                                    /* séparateur */
+                                                    echo '<div class="menu-item"><div class="menu-content"></div></div>';
+                                                }
 
-/* === ÉVALUER VOS COLLABORATEURS ============== */
-if (conditionPourAfficherEvalCollab()) {
-    if ($groupName === $evaluer_vos_collaborateurs) {
+                                                /* === ÉVALUER VOS COLLABORATEURS ============== */
+                                                if (conditionPourAfficherEvalCollab()) {
+                                                    if ($groupName === $evaluer_vos_collaborateurs) {
 
-        echo '<div class="menu-content"><span class="fw-bold text-black text-uppercase fs-70">'
-           . htmlspecialchars(groupLabel($items, $lang))
-           . '</span></div>';
+                                                        echo '<div class="menu-content"><span class="fw-bold text-black text-uppercase fs-70">'
+                                                        . htmlspecialchars(groupLabel($items, $lang))
+                                                        . '</span></div>';
 
-        foreach ($items as $item) {
-            $iconType = $item['icon_type'] ?? 'font_awesome';
+                                                        foreach ($items as $item) {
+                                                            $iconType = $item['icon_type'] ?? 'font_awesome';
 
-            /* -----------------------------------------------------------------
-               On ne propage les paramètres GET que si TOUTES les clés existent.
-               ----------------------------------------------------------------- */
-            $link = $item['url']; // valeur par défaut
+                                                            /* -----------------------------------------------------------------
+                                                            On ne propage les paramètres GET que si TOUTES les clés existent.
+                                                            ----------------------------------------------------------------- */
+                                                            $link = $item['url']; // valeur par défaut
 
-            if (($item['key'] ?? '') === 'user_evaluation'
-                && isset($_GET['test'], $_GET['level'], $_GET['id'], $_GET['user'])) {
+                                                            if (($item['key'] ?? '') === 'user_evaluation'
+                                                                && isset($_GET['test'], $_GET['level'], $_GET['id'], $_GET['user'])) {
 
-                $link .= '?test='  . urlencode($_GET['test'])
-                       . '&level=' . urlencode($_GET['level'])
-                       . '&id='    . urlencode($_GET['id'])
-                       . '&user='  . urlencode($_GET['user']);
-            }
+                                                                $link .= '?test='  . urlencode($_GET['test'])
+                                                                    . '&level=' . urlencode($_GET['level'])
+                                                                    . '&id='    . urlencode($_GET['id'])
+                                                                    . '&user='  . urlencode($_GET['user']);
+                                                            }
 
-            /* ----- rendu identique, icône comprise ----- */
-            echo '<div class="menu-item"><a class="menu-link" href="'
-               . htmlspecialchars($link) . '"><span class="menu-icon">';
-            if ($iconType === 'ki_duotone') {
-                echo '<i class="' . htmlspecialchars($item['icon'])
-                   . ' fs-2"><span class="path1"></span><span class="path2"></span></i>';
-            } else {
-                echo '<i class="' . htmlspecialchars($item['icon']) . ' fs-2"></i>';
-            }
-            echo '</span><span class="menu-title">'
-               . htmlspecialchars(menuLabel($item, $lang))
-               . '</span></a></div>';
-        }
+                                                            /* ----- rendu identique, icône comprise ----- */
+                                                            echo '<div class="menu-item"><a class="menu-link" href="'
+                                                            . htmlspecialchars($link) . '"><span class="menu-icon">';
+                                                            if ($iconType === 'ki_duotone') {
+                                                                echo '<i class="' . htmlspecialchars($item['icon'])
+                                                                . ' fs-2"><span class="path1"></span><span class="path2"></span></i>';
+                                                            } else {
+                                                                echo '<i class="' . htmlspecialchars($item['icon']) . ' fs-2"></i>';
+                                                            }
+                                                            echo '</span><span class="menu-title">'
+                                                            . htmlspecialchars(menuLabel($item, $lang))
+                                                            . '</span></a></div>';
+                                                        }
 
-        echo '<div class="menu-item"><div class="menu-content"></div></div>';
-    }
-}
+                                                        echo '<div class="menu-item"><div class="menu-content"></div></div>';
+                                                    }
+                                                }
 
+                                                /* === MESURE DES COMPÉTENCES ================== */
+                                                if (strcasecmp(groupLabel($items, $lang), $mesure_des_competences) === 0) {
 
-/* === MESURE DES COMPÉTENCES ================== */
-if (strcasecmp(groupLabel($items, $lang), $mesure_des_competences) === 0) {
+                                                    echo '<div class="menu-content"><span class="fw-bold text-black text-uppercase fs-70">'
+                                                        . htmlspecialchars(groupLabel($items, $lang))
+                                                        . '</span></div>';
 
-    echo '<div class="menu-content"><span class="fw-bold text-black text-uppercase fs-70">'
-         . htmlspecialchars(groupLabel($items, $lang))
-         . '</span></div>';
+                                                    /* seules les PAGES LISTE s'affichent */
+                                                    $allowed = ['list_qcm_connaissances', 'list_qcm_tache_pro'];
 
-    /* seules les PAGES LISTE s’affichent */
-    $allowed = ['list_qcm_connaissances', 'list_qcm_tache_pro'];
+                                                    foreach ($items as $item) {
+                                                        if (!in_array($item['key'], $allowed, true)) {
+                                                            continue;                       // on ignore les écrans "détail"
+                                                        }
 
-    foreach ($items as $item) {
-        if (!in_array($item['key'], $allowed, true)) {
-            continue;                       // on ignore les écrans “détail”
-        }
+                                                        /* rendu identique à l'ancien code */
+                                                        $iconType = $item['icon_type'] ?? 'font_awesome';
+                                                        $link     = buildQuizLink($item);
 
-        /* rendu identique à l’ancien code */
-        $iconType = $item['icon_type'] ?? 'font_awesome';
-        $link     = buildQuizLink($item);
+                                                        echo '<div class="menu-item"><a class="menu-link" href="'
+                                                            . htmlspecialchars($link) . '"><span class="menu-icon">';
+                                                        if ($iconType === 'ki_duotone') {
+                                                            echo '<i class="' . htmlspecialchars($item['icon'])
+                                                            . ' fs-2"><span class="path1"></span><span class="path2"></span></i>';
+                                                        } else {
+                                                            echo '<i class="' . htmlspecialchars($item['icon']) . ' fs-2"></i>';
+                                                        }
+                                                        echo '</span><span class="menu-title">'
+                                                            . htmlspecialchars(menuLabel($item, $lang))
+                                                            . '</span></a></div>';
+                                                    }
 
-        echo '<div class="menu-item"><a class="menu-link" href="'
-             . htmlspecialchars($link) . '"><span class="menu-icon">';
-        if ($iconType === 'ki_duotone') {
-            echo '<i class="' . htmlspecialchars($item['icon'])
-               . ' fs-2"><span class="path1"></span><span class="path2"></span></i>';
-        } else {
-            echo '<i class="' . htmlspecialchars($item['icon']) . ' fs-2"></i>';
-        }
-        echo '</span><span class="menu-title">'
-             . htmlspecialchars(menuLabel($item, $lang))
-             . '</span></a></div>';
-    }
+                                                    echo '<div class="menu-item"><div class="menu-content"></div></div>';
+                                                }
+                                            }
 
-    echo '<div class="menu-item"><div class="menu-content"></div></div>';
-}
+                                        /* ——— Admin ——— */
+                                        } elseif ($_SESSION['profile'] === 'Admin') {
+                                            foreach ($menuStructure as $groupName => $items) {
+                                                /* Afficher le titre du groupe */
+                                                echo '<div class="menu-content"><span class="fw-bold text-black text-uppercase fs-70">'
+                                                    . htmlspecialchars(groupLabel($items, $lang))
+                                                    . '</span></div>';
+                                                
+                                                /* Afficher les items du groupe */
+                                                foreach ($items as $item) {
+                                                    $iconType = $item['icon_type'] ?? 'font_awesome';
+                                                    echo '<div class="menu-item"><a class="menu-link" href="'
+                                                        . htmlspecialchars($item['url']) . '">';
+                                                    echo '<span class="menu-icon">';
+                                                    if ($iconType === 'ki_duotone') {
+                                                        echo '<i class="' . htmlspecialchars($item['icon']) . ' fs-2"><span class="path1"></span><span class="path2"></span></i>';
+                                                    } else {
+                                                        echo '<i class="' . htmlspecialchars($item['icon']) . ' fs-2"></i>';
+                                                    }
+                                                    echo '</span>';
+                                                    echo '<span class="menu-title">'
+                                                        . htmlspecialchars(menuLabel($item, $lang))
+                                                        . '</span></a></div>';
+                                                }
+                                                
+                                                /* Séparateur entre les groupes */
+                                                echo '<div class="menu-item"><div class="menu-content"></div></div>';
+                                            }
 
+                                        /* ——— Technicien / autres profils ——— */
+                                        } elseif ($_SESSION['profile'] === 'Technicien') {
+                                            foreach ($menuStructure as $groupName => $items) {
+                                                /* groupe vide (= raccourcis perso) */
+                                                if ($groupName === '') {
+                                                    foreach ($items as $item) {
+                                                        echoItem($item, $lang, '?id='.$_SESSION['id']);
+                                                    }
+                                                }
+                                                /* groupe Mesure des compétences */
+                                                elseif (groupLabel($items, $lang) === $mesure_des_competences) {
 
-    }
+                                                    echo '<div class="menu-content"><span class="fw-bold text-black text-uppercase fs-70">'
+                                                        . htmlspecialchars(groupLabel($items, $lang))
+                                                        . '</span></div>';
 
-/* ——— Technicien / autres profils ——— */
-} elseif ($_SESSION['profile'] === 'Technicien') {
-    foreach ($menuStructure as $groupName => $items) {
-        /* groupe vide (= raccourcis perso) */
-        if ($groupName === '') {
-            foreach ($items as $item) {
-                echoItem($item, $lang, '?id='.$_SESSION['id']);
-            }
-        }
-        /* groupe Mesure des compétences */
-        /* groupe Mesure des compétences */
-elseif (groupLabel($items, $lang) === $mesure_des_competences) {
+                                                    $allowed = ['list_qcm_connaissances', 'list_qcm_tache_pro'];
 
-    echo '<div class="menu-content"><span class="fw-bold text-black text-uppercase fs-70">'
-         . htmlspecialchars(groupLabel($items, $lang))
-         . '</span></div>';
+                                                    foreach ($items as $item) {
+                                                        if (in_array($item['key'], $allowed, true)) {
+                                                            echoItem($item, $lang);      // echoItem gère déjà l'icône
+                                                        }
+                                                    }
 
-    $allowed = ['list_qcm_connaissances', 'list_qcm_tache_pro'];
+                                                    echo '<div class="menu-item"><div class="menu-content"></div></div>';
+                                                }
+                                            }
 
-    foreach ($items as $item) {
-        if (in_array($item['key'], $allowed, true)) {
-            echoItem($item, $lang);      // echoItem gère déjà l’icône
-        }
-    }
-
-    echo '<div class="menu-item"><div class="menu-content"></div></div>';
-}
-
-    }
-
-/* ——— Tous les autres profils (Admin, RH…) ——— */
-} else {
-    foreach ($menuStructure as $groupName => $items) {
-        echo '<div class="menu-content"><span class="fw-bold text-black text-uppercase fs-70">'
-            . htmlspecialchars(groupLabel($items, $lang))
-            . '</span></div>';
-        foreach ($items as $item) {
-            echoItem($item, $lang);
-        }
-        echo '<div class="menu-item"><div class="menu-content"></div></div>';
-    }
-}
-?>
+                                        /* ——— Tous les autres profils (RH, Directeurs...) ——— */
+                                        } else {
+                                            foreach ($menuStructure as $groupName => $items) {
+                                                echo '<div class="menu-content"><span class="fw-bold text-black text-uppercase fs-70">'
+                                                    . htmlspecialchars(groupLabel($items, $lang))
+                                                    . '</span></div>';
+                                                foreach ($items as $item) {
+                                                    echoItem($item, $lang);
+                                                }
+                                                echo '<div class="menu-item"><div class="menu-content"></div></div>';
+                                            }
+                                        }
+                                        ?>
 
 
                                         <!--begin:Menu item-->

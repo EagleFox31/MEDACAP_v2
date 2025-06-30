@@ -102,7 +102,21 @@ function createGroup($name, $currentModule) {
     }
     $newGroupOrder = $maxOrder + 1;
 
-    // Retourner le nouveau groupe sans l'insérer directement, car les groupes sont dérivés des fonctionnalités
+    // Créer une fonctionnalité minimale avec ce groupe pour que le groupe existe réellement
+    $document = [
+        'name' => 'Groupe: ' . $name,
+        'description' => 'Groupe créé automatiquement',
+        'group' => $name,
+        'group_order' => $newGroupOrder,
+        'order' => 1,
+        'modules' => $currentModule,
+        'active' => true,
+        'created_at' => time() // Utiliser un timestamp simple
+    ];
+    
+    $result = $functionalities->insertOne($document);
+
+    // Retourner le nouveau groupe avec son id
     return [
         'name' => $name,
         'group_order' => $newGroupOrder
@@ -159,10 +173,16 @@ function reorderFunctionalities($groupName, $functionalityIdsInOrder, $currentMo
         if (!isValidObjectId($funcId)) {
             continue; // Ignorer les IDs invalides
         }
-        $functionalities->updateOne(
-            ['_id' => new MongoDB\BSON\ObjectId($funcId), 'modules' => $currentModule],
-            ['$set' => ['order' => $order, 'group' => $groupName]]
-        );
+        try {
+            $objectId = new MongoDB\BSON\ObjectId($funcId);
+            $functionalities->updateOne(
+                ['_id' => $objectId, 'modules' => $currentModule],
+                ['$set' => ['order' => $order, 'group' => $groupName]]
+            );
+        } catch (Exception $e) {
+            error_log("Error updating functionality: " . $e->getMessage());
+            continue;
+        }
         $order++;
     }
 }
@@ -197,10 +217,16 @@ function assignFunctionalitiesToGroup($groupName, $functionalityIds, $currentMod
             continue; // Ignorer les IDs invalides
         }
         $maxOrder++;
-        $functionalities->updateOne(
-            ['_id' => new MongoDB\BSON\ObjectId($funcId), 'modules' => $currentModule],
-            ['$set' => ['group' => $groupName, 'order' => $maxOrder, 'group_order' => $groupOrder]]
-        );
+        try {
+            $objectId = new MongoDB\BSON\ObjectId($funcId);
+            $functionalities->updateOne(
+                ['_id' => $objectId, 'modules' => $currentModule],
+                ['$set' => ['group' => $groupName, 'order' => $maxOrder, 'group_order' => $groupOrder]]
+            );
+        } catch (Exception $e) {
+            error_log("Error assigning functionality: " . $e->getMessage());
+            continue;
+        }
     }
 }
 
@@ -210,12 +236,17 @@ function removeFromGroup($funcId, $currentModule) {
     if (!isValidObjectId($funcId)) {
         throw new Exception("Invalid functionality ID.");
     }
-    $objectId = new MongoDB\BSON\ObjectId($funcId);
-    // Remettre le group à '', order et group_order à 9999 ou une valeur par défaut
-    $functionalities->updateOne(
-        ['_id' => $objectId, 'modules' => $currentModule],
-        ['$set' => ['group' => '', 'group_order' => 9999, 'order' => 9999]]
-    );
+    try {
+        $objectId = new MongoDB\BSON\ObjectId($funcId);
+        // Remettre le group à '', order et group_order à 9999 ou une valeur par défaut
+        $functionalities->updateOne(
+            ['_id' => $objectId, 'modules' => $currentModule],
+            ['$set' => ['group' => '', 'group_order' => 9999, 'order' => 9999]]
+        );
+    } catch (Exception $e) {
+        error_log("Error removing from group: " . $e->getMessage());
+        throw $e;
+    }
 }
 
 // Obtenir une fonctionnalité par ID pour le module actuel
@@ -224,8 +255,13 @@ function getFunctionalityById($id, $currentModule) {
         return null;
     }
     $functionalities = getFunctionalitiesCollection();
-    $objectId = new MongoDB\BSON\ObjectId($id);
-    return $functionalities->findOne(['_id' => $objectId, 'modules' => $currentModule]);
+    try {
+        $objectId = new MongoDB\BSON\ObjectId($id);
+        return $functionalities->findOne(['_id' => $objectId, 'modules' => $currentModule]);
+    } catch (Exception $e) {
+        error_log("Error getting functionality: " . $e->getMessage());
+        return null;
+    }
 }
 
 // Mettre à jour une fonctionnalité par ID pour le module actuel
@@ -234,12 +270,17 @@ function updateFunctionality($id, $data, $currentModule) {
         return false;
     }
     $functionalities = getFunctionalitiesCollection();
-    $objectId = new MongoDB\BSON\ObjectId($id);
-    // S'assurer que la fonctionnalité appartient au module actuel
-    $updateResult = $functionalities->updateOne(
-        ['_id' => $objectId, 'modules' => $currentModule],
-        ['$set' => $data]
-    );
-    return ($updateResult->getModifiedCount() > 0);
+    try {
+        $objectId = new MongoDB\BSON\ObjectId($id);
+        // S'assurer que la fonctionnalité appartient au module actuel
+        $updateResult = $functionalities->updateOne(
+            ['_id' => $objectId, 'modules' => $currentModule],
+            ['$set' => $data]
+        );
+        return ($updateResult->getModifiedCount() > 0);
+    } catch (Exception $e) {
+        error_log("Error updating functionality: " . $e->getMessage());
+        return false;
+    }
 }
 ?>
