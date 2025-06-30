@@ -102,7 +102,21 @@ function createGroup($name, $currentModule) {
     }
     $newGroupOrder = $maxOrder + 1;
 
-    // Retourner le nouveau groupe sans l'insérer directement, car les groupes sont dérivés des fonctionnalités
+    // Créer une fonctionnalité minimale avec ce groupe pour que le groupe existe réellement
+    $document = [
+        'name' => 'Groupe: ' . $name,
+        'description' => 'Groupe créé automatiquement',
+        'group' => $name,
+        'group_order' => $newGroupOrder,
+        'order' => 1,
+        'modules' => $currentModule,
+        'active' => true,
+        'created_at' => time() // Utiliser un timestamp simple
+    ];
+    
+    $result = $functionalities->insertOne($document);
+
+    // Retourner le nouveau groupe avec son id
     return [
         'name' => $name,
         'group_order' => $newGroupOrder

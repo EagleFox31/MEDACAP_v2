@@ -255,31 +255,7 @@
                 <div class=" container-xxl ">
                     <!--begin::Row-->
                     <div class="row g-6 g-xl-9 mb-6 mb-xl-9">
-                        <!--begin::Col-->
-                        <div class="col-md-6 col-lg-4 col-xl-3">
-                            <!--begin::Card-->
-                            <div class="card h-100 ">
-                                <!--begin::Card body-->
-                                <div class="card-body d-flex justify-content-center text-center flex-column p-8">
-                                    <!--begin::Name-->
-                                    <!--begin::Animation-->
-                                    <div
-                                        class="fs-lg-1hx fs-2x fw-bold text-gray-800 d-flex justify-content-center text-center">
-                                        <div class="min-w-70px" data-kt-countup="true"
-                                            data-kt-countup-value="<?php echo count($technicians) ?>">
-                                        </div>
-                                    </div>
-                                    <!--end::Animation-->
-                                    <!--begin::Title-->
-                                    <div class="fs-5 fw-bold mb-2">
-                                        <?php echo $technicienss ?> </div>
-                                    <!--end::Title-->
-                                    <!--end::Name-->
-                                </div>
-                                <!--end::Card body-->
-                            </div>
-                            <!--end::Card-->
-                        </div>
+                        
                         <!--end::Col-->
                         <!--begin::Col-->
                         <div class="col-md-6 col-lg-4 col-xl-3">
@@ -298,7 +274,7 @@
                                     <!--end::Animation-->
                                     <!--begin::Title-->
                                     <div class="fs-5 fw-bold mb-2">
-                                        <?php echo 'Nombre de QCM Tâches Professionnelles Niveau Junior' ?> </div>
+                                        <?php echo $nbre_qcm_junior ?> </div>
                                     <!--end::Title-->
                                     <!--end::Name-->
                                 </div>
@@ -324,7 +300,7 @@
                                     <!--end::Animation-->
                                     <!--begin::Title-->
                                     <div class="fs-5 fw-bold mb-2">
-                                        <?php echo 'Nombre de QCM Tâches Professionnelles Niveau Senior' ?> </div>
+                                        <?php echo $nbre_qcm_senior ?> </div>
                                     <!--end::Title-->
                                     <!--end::Name-->
                                 </div>
@@ -350,7 +326,7 @@
                                     <!--end::Animation-->
                                     <!--begin::Title-->
                                     <div class="fs-5 fw-bold mb-2">
-                                        <?php echo 'Nombre de QCM Tâches Professionnelles Niveau Expert' ?> </div>
+                                        <?php echo $nbre_qcm_expert ?> </div>
                                     <!--end::Title-->
                                     <!--end::Name-->
                                 </div>
@@ -359,6 +335,31 @@
                             <!--end::Card-->
                         </div>
                         <!--end::Col-->
+                        <!--begin::Col-->
+                        <div class="col-md-6 col-lg-4 col-xl-3">
+                            <!--begin::Card-->
+                            <div class="card h-100 ">
+                                <!--begin::Card body-->
+                                <div class="card-body d-flex justify-content-center text-center flex-column p-8">
+                                    <!--begin::Name-->
+                                    <!--begin::Animation-->
+                                    <div
+                                        class="fs-lg-1hx fs-2x fw-bold text-gray-800 d-flex justify-content-center text-center">
+                                        <div class="min-w-70px" data-kt-countup="true"
+                                            data-kt-countup-value="<?php echo $resultJu['declaratifTotal']  + $resultSe['declaratifTotal']+ $resultEx['declaratifTotal'] ?>">
+                                        </div>
+                                    </div>
+                                    <!--end::Animation-->
+                                    <!--begin::Title-->
+                                    <div class="fs-5 fw-bold mb-2">
+                                        <?php echo $nbre_qcm_tache_pro_manager_total  ?> </div>
+                                    <!--end::Title-->
+                                    <!--end::Name-->
+                                </div>
+                                <!--end::Card body-->
+                            </div>
+                            <!--end::Card-->
+                        </div>
                         <!--begin::Toolbar-->
                         <div class="toolbar" id="kt_toolbar" style="margin-top: 50px; margin-bottom: -20px">
                             <div class=" container-fluid  d-flex flex-stack flex-wrap flex-sm-nowrap">
@@ -366,7 +367,7 @@
                                 <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
                                     <!--begin::Title-->
                                     <h1 class="text-dark fw-bold my-1 fs-2">
-                                        <?php echo 'Etat d\'Avancement des QCM tâches professionnelles manager réalisés' ?>
+                                        <?php echo $etat_avancement_qcm_tache_pro_manager ?>
                                     </h1>
                                     <!--end::Title-->
                                 </div>
@@ -399,7 +400,7 @@
                     <!--begin::Row-->
                     <div class="row g-6 g-xl-9 mb-6 mb-xl-9">
                         <!--begin::Col-->
-                        <div class="col-md-6 col-lg-4 col-xl-3">
+                        <div class="col-md-6 col-lg-4 col-xl-4">
                             <!--begin::Card-->
                             <div class="card h-100 ">
                                 <!--begin::Card body-->
@@ -415,7 +416,7 @@
                                     <!--end::Animation-->
                                     <!--begin::Title-->
                                     <div class="fs-5 fw-bold mb-2">
-                                        <?php echo 'Nombre de QCM Connaissances' ?> </div>
+                                        <?php echo $nbre_qcm_connaissance ?> </div>
                                     <!--end::Title-->
                                     <!--end::Name-->
                                 </div>
@@ -425,7 +426,7 @@
                         </div>
                         <!--end::Col-->
                         <!--begin::Col-->
-                        <div class="col-md-6 col-lg-4 col-xl-3">
+                        <div class="col-md-6 col-lg-4 col-xl-4">
                             <!--begin::Card-->
                             <div class="card h-100 ">
                                 <!--begin::Card body-->
@@ -441,7 +442,7 @@
                                     <!--end::Animation-->
                                     <!--begin::Title-->
                                     <div class="fs-5 fw-bold mb-2">
-                                        <?php echo 'Nombre de QCM Tâches Professionnelles Techniciens' ?> </div>
+                                        <?php echo $nbre_qcm_tache_pro_tech ?> </div>
                                     <!--end::Title-->
                                     <!--end::Name-->
                                 </div>
@@ -451,7 +452,7 @@
                         </div>
                         <!--end::Col-->
                         <!--begin::Col-->
-                        <div class="col-md-6 col-lg-4 col-xl-3">
+                        <div class="col-md-6 col-lg-4 col-xl-4">
                             <!--begin::Card-->
                             <div class="card h-100 ">
                                 <!--begin::Card body-->
@@ -467,7 +468,7 @@
                                     <!--end::Animation-->
                                     <!--begin::Title-->
                                     <div class="fs-5 fw-bold mb-2">
-                                        <?php echo 'Nombre de QCM Tâches Professionnelles Managers' ?> </div>
+                                        <?php echo $nbre_qcm_tache_pro_manager ?> </div>
                                     <!--end::Title-->
                                     <!--end::Name-->
                                 </div>
@@ -476,31 +477,7 @@
                             <!--end::Card-->
                         </div>
                         <!--end::Col-->
-                        <!--begin::Col-->
-                        <div class="col-md-6 col-lg-4 col-xl-3">
-                            <!--begin::Card-->
-                            <div class="card h-100 ">
-                                <!--begin::Card body-->
-                                <div class="card-body d-flex justify-content-center text-center flex-column p-8">
-                                    <!--begin::Name-->
-                                    <!--begin::Animation-->
-                                    <div
-                                        class="fs-lg-1hx fs-2x fw-bold text-gray-800 d-flex justify-content-center text-center">
-                                        <div class="min-w-70px" data-kt-countup="true"
-                                            data-kt-countup-value="<?php echo count($technicians) ?>">
-                                        </div>
-                                    </div>
-                                    <!--end::Animation-->
-                                    <!--begin::Title-->
-                                    <div class="fs-5 fw-bold mb-2">
-                                        <?php echo $technicienss ?> </div>
-                                    <!--end::Title-->
-                                    <!--end::Name-->
-                                </div>
-                                <!--end::Card body-->
-                            </div>
-                            <!--end::Card-->
-                        </div>
+                        
                         <!--end::Col-->
                         <!--begin::Toolbar-->
                         <div class="toolbar" id="kt_toolbar" style="margin-top: 50px; margin-bottom: -20px">
@@ -509,7 +486,7 @@
                                 <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
                                     <!--begin::Title-->
                                     <h1 class="text-dark fw-bold my-1 fs-2">
-                                        <?php echo 'Etat d\'Avancement des QCM tâches professionnelles manager réalisés' ?>
+                                        <?php echo $etat_avancement_qcm ?>
                                     </h1>
                                     <!--end::Title-->
                                 </div>
@@ -573,7 +550,7 @@
                                     <!--end::Animation-->
                                     <!--begin::Title-->
                                     <div class="fs-5 fw-bold mb-2">
-                                        <?php echo 'Nombre de QCM Connaissances' ?> </div>
+                                        <?php echo $nbre_qcm_connaissance ?> </div>
                                     <!--end::Title-->
                                     <!--end::Name-->
                                 </div>
@@ -599,7 +576,7 @@
                                     <!--end::Animation-->
                                     <!--begin::Title-->
                                     <div class="fs-5 fw-bold mb-2">
-                                        <?php echo 'Nombre de QCM Tâches Professionnelles' ?> </div>
+                                        <?php echo $nbre_qcm_tache_pro ?> </div>
                                     <!--end::Title-->
                                     <!--end::Name-->
                                 </div>
@@ -619,13 +596,13 @@
                                     <div
                                         class="fs-lg-1hx fs-2x fw-bold text-gray-800 d-flex justify-content-center text-center">
                                         <div class="min-w-70px" data-kt-countup="true"
-                                            data-kt-countup-value="<?php echo (($results['factuelTotal'] + $results['declaratifTotal']) / 2) ?>">
+                                            data-kt-countup-value="<?php echo (($results['factuelTotal'] + $results['declaratifTotal']) ) ?>">
                                         </div>
                                     </div>
                                     <!--end::Animation-->
                                     <!--begin::Title-->
                                     <div class="fs-5 fw-bold mb-2">
-                                        <?php echo 'Nombre de Tests' ?> </div>
+                                        <?php echo $nbre_test ?> </div>
                                     <!--end::Title-->
                                     <!--end::Name-->
                                 </div>
@@ -641,7 +618,7 @@
                                 <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
                                     <!--begin::Title-->
                                     <h1 class="text-dark fw-bold my-1 fs-2">
-                                        <?php echo 'Etat d\'Avancement des QCM réalisés' ?>
+                                        <?php echo $etat_avancement_qcm ?>
                                     </h1>
                                     <!--end::Title-->
                                 </div>
@@ -686,7 +663,7 @@
                 } else {
                     percentage = (done * 100) / total;
                 }
-                return percentage;
+                return Math.round(percentage);
             }
             
             // Calculate percentages
@@ -695,40 +672,69 @@
             let percentageEx = addIfZero(<?php echo $resultEx['declaratifDone'] ?>, <?php echo $resultEx['declaratifTotal'] ?>);
 
             // Data for each chart
+           // --- bloc chartData internationalisé ---
             const chartData = [
+                /* JUNIOR */
                 {
-                    title: 'Nombre de QCM tâches professionnelles niveau junior réalisées <?php echo $resultJu['declaratifDone'] ?> / <?php echo $resultJu['declaratifTotal'] ?> QCM',
+                    title: `<?php
+                        echo sprintf(
+                            '%s %d / %d QCM',
+                            $nbre_qcm_junior,
+                            $resultJu['declaratifDone'],
+                            $resultJu['declaratifTotal']
+                        );
+                    ?>`,
                     total: 100,
-                    completed: percentageJu, // Moyenne des compétences acquises
-                    data: [percentageJu, 100 - percentageJu], // Moyenne des compétences acquises vs. Moyenne des compétences à acquérir
-                    labels: [percentageJu + '% de Tâches professionnelles niveau junior réalisées',
-                        100 - percentageJu + '% de QCM Tâches professionnelles niveau junior à réaliser'
-                    ],
-                    backgroundColor: ['#4303ec', '#D3D3D3']
-                },
-                {
-                    title: 'Nombre de QCM tâches professionnelles niveau senior réalisées <?php echo $resultSe['declaratifDone'] ?> / <?php echo $resultSe['declaratifTotal'] ?> QCM',
-                    total: 100,
-                    completed: percentageSe, // Moyenne des compétences acquises
-                    data: [percentageSe, 100 - percentageSe], // Moyenne des compétences acquises vs. Moyenne des compétences à acquérir
+                    completed: percentageJu,
+                    data: [percentageJu, 100 - percentageJu],
                     labels: [
-                        percentageSe + '% de Tâches professionnelles niveau senior réalisées',
-                        100 - percentageSe + '% de QCM Tâches professionnelles niveau senior à réaliser'
+                        percentageJu + ' <?php echo $tache_pro_junior_realise; ?>',
+                        (100 - percentageJu) + ' <?php echo $tache_pro_junior_a_realiser; ?>'
                     ],
                     backgroundColor: ['#4303ec', '#D3D3D3']
                 },
+
+                /* SENIOR */
                 {
-                    title: 'Nombre de QCM tâches professionnelles niveau expert réalisées <?php echo $resultEx['declaratifDone'] ?> / <?php echo $resultEx['declaratifTotal'] ?> QCM',
+                    title: `<?php
+                        echo sprintf(
+                            '%s %d / %d QCM',
+                            $nbre_qcm_senior,
+                            $resultSe['declaratifDone'],
+                            $resultSe['declaratifTotal']
+                        );
+                    ?>`,
                     total: 100,
-                    completed: percentageEx, // Moyenne des compétences acquises
-                    data: [percentageEx, 100 - percentageEx], // Moyenne des compétences acquises vs. Moyenne des compétences à acquérir
+                    completed: percentageSe,
+                    data: [percentageSe, 100 - percentageSe],
                     labels: [
-                        percentageEx + '% de Tâches professionnelles niveau expert réalisées',
-                        100 - percentageEx + '% de QCM Tâches professionnelles niveau expert à réaliser'
+                        percentageSe + ' <?php echo $tache_pro_senior_realise; ?>',
+                        (100 - percentageSe) + ' <?php echo $tache_pro_senior_a_realiser; ?>'
                     ],
                     backgroundColor: ['#4303ec', '#D3D3D3']
                 },
+
+                /* EXPERT */
+                {
+                    title: `<?php
+                        echo sprintf(
+                            '%s %d / %d QCM',
+                            $nbre_qcm_expert,
+                            $resultEx['declaratifDone'],
+                            $resultEx['declaratifTotal']
+                        );
+                    ?>`,
+                    total: 100,
+                    completed: percentageEx,
+                    data: [percentageEx, 100 - percentageEx],
+                    labels: [
+                        percentageEx + ' <?php echo $tache_pro_expert_realise; ?>',
+                        (100 - percentageEx) + ' <?php echo $tache_pro_expert_a_realiser; ?>'
+                    ],
+                    backgroundColor: ['#4303ec', '#D3D3D3']
+                }
             ];
+
             
             // Calculate the average for "Total : 03 Niveaux" based on non-zero values
             const validData = chartData.filter(chart => chart.completed > 0);
@@ -738,16 +744,29 @@
             const averageData = [averageCompleted, 100 - averageCompleted];
             
             chartData.push({
-                title: 'Nombre de QCM tâches professionnelles tous niveaux réalisées  <?php echo $resultJu['declaratifDone'] + $resultSe['declaratifDone'] + $resultEx['declaratifDone'] ?> / <?php echo $resultJu['declaratifTotal'] + $resultSe['declaratifTotal'] + $resultEx['declaratifTotal'] ?> QCM',
+                /* ----- titre : “Nombre de QCM Tâches Professionnelles Managers …” ----- */
+                title: `<?php
+                    echo sprintf(
+                        '%s %d / %d QCM',
+                        $nbre_qcm_tache_pro_manager,                                   // libellé traduit
+                        $resultJu['declaratifDone'] + $resultSe['declaratifDone'] + $resultEx['declaratifDone'],
+                        $resultJu['declaratifTotal'] + $resultSe['declaratifTotal'] + $resultEx['declaratifTotal']
+                    );
+                ?>`,
+
                 total: 100,
                 completed: averageCompleted,
                 data: averageData,
+
+                /* ----- libellés des parts du doughnut ----- */
                 labels: [
-                    `${averageCompleted}% de QCM Tâches professionnelles tous niveaux réalisées`,
-                    `${100 - averageCompleted}% de QCM Tâches professionnelles tous niveaux à réaliser`
+                    `${averageCompleted} <?php echo $tache_pro_tous_niveaux_realise; ?>`,
+                    `${100 - averageCompleted} <?php echo $tache_pro_tous_niveaux_a_realiser; ?>`
                 ],
+
                 backgroundColor: ['#4303ec', '#D3D3D3']
             });
+
         
             const container = document.getElementById('chartQCM');
         
@@ -758,16 +777,17 @@
         
                 // Create the card element
                 const cardHtml = `
-                    <div class="col-md-6 col-lg-3 col-xl-2.5 mb-4">
-                        <div class="card h-100">
-                            <div class="card-body d-flex justify-content-center text-center flex-column p-4">
-                                <h5>Pourcentage QCM réalisés: ${completedPercentage}%</h5>
-                                <canvas id="doughnutChart${index}" width="200" height="200"></canvas>
-                                <h5 class="mt-2">${data.title}</h5>
+                        <div class="col-md-6 col-lg-3 col-xl-3 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body d-flex justify-content-center text-center flex-column p-4">
+                                    <h5><?php echo $qcm_connaissance_realise; ?> : ${completedPercentage}%</h5>
+                                    <canvas id="doughnutChart${index}" width="200" height="300"></canvas>
+                                    <h5 class="mt-2">${data.title}</h5>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                `;
+                    `;
+
         
                 // Append the card to the container
                 container.insertAdjacentHTML('beforeend', cardHtml);
@@ -809,23 +829,25 @@
                             },
                             tooltip: {
                                 callbacks: {
-                                    label: function(tooltipItem) {
-                                        const value = tooltipItem.raw || 0;
-                                        const dataset = tooltipItem.dataset.data;
-                                        let sum = dataset.reduce((a, b) => a + b, 0);
-                                        let percentage = Math.round((value / sum) * 100);
-                                        // Round up to the nearest whole number
-                                        return `Pourcentage: ${percentage}%`;
+                                    label: function (tooltipItem) {
+                                        const value    = tooltipItem.raw || 0;
+                                        const dataset  = tooltipItem.dataset.data;
+                                        const sum      = dataset.reduce((a, b) => a + b, 0);
+                                        const percentage = Math.round((value / sum) * 100);
+
+                                        /* -------- libellé internationalisé -------- */
+                                        return `<?php echo $pourcentages ; ?> : ${percentage}%`;
                                     }
                                 }
                             }
+
                         }
                     }
                 });
             });
         });
     </script>
-<?php } else if ($_SESSION["profile"] == "Manager" && $_SESSION["test"] == true) { ?>
+    <?php } else if ($_SESSION["profile"] == "Manager" && $_SESSION["test"] == true) { ?>
     <script>
         // Graphiques pour les resultats du groupe
         document.addEventListener('DOMContentLoaded', function() {
@@ -836,7 +858,7 @@
                 } else {
                     percentage = (done * 100) / total;
                 }
-                return percentage;
+                return Math.round(percentage);
             }
             
             // Calculate percentages
@@ -855,36 +877,87 @@
             ];
 
             // Data for each chart
-            const chartData = [
-                {
-                    title: 'Nombre de QCM connaissances réalisées <?php echo $results['factuelDone'] ?> / <?php echo $results['factuelTotal'] ?> QCM',
-                    total: 100,
-                    completed: <?php echo round(($results['factuelDone'] * 100) / $results['factuelTotal']) ?>, // Moyenne des compétences acquises
-                    data: [
-                        <?php echo round(($results['factuelDone'] * 100) / $results['factuelTotal']) ?>,
-                        100 - <?php echo round(($results['factuelDone'] * 100) / $results['factuelTotal']) ?>
-                    ], // Moyenne des compétences acquises vs. Moyenne des compétences à acquérir
-                    labels: [
-                        '<?php echo round(($results['factuelDone'] * 100) / $results['factuelTotal']) ?>% de QCM Connaissances réalisées',
-                        '<?php echo 100 - round(($results['factuelDone'] * 100) / $results['factuelTotal']) ?>% de QCM Connaissances à réaliser'
-                    ],
-                    backgroundColor: ['#4303ec', '#D3D3D3']
-                },
-                {
-                    title: 'Nombre de QCM tâches professionnelles techniciens réalisées <?php echo $results['declaratifDone'] ?> / <?php echo $results['declaratifTotal'] ?> QCM',
-                    total: 100,
-                    completed: <?php echo round(($results['declaratifDone'] * 100) / $results['declaratifTotal']) ?>, // Moyenne des compétences acquises
-                    data: [
-                        <?php echo round(($results['declaratifDone'] * 100) / $results['declaratifTotal']) ?>,
-                        100 - <?php echo round(($results['declaratifDone'] * 100) / $results['declaratifTotal']) ?>
-                    ], // Moyenne des compétences acquises vs. Moyenne des compétences à acquérir
-                    labels: [
-                        '<?php echo round(($results['declaratifDone'] * 100) / $results['declaratifTotal']) ?>% de Tâches professionnelles réalisées',
-                        '<?php echo 100 - round(($results['declaratifDone'] * 100) / $results['declaratifTotal']) ?>% de QCM Tâches professionnelles à réaliser'
-                    ],
-                    backgroundColor: ['#4303ec', '#D3D3D3']
-                },
-            ];
+        /* === Tableau des jeux de données === */
+        const chartData = [
+            /* 1️⃣  QCM CONNAISSANCES */
+            {
+                title: `<?php
+                    echo sprintf(
+                        '%s %d / %d QCM',
+                        $nbre_qcm_connaissance,       // libellé traduit
+                        $results['factuelDone'],
+                        $results['factuelTotal']
+                    );
+                ?>`,
+                total: 100,
+                completed: <?php
+                    echo $results['factuelTotal'] > 0
+                        ? round(($results['factuelDone'] * 100) / $results['factuelTotal'])
+                        : 0;
+                ?>,
+                data: [
+                    <?php
+                        echo $results['factuelTotal'] > 0
+                            ? round(($results['factuelDone'] * 100) / $results['factuelTotal'])
+                            : 0;
+                    ?>,
+                    <?php
+                        echo $results['factuelTotal'] > 0
+                            ? 100 - round(($results['factuelDone'] * 100) / $results['factuelTotal'])
+                            : 0;
+                    ?>
+                ],
+                labels: [
+                    `${<?php echo $results['factuelTotal'] > 0
+                                ? round(($results['factuelDone'] * 100) / $results['factuelTotal'])
+                                : 0; ?>} <?php echo $qcm_connaissance_realise; ?>`,
+                    `${<?php echo $results['factuelTotal'] > 0
+                                ? 100 - round(($results['factuelDone'] * 100) / $results['factuelTotal'])
+                                : 0; ?>} <?php echo $qcm_connaissance_a_realiser; ?>`
+                ],
+                backgroundColor: ['#4303ec', '#D3D3D3']
+            },
+
+            /* 2️⃣  QCM TÂCHES PROFESSIONNELLES – TECHNICIENS */
+            {
+                title: `<?php
+                    echo sprintf(
+                        '%s %d / %d QCM',
+                        $nbre_qcm_tache_pro_tech,     // libellé traduit
+                        $results['declaratifDone'],
+                        $results['declaratifTotal']
+                    );
+                ?>`,
+                total: 100,
+                completed: <?php
+                    echo $results['declaratifTotal'] > 0
+                        ? round(($results['declaratifDone'] * 100) / $results['declaratifTotal'])
+                        : 0;
+                ?>,
+                data: [
+                    <?php
+                        echo $results['declaratifTotal'] > 0
+                            ? round(($results['declaratifDone'] * 100) / $results['declaratifTotal'])
+                            : 0;
+                    ?>,
+                    <?php
+                        echo $results['declaratifTotal'] > 0
+                            ? 100 - round(($results['declaratifDone'] * 100) / $results['declaratifTotal'])
+                            : 0;
+                    ?>
+                ],
+                labels: [
+                    `${<?php echo $results['declaratifTotal'] > 0
+                                ? round(($results['declaratifDone'] * 100) / $results['declaratifTotal'])
+                                : 0; ?>} <?php echo $tache_pro_realise; ?>`,
+                    `${<?php echo $results['declaratifTotal'] > 0
+                                ? 100 - round(($results['declaratifDone'] * 100) / $results['declaratifTotal'])
+                                : 0; ?>} <?php echo $tache_pro_a_realiser; ?>`
+                ],
+                backgroundColor: ['#4303ec', '#D3D3D3']
+            }
+        ];
+
             
             // Calculate the average for "Total : 03 Niveaux" based on non-zero values
             const validData = datas.filter(chart => chart.completed > 0);
@@ -893,17 +966,30 @@
                 0;
             const averageData = [averageCompleted, 100 - averageCompleted];
             
-            chartData.push({
-                title: 'Nombre de QCM tâches professionnelles managers réalisées  <?php echo $resultJu['declaratifDone'] + $resultSe['declaratifDone'] + $resultEx['declaratifDone'] ?> / <?php echo $resultJu['declaratifTotal'] + $resultSe['declaratifTotal'] + $resultEx['declaratifTotal'] ?> QCM',
-                total: 100,
-                completed: averageCompleted,
-                data: averageData,
-                labels: [
-                    `${averageCompleted}% de QCM Tâches professionnelles managers réalisées`,
-                    `${100 - averageCompleted}% de QCM Tâches professionnelles managers à réaliser`
-                ],
-                backgroundColor: ['#4303ec', '#D3D3D3']
-            });
+           chartData.push({
+            /* ---- Titre : QCM TP managers (tous niveaux) ---- */
+            title: `<?php
+                echo sprintf(
+                    '%s %d / %d QCM',
+                    $nbre_qcm_tache_pro_manager,
+                    $resultJu['declaratifDone'] + $resultSe['declaratifDone'] + $resultEx['declaratifDone'],
+                    $resultJu['declaratifTotal'] + $resultSe['declaratifTotal'] + $resultEx['declaratifTotal']
+                );
+            ?>`,
+
+            total: 100,
+            completed: averageCompleted,
+            data: averageData,
+
+            /* ---- Libellés du doughnut ---- */
+            labels: [
+                `${averageCompleted} <?php echo $tache_pro_manager_realise; ?>`,
+                `${100 - averageCompleted} <?php echo $tache_pro_manager_a_realiser; ?>`
+            ],
+
+            backgroundColor: ['#4303ec', '#D3D3D3']
+        });
+
         
             const container = document.getElementById('chartQCM');
         
@@ -914,16 +1000,17 @@
         
                 // Create the card element
                 const cardHtml = `
-                    <div class="col-md-6 col-lg-4 col-xl-2.5 mb-4">
-                        <div class="card h-100">
-                            <div class="card-body d-flex justify-content-center text-center flex-column p-4">
-                                <h5>Pourcentage QCM réalisés: ${completedPercentage}%</h5>
-                                <canvas id="doughnutChart${index}" width="200" height="200"></canvas>
-                                <h5 class="mt-2">${data.title}</h5>
-                            </div>
-                        </div>
+            <div class="col-md-6 col-lg-4 col-xl-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body d-flex justify-content-center text-center flex-column p-4">
+                        <h5><?php echo $pourcentage_qcm; ?>: ${completedPercentage}%</h5>
+                        <canvas id="doughnutChart${index}" width="200" height="300"></canvas>
+                        <h5 class="mt-2">${data.title}</h5>
                     </div>
-                `;
+                </div>
+            </div>
+        `;
+
         
                 // Append the card to the container
                 container.insertAdjacentHTML('beforeend', cardHtml);
@@ -971,7 +1058,7 @@
                                         let sum = dataset.reduce((a, b) => a + b, 0);
                                         let percentage = Math.round((value / sum) * 100);
                                         // Round up to the nearest whole number
-                                        return `Pourcentage: ${percentage}%`;
+                                        return `<?php echo $pourcentages ; ?> : ${percentage}%`;
                                     }
                                 }
                             }
@@ -992,7 +1079,7 @@
                 } else {
                     percentage = (done * 100) / total;
                 }
-                return percentage;
+                return Math.round(percentage);
             }
             
             // Calculate percentages
@@ -1000,36 +1087,140 @@
             let declaratif = addIfZero(<?php echo $results['declaratifDone'] ?>, <?php echo $results['declaratifTotal'] ?>);
 
             // Data for each chart
-            const chartData = [
-                {
-                    title: 'Nombre de QCM connaissances réalisées <?php echo $results['factuelDone'] ?> / <?php echo $results['factuelTotal'] ?> QCM',
-                    total: 100,
-                    completed: <?php echo round(($results['factuelDone'] * 100) / $results['factuelTotal']) ?>, // Moyenne des compétences acquises
-                    data: [
-                        <?php echo round(($results['factuelDone'] * 100) / $results['factuelTotal']) ?>,
-                        100 - <?php echo round(($results['factuelDone'] * 100) / $results['factuelTotal']) ?>
-                    ], // Moyenne des compétences acquises vs. Moyenne des compétences à acquérir
-                    labels: [
-                        '<?php echo round(($results['factuelDone'] * 100) / $results['factuelTotal']) ?>% de QCM Connaissances réalisées',
-                        '<?php echo 100 - round(($results['factuelDone'] * 100) / $results['factuelTotal']) ?>% de QCM Connaissances à réaliser'
-                    ],
-                    backgroundColor: ['#4303ec', '#D3D3D3']
-                },
-                {
-                    title: 'Nombre de QCM tâches professionnelles réalisées <?php echo $results['declaratifDone'] ?> / <?php echo $results['declaratifTotal'] ?> QCM',
-                    total: 100,
-                    completed: <?php echo round(($results['declaratifDone'] * 100) / $results['declaratifTotal']) ?>, // Moyenne des compétences acquises
-                    data: [
-                        <?php echo round(($results['declaratifDone'] * 100) / $results['declaratifTotal']) ?>,
-                        100 - <?php echo round(($results['declaratifDone'] * 100) / $results['declaratifTotal']) ?>
-                    ], // Moyenne des compétences acquises vs. Moyenne des compétences à acquérir
-                    labels: [
-                        '<?php echo round(($results['declaratifDone'] * 100) / $results['declaratifTotal']) ?>% de Tâches professionnelles réalisées',
-                        '<?php echo 100 - round(($results['declaratifDone'] * 100) / $results['declaratifTotal']) ?>% de QCM Tâches professionnelles à réaliser'
-                    ],
-                    backgroundColor: ['#4303ec', '#D3D3D3']
-                },
-            ];
+           /* === Données pour le tableau de bord (profil Tech / RH / …) === */
+const chartData = [
+
+    /* 1️⃣ QCM CONNAISSANCES */
+    {
+        /* ---- Titre ---- */
+        title: `<?php
+            echo sprintf(
+                '%s %d / %d QCM',
+                $nbre_qcm_connaissance,            // libellé traduit
+                $results['factuelDone'],
+                $results['factuelTotal']
+            );
+        ?>`,
+
+        total: 100,
+
+        /* -- % réalisé -- */
+        completed: <?php
+            echo $results['factuelTotal'] > 0
+                ? round(($results['factuelDone'] * 100) / $results['factuelTotal'])
+                : 0;
+        ?>,
+
+        /* -- données pour le doughnut -- */
+        data: [
+            <?php
+                echo $results['factuelTotal'] > 0
+                    ? round(($results['factuelDone'] * 100) / $results['factuelTotal'])
+                    : 0;
+            ?>,
+            <?php
+                echo $results['factuelTotal'] > 0
+                    ? 100 - round(($results['factuelDone'] * 100) / $results['factuelTotal'])
+                    : 0;
+            ?>
+        ],
+
+        /* -- libellés du doughnut -- */
+        labels: [
+            `<?php echo $qcm_connaissance_realise; ?>`,
+            `<?php echo $qcm_connaissance_a_realiser; ?>`
+        ],
+
+        backgroundColor: ['#4303ec', '#D3D3D3']
+    },
+
+    /* 2️⃣ QCM TÂCHES PROFESSIONNELLES (Tech) */
+    {
+        title: `<?php
+            echo sprintf(
+                '%s %d / %d QCM',
+                $nbre_qcm_tache_pro,               // libellé traduit
+                $results['declaratifDone'],
+                $results['declaratifTotal']
+            );
+        ?>`,
+
+        total: 100,
+
+        completed: <?php
+            echo $results['declaratifTotal'] > 0
+                ? round(($results['declaratifDone'] * 100) / $results['declaratifTotal'])
+                : 0;
+        ?>,
+
+        data: [
+            <?php
+                echo $results['declaratifTotal'] > 0
+                    ? round(($results['declaratifDone'] * 100) / $results['declaratifTotal'])
+                    : 0;
+            ?>,
+            <?php
+                echo $results['declaratifTotal'] > 0
+                    ? 100 - round(($results['declaratifDone'] * 100) / $results['declaratifTotal'])
+                    : 0;
+            ?>
+        ],
+
+        labels: [
+            `<?php echo $tache_pro_realise; ?>`,
+            `<?php echo $tache_pro_a_realiser; ?>`
+        ],
+
+        backgroundColor: ['#4303ec', '#D3D3D3']
+    },
+
+    /* 3️⃣ TOTAL TESTS */
+    {
+        title: `<?php
+            echo sprintf(
+                '%s %d / %d QCM',
+                $nbre_test,               // libellé traduit
+                $results['factuelDone'] + $results['declaratifDone'],
+                $results['factuelTotal'] + $results['declaratifTotal']
+            );
+        ?>`,
+
+        total: 100,
+
+        completed: <?php
+            $totalDone = $results['factuelDone'] + $results['declaratifDone'];
+            $totalTotal = $results['factuelTotal'] + $results['declaratifTotal'];
+            echo $totalTotal > 0
+                ? round(($totalDone * 100) / $totalTotal)
+                : 0;
+        ?>,
+
+        data: [
+            <?php
+                $totalDone = $results['factuelDone'] + $results['declaratifDone'];
+                $totalTotal = $results['factuelTotal'] + $results['declaratifTotal'];
+                echo $totalTotal > 0
+                    ? round(($totalDone * 100) / $totalTotal)
+                    : 0;
+            ?>,
+            <?php
+                $totalDone = $results['factuelDone'] + $results['declaratifDone'];
+                $totalTotal = $results['factuelTotal'] + $results['declaratifTotal'];
+                echo $totalTotal > 0
+                    ? 100 - round(($totalDone * 100) / $totalTotal)
+                    : 0;
+            ?>
+        ],
+
+        labels: [
+            `<?php echo $tests_completes; ?>`,
+            `<?php echo $tests_restants_completer; ?>`
+        ],
+
+        backgroundColor: ['#4303ec', '#D3D3D3']
+    }
+];
+
         
             const container = document.getElementById('chartQCM');
         
@@ -1040,11 +1231,11 @@
         
                 // Create the card element
                 const cardHtml = `
-                    <div class="col-md-6 col-lg-6 col-xl-2.5 mb-4">
+                    <div class="col-md-6 col-lg-6 col-xl-4 mb-4">
                         <div class="card h-100">
                             <div class="card-body d-flex justify-content-center text-center flex-column p-4">
-                                <h5>Pourcentage QCM réalisés: ${completedPercentage}%</h5>
-                                <canvas id="doughnutChart${index}" width="200" height="200"></canvas>
+                                <h5><?php echo $qcm_connaissance_realise; ?>: ${completedPercentage}%</h5>
+                                <canvas id="doughnutChart${index}" width="200" height="300"></canvas>
                                 <h5 class="mt-2">${data.title}</h5>
                             </div>
                         </div>
@@ -1097,7 +1288,7 @@
                                         let sum = dataset.reduce((a, b) => a + b, 0);
                                         let percentage = Math.round((value / sum) * 100);
                                         // Round up to the nearest whole number
-                                        return `Pourcentage: ${percentage}%`;
+                                        return `<?php echo $pourcentages ; ?>: ${percentage}%`;
                                     }
                                 }
                             }

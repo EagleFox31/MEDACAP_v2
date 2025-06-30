@@ -176,10 +176,28 @@ if (!isset($_SESSION["id"])) {
                                     </tr>
                                 </thead>
                                 <tbody class="fw-semibold text-gray-600" id="table">
-                                    <?php foreach (
-                                        $manager->users
-                                        as $collaborator
-                                    ) {
+                                    <?php 
+                                    if (!$manager) {
+                                        /* 1) ID de manager inconnu */
+                                        echo '<tr><td colspan="6" class="text-center">Manager not found</td></tr>';
+
+                                    } else {
+
+                                        /* 2) On convertit le champ users (BSONArray → array PHP) */
+                                        $collaborators = [];
+                                        if (isset($manager->users)) {
+                                            $collaborators = ($manager->users instanceof MongoDB\Model\BSONArray)
+                                                        ? $manager->users->getArrayCopy()
+                                                        : (array) $manager->users;
+                                        }
+
+                                        if (empty($collaborators)) {
+                                            /* 3) Manager trouvé, mais aucun collaborateur assigné */
+                                            echo '<tr><td colspan="6" class="text-center">No users assigned to this manager</td></tr>';
+
+                                        } else {
+                                            /* 4) Boucle normale sur chaque collaborateur */
+                                            foreach ($collaborators as $collaborator) {
 
                                         
                                         $allocateJu = $allocations->findOne([
@@ -407,7 +425,8 @@ if (!isset($_SESSION["id"])) {
                                         <!--end::Menu-->
                                     </tr>
                                     <?php
-                                    } ?>
+                                        }
+                                    } }?>
                                 </tbody>
                             </table>
                         </div>

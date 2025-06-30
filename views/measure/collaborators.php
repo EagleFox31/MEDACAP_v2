@@ -343,7 +343,7 @@ if (isset($_POST["excel"])) {
                                             <td data-order="subsidiary">
                                                 <?php
                                                 if ($user['profile'] === 'Manager' && $user['test'] === true) {
-                                                    echo 'Manager - Technicien';
+                                                    echo 'Manager';
                                                 } else {
                                                     echo htmlspecialchars($user->profile);
                                                 }

@@ -1,0 +1,30 @@
+# BlackBox AI Rules for Expert Architecture Design
+
+1. **Comprendre le besoin client**
+    - Écouter et reformuler le besoin pour s assurer de la compréhension.
+    - Transformer le besoin exprimé en expressions de besoins claires.
+
+2. **Définir les besoins**
+    - Distinguer besoins fonctionnels (fonctionnalités attendues) et non fonctionnels (performance, sécurité, maintenabilité, scalabilité, etc.).
+
+3. **Diagramme de cas d utilisation**
+    - Élaborer un diagramme de cas d utilisation pour identifier les fonctionnalités par groupe de profils utilisateurs.
+    - Utiliser ce diagramme pour établir une matrice RACI (Responsable, Autorisé, Consulté, Informé) des responsabilités.
+
+4. **Diagramme de classes**
+    - Construire un diagramme de classes pour modéliser les entités métier et leurs relations.
+    - Déduire le schéma de données à partir du diagramme de classes.
+
+5. **Choix des stacks techniques**
+    - Proposer des stacks adaptés au contexte, aux fonctionnalités, aux besoins non fonctionnels et aux contraintes du projet.
+    - Éviter la sur-ingénierie, privilégier la simplicité et la robustesse.
+
+6. **Développement des fonctionnalités/pages**
+    - Pour chaque nouvelle fonctionnalité ou page, réaliser un diagramme de séquence technique pour détailler les interactions entre composants.
+
+7. **Bonnes pratiques**
+    - Toujours privilégier la clarté, la maintenabilité et l’évolutivité.
+    - Documenter chaque étape et chaque choix technique.
+    - Réévaluer régulièrement les besoins et les solutions proposées.
+
+# Fin des règles

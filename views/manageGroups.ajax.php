@@ -1,7 +1,12 @@
 <?php
 // manageGroups.ajax.php
+// Prevent PHP errors from breaking JSON output
+ini_set('display_errors', 0);
+error_reporting(E_ERROR);
+
 session_start();
 require_once "groupFunctions.php";
+require_once "moduleHelper.php";
 
 // Définir le Content-Type en JSON
 header('Content-Type: application/json');
@@ -16,7 +21,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Obtenir le module actuel
-    $currentModule = getCurrentModule();
+    $client = getMongoClient();
+    $academy = $client->academy;
+    $functionalitiesCollection = $academy->functionalities;
+    $currentModule = ModuleHelper::getCurrentModule($functionalitiesCollection);
     if (empty($currentModule)) {
         echo json_encode(['error' => 'Current module not specified']);
         exit();
@@ -27,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         switch($action) {
             case 'create_group':
-                $name = trim($_POST['name'] ?? '');
+                $name = trim($_POST['newGroupName'] ?? '');
                 if ($name === '') {
                     echo json_encode(['error' => 'Name is required']);
                     exit();

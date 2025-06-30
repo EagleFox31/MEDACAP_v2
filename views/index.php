@@ -14,6 +14,22 @@ $academy = $conn->academy;
 $users = $academy->users;
 $connections = $academy->connections;
 
+       // Priorité : ?lang=  →  session  →  cookie  →  FR
+      if (isset($_GET['lang']) && in_array($_GET['lang'], ['EN','FR'])) {
+          $_SESSION['lang'] = $_GET['lang'];
+          setcookie('lang', $_GET['lang'], time() + 31536000, '/');
+      }
+
+      $lang = $_SESSION['lang']
+              ?? ($_COOKIE['lang'] ?? 'FR');
+
+
+              if ($lang === 'EN') {
+                  include_once "language_EN.php";
+              } else {
+                  include_once "language.php";
+              }
+
 if (isset($_POST["login"])) {
     $userName = $_POST["username"];
     $password = sha1($_POST["password"]);
@@ -40,6 +56,9 @@ if (isset($_POST["login"])) {
         $_SESSION["agency"] = $login["agency"];
         $_SESSION["department"] = $login["department"];
         $_SESSION["country"] = $login["country"];
+
+
+
         
         $userConnected = $connections->findOne([
             '$and' => [
@@ -68,7 +87,14 @@ if (isset($_POST["login"])) {
             $connections->insertOne($connection);
         }
 
+        // ─── Persistance de la langue choisie ──────────────────────────────────────────
+        if (!isset($_SESSION['lang'])) {           // aucune langue choisie ? on force FR
+            $_SESSION['lang'] = 'FR';
+        }
+        setcookie('lang', $_SESSION['lang'], time() + 31536000, '/'); // cookie 1 an
+        // ───────────────────────────────────────────────────────────────────────────────
         header("Location: views/portal");
+
     }
 }
 ?>
@@ -767,6 +793,23 @@ if (isset($_POST["login"])) {
                     </div>
                     <div class="elementor-column elementor-col-50 elementor-top-column elementor-element elementor-element-d4de476 pxl-column-element-default pxl-column-none" data-id="d4de476" data-element_type="column">
                       <div class="elementor-widget-wrap elementor-element-populated">
+                        <!--begin::Language Toggle-->
+                               <!-- Sélecteur de langue : version pro & compacte -->
+                      <!-- Sélecteur déroulant -->
+                              <form method="get"
+                                    action="<?= strtok($_SERVER['REQUEST_URI'], '?'); ?>"  
+                                    class="d-inline">
+                                <select name="lang"
+                                        class="form-select form-select-sm bg-dark text-white border-0 fw-semibold"
+                                        onchange="this.form.submit()">
+                                  <option value="FR" <?= $lang==='FR' ? 'selected' : '' ?>>🇫🇷 Français</option>
+                                  <option value="EN" <?= $lang==='EN' ? 'selected' : '' ?>>🇺🇸 English</option>
+                                </select>
+                              </form>
+
+
+
+                                <!--end::Language Toggle-->
                         <div class="elementor-element elementor-element-7a825bf elementor-widget__width-auto elementor-widget elementor-widget-pxl_menu" data-id="7a825bf" data-element_type="widget" data-widget_type="pxl_menu.default">
                           <div class="elementor-widget-container">
                             <div class="pxl-nav-menu pxl-nav-menu1 line-style-1">
@@ -1026,7 +1069,7 @@ if (isset($_POST["login"])) {
                                       <div class="elementor-widget-container">
                                         <div id="pxl-pxl_heading-e9b9dc0-6562" class="pxl-heading px-sub-title-default-style">
                                           <div class="pxl-heading--inner">
-                                            <h3 class="pxl-item--title" data-wow-delay="ms"> Entrez vos informations de connexion pour acceder à votre espace <cite>MEDACAP</cite></h3>
+                                            <h3 class="pxl-item--title" data-wow-delay="ms"> <?php echo $entres_info_connexion ?> <cite>MEDACAP</cite></h3>
                                           </div>
                                         </div>
                                       </div>
@@ -1060,7 +1103,7 @@ if (isset($_POST["login"])) {
                                                           <input style="border-radius: 15px;" id="password" size="40" maxlength="400" class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required" aria-required="true" aria-invalid="false"  placeholder="<?php echo $Password ?>" type="password" name="password" />
                                                         </span>
                                                         <span style="cursor: pointer;" class="password-viewer" onclick="togglePasswordVisibility()">
-                                                            <i class="bi bi-eye"></i> Afficher le mot de passe.
+                                                            <i class="bi bi-eye"></i> <?php echo $show_password ?>
                                                         </span>
                                                       </p>
                                                     </div>

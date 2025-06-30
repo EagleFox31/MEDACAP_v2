@@ -20,10 +20,11 @@ if (!isset($_SESSION["profile"])) {
     $applications = $academy->applications;
     $validations = $academy->validations;
 
-    $levelFilter = $_GET["level"];
-    $techFilter = $_GET['user'];
-    $brandFilter = $_GET['brand'];
-    $trainingFilter = $_GET['training'];
+    // Fix: Add null coalescing operators to provide default values
+    $levelFilter = $_GET["level"] ?? 'all';
+    $techFilter = $_GET['user'] ?? 'all';
+    $brandFilter = $_GET['brand'] ?? 'all';
+    $trainingFilter = $_GET['training'] ?? 'all';
 
     if ($_SESSION['profile'] == 'Manager') {
         $filter = [
@@ -762,8 +763,15 @@ if (!isset($_SESSION["profile"])) {
             exit(); // Terminer le script après avoir envoyé la réponse
         }
     }
-
+    function oid($id): MongoDB\BSON\ObjectId
+{
+    return $id instanceof MongoDB\BSON\ObjectId
+        ? $id                         // déjà bon, on renvoie tel quel
+        : new MongoDB\BSON\ObjectId((string) $id);   // sinon on convertit
+}
     ?>
+
+
 
 <?php include_once "partials/header.php"; ?>
 <!--begin::Title-->
@@ -1023,7 +1031,7 @@ if (!isset($_SESSION["profile"])) {
                                                 // Récupérer tous les techniciens associés à cette formation
                                                 foreach ($technicians as $technician) {
                                                     $trainingAllocates = $applications->find([
-                                                        'user' => new MongoDB\BSON\ObjectId($technician['_id']),
+                                                        'user' => oid($technician['_id']),
                                                         'training' => new MongoDB\BSON\ObjectId($training['_id']),
                                                         'active' => true
                                                     ])->toArray();
@@ -1034,7 +1042,7 @@ if (!isset($_SESSION["profile"])) {
                                                     }
 
                                                     $trainingValidates = $validations->find([
-                                                        'user' => new MongoDB\BSON\ObjectId($technician['_id']),
+                                                        'user' => oid($technician['_id']),
                                                         'training' => new MongoDB\BSON\ObjectId($training['_id']),
                                                         'active' => true
                                                     ])->toArray();
@@ -1254,37 +1262,73 @@ if (!isset($_SESSION["profile"])) {
             };
             
             // Envoyer une requête AJAX pour activer
-            $.ajax({
-                type: 'POST',
-                data: { ...datas, selectDates: 1 },
-                dataType: 'json',
-                success: function(response) {
-                    // Si la réponse est déjà un objet JSON, pas besoin de la parser
-                    if (typeof response === 'string') {
-                        response = JSON.parse(response);
-                    }
-                    console.log('response', response);
-                    if (response && response.success) {
-                        total = parseInt(total) + response.training;
-                        totalTechs = parseInt(totalTechs) + response.technicians;
-                        // Récupérez le status de la réponse
-                        const status = response.status;                 
-                        updateUI();
-                        showMessage('success', response.message);
-                        // Sélectionnez l'option correspondante
-                        const optionToSelect = selectElement.querySelector(`option[value="${status}"]`);
-                        if (optionToSelect) {
-                            optionToSelect.selected = true;
-                        }                        
-                    } else {
-                        showMessage('error', response.message);
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.log('error', error);
-                    showMessage('error', 'Une erreur est survenue. Veuillez réessayer.');
-                }
-            });
+            // Envoyer une requête AJAX pour activer
+$.ajax({
+    type: 'POST',
+    url: 'http://localhost/medacap/views/define/selectTraining', // Make sure URL is explicit
+    data: {
+        ...datas,
+        selectDates: 1
+    },
+    dataType: 'json',
+    success: function(response) {
+        console.log('Raw response:', response);
+        
+        // Check if response is valid
+        if (!response) {
+            showMessage('error', 'Réponse vide du serveur');
+            return;
+        }
+        
+        // Si la réponse est déjà un objet JSON, pas besoin de la parser
+        if (typeof response === 'string') {
+            try {
+                response = JSON.parse(response);
+            } catch (parseError) {
+                console.error('JSON Parse Error:', parseError);
+                console.error('Raw response that failed to parse:', response);
+                showMessage('error', 'Erreur de format de réponse du serveur');
+                return;
+            }
+        }
+        
+        console.log('Parsed response:', response);
+        
+        if (response && response.success) {
+            total = parseInt(total) + response.training;
+            totalTechs = parseInt(totalTechs) + response.technicians;
+            
+            // Récupérez le status de la réponse
+            const status = response.status;
+            updateUI();
+            showMessage('success', response.message);
+            
+            // Sélectionnez l'option correspondante
+            const optionToSelect = selectElement.querySelector(`option[value="${status}"]`);
+            if (optionToSelect) {
+                optionToSelect.selected = true;
+            }
+        } else {
+            const errorMessage = response.message || 'Erreur inconnue';
+            showMessage('error', errorMessage);
+        }
+    },
+    error: function(xhr, status, error) {
+        console.log('AJAX Error Details:');
+        console.log('Status:', status);
+        console.log('Error:', error);
+        console.log('Response Text:', xhr.responseText);
+        console.log('Status Code:', xhr.status);
+        
+        // Check if the response is HTML (common when there's a server error)
+        if (xhr.responseText && xhr.responseText.trim().startsWith('<')) {
+            console.error('Server returned HTML instead of JSON. Possible server error.');
+            showMessage('error', 'Erreur serveur - veuillez vérifier les logs du serveur');
+        } else {
+            showMessage('error', 'Une erreur est survenue. Veuillez réessayer.');
+        }
+    }
+});
         });
     });
 

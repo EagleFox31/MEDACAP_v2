@@ -104,30 +104,28 @@ function allocateTests(string $type, string $level, $userId, array $brands)
         $testId = $res->getInsertedId();
     }
 
-    // Upsert de l’allocation
-    // 1. Construire les champs communs
-        $set = [
-            'active'     => false,
-            'activeTest' => true,
-            'created'    => date("Y-m-d H:i:s"),
-        ];
+    $set = [
+        'active'     => false,
+        'activeTest' => true,
+        'created'    => date("Y-m-d H:i:s"),
+    ];
 
-        // 2. Ajouter la ligne demandée quand c’est un test Déclaratif
-        if ($type === 'Declaratif') {
-            $set['activeManager'] = false;
-        }
+    // 2. Ajouter la ligne demandée quand c’est un test Déclaratif
+    if ($type === 'Declaratif') {
+        $set['activeManager'] = false;   // ✅ bien placé
+    }
 
-        // 3. Exécuter l’upsert
-        $allocations->updateOne(
-            [
-                'user'  => $userId,
-                'test'  => $testId,
-                'type'  => $type,
-                'level' => $level,
-            ],
-            ['$set' => $set],
-            ['upsert' => true]
-        );
+    // 3. Exécuter l’upsert
+    $allocations->updateOne(
+        [
+            'user'  => $userId,
+            'test'  => $testId,
+            'type'  => $type,
+            'level' => $level,
+        ],
+        ['$set' => $set],
+        ['upsert' => true]
+    );
 }
 
 // ---------- 1) AJAX : renvoi matrice Type×Niveau en JSON ----------
@@ -169,7 +167,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 [
                     'user' => $user['_id'],
                     'level' => $level,
-                    'active' => true    
+                    'active' => true
                 ],
                 ['$set' => ['active' => false]]
             );
@@ -289,10 +287,11 @@ include_once "partials/header.php";
                                     <option value="BYD" <?php if (in_array('BYD', $selectBrands ?? [])) echo 'selected'; ?>><?php echo $byd ?></option>
                                     <option value="CITROEN" <?php if (in_array('CITROEN', $selectBrands ?? [])) echo 'selected'; ?>><?php echo $citroen ?></option>
                                     <option value="MERCEDES" <?php if (in_array('MERCEDES', $selectBrands ?? [])) echo 'selected'; ?>><?php echo $mercedes ?></option>
-                                    <option value="MUTSUBISHI" <?php if (in_array('MUTSUBISHI', $selectBrands ?? [])) echo 'selected'; ?>><?php echo $mitsubishi ?></option>
+                                    <option value="MITSUBISHI" <?php if (in_array('MITSUBISHI', $selectBrands ?? [])) echo 'selected'; ?>><?php echo $mitsubishi ?></option>
                                     <option value="PEUGEOT" <?php if (in_array('PEUGEOT', $selectBrands ?? [])) echo 'selected'; ?>><?php echo $peugeot ?></option>
                                     <option value="SUZUKI" <?php if (in_array('SUZUKI', $selectBrands ?? [])) echo 'selected'; ?>><?php echo $suzuki ?></option>
                                     <option value="TOYOTA" <?php if (in_array('TOYOTA', $selectBrands ?? [])) echo 'selected'; ?>><?php echo $toyota ?></option>
+                                    <option value="VOLKSWAGEN" <?php if (in_array('VOLKSWAGEN', $selectBrands ?? [])) echo 'selected'; ?>><?php echo $volkswagen ?? 'VOLKSWAGEN'; ?></option>
                                     <option value="YAMAHA BATEAU" <?php if (in_array('YAMAHA BATEAU', $selectBrands ?? [])) echo 'selected'; ?>><?php echo $yamahaBateau ?></option>
                                     <option value="YAMAHA MOTO" <?php if (in_array('YAMAHA MOTO', $selectBrands ?? [])) echo 'selected'; ?>><?php echo $yamahaMoto ?></option>
                                 </select>

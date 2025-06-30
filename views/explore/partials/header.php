@@ -140,6 +140,33 @@ $subsidiaries = [
 ];
                                     
 ?>
+<style>
+.title-banner {
+    /* Fond blanc translucide */
+    background: rgba(255, 255, 255, 0.85);
+
+    /* Effet de flou en arrière-plan */
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(8px);
+
+    /* Léger contour + coins arrondis */
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+
+    /* Ombre discrète */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+    /* Couleur du texte */
+    color: #333;
+    /* Ajuste en #fff si tu préfères un texte clair */
+    justify-content: center;
+    /* Centre verticalement */
+    align-items: center;
+    /* Centre horizontalement */
+    text-align: center;
+    /* Centre le texte */
+}
+</style>
 <!DOCTYPE html>
 <html lang="en">
 <!--begin::Head-->

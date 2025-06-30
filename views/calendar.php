@@ -31,37 +31,55 @@ if (!isset($_SESSION["id"])) {
       if (!$eventName || !$startDate || !$endDate) {
         $error_msg = $champ_obligatoire;
       }  else {
-        if ($allDay == 'oui') {
-            $calendar = [
-                "name" => $eventName,
-                "description" => $eventDescription,
-                "location" => $eventLocation,
-                "startDate" => $startDate,
-                "endDate" => $endDate,
-                "startTime" => $startTime,
-                "endTime" => $endTime,
-                "allDay" => true,
-                "active" => true,
-                "created" => date("d-m-Y H:I:S"),
+        $eventType = $_POST["eventType"] ?? 'regular';
+        $technicianIds = $_POST["technicianIds"] ?? [];
+        $testIds = $_POST["testIds"] ?? [];
+        
+        $calendar = [
+            "name" => $eventName,
+            "description" => $eventDescription,
+            "location" => $eventLocation,
+            "startDate" => $startDate,
+            "endDate" => $endDate,
+            "startTime" => $startTime,
+            "endTime" => $endTime,
+            "allDay" => ($allDay == 'oui'),
+            "type" => $eventType,
+            "active" => true,
+            "created" => date("d-m-Y H:I:S"),
+        ];
+        
+        // Ajouter les champs spécifiques aux tests si nécessaire
+        if ($eventType === 'test') {
+            $calendar["technicians"] = $technicianIds;
+            $calendar["tests"] = $testIds;
+            $calendar["status"] = "scheduled";
+            $calendar["reminderStatus"] = [
+                "confirmation" => true,  // Le mail de confirmation est envoyé immédiatement
+                "dayBefore" => false,
+                "dayOf" => false,
+                "dayAfter" => false
             ];
-  
-            $calendars->insertOne($calendar);
-        } else {
-            $calendar = [
-                "name" => $eventName,
-                "description" => $eventDescription,
-                "location" => $eventLocation,
-                "startDate" => $startDate,
-                "endDate" => $endDate,
-                "startTime" => $startTime,
-                "endTime" => $endTime,
-                "allDay" => false,
-                "active" => true,
-                "created" => date("d-m-Y H:I:S"),
-            ];
-  
-            $calendars->insertOne($calendar);
+            
+            // Récupérer les documents des techniciens et admins pour envoyer un email
+            $technicianDocs = [];
+            foreach ($technicianIds as $techId) {
+                $tech = $users->findOne(['_id' => new MongoDB\BSON\ObjectId($techId)]);
+                if ($tech) {
+                    $technicianDocs[] = $tech;
+                }
+            }
+            
+            if (!empty($technicianDocs)) {
+                $adminDocs = getAdminsDocs($technicianDocs[0], $conn);
+                
+                // Envoyer l'email de confirmation de planification
+                require_once "sendMail.php";
+                sendTestScheduledMail($adminDocs, $technicianDocs, $calendar);
+            }
         }
+        
+        $calendars->insertOne($calendar);
       }
    }
    
@@ -233,6 +251,75 @@ if (!isset($_SESSION["id"])) {
                                           <!--end::Input-->
                                        </div>
                                        <!--end::Input group-->
+                                       
+                                       <!--begin::Input group-->
+                                       <div class="fv-row mb-9">
+                                          <!--begin::Label-->
+                                          <label class="fs-6 fw-semibold mb-2">Type d'événement</label>
+                                          <!--end::Label-->
+                                          <!--begin::Input-->
+                                          <select class="form-select form-select-solid" name="calendar_event_type" id="calendar_event_type">
+                                              <option value="regular">Événement régulier</option>
+                                              <option value="test">Test</option>
+                                          </select>
+                                          <!--end::Input-->
+                                       </div>
+                                       <!--end::Input group-->
+                                       
+                                       <!--begin::Test options-->
+                                       <div id="test_options" style="display: none;">
+                                           <!--begin::Input group-->
+                                           <div class="fv-row mb-9">
+                                              <!--begin::Label-->
+                                              <label class="fs-6 fw-semibold mb-2">Techniciens concernés</label>
+                                              <!--end::Label-->
+                                              <!--begin::Input-->
+                                              <select class="form-select form-select-solid" name="calendar_technicians[]" id="calendar_technicians" multiple>
+                                                  <?php
+                                                  // Récupérer tous les techniciens actifs
+                                                  $techniciens = $users->find([
+                                                      'profile' => 'Technicien',
+                                                      'active' => true
+                                                  ]);
+                                                  
+                                                  foreach ($techniciens as $tech) {
+                                                      echo '<option value="' . $tech['_id'] . '">' .
+                                                           htmlspecialchars($tech['firstName']) . ' ' .
+                                                           htmlspecialchars($tech['lastName']) . ' (' .
+                                                           htmlspecialchars($tech['level']) . ')</option>';
+                                                  }
+                                                  ?>
+                                              </select>
+                                              <!--end::Input-->
+                                           </div>
+                                           <!--end::Input group-->
+                                           
+                                           <!--begin::Input group-->
+                                           <div class="fv-row mb-9">
+                                              <!--begin::Label-->
+                                              <label class="fs-6 fw-semibold mb-2">Tests à effectuer</label>
+                                              <!--end::Label-->
+                                              <!--begin::Input-->
+                                              <select class="form-select form-select-solid" name="calendar_tests[]" id="calendar_tests" multiple>
+                                                  <?php
+                                                  // Récupérer tous les tests disponibles
+                                                  $availableTests = $tests->find([
+                                                      'active' => true
+                                                  ]);
+                                                  
+                                                  foreach ($availableTests as $test) {
+                                                      echo '<option value="' . $test['_id'] . '">' .
+                                                           htmlspecialchars($test['name']) . ' (' .
+                                                           htmlspecialchars($test['level']) . ' - ' .
+                                                           htmlspecialchars($test['type']) . ')</option>';
+                                                  }
+                                                  ?>
+                                              </select>
+                                              <!--end::Input-->
+                                           </div>
+                                           <!--end::Input group-->
+                                       </div>
+                                       <!--end::Test options-->
                                        <!--begin::Input group-->
                                        <div class="fv-row mb-9">
                                           <!--begin::Checkbox-->
@@ -878,7 +965,23 @@ var KTAppCalendar = function () {
         });
     }
 
-    // Populate form 
+    // Toggle test options based on event type selection
+    const toggleTestOptions = () => {
+        const eventTypeSelect = document.querySelector('#calendar_event_type');
+        const testOptions = document.querySelector('#test_options');
+        
+        if (eventTypeSelect && testOptions) {
+            eventTypeSelect.addEventListener('change', function() {
+                if (this.value === 'test') {
+                    testOptions.style.display = 'block';
+                } else {
+                    testOptions.style.display = 'none';
+                }
+            });
+        }
+    }
+
+    // Populate form
     const populateForm = () => {
         eventName.value = data.eventName ? data.eventName : '';
         eventDescription.value = data.eventDescription ? data.eventDescription : '';
