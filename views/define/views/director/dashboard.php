@@ -914,7 +914,7 @@ $validatedPercentage = calculatePercentage($globalStats['validatedTrainingCount'
                 border-radius: 20px;
                 overflow: hidden;">
         <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-                    filter: blur(5px);
+                    filter: blur(8px); opacity: 0.6;
                     transform: scale(1.05);
                     background-image: url('/MEDACAP/public/images/welcome_tech.png');
                     background-size: cover;
@@ -971,8 +971,8 @@ $validatedPercentage = calculatePercentage($globalStats['validatedTrainingCount'
                 <!-- Statistics Cards -->
                 <div class="d-flex flex-nowrap align-items-center justify-content-between mb-5 overflow-auto" id="statsContainer" style="gap: 5px; padding: 10px 0;">
                     <!-- Junior Technicians -->
-                    <div class="flex-grow-1" style="min-width: 400px; max-width: 220px;">
-                        <div class="card stats-card glass-effect depth-effect h-100">
+                    <div class="flex-grow-1" style="min-width: 400px; max-width: 300px;">
+                        <div class="card stats-card glass-effect depth-effect h-100" style="background-color:#E0F2FF;">
                             <div class="card-body text-center p-2">
                                 <div class="big-number mb-2" id="juniorTechnicians" data-value="<?php echo $globalStats['juniorCount']; ?>"><?php echo number_format($globalStats['juniorCount']); ?></div>
                                 <div class="card-title-text">Techniciens Junior</div>
@@ -986,8 +986,8 @@ $validatedPercentage = calculatePercentage($globalStats['validatedTrainingCount'
                     </div>
 
                     <!-- Senior Technicians -->
-                    <div class="flex-grow-1" style="min-width: 400px; max-width: 220px;">
-                        <div class="card stats-card glass-effect depth-effect h-100">
+                    <div class="flex-grow-1" style="min-width: 400px; max-width: 300px;">
+                        <div class="card stats-card glass-effect depth-effect h-100" style="background-color:#FFF4E0;">
                             <div class="card-body text-center p-2">
                                 <div class="big-number mb-2" id="seniorTechnicians" data-value="<?php echo $globalStats['seniorCount']; ?>"><?php echo number_format($globalStats['seniorCount']); ?></div>
                                 <div class="card-title-text">Techniciens Senior</div>
@@ -1001,8 +1001,8 @@ $validatedPercentage = calculatePercentage($globalStats['validatedTrainingCount'
                     </div>
 
                     <!-- Expert Technicians -->
-                    <div class="flex-grow-1" style="min-width: 400px; max-width: 220px;">
-                        <div class="card stats-card glass-effect depth-effect h-100">
+                    <div class="flex-grow-1" style="min-width: 400px; max-width: 300px;">
+                        <div class="card stats-card glass-effect depth-effect h-100" style="background-color:#FFE0E0;">
                             <div class="card-body text-center p-2">
                                 <div class="big-number mb-2" id="expertTechnicians" data-value="<?php echo $globalStats['expertCount']; ?>"><?php echo number_format($globalStats['expertCount']); ?></div>
                                 <div class="card-title-text">Techniciens Expert</div>
@@ -1016,7 +1016,7 @@ $validatedPercentage = calculatePercentage($globalStats['validatedTrainingCount'
                     </div>
 
                     <!-- All Levels Technicians -->
-                    <div class="flex-grow-1" style="min-width: 350px; max-width: 220px;">
+                    <div class="flex-grow-1" style="min-width: 350px; max-width: 300px;">
                         <div class="card stats-card glass-effect depth-effect h-100">
                             <div class="card-body text-center p-2">
                                 <div class="big-number mb-2" id="allLevelsTechnicians" data-value="<?php echo $globalStats['totalTechnicians']; ?>"><?php echo number_format($globalStats['totalTechnicians']); ?></div>
@@ -1040,9 +1040,9 @@ $validatedPercentage = calculatePercentage($globalStats['validatedTrainingCount'
                 <div class="d-flex flex-nowrap align-items-center justify-content-between mb-5 mt-5 fade-in overflow-auto" style="animation-delay:.2s; gap: 10px; padding: 10px 0;">
                 <?php
                 $levelsTests = [
-                    ['key' => 'Junior', 'label' => 'JUNIOR', 'badge' => '#8b5cf6', 'pif' => $nbPifJunior, 'valid' => $nbValidJunior, 'total' => $globalStats['juniorCount']],
-                    ['key' => 'Senior', 'label' => 'SENIOR', 'badge' => '#8b5cf6', 'pif' => $nbPifSenior, 'valid' => $nbValidSenior, 'total' => $globalStats['seniorCount']],
-                    ['key' => 'Expert', 'label' => 'EXPERT', 'badge' => '#8b5cf6', 'pif' => $nbPifExpert, 'valid' => $nbValidExpert, 'total' => $globalStats['expertCount']],
+                    ['key' => 'Junior', 'label' => 'JUNIOR', 'badge' => '#E0F2FF', 'pif' => $nbPifJunior, 'valid' => $nbValidJunior, 'total' => $globalStats['juniorCount']],
+                    ['key' => 'Senior', 'label' => 'SENIOR', 'badge' => '#FFF4E0', 'pif' => $nbPifSenior, 'valid' => $nbValidSenior, 'total' => $globalStats['seniorCount']],
+                    ['key' => 'Expert', 'label' => 'EXPERT', 'badge' => '#FFE0E0', 'pif' => $nbPifExpert, 'valid' => $nbValidExpert, 'total' => $globalStats['expertCount']],
                 ];
 
                 foreach ($levelsTests as $index => $lvl):
