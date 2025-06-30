@@ -1923,6 +1923,10 @@ document.addEventListener('DOMContentLoaded', function() {
                             beginAtZero: true,
                             ticks: {
                                 precision: 0
+                            },
+                            title: {
+                                display: true,
+                                text: 'Nombre de Modules de Formations proposés'
                             }
                         }
                     },
@@ -1937,6 +1941,9 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Add brand logos after chart is rendered
             positionBrandLogos(trainingChart, chartData.brandStats);
+            window.addEventListener('resize', () => {
+                positionBrandLogos(trainingChart, chartData.brandStats);
+            });
         }
     }
 
@@ -2349,12 +2356,19 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Calculate positions based on chart scale
         const xScale = chart.scales.x;
-        const chartWidth = chart.width;
+        const datasetMeta0 = chart.getDatasetMeta(0);
+        const datasetMeta1 = chart.getDatasetMeta(1);
         
         // Loop through each brand to create and position its logo
         brands.forEach((brand, index) => {
-            // Calculate the center position of each bar
-            const xPos = xScale.getPixelForValue(index);
+            let xPos = xScale.getPixelForValue(index);
+            if (datasetMeta0 && datasetMeta1) {
+                const bar0 = datasetMeta0.data[index];
+                const bar1 = datasetMeta1.data[index];
+                if (bar0 && bar1) {
+                    xPos = (bar0.x + bar1.x) / 2;
+                }
+            }
             
             // Create logo container
             const logoDiv = document.createElement('div');
