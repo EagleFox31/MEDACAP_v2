@@ -39,6 +39,18 @@ $brandScores = $filterController->getBrandScores($filters);
 $brandStats = $filterController->getBrandStats($filters);
 $trainingStats = $filterController->getTrainingStats($filters);
 $technicianSummary = $filterController->getTechnicianSummary($filters);
+// Nouveaux calculs pour l'histogramme Formations proposées / validées
+$trainingValidationStats = $filterController->getTrainingValidationStats($filters);
+$trainingsCountsForGraph2 = $trainingValidationStats['trainingsCounts'];
+$validationsCountsForGraph2 = $trainingValidationStats['validationsCounts'];
+foreach (array_keys($brandStats) as $brand) {
+    if (!isset($trainingsCountsForGraph2[$brand])) {
+        $trainingsCountsForGraph2[$brand] = 0;
+    }
+    if (!isset($validationsCountsForGraph2[$brand])) {
+        $validationsCountsForGraph2[$brand] = 0;
+    }
+}
 // $globalStats = $filterController->getGlobalStats($filters);
 // $levelStats = $filterController->getLevelStats($filters);
 // $brandScores = $filterController->getBrandScores($filters);
@@ -1798,6 +1810,8 @@ document.addEventListener('DOMContentLoaded', function() {
         brandScores: <?php echo json_encode($brandScores, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP); ?>,
         brandStats: <?php echo json_encode(array_keys($brandStats), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP); ?>,
         trainingStats: <?php echo json_encode($trainingStats, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP); ?>,
+        trainingsCountsForGraph2: <?php echo json_encode($trainingsCountsForGraph2, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP); ?>,
+        validationsCountsForGraph2: <?php echo json_encode($validationsCountsForGraph2, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP); ?>,
         brandHours: <?php echo json_encode($globalStats['trainingDays'] ?? 0, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP); ?>,
         brandLogos: {
             'RENAULT TRUCK': 'renaultTrucks.png',
@@ -1838,17 +1852,10 @@ document.addEventListener('DOMContentLoaded', function() {
             // Prepare data for the chart - ensure we have values for each brand
             const recommendedData = [];
             const validatedData = [];
-            
-            // Make sure we're handling brand data correctly even if structure is incomplete
+
             chartData.brandStats.forEach(brand => {
-                if (chartData.trainingStats && chartData.trainingStats.brandTrainings) {
-                    recommendedData.push(chartData.trainingStats.brandTrainings[brand]?.recommended || 0);
-                    validatedData.push(chartData.trainingStats.brandTrainings[brand]?.validated || 0);
-                } else {
-                    // Fallback if structure is not as expected
-                    recommendedData.push(Math.floor(Math.random() * 20)); // Development fallback
-                    validatedData.push(Math.floor(Math.random() * 10)); // Development fallback
-                }
+                recommendedData.push(chartData.trainingsCountsForGraph2[brand] ?? 0);
+                validatedData.push(chartData.validationsCountsForGraph2[brand] ?? 0);
             });
             
             console.log("Chart data prepared:", {
@@ -1916,6 +1923,10 @@ document.addEventListener('DOMContentLoaded', function() {
                             beginAtZero: true,
                             ticks: {
                                 precision: 0
+                            },
+                            title: {
+                                display: true,
+                                text: 'Nombre de Modules de Formations proposés'
                             }
                         }
                     },
@@ -1930,6 +1941,9 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Add brand logos after chart is rendered
             positionBrandLogos(trainingChart, chartData.brandStats);
+            window.addEventListener('resize', () => {
+                positionBrandLogos(trainingChart, chartData.brandStats);
+            });
         }
     }
 
@@ -2342,12 +2356,19 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Calculate positions based on chart scale
         const xScale = chart.scales.x;
-        const chartWidth = chart.width;
+        const datasetMeta0 = chart.getDatasetMeta(0);
+        const datasetMeta1 = chart.getDatasetMeta(1);
         
         // Loop through each brand to create and position its logo
         brands.forEach((brand, index) => {
-            // Calculate the center position of each bar
-            const xPos = xScale.getPixelForValue(index);
+            let xPos = xScale.getPixelForValue(index);
+            if (datasetMeta0 && datasetMeta1) {
+                const bar0 = datasetMeta0.data[index];
+                const bar1 = datasetMeta1.data[index];
+                if (bar0 && bar1) {
+                    xPos = (bar0.x + bar1.x) / 2;
+                }
+            }
             
             // Create logo container
             const logoDiv = document.createElement('div');
