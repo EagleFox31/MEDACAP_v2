@@ -1040,9 +1040,11 @@ $validatedPercentage = calculatePercentage($globalStats['validatedTrainingCount'
                 <div class="d-flex flex-nowrap align-items-center justify-content-between mb-5 mt-5 fade-in overflow-auto" style="animation-delay:.2s; gap: 10px; padding: 10px 0;">
                 <?php
                 $levelsTests = [
+
                     ['key' => 'Junior', 'label' => 'JUNIOR', 'badge' => '#FFFFFF', 'pif' => $nbPifJunior, 'valid' => $nbValidJunior, 'total' => $globalStats['juniorCount']],
                     ['key' => 'Senior', 'label' => 'SENIOR', 'badge' => '#FFFFFF', 'pif' => $nbPifSenior, 'valid' => $nbValidSenior, 'total' => $globalStats['seniorCount']],
                     ['key' => 'Expert', 'label' => 'EXPERT', 'badge' => '#FFFFFF', 'pif' => $nbPifExpert, 'valid' => $nbValidExpert, 'total' => $globalStats['expertCount']],
+
                 ];
 
                 foreach ($levelsTests as $index => $lvl):
