@@ -39,6 +39,18 @@ $brandScores = $filterController->getBrandScores($filters);
 $brandStats = $filterController->getBrandStats($filters);
 $trainingStats = $filterController->getTrainingStats($filters);
 $technicianSummary = $filterController->getTechnicianSummary($filters);
+// Nouveaux calculs pour l'histogramme Formations proposées / validées
+$trainingValidationStats = $filterController->getTrainingValidationStats($filters);
+$trainingsCountsForGraph2 = $trainingValidationStats['trainingsCounts'];
+$validationsCountsForGraph2 = $trainingValidationStats['validationsCounts'];
+foreach (array_keys($brandStats) as $brand) {
+    if (!isset($trainingsCountsForGraph2[$brand])) {
+        $trainingsCountsForGraph2[$brand] = 0;
+    }
+    if (!isset($validationsCountsForGraph2[$brand])) {
+        $validationsCountsForGraph2[$brand] = 0;
+    }
+}
 // $globalStats = $filterController->getGlobalStats($filters);
 // $levelStats = $filterController->getLevelStats($filters);
 // $brandScores = $filterController->getBrandScores($filters);
@@ -902,7 +914,7 @@ $validatedPercentage = calculatePercentage($globalStats['validatedTrainingCount'
                 border-radius: 20px;
                 overflow: hidden;">
         <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-                    filter: blur(5px);
+                    filter: blur(8px); opacity: 0.6;
                     transform: scale(1.05);
                     background-image: url('/MEDACAP/public/images/welcome_tech.png');
                     background-size: cover;
@@ -959,8 +971,8 @@ $validatedPercentage = calculatePercentage($globalStats['validatedTrainingCount'
                 <!-- Statistics Cards -->
                 <div class="d-flex flex-nowrap align-items-center justify-content-between mb-5 overflow-auto" id="statsContainer" style="gap: 5px; padding: 10px 0;">
                     <!-- Junior Technicians -->
-                    <div class="flex-grow-1" style="min-width: 400px; max-width: 220px;">
-                        <div class="card stats-card glass-effect depth-effect h-100">
+                    <div class="flex-grow-1" style="min-width: 400px; max-width: 300px;">
+                        <div class="card stats-card glass-effect depth-effect h-100" style="background-color:#E0F2FF;">
                             <div class="card-body text-center p-2">
                                 <div class="big-number mb-2" id="juniorTechnicians" data-value="<?php echo $globalStats['juniorCount']; ?>"><?php echo number_format($globalStats['juniorCount']); ?></div>
                                 <div class="card-title-text">Techniciens Junior</div>
@@ -974,8 +986,8 @@ $validatedPercentage = calculatePercentage($globalStats['validatedTrainingCount'
                     </div>
 
                     <!-- Senior Technicians -->
-                    <div class="flex-grow-1" style="min-width: 400px; max-width: 220px;">
-                        <div class="card stats-card glass-effect depth-effect h-100">
+                    <div class="flex-grow-1" style="min-width: 400px; max-width: 300px;">
+                        <div class="card stats-card glass-effect depth-effect h-100" style="background-color:#FFF4E0;">
                             <div class="card-body text-center p-2">
                                 <div class="big-number mb-2" id="seniorTechnicians" data-value="<?php echo $globalStats['seniorCount']; ?>"><?php echo number_format($globalStats['seniorCount']); ?></div>
                                 <div class="card-title-text">Techniciens Senior</div>
@@ -989,8 +1001,8 @@ $validatedPercentage = calculatePercentage($globalStats['validatedTrainingCount'
                     </div>
 
                     <!-- Expert Technicians -->
-                    <div class="flex-grow-1" style="min-width: 400px; max-width: 220px;">
-                        <div class="card stats-card glass-effect depth-effect h-100">
+                    <div class="flex-grow-1" style="min-width: 400px; max-width: 300px;">
+                        <div class="card stats-card glass-effect depth-effect h-100" style="background-color:#FFE0E0;">
                             <div class="card-body text-center p-2">
                                 <div class="big-number mb-2" id="expertTechnicians" data-value="<?php echo $globalStats['expertCount']; ?>"><?php echo number_format($globalStats['expertCount']); ?></div>
                                 <div class="card-title-text">Techniciens Expert</div>
@@ -1004,7 +1016,7 @@ $validatedPercentage = calculatePercentage($globalStats['validatedTrainingCount'
                     </div>
 
                     <!-- All Levels Technicians -->
-                    <div class="flex-grow-1" style="min-width: 350px; max-width: 220px;">
+                    <div class="flex-grow-1" style="min-width: 350px; max-width: 300px;">
                         <div class="card stats-card glass-effect depth-effect h-100">
                             <div class="card-body text-center p-2">
                                 <div class="big-number mb-2" id="allLevelsTechnicians" data-value="<?php echo $globalStats['totalTechnicians']; ?>"><?php echo number_format($globalStats['totalTechnicians']); ?></div>
@@ -1028,9 +1040,9 @@ $validatedPercentage = calculatePercentage($globalStats['validatedTrainingCount'
                 <div class="d-flex flex-nowrap align-items-center justify-content-between mb-5 mt-5 fade-in overflow-auto" style="animation-delay:.2s; gap: 10px; padding: 10px 0;">
                 <?php
                 $levelsTests = [
-                    ['key' => 'Junior', 'label' => 'JUNIOR', 'badge' => '#8b5cf6', 'pif' => $nbPifJunior, 'valid' => $nbValidJunior, 'total' => $globalStats['juniorCount']],
-                    ['key' => 'Senior', 'label' => 'SENIOR', 'badge' => '#8b5cf6', 'pif' => $nbPifSenior, 'valid' => $nbValidSenior, 'total' => $globalStats['seniorCount']],
-                    ['key' => 'Expert', 'label' => 'EXPERT', 'badge' => '#8b5cf6', 'pif' => $nbPifExpert, 'valid' => $nbValidExpert, 'total' => $globalStats['expertCount']],
+                    ['key' => 'Junior', 'label' => 'JUNIOR', 'badge' => '#E0F2FF', 'pif' => $nbPifJunior, 'valid' => $nbValidJunior, 'total' => $globalStats['juniorCount']],
+                    ['key' => 'Senior', 'label' => 'SENIOR', 'badge' => '#FFF4E0', 'pif' => $nbPifSenior, 'valid' => $nbValidSenior, 'total' => $globalStats['seniorCount']],
+                    ['key' => 'Expert', 'label' => 'EXPERT', 'badge' => '#FFE0E0', 'pif' => $nbPifExpert, 'valid' => $nbValidExpert, 'total' => $globalStats['expertCount']],
                 ];
 
                 foreach ($levelsTests as $index => $lvl):
@@ -1798,6 +1810,8 @@ document.addEventListener('DOMContentLoaded', function() {
         brandScores: <?php echo json_encode($brandScores, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP); ?>,
         brandStats: <?php echo json_encode(array_keys($brandStats), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP); ?>,
         trainingStats: <?php echo json_encode($trainingStats, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP); ?>,
+        trainingsCountsForGraph2: <?php echo json_encode($trainingsCountsForGraph2, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP); ?>,
+        validationsCountsForGraph2: <?php echo json_encode($validationsCountsForGraph2, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP); ?>,
         brandHours: <?php echo json_encode($globalStats['trainingDays'] ?? 0, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP); ?>,
         brandLogos: {
             'RENAULT TRUCK': 'renaultTrucks.png',
@@ -1838,17 +1852,10 @@ document.addEventListener('DOMContentLoaded', function() {
             // Prepare data for the chart - ensure we have values for each brand
             const recommendedData = [];
             const validatedData = [];
-            
-            // Make sure we're handling brand data correctly even if structure is incomplete
+
             chartData.brandStats.forEach(brand => {
-                if (chartData.trainingStats && chartData.trainingStats.brandTrainings) {
-                    recommendedData.push(chartData.trainingStats.brandTrainings[brand]?.recommended || 0);
-                    validatedData.push(chartData.trainingStats.brandTrainings[brand]?.validated || 0);
-                } else {
-                    // Fallback if structure is not as expected
-                    recommendedData.push(Math.floor(Math.random() * 20)); // Development fallback
-                    validatedData.push(Math.floor(Math.random() * 10)); // Development fallback
-                }
+                recommendedData.push(chartData.trainingsCountsForGraph2[brand] ?? 0);
+                validatedData.push(chartData.validationsCountsForGraph2[brand] ?? 0);
             });
             
             console.log("Chart data prepared:", {
@@ -1916,6 +1923,10 @@ document.addEventListener('DOMContentLoaded', function() {
                             beginAtZero: true,
                             ticks: {
                                 precision: 0
+                            },
+                            title: {
+                                display: true,
+                                text: 'Nombre de Modules de Formations proposés'
                             }
                         }
                     },
@@ -1930,6 +1941,9 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Add brand logos after chart is rendered
             positionBrandLogos(trainingChart, chartData.brandStats);
+            window.addEventListener('resize', () => {
+                positionBrandLogos(trainingChart, chartData.brandStats);
+            });
         }
     }
 
@@ -2342,12 +2356,19 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Calculate positions based on chart scale
         const xScale = chart.scales.x;
-        const chartWidth = chart.width;
+        const datasetMeta0 = chart.getDatasetMeta(0);
+        const datasetMeta1 = chart.getDatasetMeta(1);
         
         // Loop through each brand to create and position its logo
         brands.forEach((brand, index) => {
-            // Calculate the center position of each bar
-            const xPos = xScale.getPixelForValue(index);
+            let xPos = xScale.getPixelForValue(index);
+            if (datasetMeta0 && datasetMeta1) {
+                const bar0 = datasetMeta0.data[index];
+                const bar1 = datasetMeta1.data[index];
+                if (bar0 && bar1) {
+                    xPos = (bar0.x + bar1.x) / 2;
+                }
+            }
             
             // Create logo container
             const logoDiv = document.createElement('div');
