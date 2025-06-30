@@ -1,4 +1,5 @@
 <?php
+use MongoDB\BSON\ObjectId;
 /**
  * Contrôleur de gestion des filtres pour les dashboards
  * Implémente le système de filtrage avancé avec les dépendances hiérarchiques
@@ -1082,5 +1083,107 @@ class FilterController {
         }
         
         return $summary;
+    }
+
+    /**
+     * Calcule le nombre de formations proposées et validées par marque
+     * en appliquant les filtres spécifiés.
+     *
+     * @param array $filters Filtres du dashboard
+     * @return array [ 'trainingsCounts' => [], 'validationsCounts' => [] ]
+     */
+    public function getTrainingValidationStats($filters = []) {
+        $result = [
+            'trainingsCounts'   => [],
+            'validationsCounts' => []
+        ];
+
+        if (!$this->academy) {
+            return $result;
+        }
+
+        try {
+            $techQuery = array_merge(
+                $this->getTechOrTestManagerClause(),
+                ['active' => true]
+            );
+
+            if (isset($filters['subsidiary']) && $filters['subsidiary'] !== 'all') {
+                $techQuery['subsidiary'] = $filters['subsidiary'];
+            }
+            if (isset($filters['agency']) && $filters['agency'] !== 'all') {
+                $techQuery['agency'] = $filters['agency'];
+            }
+            if (isset($filters['managerId']) && $filters['managerId'] !== 'all') {
+                $techQuery['manager'] = $filters['managerId'];
+            }
+            if (isset($filters['technicianId']) && $filters['technicianId'] !== 'all') {
+                $techQuery['_id'] = new ObjectId($filters['technicianId']);
+            }
+            if (isset($filters['level']) && $filters['level'] !== 'all') {
+                $techQuery['level'] = $filters['level'];
+            }
+
+            $techCursor = $this->academy->users->find($techQuery, ['projection' => ['_id' => 1]]);
+            $techIds   = [];
+            foreach ($techCursor as $doc) {
+                $techIds[] = $doc['_id'];
+            }
+
+            if (empty($techIds)) {
+                return $result;
+            }
+
+            $trainMatch = [
+                'active' => true,
+                'users'  => ['$in' => $techIds]
+            ];
+            if (isset($filters['brand']) && $filters['brand'] !== 'all') {
+                $trainMatch['brand'] = $filters['brand'];
+            }
+            if (isset($filters['level']) && $filters['level'] !== 'all') {
+                $trainMatch['level'] = $filters['level'];
+            }
+
+            $pipelineTrain = [
+                ['$match' => $trainMatch],
+                ['$group' => [ '_id' => '$brand', 'count' => ['$sum' => 1]]]
+            ];
+
+            foreach ($this->academy->trainings->aggregate($pipelineTrain) as $doc) {
+                $brand = (string)$doc->_id;
+                $result['trainingsCounts'][$brand] = (int)$doc->count;
+            }
+
+            $validPipeline = [
+                ['$match' => ['status' => 'Validé', 'user' => ['$in' => $techIds]]],
+                ['$lookup' => [
+                    'from'         => 'trainings',
+                    'localField'   => 'training',
+                    'foreignField' => '_id',
+                    'as'           => 'training'
+                ]],
+                ['$unwind' => '$training']
+            ];
+
+            if (isset($filters['brand']) && $filters['brand'] !== 'all') {
+                $validPipeline[] = ['$match' => ['training.brand' => $filters['brand']]];
+            }
+            if (isset($filters['level']) && $filters['level'] !== 'all') {
+                $validPipeline[] = ['$match' => ['training.level' => $filters['level']]];
+            }
+
+            $validPipeline[] = ['$group' => [ '_id' => '$training.brand', 'count' => ['$sum' => 1]]];
+
+            foreach ($this->academy->validations->aggregate($validPipeline) as $doc) {
+                $brand = (string)$doc->_id;
+                $result['validationsCounts'][$brand] = (int)$doc->count;
+            }
+
+        } catch (Exception $e) {
+            error_log('Erreur getTrainingValidationStats: ' . $e->getMessage());
+        }
+
+        return $result;
     }
 }
