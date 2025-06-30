@@ -39,6 +39,18 @@ $brandScores = $filterController->getBrandScores($filters);
 $brandStats = $filterController->getBrandStats($filters);
 $trainingStats = $filterController->getTrainingStats($filters);
 $technicianSummary = $filterController->getTechnicianSummary($filters);
+// Nouveaux calculs pour l'histogramme Formations proposées / validées
+$trainingValidationStats = $filterController->getTrainingValidationStats($filters);
+$trainingsCountsForGraph2 = $trainingValidationStats['trainingsCounts'];
+$validationsCountsForGraph2 = $trainingValidationStats['validationsCounts'];
+foreach (array_keys($brandStats) as $brand) {
+    if (!isset($trainingsCountsForGraph2[$brand])) {
+        $trainingsCountsForGraph2[$brand] = 0;
+    }
+    if (!isset($validationsCountsForGraph2[$brand])) {
+        $validationsCountsForGraph2[$brand] = 0;
+    }
+}
 // $globalStats = $filterController->getGlobalStats($filters);
 // $levelStats = $filterController->getLevelStats($filters);
 // $brandScores = $filterController->getBrandScores($filters);
@@ -1798,6 +1810,8 @@ document.addEventListener('DOMContentLoaded', function() {
         brandScores: <?php echo json_encode($brandScores, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP); ?>,
         brandStats: <?php echo json_encode(array_keys($brandStats), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP); ?>,
         trainingStats: <?php echo json_encode($trainingStats, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP); ?>,
+        trainingsCountsForGraph2: <?php echo json_encode($trainingsCountsForGraph2, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP); ?>,
+        validationsCountsForGraph2: <?php echo json_encode($validationsCountsForGraph2, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP); ?>,
         brandHours: <?php echo json_encode($globalStats['trainingDays'] ?? 0, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP); ?>,
         brandLogos: {
             'RENAULT TRUCK': 'renaultTrucks.png',
@@ -1838,17 +1852,10 @@ document.addEventListener('DOMContentLoaded', function() {
             // Prepare data for the chart - ensure we have values for each brand
             const recommendedData = [];
             const validatedData = [];
-            
-            // Make sure we're handling brand data correctly even if structure is incomplete
+
             chartData.brandStats.forEach(brand => {
-                if (chartData.trainingStats && chartData.trainingStats.brandTrainings) {
-                    recommendedData.push(chartData.trainingStats.brandTrainings[brand]?.recommended || 0);
-                    validatedData.push(chartData.trainingStats.brandTrainings[brand]?.validated || 0);
-                } else {
-                    // Fallback if structure is not as expected
-                    recommendedData.push(Math.floor(Math.random() * 20)); // Development fallback
-                    validatedData.push(Math.floor(Math.random() * 10)); // Development fallback
-                }
+                recommendedData.push(chartData.trainingsCountsForGraph2[brand] ?? 0);
+                validatedData.push(chartData.validationsCountsForGraph2[brand] ?? 0);
             });
             
             console.log("Chart data prepared:", {
