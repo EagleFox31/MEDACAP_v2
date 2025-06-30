@@ -209,7 +209,7 @@ $validatedPercentage = calculatePercentage($globalStats['validatedTrainingCount'
     h1 {
         color: var(--primary-black);
         font-weight: 700;
-        font-size: 2.5rem;
+        font-size: 3rem;
         margin-bottom: 2rem;
         letter-spacing: -0.025em;
     }
@@ -939,7 +939,7 @@ $validatedPercentage = calculatePercentage($globalStats['validatedTrainingCount'
         <div class="row">
             <div class="col-12">
                 <!-- Titre principal dans une carte glassmorphisme -->
-                <div class="card glass-effect depth-effect mb-5">
+                <div class="card depth-effect mb-5" style="background-color: white;">
                     <div class="card-body text-center py-4">
                         <h1 class="mb-0"><i class="ki-duotone ki-document fs-2 me-5">
                             <span class="path1"></span>
@@ -952,12 +952,12 @@ $validatedPercentage = calculatePercentage($globalStats['validatedTrainingCount'
                 <!-- Sous-titre dans une carte glassmorphisme -->
                 <div class="card glass-effect depth-effect mb-5">
                     <div class="card-body text-center py-3">
-                        <h2 class="text-contrast mb-0"><i class="ki-duotone ki-people fs-2 me-3">
+                        <h1 class="text-contrast mb-0"><i class="ki-duotone ki-people fs-2 me-3">
                             <span class="path1"></span>
                             <span class="path2"></span>
                             <span class="path3"></span>
                             <span class="path4"></span>
-                        </i>Effectifs par Niveau</h2>
+                        </i>Effectifs par Niveau</h1>
                     </div>
                 </div>
                 <br>
@@ -982,7 +982,7 @@ $validatedPercentage = calculatePercentage($globalStats['validatedTrainingCount'
 
                     <!-- Plus Sign -->
                     <div class="d-flex align-items-center justify-content-center">
-                        <div style="color: white; font-size: 28px; font-weight: bold;">+</div>
+                        <div style="color: black; font-size: 32px; font-weight: 900;">+</div>
                     </div>
 
                     <!-- Senior Technicians -->
@@ -997,7 +997,7 @@ $validatedPercentage = calculatePercentage($globalStats['validatedTrainingCount'
 
                     <!-- Plus Sign -->
                     <div class="d-flex align-items-center justify-content-center">
-                        <div style="color: white; font-size: 28px; font-weight: bold;">+</div>
+                        <div style="color: black; font-size: 32px; font-weight: 900;">+</div>
                     </div>
 
                     <!-- Expert Technicians -->
@@ -1012,7 +1012,7 @@ $validatedPercentage = calculatePercentage($globalStats['validatedTrainingCount'
 
                     <!-- Equals Sign -->
                     <div class="d-flex align-items-center justify-content-center">
-                        <div style="color: white; font-size: 28px; font-weight: bold;">=</div>
+                        <div style="color: black; font-size: 32px; font-weight: 900;">=</div>
                     </div>
 
                     <!-- All Levels Technicians -->
@@ -1030,19 +1030,21 @@ $validatedPercentage = calculatePercentage($globalStats['validatedTrainingCount'
                 <!-- Sous-titre dans une carte glassmorphisme -->
                 <div class="card glass-effect depth-effect mb-5">
                     <div class="card-body text-center py-3">
-                        <h2 class="text-contrast mb-0"><i class="ki-duotone ki-check-circle fs-2 me-3">
+                        <h1 class="text-contrast mb-0"><i class="ki-duotone ki-check-circle fs-2 me-3">
                             <span class="path1"></span>
                             <span class="path2"></span>
-                        </i>État d'avancement des validations des PIFs proposés par l'Academy par Niveau</h2>
+                        </i>État d'avancement des validations des PIFs proposés par l'Academy par Niveau</h1>
                     </div>
                 </div>
 
                 <div class="d-flex flex-nowrap align-items-center justify-content-between mb-5 mt-5 fade-in overflow-auto" style="animation-delay:.2s; gap: 10px; padding: 10px 0;">
                 <?php
                 $levelsTests = [
-                    ['key' => 'Junior', 'label' => 'JUNIOR', 'badge' => '#E0F2FF', 'pif' => $nbPifJunior, 'valid' => $nbValidJunior, 'total' => $globalStats['juniorCount']],
-                    ['key' => 'Senior', 'label' => 'SENIOR', 'badge' => '#FFF4E0', 'pif' => $nbPifSenior, 'valid' => $nbValidSenior, 'total' => $globalStats['seniorCount']],
-                    ['key' => 'Expert', 'label' => 'EXPERT', 'badge' => '#FFE0E0', 'pif' => $nbPifExpert, 'valid' => $nbValidExpert, 'total' => $globalStats['expertCount']],
+
+                    ['key' => 'Junior', 'label' => 'JUNIOR', 'badge' => '#FFFFFF', 'pif' => $nbPifJunior, 'valid' => $nbValidJunior, 'total' => $globalStats['juniorCount']],
+                    ['key' => 'Senior', 'label' => 'SENIOR', 'badge' => '#FFFFFF', 'pif' => $nbPifSenior, 'valid' => $nbValidSenior, 'total' => $globalStats['seniorCount']],
+                    ['key' => 'Expert', 'label' => 'EXPERT', 'badge' => '#FFFFFF', 'pif' => $nbPifExpert, 'valid' => $nbValidExpert, 'total' => $globalStats['expertCount']],
+
                 ];
 
                 foreach ($levelsTests as $index => $lvl):
@@ -1060,7 +1062,7 @@ $validatedPercentage = calculatePercentage($globalStats['validatedTrainingCount'
                     // Afficher le signe "+" après chaque carte sauf la dernière
                     if ($index > 0) {
                         echo '<div class="d-flex align-items-center justify-content-center">';
-                        echo '<div style="color: white; font-size: 28px; font-weight: bold;">+</div>';
+                        echo '<div style="color: black; font-size: 32px; font-weight: 900;">+</div>';
                         echo '</div>';
                     }
                 ?>
@@ -1283,7 +1285,7 @@ $validatedPercentage = calculatePercentage($globalStats['validatedTrainingCount'
                 ?>
                 <!-- Signe égal avant la carte "Tous Niveaux" -->
                 <div class="d-flex align-items-center justify-content-center">
-                    <div style="color: white; font-size: 28px; font-weight: bold;">=</div>
+                    <div style="color: black; font-size: 32px; font-weight: 900;">=</div>
                 </div>
 
                 <div class="flex-grow-1" style="min-width: 350px;">
