@@ -418,6 +418,7 @@ class FilterController {
         
         if ($this->academy && $subsidiary !== 'all') {
             try {
+                error_log('[FilterController] Fetching agencies for ' . $subsidiary);
                 // Requête insensible à la casse pour éviter les problèmes de
                 // variations d'écriture dans la base
                 $query = [
@@ -427,10 +428,11 @@ class FilterController {
 
 
                 // Récupérer toutes les agences distinctes pour la filiale spécifiée
-               $agencies = $this->academy->users->distinct('agency', $query);
+                $agencies = $this->academy->users->distinct('agency', $query);
 
                 // Nettoyer et dédupliquer les valeurs récupérées
                 $agencies = array_values(array_unique(array_map('trim', $agencies)));
+                error_log('[FilterController] Agencies found: ' . json_encode($agencies));
             } catch (Exception $e) {
                 error_log("Erreur lors de la récupération des agences: " . $e->getMessage());
             }
