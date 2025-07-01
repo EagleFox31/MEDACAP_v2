@@ -1722,7 +1722,6 @@
         </div>
     </div>
     <!--end::Content-->
-
     <!-- Serialized chart data for AJAX refresh -->
     <script id="chart-data" type="application/json">
         <?php echo json_encode([
@@ -1752,8 +1751,7 @@
                 'PEUGEOT' => 'peugeot-logo.png'
             ]
         ], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP); ?>
-    </script>
-
+    </script>                                       
 
     <script>
     // Register Chart.js plugin
@@ -1849,8 +1847,17 @@
             const applyFiltersButton = document.getElementById('applyFiltersButton');
             if (applyFiltersButton) {
                 applyFiltersButton.addEventListener('click', function(e) {
+                    console.log("Apply filters button clicked");
                     e.preventDefault();
+                    console.log("Applying filters with current values:", {
+                        country: filters.country ? filters.country.value : 'all',
+                        agency: filters.agency ? filters.agency.value : 'all',
+                        level: filters.level ? filters.level.value : 'all',
+                        brand: filters.brand ? filters.brand.value : 'all',
+                        technician: filters.technician ? filters.technician.value : 'all'
+                    });
                     applyFilters();
+                    console.log("Filters applied, fetching data...");
                     setTimeout(() => {
                         resetAndStartCountUps();
                     }, 1000);
