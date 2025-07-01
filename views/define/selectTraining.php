@@ -769,9 +769,90 @@ if (!isset($_SESSION["profile"])) {
         ? $id                         // déjà bon, on renvoie tel quel
         : new MongoDB\BSON\ObjectId((string) $id);   // sinon on convertit
 }
-    ?>
+?>
 
+<style>
+    :root {
+        --primary-black: #1a1a1a;
+        --primary-red: #dc2626;
+        --primary-navy: #1e3a8a;
+        --secondary-navy: #3b82f6;
+        --light-gray: #f8fafc;
+        --medium-gray: #64748b;
+        --dark-gray: #334155;
+        --white: #ffffff;
+        --border-color: #e2e8f0;
+        --shadow-light: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        --shadow-medium: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        --shadow-large: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        --border-radius: 12px;
+        --border-radius-lg: 16px;
+        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
+    .glass-effect {
+        background: rgba(255, 255, 255, 0.7) !important;
+        backdrop-filter: blur(10px) !important;
+        -webkit-backdrop-filter: blur(10px) !important;
+        border: 1px solid rgba(255, 255, 255, 0.18) !important;
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15) !important;
+        border-radius: 15px !important;
+        transition: all 0.3s ease !important;
+    }
+
+    .glass-effect:hover {
+        background: rgba(255, 255, 255, 0.8) !important;
+        box-shadow: 0 10px 40px 0 rgba(31, 38, 135, 0.2) !important;
+        transform: translateY(-3px) !important;
+    }
+
+    .glass-effect h1, .glass-effect h2 {
+        color: var(--primary-black) !important;
+        font-weight: 700;
+        letter-spacing: -0.025em;
+        text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.5);
+    }
+
+    .depth-effect {
+        transform: translateZ(0);
+        box-shadow:
+            0 4px 6px -1px rgba(0, 0, 0, 0.1),
+            0 2px 4px -1px rgba(0, 0, 0, 0.06),
+            0 12px 20px -2px rgba(0, 0, 0, 0.05) !important;
+        transition: all 0.3s ease-in-out !important;
+    }
+
+    .depth-effect:hover {
+        transform: translateY(-5px) translateZ(0);
+        box-shadow:
+            0 10px 15px -3px rgba(0, 0, 0, 0.1),
+            0 4px 6px -2px rgba(0, 0, 0, 0.05),
+            0 20px 25px -5px rgba(0, 0, 0, 0.03) !important;
+    }
+
+    .card {
+        background: rgba(255, 255, 255, 0.8);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: var(--border-radius);
+        box-shadow:
+            0 4px 6px -1px rgba(0, 0, 0, 0.1),
+            0 2px 4px -1px rgba(0, 0, 0, 0.06),
+            0 0 0 1px rgba(255, 255, 255, 0.3) inset;
+        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        overflow: hidden;
+        margin-bottom: 1.5rem;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+
+    .card:hover {
+        box-shadow:
+            0 10px 25px -5px rgba(0, 0, 0, 0.1),
+            0 10px 10px -5px rgba(0, 0, 0, 0.04),
+            0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+        transform: translateY(-8px);
+    }
+</style>
 
 <?php include_once "partials/header.php"; ?>
 <!--begin::Title-->
@@ -779,8 +860,14 @@ if (!isset($_SESSION["profile"])) {
 <!--end::Title-->
 
 <!--begin::Body-->
-<div class="content fs-6 d-flex flex-column flex-column-fluid" id="kt_content"
+<div class="content fs-6 d-flex flex-column flex-column-fluid" id="kt_content" style="position: relative; background: none;"
     data-select2-id="select2-data-kt_content">
+    <!-- Image en arrière-plan avec bords arrondis -->
+    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background-size: cover; background-position: center; border-radius: 20px; overflow: hidden;">
+        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; filter: blur(10px); transform: scale(1.05); background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.1)), url('/MEDACAP/public/images/welcome_tech.png'); background-size: cover; background-position: center;"></div>
+        <img src="/MEDACAP/views/define/views/director/tof_dashboard_tech.png" alt="Background" style="width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0;">
+        <img src="/MEDACAP/views/define/views/director/tof_dashboard_tech.png" alt="Background" style="width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0;">
+    </div>
     <!--begin::Toolbar-->
     <div class="toolbar" id="kt_toolbar">
         <div class=" container-fluid  d-flex flex-stack flex-wrap flex-sm-nowrap">
@@ -875,7 +962,7 @@ if (!isset($_SESSION["profile"])) {
     <div class="text-center mb-6">
         <div class="row justify-content-center">
             <div class='col-6 col-sm-4 col-md-5'>
-                <div class='card custom-card h-80'>
+            <div class='card glass-effect depth-effect h-80'>
                     <div class='card-body d-flex flex-column justify-content-center align-items-center'>
                         <!--begin::Name-->
                         <!--begin::Animation-->
@@ -894,7 +981,7 @@ if (!isset($_SESSION["profile"])) {
                 </div>
             </div>
             <div class='col-6 col-sm-4 col-md-5'>
-                <div class='card custom-card h-80'>
+            <div class='card glass-effect depth-effect h-80'>
                     <div class='card-body d-flex flex-column justify-content-center align-items-center'>
                         <!--begin::Name-->
                         <!--begin::Animation-->
@@ -918,7 +1005,7 @@ if (!isset($_SESSION["profile"])) {
     <div class="text-center mb-6">
         <div class="row justify-content-center">
             <div class='col-6 col-sm-4 col-md-5'>
-                <div class='card custom-card h-80'>
+            <div class='card glass-effect depth-effect h-80'>
                     <div class='card-body d-flex flex-column justify-content-center align-items-center'>
                         <!--begin::Name-->
                         <!--begin::Animation-->
@@ -937,7 +1024,7 @@ if (!isset($_SESSION["profile"])) {
                 </div>
             </div>
             <div class='col-6 col-sm-4 col-md-5'>
-                <div class='card custom-card h-80'>
+            <div class='card glass-effect depth-effect h-80'>
                     <div class='card-body d-flex flex-column justify-content-center align-items-center'>
                         <!--begin::Name-->
                         <!--begin::Animation-->
@@ -979,7 +1066,7 @@ if (!isset($_SESSION["profile"])) {
             <!--begin::Form-->
             <form name="form" method="POST">
                 <!--begin::Card-->
-                <div class="card">
+                <div class="card glass-effect depth-effect">
                     <!--begin::Card body-->
                     <div class="card-body pt-0">
                         <!--begin::Table-->
