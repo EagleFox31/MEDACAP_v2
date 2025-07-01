@@ -300,6 +300,32 @@ class FilterController {
         
         return $maxLevel;
     }
+
+    private function normalizeBrands($raw): array
+    {
+        // 1. BSONArray → array PHP
+        if ($raw instanceof \MongoDB\Model\BSONArray) {
+            $raw = $raw->getArrayCopy();
+        }
+
+        // 2. Pas un tableau ?  → []
+        if (!is_array($raw)) {
+            return [];
+        }
+
+        // 3. trim + suppression des vides + unicité
+        return array_values(
+            array_unique(
+                array_filter(
+                        array_map('trim', $raw),
+                        function ($v) {
+                            return $v !== '';
+                        }
+                    )
+
+            )
+        );
+    }
     
     /**
      * Trouve les marques communes à tous les techniciens de la liste
@@ -307,37 +333,35 @@ class FilterController {
      * @param array $technicians Liste des techniciens
      * @return array Liste des marques communes
      */
-    private function findCommonBrands($technicians) {
-        $allBrands = [];
-        
-        if (empty($technicians)) {
+    private function findCommonBrands(array $technicians): array
+    {
+        $sets = [];
+
+        foreach ($technicians as $tech) {
+            $sets[] = array_merge(
+                $this->normalizeBrands($tech['brandJunior'] ?? []),
+                $this->normalizeBrands($tech['brandSenior'] ?? []),
+                $this->normalizeBrands($tech['brandExpert'] ?? [])
+            );
+        }
+
+        // Aucun technicien → aucune marque
+        if (empty($sets)) {
             return [];
         }
-        
-        // Collecter toutes les marques de tous les techniciens
-        foreach ($technicians as $tech) {
-            $techBrands = [];
-            
-            if (isset($tech['brandJunior']) && !empty($tech['brandJunior'])) {
-                $techBrands[] = $tech['brandJunior'];
-            }
-            if (isset($tech['brandSenior']) && !empty($tech['brandSenior'])) {
-                $techBrands[] = $tech['brandSenior'];
-            }
-            if (isset($tech['brandExpert']) && !empty($tech['brandExpert'])) {
-                $techBrands[] = $tech['brandExpert'];
-            }
-            
-            // Si c'est le premier technicien, initialiser allBrands
-            if (empty($allBrands)) {
-                $allBrands = $techBrands;
-            } else {
-                // Sinon, conserver uniquement l'intersection
-                $allBrands = array_intersect($allBrands, $techBrands);
+
+        // Intersection progressive
+        $common = array_shift($sets);
+        foreach ($sets as $set) {
+            $common = array_intersect($common, $set);
+            // Petit court-circuit : plus rien en commun → on peut sortir
+            if (empty($common)) {
+                return [];
             }
         }
-        
-        return array_values(array_unique(array_filter($allBrands)));
+
+        // Ré-indexation propre
+        return array_values($common);
     }
     
     /**
