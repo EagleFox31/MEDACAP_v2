@@ -69,7 +69,14 @@
     /* ----------  options de filtres dynamiques  ---------- */
     // Get filter options based on current selection
     $subsidiaries = $filterController->getSubsidiaries();
-    $agencies = getAgenciesFromConfig($filters['subsidiary'] ?? 'all');
+    $currentSubsidiary = $filters['subsidiary'] ?? 'all';
+    $agencies = $filterController->getAgencies($currentSubsidiary);
+    error_log('[dashboard.php] Subsidiary ' . $currentSubsidiary . ' agencies: ' . json_encode($agencies));
+    
+    // Ensure $agencies is an array of strings, not an object mapping countries to agencies
+    if (is_object($agencies) || (is_array($agencies) && !empty($agencies) && isset($agencies[$currentSubsidiary]))) {
+        $agencies = $agencies[$currentSubsidiary] ?? [];
+    }
     $brands = $filterController->getBrands($filters);
     $technicians = $filterController->getTechnicians($filters);
 
@@ -1618,7 +1625,7 @@ $brandLogos = [
                                                     <?php renderFilterAgency(
                                                         $filters['agency'] ?? 'all',
                                                         $agencies,
-                                                        $countrySelected && !empty($agencies)
+                                                        $countrySelected
                                                     ); ?>
                                                 <?php endif; ?>
                                             </div>
@@ -1811,6 +1818,10 @@ $brandLogos = [
             
             technician: document.getElementById('filterTechnician')
         };
+        if (filters.agency) {
+            const optsInit = Array.from(filters.agency.options).map(o => o.value);
+            console.log('Initial agency options:', optsInit);
+        }
         function applyFilters() {
             if (isLoading) return;
 
@@ -2087,7 +2098,7 @@ $brandLogos = [
             
             // Add timestamp to prevent caching
             url.searchParams.set('_t', Date.now());
-            
+            console.log('Fetching dashboard data from:', url.toString());
             // Use fetch to get updated data via AJAX
             fetch(url)
                 .then(response => response.text())
@@ -2111,6 +2122,12 @@ $brandLogos = [
 
                         bindFilterEvents();
                         updateFilterStates();
+                        if (filters.agency) {
+                            const opts = Array.from(filters.agency.options).map(o => o.value);
+                            console.log('Updated agency options:', opts);
+                        } else {
+                            console.log('Agency select not found after update');
+                        }
                     }
 
                     // Update stats container
@@ -2460,6 +2477,11 @@ $brandLogos = [
     }
 
     });
+    </script>
+    <script>
+    // Debug: log agencies and filters when the page loads
+    console.log('Agencies available on load:', <?php echo json_encode($agencies); ?>);
+    console.log('Filters on load:', <?php echo json_encode($filters); ?>);
     </script>
 
     <?php require_once __DIR__ . '/../../partials/footer.php'; ?>
