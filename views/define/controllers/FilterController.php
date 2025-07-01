@@ -601,6 +601,7 @@ class FilterController {
                 }
                 
                 // Filtre par marque
+                error_log('[FilterController] getTrainingStats query: ' . json_encode($query));
                 if (isset($filters['brand']) && $filters['brand'] !== 'all') {
                     $query['$or'] = [
                         ['brandJunior' => $filters['brand']],
@@ -669,6 +670,9 @@ class FilterController {
                 }
                 if (isset($filters['managerId']) && $filters['managerId'] !== 'all') {
                     $query['manager'] = $filters['managerId']; // Use string ID directly
+                }
+                if (isset($filters['technicianId']) && $filters['technicianId'] !== 'all') {
+                    $query['_id'] = new ObjectId($filters['technicianId']);
                 }
                 if (isset($filters['brand']) && $filters['brand'] !== 'all') {
                     $query['$or'] = [
