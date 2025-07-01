@@ -27,8 +27,8 @@ $usersCol = $academy->users;
 $allocCol = $academy->allocations;
 
 /* ════════════════════ 2. Filtres venant du contrôleur ═════════════════════ */
-$filters      = $GLOBALS['filtersForStats'] ?? [];
-$wantedLevel  = $filters['level'] ?? 'all';   // 'Junior' | 'Senior' | 'Expert' | 'all'
+$filters     = $GLOBALS['filtersForStats'] ?? [];
+$wantedLevel = $filters['level'] ?? 'all';   // 'Junior' | 'Senior' | 'Expert' | 'all'
 
 /* ════════════════════ 3. Outils ═══════════════════════════════════════════ */
 function getTechnicians(Collection $users, array $f): array
@@ -41,7 +41,7 @@ function getTechnicians(Collection $users, array $f): array
         ],
     ];
 
-    foreach (['subsidiary','agency'] as $k) {
+    foreach (['subsidiary', 'agency'] as $k) {
         if (($f[$k] ?? 'all') !== 'all') $q[$k] = $f[$k];
     }
     if (($f['managerId'] ?? 'all')    !== 'all') $q['manager'] = $f['managerId'];
@@ -51,10 +51,10 @@ function getTechnicians(Collection $users, array $f): array
     if (($f['level'] ?? 'all') !== 'all') {
         switch ($f['level']) {
             case 'Junior':
-                $q['level'] = ['$in'=>['Junior','Senior','Expert']];
+                $q['level'] = ['$in' => ['Junior', 'Senior', 'Expert']];
                 break;
             case 'Senior':
-                $q['level'] = ['$in'=>['Senior','Expert']];
+                $q['level'] = ['$in' => ['Senior', 'Expert']];
                 break;
             case 'Expert':
                 $q['level'] = 'Expert';
@@ -64,8 +64,8 @@ function getTechnicians(Collection $users, array $f): array
 
     /* Marque */
     if (($f['brand'] ?? 'all') !== 'all') {
-        $brand     = $f['brand'];
-        $q['$or']  = [
+        $brand    = $f['brand'];
+        $q['$or'] = [
             ['brandJunior' => $brand],
             ['brandSenior' => $brand],
             ['brandExpert' => $brand],
@@ -74,55 +74,71 @@ function getTechnicians(Collection $users, array $f): array
 
     /* On récupère aussi le niveau pour éviter une requête plus loin */
     $ids = [];
-    foreach ($users->find($q, ['projection'=>['_id'=>1,'level'=>1]]) as $doc) {
-        $ids[(string)$doc->_id] = $doc['level'] ?? 'Junior';
+    foreach ($users->find($q, ['projection' => ['_id' => 1, 'level' => 1]]) as $doc) {
+        $ids[(string) $doc->_id] = $doc['level'] ?? 'Junior';
     }
-    return $ids;      // [ '656a…' => 'Senior', … ]
+    return $ids; // [ '656a…' => 'Senior', … ]
 }
 
-function getAllocation(Collection $c, ObjectId $uId, string $level, string $type,
-                       bool $needMgr = false): ?array
-{
-    $q = ['user'=>$uId,'level'=>$level,'type'=>$type];
+function getAllocation(
+    Collection $c,
+    ObjectId $uId,
+    string $level,
+    string $type,
+    bool $needMgr = false
+): ?array {
+    $q = ['user' => $uId, 'level' => $level, 'type' => $type];
     if ($needMgr) $q['activeManager'] = true;
 
     $doc = $c->findOne($q);
-    return $doc? $doc->getArrayCopy() : null;
+    return $doc ? $doc->getArrayCopy() : null;
 }
 
 function hasBothAlloc(Collection $c, ObjectId $uId, string $lvl): bool
 {
-    return getAllocation($c,$uId,$lvl,'Factuel')    !== null
-        && getAllocation($c,$uId,$lvl,'Declaratif') !== null;
+    return getAllocation($c, $uId, $lvl, 'Factuel')    !== null
+        && getAllocation($c, $uId, $lvl, 'Declaratif') !== null;
 }
 
 function hasBothActive(Collection $c, ObjectId $uId, string $lvl): bool
 {
-    $fact = getAllocation($c,$uId,$lvl,'Factuel');
-    $decl = getAllocation($c,$uId,$lvl,'Declaratif', true);
+    $fact = getAllocation($c, $uId, $lvl, 'Factuel');
+    $decl = getAllocation($c, $uId, $lvl, 'Declaratif', true);
 
     return $fact && $decl &&
-           ($fact['active'] ?? false) &&
-           ($decl['active'] ?? false) &&
+           ($fact['active']        ?? false) &&
+           ($decl['active']        ?? false) &&
            ($decl['activeManager'] ?? false);
 }
 
 /* ════════════════════ 4. Population concernée ═════════════════════════════ */
-$techLevels = getTechnicians($usersCol, $filters);            // id => level
+$techLevels = getTechnicians($usersCol, $filters); // id => level
 
 /* ════════════════════ 5. Calcul par niveau ════════════════════════════════ */
-$levels      = ['Junior','Senior','Expert'];
-$statsTests  = [];
-$doneSet     = [];   // clés = id uniques ayant terminé
-$totalSet    = [];   // clés = id uniques devant passer
+$levels = ['Junior', 'Senior', 'Expert'];
+
+/* --- Pré-initialisation pour éviter les “Undefined index” ----------------- */
+$statsTests = [
+    'Junior' => ['done' => 0, 'total' => 0],
+    'Senior' => ['done' => 0, 'total' => 0],
+    'Expert' => ['done' => 0, 'total' => 0],
+];
+/* ------------------------------------------------------------------------- */
+
+$doneSet  = []; // personnes uniques ayant terminé
+$totalSet = []; // personnes uniques devant passer
 
 foreach ($levels as $lvl) {
-    if ($wantedLevel !== 'all' && $lvl !== $wantedLevel) continue;
+    /* Si un filtre de niveau est appliqué, on peut ignorer les autres niveaux.
+       Les valeurs pré-initialisées resteront donc à 0. */
+    if ($wantedLevel !== 'all' && $lvl !== $wantedLevel) {
+        continue;
+    }
 
-    $done  = $total = 0;
+    $done = $total = 0;
 
     foreach ($techLevels as $id => $userLevel) {
-        if ($userLevel !== $lvl) continue;                 // ne compte que son vrai niveau
+        if ($userLevel !== $lvl) continue; // ne compte que son vrai niveau
 
         $oid = new ObjectId($id);
 
@@ -136,7 +152,10 @@ foreach ($levels as $lvl) {
             }
         }
     }
-    $statsTests[$lvl] = ['done'=>$done, 'total'=>$total];
+
+    /* Mise à jour du tableau pré-initialisé */
+    $statsTests[$lvl]['done']  = $done;
+    $statsTests[$lvl]['total'] = $total;
 }
 
 /* -------------------- COLONNE TOTAL (personnes uniques) ------------------ */
@@ -149,5 +168,4 @@ $statsTests['Total'] = [
 return $statsTests;
 
 /* ════════════════════ 7. Fin du script ═══════════════════════════════════ */
-
 ?>
