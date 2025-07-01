@@ -70,12 +70,13 @@
     // Get filter options based on current selection
     $subsidiaries = $filterController->getSubsidiaries();
     $currentSubsidiary = $filters['subsidiary'] ?? 'all';
-    $agencies = $filterController->getAgencies($currentSubsidiary);
-    error_log('[dashboard.php] Subsidiary ' . $currentSubsidiary . ' agencies: ' . json_encode($agencies));
-    
-    // Ensure $agencies is an array of strings, not an object mapping countries to agencies
-    if (is_object($agencies) || (is_array($agencies) && !empty($agencies) && isset($agencies[$currentSubsidiary]))) {
-        $agencies = $agencies[$currentSubsidiary] ?? [];
+    // Fetch agencies for the current subsidiary before the header overrides the variable
+    $agencyOptions = $filterController->getAgencies($currentSubsidiary);
+    error_log('[dashboard.php] Subsidiary ' . $currentSubsidiary . ' agencies: ' . json_encode($agencyOptions));
+
+    // Ensure $agencyOptions is an array of strings
+    if (is_object($agencyOptions) || (is_array($agencyOptions) && !empty($agencyOptions) && isset($agencyOptions[$currentSubsidiary]))) {
+        $agencyOptions = $agencyOptions[$currentSubsidiary] ?? [];
     }
     $brands = $filterController->getBrands($filters);
     $technicians = $filterController->getTechnicians($filters);
@@ -1624,7 +1625,7 @@ $brandLogos = [
                                                 <?php if (function_exists('renderFilterAgency')): ?>
                                                     <?php renderFilterAgency(
                                                         $filters['agency'] ?? 'all',
-                                                        $agencies,
+                                                        $agencyOptions,
                                                         $countrySelected
                                                     ); ?>
                                                 <?php endif; ?>
@@ -1818,6 +1819,7 @@ $brandLogos = [
             
             technician: document.getElementById('filterTechnician')
         };
+        console.log('Agency options from PHP:', <?php echo json_encode($agencyOptions); ?>);
         if (filters.agency) {
             const optsInit = Array.from(filters.agency.options).map(o => o.value);
             console.log('Initial agency options:', optsInit);
@@ -2480,7 +2482,7 @@ $brandLogos = [
     </script>
     <script>
     // Debug: log agencies and filters when the page loads
-    console.log('Agencies available on load:', <?php echo json_encode($agencies); ?>);
+    console.log('Agencies available on load:', <?php echo json_encode($agencyOptions); ?>);
     console.log('Filters on load:', <?php echo json_encode($filters); ?>);
     </script>
 
