@@ -338,11 +338,15 @@ class FilterController {
         $sets = [];
 
         foreach ($technicians as $tech) {
-            $sets[] = array_merge(
+            $merged = array_merge(
                 $this->normalizeBrands($tech['brandJunior'] ?? []),
                 $this->normalizeBrands($tech['brandSenior'] ?? []),
                 $this->normalizeBrands($tech['brandExpert'] ?? [])
             );
+            
+            // Remove duplicates after merge to avoid repeated values in
+            // intersection result
+            $sets[] = array_values(array_unique($merged, SORT_STRING));
         }
 
         // Aucun technicien → aucune marque
@@ -360,8 +364,8 @@ class FilterController {
             }
         }
 
-        // Ré-indexation propre
-        return array_values($common);
+        // Clean duplicate values and reindex
+        return array_values(array_unique($common, SORT_STRING));
     }
     
     /**
@@ -414,11 +418,19 @@ class FilterController {
         
         if ($this->academy && $subsidiary !== 'all') {
             try {
+                // Requête insensible à la casse pour éviter les problèmes de
+                // variations d'écriture dans la base
+                $query = [
+                    'subsidiary' => new \MongoDB\BSON\Regex('^' . preg_quote(trim($subsidiary)) . '$', 'i'),
+                    'active'     => true
+                ];
+
+
                 // Récupérer toutes les agences distinctes pour la filiale spécifiée
-                $cursor = $this->academy->users->distinct('agency', 
-                    ['subsidiary' => $subsidiary, 'active' => true]
-                );
-                $agencies = $cursor;
+               $agencies = $this->academy->users->distinct('agency', $query);
+
+                // Nettoyer et dédupliquer les valeurs récupérées
+                $agencies = array_values(array_unique(array_map('trim', $agencies)));
             } catch (Exception $e) {
                 error_log("Erreur lors de la récupération des agences: " . $e->getMessage());
             }
@@ -506,17 +518,24 @@ class FilterController {
                 $brandSenior = $this->academy->users->distinct('brandSenior', $query);
                 $brandExpert = $this->academy->users->distinct('brandExpert', $query);
                 
-                // Combiner et dédupliquer les marques
+               // Combiner puis dédupliquer en ignorant la casse et les espaces
                 $allBrands = array_merge($brandJunior, $brandSenior, $brandExpert);
-                $uniqueBrands = array_unique($allBrands);
-                
-                // Filtrer les valeurs vides
-                $brands = array_filter($uniqueBrands, function($brand) {
-                    return !empty(trim($brand));
-                });
-                
-                // Trier les marques
-                sort($brands);
+                $normalized = [];
+                foreach ($allBrands as $brandName) {
+                    $trimmed = trim((string)$brandName);
+                    if ($trimmed === '') {
+                        continue;
+                    }
+                    $key = mb_strtolower($trimmed);
+                    if (!isset($normalized[$key])) {
+                        $normalized[$key] = $trimmed;
+                    }
+                }
+
+                $brands = array_values($normalized);
+
+                // Trier les marques alphabétiquement (sans tenir compte de la casse)
+                sort($brands, SORT_FLAG_CASE | SORT_STRING);
             } catch (Exception $e) {
                 error_log("Erreur lors de la récupération des marques: " . $e->getMessage());
             }
