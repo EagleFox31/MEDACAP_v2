@@ -72,7 +72,10 @@
     $subsidiaries = $filterController->getSubsidiaries();
     $agencies = $filterController->getAgencies($filters['subsidiary'] ?? 'all');
     $brands = $filterController->getBrands($filters);
-    $managers = $filterController->getManagers($filters);
+    $managers = $filterController->getManagers(
+        $filters['subsidiary'] ?? 'all',
+        $filters['agency'] ?? 'all'
+    );
     $technicians = $filterController->getTechnicians($filters);
 
     /* ----------  disponibilité niveaux pour le sélecteur  ---------- */
