@@ -1831,6 +1831,8 @@ $brandLogos = [
             Object.entries(filters).forEach(([key, element]) => {
                 if (element) {
                     filterData[key] = element.value;
+                    const paramName = element.name || key;
+                    filterData[paramName] = element.value;
                 }
             });
 
@@ -1839,6 +1841,7 @@ $brandLogos = [
                 url.searchParams.set(key, value);
             });
 
+            console.log('applyFilters -> filterData', filterData, 'url', url.toString());
             window.history.pushState({}, '', url);
 
             fetchDashboardData(url);
@@ -1850,7 +1853,7 @@ $brandLogos = [
             if (filters.country) {
                 filters.country.addEventListener('change', function() {
                     if (filters.agency) filters.agency.value = 'all';
-                    
+                    console.log('Country changed to', filters.country.value);
                     updateFilterStates();
                      applyFilters();
                 });
@@ -1884,11 +1887,11 @@ $brandLogos = [
                     console.log("Apply filters button clicked");
                     e.preventDefault();
                     console.log("Applying filters with current values:", {
-                        country: filters.country ? filters.country.value : 'all',
+                        subsidiary: filters.country ? filters.country.value : 'all',
                         agency: filters.agency ? filters.agency.value : 'all',
                         level: filters.level ? filters.level.value : 'all',
                         brand: filters.brand ? filters.brand.value : 'all',
-                        technician: filters.technician ? filters.technician.value : 'all'
+                        technicianId: filters.technician ? filters.technician.value : 'all'
                     });
                     applyFilters();
                     console.log("Filters applied, fetching data...");
@@ -2066,7 +2069,7 @@ $brandLogos = [
         // Update filter states based on selections
         function updateFilterStates() {
             const technicianSelected = filters.technician && filters.technician.value !== 'all';
-            const countrySelected = filters.country && filters.country.value !== 'all';
+           const countrySelected = filters.country && filters.country.value !== 'all';
             
             // Agency filter depends on country
             const agencyWrapper = document.getElementById('agencyFilterWrapper');
@@ -2074,6 +2077,7 @@ $brandLogos = [
                 agencyWrapper.classList.toggle('filter-disabled', !countrySelected);
                 if (filters.agency) {
                     filters.agency.disabled = !countrySelected;
+                    console.log('updateFilterStates -> agency disabled:', !countrySelected, 'options:', Array.from(filters.agency.options).map(o => o.value));
                 }
             }
             
