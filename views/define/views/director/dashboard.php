@@ -1723,6 +1723,37 @@
     </div>
     <!--end::Content-->
 
+    <!-- Serialized chart data for AJAX refresh -->
+    <script id="chart-data" type="application/json">
+        <?php echo json_encode([
+            'brandScores' => $brandScores,
+            'brandStats' => array_keys($brandStats),
+            'trainingStats' => $trainingStats,
+            'trainingsCountsForGraph2' => $trainingsCountsForGraph2,
+            'validationsCountsForGraph2' => $validationsCountsForGraph2,
+            'brandHours' => $globalStats['trainingDays'] ?? 0,
+            'brandLogos' => [
+                'RENAULT TRUCK' => 'renaultTrucks.png',
+                'HINO' => 'Hino_logo.png',
+                'TOYOTA BT' => 'bt.png',
+                'SINOTRUK' => 'sinotruk.png',
+                'JCB' => 'jcb.png',
+                'MERCEDES TRUCK' => 'mercedestruck.png',
+                'TOYOTA FORKLIFT' => 'forklift.png',
+                'FUSO' => 'fuso.png',
+                'LOVOL' => 'lovol.png',
+                'KING LONG' => 'kl2.png',
+                'MERCEDES' => 'mercedestruck.png',
+                'TOYOTA' => 'toyota-logo.png',
+                'SUZUKI' => 'suzuki-logo.png',
+                'MITSUBISHI' => 'mitsubishi-logo.png',
+                'BYD' => 'byd-logo.png',
+                'CITROEN' => 'citroen-logo.png',
+                'PEUGEOT' => 'peugeot-logo.png'
+            ]
+        ], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP); ?>
+    </script>
+
 
     <script>
     // Register Chart.js plugin
@@ -1817,7 +1848,8 @@
 
             const applyFiltersButton = document.getElementById('applyFiltersButton');
             if (applyFiltersButton) {
-                applyFiltersButton.addEventListener('click', function() {
+                applyFiltersButton.addEventListener('click', function(e) {
+                    e.preventDefault();
                     applyFilters();
                     setTimeout(() => {
                         resetAndStartCountUps();
