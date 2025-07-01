@@ -437,6 +437,19 @@ class FilterController {
                 error_log("Erreur lors de la récupération des agences: " . $e->getMessage());
             }
         }
+
+        
+        // Fallback: if no agencies retrieved from DB, use static configuration
+        if (empty($agencies) && $subsidiary !== 'all') {
+            $agencyMap = include __DIR__ . '/../components/agencyData.php';
+            if (isset($agencyMap[$subsidiary])) {
+                $agencies = $agencyMap[$subsidiary];
+                error_log('[FilterController] Agencies from config: ' . json_encode($agencies));
+            } else {
+                error_log('[FilterController] No agencies found for ' . $subsidiary . ' in config');
+            }
+        }
+
         
         return $agencies;
     }
