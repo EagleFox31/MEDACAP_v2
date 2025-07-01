@@ -2365,7 +2365,8 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Get logo filename from mapping or use default
             const logoFilename = chartData.brandLogos[brand] || 'default-logo.png';
-            img.src = `/MEDACAP/public/images/${logoFilename}`;
+            // Les logos sont stockés dans le dossier 'brands'
+            img.src = `../../brands/${logoFilename}`;
             img.alt = brand;
             img.title = brand;
             img.style.maxWidth = '100%';
