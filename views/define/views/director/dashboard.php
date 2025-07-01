@@ -1779,6 +1779,69 @@
             technician: document.getElementById('filterTechnician')
         };
 
+        function bindFilterEvents() {
+            if (filters.country) {
+                filters.country.addEventListener('change', function() {
+                    if (filters.agency) filters.agency.value = 'all';
+                    if (filters.manager) filters.manager.value = 'all';
+                    updateFilterStates();
+                });
+            }
+
+            if (filters.technician) {
+                filters.technician.addEventListener('change', function() {
+                    updateFilterStates();
+                });
+            }
+
+            const resetBtn = document.getElementById('resetFilters');
+            if (resetBtn) {
+                resetBtn.addEventListener('click', function() {
+                    if (isLoading) return;
+
+                    Object.values(filters).forEach(filter => {
+                        if (filter) filter.value = 'all';
+                    });
+
+                    const url = new URL(window.location.pathname, window.location.origin);
+                    window.history.pushState({}, '', url);
+
+                    fetchDashboardData(url);
+                });
+            }
+
+            const applyFiltersButton = document.getElementById('applyFiltersButton');
+            if (applyFiltersButton) {
+                applyFiltersButton.addEventListener('click', function() {
+                    if (isLoading) return;
+
+                    const filterData = {};
+                    Object.entries(filters).forEach(([key, element]) => {
+                        if (element) {
+                            filterData[key] = element.value;
+                        }
+                    });
+
+                    const url = new URL(window.location.href);
+                    Object.entries(filterData).forEach(([key, value]) => {
+                        url.searchParams.set(key, value);
+                    });
+
+                    window.history.pushState({}, '', url);
+
+                    fetchDashboardData(url);
+                });
+
+                applyFiltersButton.addEventListener('click', function() {
+                    setTimeout(() => {
+                        resetAndStartCountUps();
+                    }, 1000);
+                });
+            }
+        }
+
+
+
         // Loading management
         function toggleLoading(show = true) {
             isLoading = show;
@@ -1995,68 +2058,7 @@
             });
         }
 
-        // Event listeners for filters
-        if (filters.country) {
-            filters.country.addEventListener('change', function() {
-                // Reset dependent filters
-                if (filters.agency) filters.agency.value = 'all';
-                if (filters.manager) filters.manager.value = 'all';
-                updateFilterStates();
-            });
-        }
-
-        if (filters.technician) {
-            filters.technician.addEventListener('change', function() {
-                updateFilterStates();
-            });
-        }
-
-        // Reset button
-        if (resetButton) {
-            resetButton.addEventListener('click', function() {
-                if (isLoading) return;
-                
-                // Reset all filters
-                Object.values(filters).forEach(filter => {
-                    if (filter) filter.value = 'all';
-                });
-                
-                // Update URL without reloading
-                const url = new URL(window.location.pathname, window.location.origin);
-                window.history.pushState({}, '', url);
-                
-                // Fetch updated data
-                fetchDashboardData(url);
-            });
-        }
-
-        // Apply filters with AJAX
-        const applyFiltersButton = document.getElementById('applyFiltersButton');
-        if (applyFiltersButton) {
-            applyFiltersButton.addEventListener('click', function() {
-                if (isLoading) return;
-                
-                // Collect all filter values
-                const filterData = {};
-                Object.entries(filters).forEach(([key, element]) => {
-                    if (element) {
-                        filterData[key] = element.value;
-                    }
-                });
-                
-                // Update the URL with new filter parameters without reloading
-                const url = new URL(window.location.href);
-                Object.entries(filterData).forEach(([key, value]) => {
-                    url.searchParams.set(key, value);
-                });
-                
-                // Update browser history without reloading
-                window.history.pushState({}, '', url);
-                
-                // Fetch updated data
-                fetchDashboardData(url);
-            });
-        }
+       bindFilterEvents();
         
         // Function to fetch dashboard data without page reload
         function fetchDashboardData(url) {
@@ -2069,10 +2071,27 @@
             fetch(url)
                 .then(response => response.text())
                 .then(html => {
-                    // Create a temporary DOM to parse the response
+                    
                     const parser = new DOMParser();
                     const doc = parser.parseFromString(html, 'text/html');
                     
+                    
+                    const dynamicFiltersNew = doc.getElementById('dynamicFilters');
+                    const dynamicFilters = document.getElementById('dynamicFilters');
+                    if (dynamicFilters && dynamicFiltersNew) {
+                        dynamicFilters.innerHTML = dynamicFiltersNew.innerHTML;
+
+                        filters.country = document.getElementById('filterCountry');
+                        filters.agency = document.getElementById('filterAgency');
+                        filters.level = document.getElementById('filterLevel');
+                        filters.brand = document.getElementById('filterBrand');
+                        filters.manager = document.getElementById('filterManager');
+                        filters.technician = document.getElementById('filterTechnician');
+
+                        bindFilterEvents();
+                        updateFilterStates();
+                    }
+
                     // Update stats container
                     const newStatsContainer = doc.getElementById('statsContainer');
                     if (newStatsContainer && statsContainer) {
@@ -2134,6 +2153,17 @@
                     const newSummaryTable = doc.querySelector('.card.mb-4:last-of-type');
                     if (summaryTable && newSummaryTable) {
                         summaryTable.innerHTML = newSummaryTable.innerHTML;
+                    }
+                    
+                    
+                    const chartDataScript = doc.getElementById('chart-data');
+                    if (chartDataScript) {
+                        try {
+                            const newChartData = JSON.parse(chartDataScript.textContent);
+                            Object.assign(chartData, newChartData);
+                        } catch (e) {
+                            console.error('Failed to parse chart data', e);
+                        }
                     }
                     
                     // Re-initialize all charts
@@ -2390,7 +2420,8 @@
             const logoFilename = chartData.brandLogos[brand] || 'default-logo.png';
             img.src   = `/MEDACAP/public/images/${logoFilename}`;
             img.alt   = img.title = brand;
-            img.style.maxWidth = img.style.maxHeight = '100%';
+            img.style.width = '100%';
+            img.style.height = '100%';
             img.style.objectFit = 'contain';
 
             img.onerror = () => {
