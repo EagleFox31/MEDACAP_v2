@@ -24,7 +24,6 @@
     require_once __DIR__ . '/../../components/filterAgency.php';
     require_once __DIR__ . '/../../components/filterLevel.php';
     require_once __DIR__ . '/../../components/filterBrand.php';
-    require_once __DIR__ . '/../../components/filterManager.php';
     require_once __DIR__ . '/../../components/filterTechnician.php';
 
     /* ----------  infos droits utilisateur  ---------- */
@@ -72,10 +71,6 @@
     $subsidiaries = $filterController->getSubsidiaries();
     $agencies = $filterController->getAgencies($filters['subsidiary'] ?? 'all');
     $brands = $filterController->getBrands($filters);
-    $managers = $filterController->getManagers(
-        $filters['subsidiary'] ?? 'all',
-        $filters['agency'] ?? 'all'
-    );
     $technicians = $filterController->getTechnicians($filters);
 
     /* ----------  disponibilité niveaux pour le sélecteur  ---------- */
@@ -1636,19 +1631,7 @@
                                             </div>
                                         </div>
 
-                                        <!-- Manager Filter -->
-                                        <div class="mb-3">
-                                            <div id="managerFilterWrapper" class="<?php echo (!$countrySelected || $technicianSelected || ($_SESSION['profile'] ?? '') === 'Manager') ? 'filter-disabled' : ''; ?>">
-                                                <?php if (function_exists('renderFilterManager')): ?>
-                                                    <?php renderFilterManager(
-                                                        $filters['managerId'] ?? 'all',
-                                                        $managers,
-                                                        !$countrySelected,
-                                                        $technicianSelected || ($_SESSION['profile'] ?? '') === 'Manager'
-                                                    ); ?>
-                                                <?php endif; ?>
-                                            </div>
-                                        </div>
+                                        <!-- Manager Filter emptied-->
 
                                         <!-- Technician Filter -->
                                         <div class="mb-3">
@@ -1661,7 +1644,7 @@
                                                 ); ?>
                                             <?php endif; ?>
                                         </div>
-
+<br><br>
                                         <!-- Filter Buttons -->
                                         <div class="d-grid gap-2">
                                             <button type="button" class="btn" id="applyFiltersButton" style="background-color: white; color: black;">
@@ -1775,24 +1758,49 @@
             agency: document.getElementById('filterAgency'),
             level: document.getElementById('filterLevel'),
             brand: document.getElementById('filterBrand'),
-            manager: document.getElementById('filterManager'),
+            
             technician: document.getElementById('filterTechnician')
         };
+        function applyFilters() {
+            if (isLoading) return;
+
+            const filterData = {};
+            Object.entries(filters).forEach(([key, element]) => {
+                if (element) {
+                    filterData[key] = element.value;
+                }
+            });
+
+            const url = new URL(window.location.href);
+            Object.entries(filterData).forEach(([key, value]) => {
+                url.searchParams.set(key, value);
+            });
+
+            window.history.pushState({}, '', url);
+
+            fetchDashboardData(url);
+        }
+
+
 
         function bindFilterEvents() {
             if (filters.country) {
                 filters.country.addEventListener('change', function() {
                     if (filters.agency) filters.agency.value = 'all';
-                    if (filters.manager) filters.manager.value = 'all';
+                    
                     updateFilterStates();
+                     applyFilters();
                 });
             }
 
-            if (filters.technician) {
-                filters.technician.addEventListener('change', function() {
-                    updateFilterStates();
-                });
-            }
+            ['agency', 'level', 'brand', 'technician'].forEach(key => {
+                if (filters[key]) {
+                    filters[key].addEventListener('change', function() {
+                        updateFilterStates();
+                        applyFilters();
+                    });
+                }
+            });
 
             const resetBtn = document.getElementById('resetFilters');
             if (resetBtn) {
@@ -1803,36 +1811,14 @@
                         if (filter) filter.value = 'all';
                     });
 
-                    const url = new URL(window.location.pathname, window.location.origin);
-                    window.history.pushState({}, '', url);
-
-                    fetchDashboardData(url);
+                    applyFilters();
                 });
             }
 
             const applyFiltersButton = document.getElementById('applyFiltersButton');
             if (applyFiltersButton) {
                 applyFiltersButton.addEventListener('click', function() {
-                    if (isLoading) return;
-
-                    const filterData = {};
-                    Object.entries(filters).forEach(([key, element]) => {
-                        if (element) {
-                            filterData[key] = element.value;
-                        }
-                    });
-
-                    const url = new URL(window.location.href);
-                    Object.entries(filterData).forEach(([key, value]) => {
-                        url.searchParams.set(key, value);
-                    });
-
-                    window.history.pushState({}, '', url);
-
-                    fetchDashboardData(url);
-                });
-
-                applyFiltersButton.addEventListener('click', function() {
+                    applyFilters();
                     setTimeout(() => {
                         resetAndStartCountUps();
                     }, 1000);
@@ -2037,14 +2023,7 @@
             }
             
             // Manager filter depends on country and technician
-            const managerWrapper = document.getElementById('managerFilterWrapper');
-            if (managerWrapper) {
-                const shouldDisable = !countrySelected || technicianSelected;
-                managerWrapper.classList.toggle('filter-disabled', shouldDisable);
-                if (filters.manager) {
-                    filters.manager.disabled = shouldDisable;
-                }
-            }
+            
             
             // Level and brand filters are locked when technician is selected
             ['level', 'brand'].forEach(filterName => {
@@ -2085,7 +2064,7 @@
                         filters.agency = document.getElementById('filterAgency');
                         filters.level = document.getElementById('filterLevel');
                         filters.brand = document.getElementById('filterBrand');
-                        filters.manager = document.getElementById('filterManager');
+                        
                         filters.technician = document.getElementById('filterTechnician');
 
                         bindFilterEvents();
