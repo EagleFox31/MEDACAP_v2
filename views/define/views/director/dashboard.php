@@ -69,9 +69,30 @@
     /* ----------  options de filtres dynamiques  ---------- */
     // Get filter options based on current selection
     $subsidiaries = $filterController->getSubsidiaries();
-    $agencies = $filterController->getAgencies($filters['subsidiary'] ?? 'all');
+    $agencies = getAgenciesFromConfig($filters['subsidiary'] ?? 'all');
     $brands = $filterController->getBrands($filters);
     $technicians = $filterController->getTechnicians($filters);
+
+    // Mapping des logos de marques (uniquement depuis le dossier "brands")
+$brandLogos = [
+    'RENAULT TRUCK'   => 'renaultTrucks.png',
+    'HINO'            => 'Hino_logo.png',
+    'TOYOTA BT'       => 'bt.png',
+    'SINOTRUK'        => 'sinotruk.png',
+    'JCB'             => 'jcb.png',
+    'MERCEDES TRUCK'  => 'mercedestruck.png',
+    'TOYOTA FORKLIFT' => 'forklift.png',
+    'FUSO'            => 'fuso.png',
+    'LOVOL'           => 'lovol.png',
+    'KING LONG'       => 'kl2.png',
+    'MERCEDES'        => 'mercedestruck.png',
+    'TOYOTA'          => 'toyota-logo.png',
+    'SUZUKI'          => 'suzuki-logo.png',
+    'MITSUBISHI'      => 'mitsubishi-logo.png',
+    'BYD'             => 'byd-logo.png',
+    'CITROEN'         => 'citroen-logo.png',
+    'PEUGEOT'         => 'peugeot-logo.png',
+];
 
     /* ----------  disponibilité niveaux pour le sélecteur  ---------- */
     // Determine maximum level for adaptive display
@@ -1912,25 +1933,7 @@
             trainingsCountsForGraph2: <?php echo json_encode($trainingsCountsForGraph2, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP); ?>,
             validationsCountsForGraph2: <?php echo json_encode($validationsCountsForGraph2, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP); ?>,
             brandHours: <?php echo json_encode($globalStats['trainingDays'] ?? 0, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP); ?>,
-            brandLogos: {
-                'RENAULT TRUCK': 'renaultTrucks.png',
-                'HINO': 'Hino_logo.png',
-                'TOYOTA BT': 'bt.png',
-                'SINOTRUK': 'sinotruk.png',
-                'JCB': 'jcb.png',
-                'MERCEDES TRUCK': 'mercedestruck.png',
-                'TOYOTA FORKLIFT': 'forklift.png',
-                'FUSO': 'fuso.png',
-                'LOVOL': 'lovol.png',
-                'KING LONG': 'kl2.png',
-                'MERCEDES': 'mercedestruck.png',
-                'TOYOTA': 'toyota-logo.png',
-                'SUZUKI': 'suzuki-logo.png',
-                'MITSUBISHI': 'mitsubishi-logo.png',
-                'BYD': 'byd-logo.png',
-                'CITROEN': 'citroen-logo.png',
-                'PEUGEOT': 'peugeot-logo.png'
-            }
+            brandLogos: <?php echo json_encode($brandLogos, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP); ?>
         };
 
         // Initialize charts
@@ -2436,7 +2439,8 @@
 
             const img = document.createElement('img');
             const logoFilename = chartData.brandLogos[brand] || 'default-logo.png';
-            img.src   = `/MEDACAP/public/images/${logoFilename}`;
+            // Les logos sont stockés dans le dossier 'brands'
+            img.src = `/MEDACAP/views/define/brands/${logoFilename}`;
             img.alt   = img.title = brand;
             img.style.width = '100%';
             img.style.height = '100%';
