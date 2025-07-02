@@ -1,6 +1,7 @@
 <?php
 session_start();
 include_once "../language.php";
+include_once "../partials/background-manager.php"; // Système de gestion de fond d'écran
 
 // Flag to track if MongoDB is available
 $mongoAvailable = false;
@@ -486,27 +487,46 @@ echo json_encode($eventList);
 <title><?= $calendar ?> | CFAO Mobility Academy</title>
 <!--end::Title-->
 
-<div class="content fs-6 d-flex flex-column flex-column-fluid" id="kt_content">
-    <!--begin::Toolbar-->
-    <div class="toolbar" id="kt_toolbar">
-        <div class="container-fluid d-flex flex-stack flex-wrap flex-sm-nowrap">
-            <!--begin::Info-->
-            <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
-                <h1 class="text-dark fw-bold my-1 fs-2">
+<style>
+/* Glassmorphism effect for cards */
+.glassmorphism {
+    background: rgba(255, 255, 255, 0.8) !important;
+    backdrop-filter: blur(18px) !important; /* Higher blur value as requested */
+    border-radius: 15px !important;
+    border: 1px solid rgba(255, 255, 255, 0.18) !important;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2) !important;
+}
+
+/* White background for the calendar container only */
+#kt_calendar_app {
+    background-color: #ffffff !important;
+}
+</style>
+
+<?php
+// Définir le fond d'écran pour cette page
+setPageBackground('bg-dashboard', true);
+
+// Ouvrir le conteneur de fond d'écran
+openBackgroundContainer('', 'id="kt_content"');
+?>
+    <!-- Main title card -->
+    <div class="container-xxl">
+        <div class="card shadow-sm mb-5 w-75 mx-auto">
+            <div class="card-body py-3">
+                <h1 class="text-dark fw-bold text-center fs-1 m-0">
                     <?= $calendar ?>
-                </h1><br>
+                </h1>
             </div>
-            <!--end::Info-->
         </div>
     </div>
-    <!--end::Toolbar-->
 
     <!--begin::Post-->
     <div class="post fs-6 d-flex flex-column-fluid" id="kt_post">
         <!--begin::Container-->
         <div class="container-xxl">
             <!--begin::Card-->
-            <div class="card">
+            <div class="card glassmorphism">
                 <!--begin::Card header-->
                 <div class="card-header">
                     <h2 class="card-title fw-bold"><?= $calendar ?></h2>
@@ -737,7 +757,7 @@ echo json_encode($eventList);
         <!--end::Container-->
     </div>
     <!--end::Post-->
-</div>
+<?php closeBackgroundContainer(); ?>
 <!--end::Content-->
 <!--end::Body-->
 

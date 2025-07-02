@@ -1,6 +1,8 @@
 <?php
 session_start();
 include_once "../language.php";
+include_once "../partials/background-manager.php"; // Include background manager
+setPageBackground("bg-dashboard"); // Set the dashboard background - bg-default does not exist
 
 use MongoDB\Client;
 use MongoDB\BSON\ObjectId;
@@ -132,29 +134,37 @@ include_once "partials/header.php";
 <title><?= $list_user ?> | CFAO Mobility Academy</title>
 <!--end::Title-->
 
-<!-- ================= TABLE ================= -->
-<div class="content fs-6 d-flex flex-column flex-column-fluid" id="kt_content">
-    <div class="toolbar" id="kt_toolbar">
-        <div class="container-fluid d-flex flex-stack flex-wrap flex-sm-nowrap">
-            <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
-                <h1 class="text-dark fw-bolder my-1 fs-1">
+
+<!--begin::Content-->
+<?php openBackgroundContainer(); ?>
+    <!-- Main title card -->
+    <div class="container-xxl">
+        <div class="card shadow-sm mb-5 w-75 mx-auto">
+            <div class="card-body p-4">
+                <h1 class="text-dark fw-bold text-center fs-1">
                     <?php echo $list_user ?>
                 </h1>
-                <div class="card-title">
-                    <div class="d-flex align-items-center position-relative my-1">
-                        <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-5"></i>
-                        <input type="text" id="search" class="form-control form-control-solid w-250px ps-12" placeholder="<?php echo $recherche ?>">
-                    </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Search bar with glassmorphism -->
+    <div class="container-xxl mb-4">
+        <div class="card bg-opacity-50 bg-white border-0" style="backdrop-filter: blur(18px);">
+            <div class="card-body p-4">
+                <div class="d-flex align-items-center position-relative">
+                    <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-5"></i>
+                    <input type="text" id="search" class="form-control form-control-solid w-250px ps-12" placeholder="<?php echo $recherche ?>">
                 </div>
             </div>
         </div>
     </div>
     <div class="post fs-6 d-flex flex-column-fluid" id="kt_post">
         <div class="container-xxl">
-            <div class="card" style="min-height: 900px !important;">
+            <div class="card bg-opacity-50 bg-white border-0" style="min-height: 900px !important; backdrop-filter: blur(18px);">
                 <div class="card-body pt-0" style="height: 100% !important;">
                     <div class="table-responsive" style="min-height: 900px !important;">
-                        <table class="table align-middle table-row-dashed fs-6 gy-5 dataTable" id="kt_customers_table" style="height: 650px !important;">
+                        <table class="table align-middle table-row-dashed fs-6 gy-5 dataTable bg-white" id="kt_customers_table" style="height: 650px !important;">
     <thead>
         <tr class="text-start text-black fw-bold fs-7 text-uppercase">
             <th class="w-10px pe-2"></th>
@@ -275,7 +285,8 @@ include_once "partials/header.php";
             </div>
             <!--end::Export dropdown-->
 <?= $modals /* on pousse toutes les modales ici */ ?>
-</div>
+<?php closeBackgroundContainer(); ?>
+<!--end::Content-->
 <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/linways/table-to-excel@v1.0.4/dist/tableToExcel.js"></script>
 <script src="../../public/js/main.js"></script>

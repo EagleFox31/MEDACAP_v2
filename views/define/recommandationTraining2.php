@@ -31,46 +31,10 @@ if (!isset($_SESSION["id"])) {
         'Expert' => 3
     ];
     // Récupérer les valeurs des filtres depuis les paramètres GET
-    $techFilter = $_GET['user'] ?? 'all';
-    $brandFilter = $_GET['brand'] ?? 'all';
-    $trainingFilter = $_GET['training'] ?? 'all';
-    $levelFilter = $_GET['level'] ?? 'all';
-    
-    // Extract all unique brands from trainings data
-    $teamBrands = [];
-    foreach ($trainings as $technicianTrainings) {
-        foreach ($technicianTrainings as $levelTrainings) {
-            foreach ($levelTrainings as $training) {
-                if (isset($training['brand']) && !empty($training['brand']) && !in_array($training['brand'], $teamBrands)) {
-                    $teamBrands[] = $training['brand'];
-                }
-            }
-        }
-    }
-    sort($teamBrands); // Sort brands alphabetically
-    
-    // Extract all unique trainings for training filter
-    $trainingDatas = [];
-    $trainingIdsAdded = []; // To track which IDs we've already added
-    foreach ($trainings as $technicianTrainings) {
-        foreach ($technicianTrainings as $levelTrainings) {
-            foreach ($levelTrainings as $training) {
-                $trainingId = $training['_id'] ?? '';
-                // Only add if we have an ID and haven't already added this training
-                if (!empty($trainingId) && !in_array($trainingId, $trainingIdsAdded)) {
-                    $trainingDatas[] = [
-                        '_id' => $trainingId,
-                        'label' => $training['name'] ?? $training['code'] ?? 'Formation sans nom'
-                    ];
-                    $trainingIdsAdded[] = $trainingId;
-                }
-            }
-        }
-    }
-    // Sort trainings by label for better usability
-    usort($trainingDatas, function($a, $b) {
-        return strcmp($a['label'], $b['label']);
-    });
+    $selectedCountry = $_GET['country'] ?? 'all';
+    $selectedAgency = $_GET['agency'] ?? 'all';
+    $selectedLevel = $_GET['level'] ?? 'all';
+    $selectedManagerId = $_GET['manager'] ?? 'all';
 
     // Récupérer les techniciens
     $profileSession = $_SESSION['profile'];
@@ -285,12 +249,7 @@ if (!isset($_SESSION["id"])) {
         ';
     }
     ?>
-    <?php
-    include_once "partials/header.php";
-    include_once "../partials/background-manager.php";
-    // Définir le fond d'écran pour cette page
-    setPageBackground('bg-welcome-tech', true);
-    ?>
+    <?php include_once "partials/header.php"; ?>
     <script>
         var countries = <?php echo json_encode($countries); ?>;
         var agencies = <?php echo json_encode($agencies); ?>;
@@ -423,12 +382,6 @@ if (!isset($_SESSION["id"])) {
         .text-center {
             text-align: center;
         }
-        
-        /* Increase table height to show more elements */
-        .table-responsive {
-            max-height: 600px !important;
-            overflow-y: auto !important;
-        }
 
         /* Badge colors for levels */
         .badgee {
@@ -517,19 +470,28 @@ if (!isset($_SESSION["id"])) {
     </style>
     
     <!--begin::Body-->
-    <!-- Loading Overlay -->
-    <div id="loading-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(255, 255, 255, 0.8); z-index: 9999; justify-content: center; align-items: center; flex-direction: column;">
-        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-            <span class="visually-hidden">Loading...</span>
+    <div class="content fs-6 d-flex flex-column flex-column-fluid" id="kt_content"
+        style="position: relative; border-radius: 25px; overflow: hidden;"
+        data-select2-id="select2-data-kt_content">
+        
+        <!-- Background overlay with blur effect -->
+        <div style="
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            filter: blur(10px);
+            transform: scale(1.05);
+            background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.1)), url('../../public/images/welcome_tech.png');
+            background-size: cover;
+            background-position: center;
+            border-radius: 25px;
+            z-index: 0;">
         </div>
-        <div class="mt-3 fw-bold fs-4">Chargement des données...</div>
-        <button onclick="document.getElementById('loading-overlay').style.display='none';" class="btn btn-sm btn-light mt-3">
-            Cliquez ici si le chargement persiste
-        </button>
-    </div>
-    
-    <!-- Utiliser le gestionnaire de fond d'écran -->
-    <?php openBackgroundContainer('', 'id="kt_content" data-select2-id="select2-data-kt_content"'); ?>
+        
+        <!-- Content container -->
+        <div style="position: relative; z-index: 1; border-radius: 25px; overflow: hidden;">
         
         <!-- Titre principal dans une carte glassmorphisme -->
         <div class="container-xxl pt-5">
@@ -540,29 +502,6 @@ if (!isset($_SESSION["id"])) {
                         <span class="path2"></span>
                         <span class="path3"></span>
                     </i><?php if ($_SESSION['profile'] == 'Manager') { echo $train_collab; } else { echo $train_tech; } ?></h1>
-                    <?php if ($techFilter != 'all'):
-                        $selectedTechName = "";
-                        foreach ($technicians as $tech) {
-                            if ((string)$tech['_id'] === $techFilter) {
-                                $selectedTechName = $tech['firstName'] . ' ' . $tech['lastName'];
-                                break;
-                            }
-                        }
-                    ?>
-                    <div class="text-center mt-2">
-                        <span class="badge bg-primary fs-6 p-2">
-                            Affichage des formations pour: <?php echo htmlspecialchars($selectedTechName); ?>
-                        </span>
-                    </div>
-                    <?php endif; ?>
-                    
-                    <?php if ($brandFilter != 'all'): ?>
-                    <div class="text-center mt-2">
-                        <span class="badge bg-danger fs-6 p-2">
-                            Affichage des formations pour la marque: <?php echo htmlspecialchars($brandFilter); ?>
-                        </span>
-                    </div>
-                    <?php endif; ?>
                 </div>
             </div>
         </div>
@@ -601,7 +540,7 @@ if (!isset($_SESSION["id"])) {
                             <div class="card-body pt-0">
                                 <!--begin::Table-->
                                 <div id="kt_customers_table_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
-                                    <div class="table-responsive depth-effect" style="max-height: 600px; overflow-y: auto;">
+                                    <div class="table-responsive depth-effect">
                                         <table aria-describedby=""
                                             class="table align-middle table-bordered fs-6 gy-5 dataTable no-footer"
                                             id="kt_customers_table">
@@ -622,57 +561,14 @@ if (!isset($_SESSION["id"])) {
                                                 </tr>
                                             </thead>
                                             <tbody class="fw-semibold text-gray-600" id="table">
-                                                <?php
-                                                // Filtrer les techniciens en fonction des paramètres GET
-                                                $filteredTechsArray = [];
-                                                
-                                                if ($techFilter != 'all') {
-                                                    // Si un technicien spécifique est sélectionné
-                                                    foreach ($technicians as $tech) {
-                                                        if ((string)$tech['_id'] === $techFilter) {
-                                                            $filteredTechsArray[] = $tech;
-                                                            break;
-                                                        }
-                                                    }
-                                                } else {
-                                                    // Sinon, vérifier les autres filtres
-                                                    if ($brandFilter != 'all') {
-                                                        // Filtrer par marque
-                                                        foreach ($technicians as $tech) {
-                                                            $techId = (string)$tech['_id'];
-                                                            $hasBrandTraining = false;
-                                                            
-                                                            // Vérifier si le technicien a des formations pour cette marque
-                                                            if (isset($trainings[$techId])) {
-                                                                foreach ($trainings[$techId] as $levelTrainings) {
-                                                                    foreach ($levelTrainings as $training) {
-                                                                        if (isset($training['brand']) && $training['brand'] === $brandFilter) {
-                                                                            $hasBrandTraining = true;
-                                                                            break 2; // Sortir des deux boucles si trouvé
-                                                                        }
-                                                                    }
-                                                                }
-                                                            }
-                                                            
-                                                            if ($hasBrandTraining) {
-                                                                $filteredTechsArray[] = $tech;
-                                                            }
-                                                        }
-                                                    } else {
-                                                        // Aucun filtre spécifique, afficher tous les techniciens
-                                                        $filteredTechsArray = $technicians;
-                                                    }
-                                                }
-                                                
-                                                foreach ($filteredTechsArray as $technician):
-                                                    $technicianId = (string)$technician['_id'];
-                                                    $technicianLevel = $technician['level'];
-                                                    $technicianLevelOrder = $levelOrder[$technicianLevel] ?? 1; // Par défaut à 1 si niveau inconnu
-                                                    $technicianMissingGroups = $missingGroups[$technicianId] ?? [];
-                                                    // Déterminer si c'est le technicien sélectionné
-                                                    $isSelected = ($techFilter != 'all' && $techFilter === $technicianId);
-                                                ?>
-                                                    <tr data-tech-id="<?php echo htmlspecialchars($technicianId); ?>" class="<?php echo $isSelected ? 'table-primary' : ''; ?>">
+                                                <?php foreach ($filteredTechnicians as $technician): ?>
+                                                    <?php 
+                                                        $technicianId = (string)$technician['_id']; 
+                                                        $technicianLevel = $technician['level'];
+                                                        $technicianLevelOrder = $levelOrder[$technicianLevel] ?? 1; // Par défaut à 1 si niveau inconnu
+                                                        $technicianMissingGroups = $missingGroups[$technicianId] ?? [];
+                                                    ?>
+                                                    <tr>
                                                         <!-- Nom et Prénom -->
                                                         <td class="text-center">
                                                             <?php echo htmlspecialchars($technician['firstName'] . ' ' . $technician['lastName']); ?>    
@@ -723,12 +619,6 @@ if (!isset($_SESSION["id"])) {
                                                                 <?php endif; ?>
                                                             </td>
                                                         <?php endforeach; ?>
-                                                        
-                                                        <?php if (empty($filteredTechsArray)): ?>
-                                                        <tr>
-                                                            <td colspan="4" class="text-center">Aucun technicien ne correspond aux critères de filtrage.</td>
-                                                        </tr>
-                                                        <?php endif; ?>
                                                     </tr>
                                                 <?php endforeach; ?>
                                             </tbody>
@@ -740,8 +630,6 @@ if (!isset($_SESSION["id"])) {
                                             <div class="dataTables_length">
                                                 <label><select id="kt_customers_table_length" name="kt_customers_table_length"
                                                         class="form-select form-select-sm form-select-solid">
-                                                        <option value="20">20</option>
-                                                        <option value="50" selected>50</option>
                                                         <option value="100">100</option>
                                                         <option value="200">200</option>
                                                         <option value="300">300</option>
@@ -777,33 +665,16 @@ if (!isset($_SESSION["id"])) {
                             </div>
                             <div class="card-body d-flex flex-column flex-grow-1">
                                 <div id="dynamicFilters">
-                                    <!-- Filtre Techniciens -->
-                                    <div class="mb-4">
-                                        <label for="tech-filter" class="form-label d-flex align-items-center">
-                                            <i class="bi bi-person-fill fs-2 me-2 text-info"></i> Techniciens
-                                        </label>
-                                        <select id="tech-filter" class="form-select" onchange="applyFilters()">
-                                            <option value="all" <?php echo ($techFilter === 'all') ? 'selected' : ''; ?>>Tous les techniciens</option>
-                                            <?php if(isset($technicians)): ?>
-                                                <?php foreach ($technicians as $t): ?>
-                                                <option value="<?php echo htmlspecialchars($t['_id']); ?>" <?php echo ($techFilter === (string)$t['_id']) ? 'selected' : ''; ?>>
-                                                    <?php echo htmlspecialchars($t['firstName'] .' '. $t['lastName']); ?>
-                                                </option>
-                                                <?php endforeach; ?>
-                                            <?php endif; ?>
-                                        </select>
-                                    </div>
-
                                     <!-- Filtre Marques -->
                                     <div class="mb-4">
                                         <label for="brand-filter" class="form-label d-flex align-items-center">
                                             <i class="bi bi-car-front-fill fs-2 me-2 text-danger"></i> Marques
                                         </label>
                                         <select id="brand-filter" class="form-select" onchange="applyFilters()">
-                                            <option value="all" <?php echo ($brandFilter === 'all') ? 'selected' : ''; ?>>Toutes les marques</option>
+                                            <option value="all">Toutes les marques</option>
                                             <?php if(isset($teamBrands)): ?>
                                                 <?php foreach ($teamBrands as $b): ?>
-                                                <option value="<?php echo htmlspecialchars($b); ?>" <?php echo ($brandFilter === $b) ? 'selected' : ''; ?>>
+                                                <option value="<?php echo htmlspecialchars($b); ?>">
                                                     <?php echo htmlspecialchars($b); ?>
                                                 </option>
                                                 <?php endforeach; ?>
@@ -811,35 +682,20 @@ if (!isset($_SESSION["id"])) {
                                         </select>
                                     </div>
 
-                                    <!-- Filtre Formations -->
+                                    <!-- Filtre Techniciens -->
                                     <div class="mb-4">
-                                        <label for="training-filter" class="form-label d-flex align-items-center">
-                                            <i class="fas fa-book-open fs-2 text-success me-2"></i> Formations
+                                        <label for="tech-filter" class="form-label d-flex align-items-center">
+                                            <i class="bi bi-person-fill fs-2 me-2 text-info"></i> Techniciens
                                         </label>
-                                        <select id="training-filter" class="form-select" onchange="applyFilters()">
-                                            <option value="all" <?php echo ($trainingFilter === 'all') ? 'selected' : ''; ?>>Toutes les formations</option>
-                                            <?php if(isset($trainingDatas)): ?>
-                                                <?php foreach ($trainingDatas as $td): ?>
-                                                <option value="<?php echo htmlspecialchars($td['_id']); ?>" <?php echo ($trainingFilter === (string)$td['_id']) ? 'selected' : ''; ?>>
-                                                    <?php echo htmlspecialchars($td['label']); ?>
+                                        <select id="tech-filter" class="form-select" onchange="applyFilters()">
+                                            <option value="all">Tous les techniciens</option>
+                                            <?php if(isset($technicians)): ?>
+                                                <?php foreach ($technicians as $t): ?>
+                                                <option value="<?php echo htmlspecialchars($t['_id']); ?>">
+                                                    <?php echo htmlspecialchars($t['firstName'] .' '. $t['lastName']); ?>
                                                 </option>
                                                 <?php endforeach; ?>
                                             <?php endif; ?>
-                                        </select>
-                                    </div>
-
-                                    <!-- Filtre Level -->
-                                    <div class="mb-4">
-                                        <label for="level-filter" class="form-label d-flex align-items-center">
-                                            <i class="bi bi-bar-chart-fill fs-2 me-2 text-warning"></i> Niveaux
-                                        </label>
-                                        <select id="level-filter" name="level" class="form-select" onchange="applyFilters()">
-                                            <option value="all">Tous les niveaux</option>
-                                            <?php foreach (['Junior', 'Senior', 'Expert'] as $levelOption): ?>
-                                            <option value="<?php echo htmlspecialchars($levelOption); ?>" <?php echo ($levelFilter === $levelOption) ? 'selected' : ''; ?>>
-                                                <?php echo htmlspecialchars($levelOption); ?>
-                                            </option>
-                                            <?php endforeach; ?>
                                         </select>
                                     </div>
                                 </div>
@@ -863,7 +719,8 @@ if (!isset($_SESSION["id"])) {
             <!--end::Container-->
         </div>
         <!--end::Post-->
-    <?php closeBackgroundContainer(); ?>
+        </div>
+    </div>
     <!--end::Body-->
     <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
         crossorigin="anonymous"></script>
@@ -916,200 +773,20 @@ if (!isset($_SESSION["id"])) {
                     row.style.display = text.includes(searchTerm) ? '' : 'none';
                 });
             });
-    
-            // Initialize popovers if they exist
-            var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
-            var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
-                return new bootstrap.Popover(popoverTriggerEl, {
-                    placement: 'right',
-                    trigger: 'hover'
-                })
-            });
-    
-            // Hide loading overlay after DOM is fully loaded
-            setTimeout(function() {
-                const loadingOverlay = document.getElementById('loading-overlay');
-                if (loadingOverlay) {
-                    loadingOverlay.style.display = 'none';
-                }
-            }, 800);
         });
-    
+
         // Function to apply filters and reload the page with new parameters
         function applyFilters() {
             const techFilter = document.getElementById('tech-filter').value;
             const brandFilter = document.getElementById('brand-filter').value;
-            const trainingFilter = document.getElementById('training-filter').value;
-            const levelFilter = document.getElementById('level-filter').value;
             
-            // Show loading overlay for better user experience
-            const loadingOverlay = document.getElementById('loading-overlay');
-            if (loadingOverlay) {
-                loadingOverlay.style.display = 'flex';
-            }
+            // Show loading indicator if needed
+            document.getElementById('loading-overlay').style.display = 'flex';
             
-            if (techFilter !== 'all') {
-                // Si un technicien est sélectionné, on filtre les lignes dans le tableau
-                const rows = document.querySelectorAll('#table tr');
-                rows.forEach(row => {
-                    row.style.display = ''; // Réinitialiser l'affichage
-                });
-            }
-            
-            // Build query string with all filter parameters
-            let query = `?user=${encodeURIComponent(techFilter)}&brand=${encodeURIComponent(brandFilter)}&training=${encodeURIComponent(trainingFilter)}&level=${encodeURIComponent(levelFilter)}`;
+            // Build query string
+            let query = `?user=${encodeURIComponent(techFilter)}&brand=${encodeURIComponent(brandFilter)}`;
             window.location.href = query;
         }
-    
-        // Create a loading overlay element if it doesn't exist
-        document.addEventListener('DOMContentLoaded', function() {
-            if (!document.getElementById('loading-overlay')) {
-                const overlay = document.createElement('div');
-                overlay.id = 'loading-overlay';
-                overlay.style.cssText = 'display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(255, 255, 255, 0.8); z-index: 9999; justify-content: center; align-items: center; flex-direction: column;';
-                
-                const spinner = document.createElement('div');
-                spinner.className = 'spinner-border text-primary';
-                spinner.style.cssText = 'width: 3rem; height: 3rem;';
-                spinner.setAttribute('role', 'status');
-                
-                const spinnerText = document.createElement('span');
-                spinnerText.className = 'visually-hidden';
-                spinnerText.textContent = 'Loading...';
-                
-                const loadingText = document.createElement('div');
-                loadingText.className = 'mt-3 fw-bold fs-4';
-                loadingText.textContent = 'Chargement des données...';
-                
-                const cancelButton = document.createElement('button');
-                cancelButton.className = 'btn btn-sm btn-light mt-3';
-                cancelButton.textContent = 'Cliquez ici si le chargement persiste';
-                cancelButton.onclick = function() {
-                    document.getElementById('loading-overlay').style.display = 'none';
-                };
-                
-                spinner.appendChild(spinnerText);
-                overlay.appendChild(spinner);
-                overlay.appendChild(loadingText);
-                overlay.appendChild(cancelButton);
-                
-                document.body.appendChild(overlay);
-            }
-        });
-
-        // Amélioration de la pagination du tableau
-        document.addEventListener('DOMContentLoaded', function() {
-            const tableBody = document.getElementById('table');
-            const tableRows = tableBody.querySelectorAll('tr');
-            const itemsPerPageSelect = document.getElementById('kt_customers_table_length');
-            const paginationContainer = document.getElementById('kt_customers_table_paginate');
-            
-            // Fonction pour paginer le tableau
-            function paginateTable() {
-                const itemsPerPage = parseInt(itemsPerPageSelect.value);
-                let visibleRows = Array.from(tableRows).filter(row => row.style.display !== 'none');
-                let totalPages = Math.ceil(visibleRows.length / itemsPerPage);
-                let currentPage = 1;
-                
-                // Fonction pour afficher une page spécifique
-                function showPage(page) {
-                    visibleRows.forEach((row, index) => {
-                        const start = (page - 1) * itemsPerPage;
-                        const end = start + itemsPerPage;
-                        row.style.display = (index >= start && index < end) ? '' : 'none';
-                    });
-                    
-                    // Mettre à jour la pagination
-                    updatePagination();
-                }
-                
-                // Fonction pour mettre à jour les contrôles de pagination
-                function updatePagination() {
-                    let paginationHTML = '';
-                    
-                    // Bouton précédent
-                    paginationHTML += `<li class="page-item previous ${currentPage === 1 ? 'disabled' : ''}">
-                        <a href="#" class="page-link" data-page="${currentPage - 1}"><i class="previous"></i></a>
-                    </li>`;
-                    
-                    // Pages numérotées
-                    const maxPagesToShow = 5;
-                    let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
-                    let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
-                    
-                    if (endPage - startPage + 1 < maxPagesToShow) {
-                        startPage = Math.max(1, endPage - maxPagesToShow + 1);
-                    }
-                    
-                    for (let i = startPage; i <= endPage; i++) {
-                        paginationHTML += `<li class="page-item ${i === currentPage ? 'active' : ''}">
-                            <a href="#" class="page-link" data-page="${i}">${i}</a>
-                        </li>`;
-                    }
-                    
-                    // Bouton suivant
-                    paginationHTML += `<li class="page-item next ${currentPage === totalPages ? 'disabled' : ''}">
-                        <a href="#" class="page-link" data-page="${currentPage + 1}"><i class="next"></i></a>
-                    </li>`;
-                    
-                    // Mettre à jour le conteneur de pagination
-                    if (paginationContainer) {
-                        paginationContainer.innerHTML = paginationHTML;
-                        
-                        // Ajouter des écouteurs d'événements pour les liens de pagination
-                        paginationContainer.querySelectorAll('.page-link').forEach(link => {
-                            link.addEventListener('click', function(e) {
-                                e.preventDefault();
-                                const pageNum = parseInt(this.dataset.page);
-                                if (pageNum >= 1 && pageNum <= totalPages) {
-                                    currentPage = pageNum;
-                                    showPage(currentPage);
-                                }
-                            });
-                        });
-                    }
-                }
-                
-                // Initialiser la pagination
-                if (visibleRows.length > 0) {
-                    showPage(currentPage);
-                    
-                    // Écouter les changements de nombre d'éléments par page
-                    itemsPerPageSelect.addEventListener('change', function() {
-                        currentPage = 1; // Revenir à la première page
-                        visibleRows = Array.from(tableRows).filter(row => row.style.display !== 'none');
-                        totalPages = Math.ceil(visibleRows.length / parseInt(this.value));
-                        showPage(currentPage);
-                    });
-                }
-            }
-            
-            // Démarrer la pagination après le chargement
-            if (tableRows.length > 0) {
-                // Attendre un court instant pour que les autres scripts finissent
-                setTimeout(paginateTable, 200);
-            }
-        });
-    </script>
-    <!-- Script pour s'assurer que le loader est caché -->
-    <script>
-    (function() {
-        // S'exécute immédiatement à la fin de la page
-        var loader = document.getElementById('loading-overlay');
-        if (loader) {
-            loader.style.display = 'none';
-        }
-        
-        // Double vérification après un délai très court
-        setTimeout(function() {
-            var headerSpinner = document.getElementById('spinner');
-            var pageLoader = document.getElementById('loading-overlay');
-            
-            // S'assurer que les deux loaders sont masqués
-            if (headerSpinner) headerSpinner.style.display = 'none';
-            if (pageLoader) pageLoader.style.display = 'none';
-        }, 100);
-    })();
     </script>
     <?php include_once "partials/footer.php"; ?>
-    <?php } ?>
+<?php } ?>

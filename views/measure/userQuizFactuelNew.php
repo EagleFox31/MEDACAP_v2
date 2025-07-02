@@ -312,11 +312,16 @@ function templateQuizForm(array $ctx): string
 {
     ob_start();$level=htmlspecialchars($_GET['level']);$k=1;
     include_once __DIR__.'/partials/header.php';
+    include_once __DIR__.'/../partials/background-manager.php';
     echo '<title>'.L('test_connaissances').' | CFAO Mobility Academy</title>';
     echo '<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet" />';
     echo '<link href="../../public/css/userQuiz.css" rel="stylesheet" type="text/css" />';
     echo '<style>.contImage{margin-top:30px;width:550px;overflow:hidden;position:relative;justify-content:center}#image{width:100%;transition:transform .3s ease-out;transform-origin:center}.contImage:hover #image{transform:scale(2.5)}</style>';
-    echo '<div class="content fs-6 d-flex flex-column flex-column-fluid" id="kt_content"><div class="post fs-6 d-flex flex-column-fluid" id="kt_post"><div class="container-xxl col-sm stack-on-small">';
+    // Définir le fond d'écran pour cette page
+    setPageBackground('bg-quiz', true);
+    // Utiliser notre gestionnaire de fond d'écran
+    openBackgroundContainer('', 'id="kt_content"');
+    echo '<div class="post fs-6 d-flex flex-column-fluid" id="kt_post"><div class="container-xxl col-sm stack-on-small">';
     echo '<form class="quiz-form" method="POST">';
     echo '<center class="center col-sm stack-on-small" style="margin-top:-100px;">';
     echo '<div class="timer col-sm stack-on-small" style="margin-right:400px;"><div class="time_left_txt">'.L('left_questions').'</div><div class="timer_sec" id="num" value="1"></div></div>';
@@ -349,7 +354,9 @@ function templateQuizForm(array $ctx): string
             echo     '<button type="submit" id="button" class="btn btn-primary btn-lg" name="valid">'.$next.'</button>';
             echo '</div>';
 
-    echo '</div></form></div></div></div>';
+    echo '</div></form></div></div>';
+    // Fermer le conteneur de fond d'écran
+    closeBackgroundContainer();
     include_once __DIR__.'/partials/footer.php';
     // ------------------------------------------------------------------
     //  Effet loupe → suit la souris                    ✱ ADDED 2025-06-13 ✱

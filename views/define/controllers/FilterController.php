@@ -1,4 +1,5 @@
 <?php
+// We'll use fully qualified class names instead of imports
 /**
  * Contrôleur de gestion des filtres pour les dashboards
  * Implémente le système de filtrage avancé avec les dépendances hiérarchiques
@@ -123,7 +124,7 @@ class FilterController {
                 }
                 
                 if (isset($technician[$brandField]) && !empty($technician[$brandField])) {
-                    $filters['brand'] = $technician[$brandField];
+                    $filters['availableBrands'] = $this->normalizeBrands($technician[$brandField] ?? []);
                 }
             }
         } catch (Exception $e) {
@@ -299,6 +300,32 @@ class FilterController {
         
         return $maxLevel;
     }
+
+    private function normalizeBrands($raw): array
+    {
+        // 1. BSONArray → array PHP
+        if ($raw instanceof \MongoDB\Model\BSONArray) {
+            $raw = $raw->getArrayCopy();
+        }
+
+        // 2. Pas un tableau ?  → []
+        if (!is_array($raw)) {
+            return [];
+        }
+
+        // 3. trim + suppression des vides + unicité
+        return array_values(
+            array_unique(
+                array_filter(
+                        array_map('trim', $raw),
+                        function ($v) {
+                            return $v !== '';
+                        }
+                    )
+
+            )
+        );
+    }
     
     /**
      * Trouve les marques communes à tous les techniciens de la liste
@@ -306,37 +333,39 @@ class FilterController {
      * @param array $technicians Liste des techniciens
      * @return array Liste des marques communes
      */
-    private function findCommonBrands($technicians) {
-        $allBrands = [];
-        
-        if (empty($technicians)) {
+    private function findCommonBrands(array $technicians): array
+    {
+        $sets = [];
+
+        foreach ($technicians as $tech) {
+            $merged = array_merge(
+                $this->normalizeBrands($tech['brandJunior'] ?? []),
+                $this->normalizeBrands($tech['brandSenior'] ?? []),
+                $this->normalizeBrands($tech['brandExpert'] ?? [])
+            );
+            
+            // Remove duplicates after merge to avoid repeated values in
+            // intersection result
+            $sets[] = array_values(array_unique($merged, SORT_STRING));
+        }
+
+        // Aucun technicien → aucune marque
+        if (empty($sets)) {
             return [];
         }
-        
-        // Collecter toutes les marques de tous les techniciens
-        foreach ($technicians as $tech) {
-            $techBrands = [];
-            
-            if (isset($tech['brandJunior']) && !empty($tech['brandJunior'])) {
-                $techBrands[] = $tech['brandJunior'];
-            }
-            if (isset($tech['brandSenior']) && !empty($tech['brandSenior'])) {
-                $techBrands[] = $tech['brandSenior'];
-            }
-            if (isset($tech['brandExpert']) && !empty($tech['brandExpert'])) {
-                $techBrands[] = $tech['brandExpert'];
-            }
-            
-            // Si c'est le premier technicien, initialiser allBrands
-            if (empty($allBrands)) {
-                $allBrands = $techBrands;
-            } else {
-                // Sinon, conserver uniquement l'intersection
-                $allBrands = array_intersect($allBrands, $techBrands);
+
+        // Intersection progressive
+        $common = array_shift($sets);
+        foreach ($sets as $set) {
+            $common = array_intersect($common, $set);
+            // Petit court-circuit : plus rien en commun → on peut sortir
+            if (empty($common)) {
+                return [];
             }
         }
-        
-        return array_values(array_unique(array_filter($allBrands)));
+
+        // Clean duplicate values and reindex
+        return array_values(array_unique($common, SORT_STRING));
     }
     
     /**
@@ -389,15 +418,38 @@ class FilterController {
         
         if ($this->academy && $subsidiary !== 'all') {
             try {
+                error_log('[FilterController] Fetching agencies for ' . $subsidiary);
+                // Requête insensible à la casse pour éviter les problèmes de
+                // variations d'écriture dans la base
+                $query = [
+                    'subsidiary' => trim($subsidiary), // Use exact match instead of regex
+                    'active'     => true
+                ];
+
+
                 // Récupérer toutes les agences distinctes pour la filiale spécifiée
-                $cursor = $this->academy->users->distinct('agency', 
-                    ['subsidiary' => $subsidiary, 'active' => true]
-                );
-                $agencies = $cursor;
+                $agencies = $this->academy->users->distinct('agency', $query);
+
+                // Nettoyer et dédupliquer les valeurs récupérées
+                $agencies = array_values(array_unique(array_map('trim', $agencies)));
+                error_log('[FilterController] Agencies found: ' . json_encode($agencies));
             } catch (Exception $e) {
                 error_log("Erreur lors de la récupération des agences: " . $e->getMessage());
             }
         }
+
+        
+        // Fallback: if no agencies retrieved from DB, use static configuration
+        if (empty($agencies) && $subsidiary !== 'all') {
+            $agencyMap = include __DIR__ . '/../components/agencyData.php';
+            if (isset($agencyMap[$subsidiary])) {
+                $agencies = $agencyMap[$subsidiary];
+                error_log('[FilterController] Agencies from config: ' . json_encode($agencies));
+            } else {
+                error_log('[FilterController] No agencies found for ' . $subsidiary . ' in config');
+            }
+        }
+
         
         return $agencies;
     }
@@ -454,6 +506,22 @@ class FilterController {
      * @return array Liste des marques
      */
     public function getBrands($filters = []) {
+
+         // 1️⃣ Si on cible un tech → retourner ses propres marques
+        if ($filters['technicianId'] !== 'all') {
+            $tech = $this->academy->users->findOne(
+                ['_id' => $filters['technicianId']],
+                ['projection' => ['brandJunior'=>1,'brandSenior'=>1,'brandExpert'=>1]]
+            );
+
+            $brands = array_unique(array_merge(
+                $this->normalizeBrands($tech['brandJunior'] ?? []),
+                $this->normalizeBrands($tech['brandSenior'] ?? []),
+                $this->normalizeBrands($tech['brandExpert'] ?? [])
+            ));
+
+            return $brands;    // fini, pas de requête globale
+        }
         // Si des marques filtrées sont déjà disponibles, les utiliser
         if (isset($filters['availableBrands']) && !empty($filters['availableBrands'])) {
             return $filters['availableBrands'];
@@ -481,17 +549,24 @@ class FilterController {
                 $brandSenior = $this->academy->users->distinct('brandSenior', $query);
                 $brandExpert = $this->academy->users->distinct('brandExpert', $query);
                 
-                // Combiner et dédupliquer les marques
+               // Combiner puis dédupliquer en ignorant la casse et les espaces
                 $allBrands = array_merge($brandJunior, $brandSenior, $brandExpert);
-                $uniqueBrands = array_unique($allBrands);
-                
-                // Filtrer les valeurs vides
-                $brands = array_filter($uniqueBrands, function($brand) {
-                    return !empty(trim($brand));
-                });
-                
-                // Trier les marques
-                sort($brands);
+                $normalized = [];
+                foreach ($allBrands as $brandName) {
+                    $trimmed = trim((string)$brandName);
+                    if ($trimmed === '') {
+                        continue;
+                    }
+                    $key = mb_strtolower($trimmed);
+                    if (!isset($normalized[$key])) {
+                        $normalized[$key] = $trimmed;
+                    }
+                }
+
+                $brands = array_values($normalized);
+
+                // Trier les marques alphabétiquement (sans tenir compte de la casse)
+                sort($brands, SORT_FLAG_CASE | SORT_STRING);
             } catch (Exception $e) {
                 error_log("Erreur lors de la récupération des marques: " . $e->getMessage());
             }
@@ -542,6 +617,7 @@ class FilterController {
                 }
                 
                 // Filtre par marque
+                error_log('[FilterController] getTrainingStats query: ' . json_encode($query));
                 if (isset($filters['brand']) && $filters['brand'] !== 'all') {
                     $query['$or'] = [
                         ['brandJunior' => $filters['brand']],
@@ -610,6 +686,9 @@ class FilterController {
                 }
                 if (isset($filters['managerId']) && $filters['managerId'] !== 'all') {
                     $query['manager'] = $filters['managerId']; // Use string ID directly
+                }
+                if (isset($filters['technicianId']) && $filters['technicianId'] !== 'all') {
+                    $query['_id'] = $filters['technicianId']; // Use string ID directly
                 }
                 if (isset($filters['brand']) && $filters['brand'] !== 'all') {
                     $query['$or'] = [
@@ -765,6 +844,9 @@ class FilterController {
                 if (isset($filters['managerId']) && $filters['managerId'] !== 'all') {
                     $baseQuery['manager'] = $filters['managerId'];
                 }
+                if (isset($filters['technicianId']) && $filters['technicianId'] !== 'all') {
+                    $baseQuery['_id'] = $filters['technicianId']; // Use string ID directly
+                }
                 if (isset($filters['level']) && $filters['level'] !== 'all') {
                     if ($filters['level'] === 'Junior') {
                         $baseQuery['level'] = ['$in' => ['Junior', 'Senior', 'Expert']];
@@ -880,7 +962,9 @@ class FilterController {
                     if (isset($filters['managerId']) && $filters['managerId'] !== 'all') {
                         $query['manager'] = $filters['managerId'];
                     }
-                    
+                    if (isset($filters['technicianId']) && $filters['technicianId'] !== 'all') {
+                        $query['_id'] = $filters['technicianId']; // Use string ID directly
+                    }
                     // Récupérer les scores d'évaluation pour cette marque
                     $technicians = $this->academy->users->find($query, [
                         'projection' => ['evaluationResults' => 1]
@@ -968,6 +1052,9 @@ class FilterController {
                 }
                 if (isset($filters['managerId']) && $filters['managerId'] !== 'all') {
                     $query['manager'] = $filters['managerId'];
+                }
+                if (isset($filters['technicianId']) && $filters['technicianId'] !== 'all') {
+                    $query['_id'] = $filters['technicianId']; // Use string ID directly
                 }
                 if (isset($filters['level']) && $filters['level'] !== 'all') {
                     if ($filters['level'] === 'Junior') {
@@ -1082,5 +1169,151 @@ class FilterController {
         }
         
         return $summary;
+    }
+
+    /**
+     * Calcule le nombre de formations proposées et validées par marque
+     * en appliquant les filtres spécifiés.
+     *
+     * @param array $filters Filtres du dashboard
+     * @return array [ 'trainingsCounts' => [], 'validationsCounts' => [] ]
+     */
+    public function getTrainingValidationStats($filters = []) {
+        $result = [
+            'trainingsCounts'   => [],
+            'validationsCounts' => []
+        ];
+
+        if (!$this->academy) {
+            return $result;
+        }
+
+        try {
+            $techQuery = array_merge(
+                $this->getTechOrTestManagerClause(),
+                ['active' => true]
+            );
+
+            if (isset($filters['subsidiary']) && $filters['subsidiary'] !== 'all') {
+                $techQuery['subsidiary'] = $filters['subsidiary'];
+            }
+            if (isset($filters['agency']) && $filters['agency'] !== 'all') {
+                $techQuery['agency'] = $filters['agency'];
+            }
+            if (isset($filters['managerId']) && $filters['managerId'] !== 'all') {
+                $techQuery['manager'] = $filters['managerId'];
+            }
+            
+            // Variables to track technician-specific brands
+            $technicianBrands = [];
+            $technicianSelected = false;
+            
+            // If a specific technician is selected, get their associated brands
+            if (isset($filters['technicianId']) && $filters['technicianId'] !== 'all') {
+                $technicianSelected = true;
+                $techQuery['_id'] = $filters['technicianId']; // Use string ID directly as done in hydrateFiltersFromTechnician
+                
+                // Fetch the technician record with brand information
+                $technician = $this->academy->users->findOne(
+                    ['_id' => $filters['technicianId']],
+                    [
+                        'projection' => [
+                            '_id' => 1,
+                            'brandJunior' => 1,
+                            'brandSenior' => 1,
+                            'brandExpert' => 1
+                        ]
+                    ]
+                );
+                
+                if ($technician) {
+                    // Collect all brands associated with this technician
+                    $technicianBrands = array_unique(array_merge(
+                        $this->normalizeBrands($technician['brandJunior'] ?? []),
+                        $this->normalizeBrands($technician['brandSenior'] ?? []),
+                        $this->normalizeBrands($technician['brandExpert'] ?? [])
+                    ));
+                    
+                    error_log('[FilterController] Technician ' . $filters['technicianId'] . ' has brands: ' . json_encode($technicianBrands));
+                }
+            }
+            
+            if (isset($filters['level']) && $filters['level'] !== 'all') {
+                $techQuery['level'] = $filters['level'];
+            }
+
+            $techCursor = $this->academy->users->find($techQuery, ['projection' => ['_id' => 1]]);
+            $techIds   = [];
+            foreach ($techCursor as $doc) {
+                $techIds[] = $doc['_id'];
+            }
+
+            if (empty($techIds)) {
+                return $result;
+            }
+
+            $trainMatch = [
+                'active' => true,
+                'users'  => ['$in' => $techIds]
+            ];
+            
+            // Apply brand filtering logic
+            if (isset($filters['brand']) && $filters['brand'] !== 'all') {
+                // If a specific brand is selected in the filters, use that
+                $trainMatch['brand'] = $filters['brand'];
+            } else if ($technicianSelected && !empty($technicianBrands)) {
+                // If a technician is selected but no specific brand filter,
+                // limit to the technician's associated brands
+                $trainMatch['brand'] = ['$in' => $technicianBrands];
+            }
+            
+            if (isset($filters['level']) && $filters['level'] !== 'all') {
+                $trainMatch['level'] = $filters['level'];
+            }
+
+            $pipelineTrain = [
+                ['$match' => $trainMatch],
+                ['$group' => [ '_id' => '$brand', 'count' => ['$sum' => 1]]]
+            ];
+
+            foreach ($this->academy->trainings->aggregate($pipelineTrain) as $doc) {
+                $brand = (string)$doc->_id;
+                $result['trainingsCounts'][$brand] = (int)$doc->count;
+            }
+
+            $validPipeline = [
+                ['$match' => ['status' => 'Validé', 'user' => ['$in' => $techIds]]],
+                ['$lookup' => [
+                    'from'         => 'trainings',
+                    'localField'   => 'training',
+                    'foreignField' => '_id',
+                    'as'           => 'training'
+                ]],
+                ['$unwind' => '$training']
+            ];
+
+            // Apply the same brand filtering logic to validations
+            if (isset($filters['brand']) && $filters['brand'] !== 'all') {
+                $validPipeline[] = ['$match' => ['training.brand' => $filters['brand']]];
+            } else if ($technicianSelected && !empty($technicianBrands)) {
+                $validPipeline[] = ['$match' => ['training.brand' => ['$in' => $technicianBrands]]];
+            }
+            
+            if (isset($filters['level']) && $filters['level'] !== 'all') {
+                $validPipeline[] = ['$match' => ['training.level' => $filters['level']]];
+            }
+
+            $validPipeline[] = ['$group' => [ '_id' => '$training.brand', 'count' => ['$sum' => 1]]];
+
+            foreach ($this->academy->validations->aggregate($validPipeline) as $doc) {
+                $brand = (string)$doc->_id;
+                $result['validationsCounts'][$brand] = (int)$doc->count;
+            }
+
+        } catch (Exception $e) {
+            error_log('Erreur getTrainingValidationStats: ' . $e->getMessage());
+        }
+
+        return $result;
     }
 }

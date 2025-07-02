@@ -229,32 +229,31 @@
 <!--begin::Title-->
 <title><?php echo $tableau ?> | CFAO Mobility Academy</title>
 <!--end::Title-->
+
+<?php include_once "../partials/background-manager.php"; ?>
+<?php setPageBackground("bg-dashboard"); ?>
+
 <!--begin::Content-->
-<div class="content fs-6 d-flex flex-column flex-column-fluid" id="kt_content">
-    <!--begin::Toolbar-->
-    <div class="toolbar" id="kt_toolbar">
-        <div class=" container-fluid  d-flex flex-stack flex-wrap flex-sm-nowrap">
-            <!--begin::Info-->
-            <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
-                <!--begin::Title-->
-                <h1 class="text-dark fw-bold my-1 fs-1">
+<?php openBackgroundContainer(); ?>
+    <!-- Main Title Card -->
+    <div class="container-xxl">
+        <div class="card shadow-sm mb-5 w-75 mx-auto">
+            <div class="card-body p-4">
+                <h1 class="text-dark fw-bold text-center fs-1">
                     <?php echo $tableau ?>
                 </h1>
-                <!--end::Title-->
             </div>
-            <!--end::Info-->
         </div>
     </div>
-    <!--end::Toolbar-->
     <?php if ($_SESSION["profile"] == "Manager" && $_SESSION["test"] == false) { ?>
         <!--begin::Content-->
-        <div class="content fs-6 d-flex flex-column flex-column-fluid" id="kt_content" style="margin-top: -10px">
+        <div class="content fs-6 d-flex flex-column flex-column-fluid" id="kt_content" style="margin-top: -10px; background-color: transparent;">
             <!--begin::Post-->
             <div class="post fs-6 d-flex flex-column-fluid" id="kt_post">
                 <!--begin::Container-->
-                <div class=" container-xxl ">
+                <div class="container-xxl">
                     <!--begin::Row-->
-                    <div class="row g-6 g-xl-9 mb-6 mb-xl-9">
+                    <div class="row g-6 g-xl-9 mb-6 mb-xl-9" style="background: transparent; border: none; box-shadow: none;">
                         
                         <!--end::Col-->
                         <!--begin::Col-->
@@ -360,26 +359,24 @@
                             </div>
                             <!--end::Card-->
                         </div>
-                        <!--begin::Toolbar-->
-                        <div class="toolbar" id="kt_toolbar" style="margin-top: 50px; margin-bottom: -20px">
-                            <div class=" container-fluid  d-flex flex-stack flex-wrap flex-sm-nowrap">
-                                <!--begin::Info-->
-                                <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
-                                    <!--begin::Title-->
-                                    <h1 class="text-dark fw-bold my-1 fs-2">
+
+                        <br>
+                        <br>
+                        <!-- Secondary Title Card with Glassmorphism -->
+                        <div class="container-xxl mb-5">
+                            <div class="card border-0" style="background-color: white; margin-top: 40px;">
+                                <div class="card-body p-4">
+                                    <h2 class="text-dark fw-bold text-center fs-2">
                                         <?php echo $etat_avancement_qcm_tache_pro_manager ?>
-                                    </h1>
-                                    <!--end::Title-->
+                                    </h2>
                                 </div>
-                                <!--end::Info-->
                             </div>
                         </div>
-                        <!--end::Toolbar-->
+                        <br> 
+                        <br>   
                         <!-- begin::Row -->
-                        <div>
-                            <div id="chartQCM" class="row">
-                                <!-- Dynamic cards will be appended here -->
-                            </div>
+                        <div id="chartQCM" class="row" style="margin-top: 40px;">
+                            <!-- Dynamic cards will be appended here -->
                         </div>
                         <!-- endr::Row -->
                     </div>
@@ -392,13 +389,13 @@
         <!--end::Content-->
     <?php } else if ($_SESSION["profile"] == "Manager" && $_SESSION["test"] == true) { ?>
         <!--begin::Content-->
-        <div class="content fs-6 d-flex flex-column flex-column-fluid" id="kt_content" style="margin-top: -10px">
+        <div class="content fs-6 d-flex flex-column flex-column-fluid" id="kt_content" style="margin-top: -10px; background-color: transparent;">
             <!--begin::Post-->
             <div class="post fs-6 d-flex flex-column-fluid" id="kt_post">
                 <!--begin::Container-->
-                <div class=" container-xxl ">
+                <div class="container-xxl">
                     <!--begin::Row-->
-                    <div class="row g-6 g-xl-9 mb-6 mb-xl-9">
+                    <div class="row g-6 g-xl-9 mb-6 mb-xl-9" style="background: transparent; border: none; box-shadow: none;">
                         <!--begin::Col-->
                         <div class="col-md-6 col-lg-4 col-xl-4">
                             <!--begin::Card-->
@@ -477,28 +474,24 @@
                             <!--end::Card-->
                         </div>
                         <!--end::Col-->
-                        
+                        <br>
+                        <br>
                         <!--end::Col-->
-                        <!--begin::Toolbar-->
-                        <div class="toolbar" id="kt_toolbar" style="margin-top: 50px; margin-bottom: -20px">
-                            <div class=" container-fluid  d-flex flex-stack flex-wrap flex-sm-nowrap">
-                                <!--begin::Info-->
-                                <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
-                                    <!--begin::Title-->
-                                    <h1 class="text-dark fw-bold my-1 fs-2">
+                        <!-- Secondary Title Card with Glassmorphism -->
+                        <div class="container-xxl mb-5">
+                            <div class="card border-0" style="background-color: white; margin-top: 40px;">
+                                <div class="card-body p-4">
+                                    <h2 class="text-dark fw-bold text-center fs-2">
                                         <?php echo $etat_avancement_qcm ?>
-                                    </h1>
-                                    <!--end::Title-->
+                                    </h2>
                                 </div>
-                                <!--end::Info-->
                             </div>
                         </div>
-                        <!--end::Toolbar-->
+                        <br>
+                        <br>
                         <!-- begin::Row -->
-                        <div>
-                            <div id="chartQCM" class="row">
-                                <!-- Dynamic cards will be appended here -->
-                            </div>
+                        <div id="chartQCM" class="row" style="margin-top: 40px;">
+                            <!-- Dynamic cards will be appended here -->
                         </div>
                         <!-- endr::Row -->
                     </div>
@@ -511,13 +504,13 @@
         <!--end::Content-->
     <?php } else{ ?>
         <!--begin::Content-->
-        <div class="content fs-6 d-flex flex-column flex-column-fluid" id="kt_content" style="margin-top: -10px">
+        <div class="content fs-6 d-flex flex-column flex-column-fluid" id="kt_content" style="margin-top: -10px; background-color: transparent;">
             <!--begin::Post-->
             <div class="post fs-6 d-flex flex-column-fluid" id="kt_post">
                 <!--begin::Container-->
-                <div class=" container-xxl ">
+                <div class="container-xxl">
                     <!--begin::Row-->
-                    <div class="row g-6 g-xl-9 mb-6 mb-xl-9">
+                    <div class="row g-6 g-xl-9 mb-6 mb-xl-9" style="background: transparent; border: none; box-shadow: none;">
                         <!--begin::Toolbar-->
                         <!-- <div class="toolbar" id="kt_toolbar" style="margin-top: 20px; margin-bottom: -30px"> -->
                             <!-- <div class=" container-fluid  d-flex flex-stack flex-wrap flex-sm-nowrap"> -->
@@ -611,26 +604,23 @@
                             <!--end::Card-->
                         </div>
                         <!--end::Col-->
-                        <!--begin::Toolbar-->
-                        <div class="toolbar" id="kt_toolbar" style="margin-top: 50px; margin-bottom: -20px">
-                            <div class=" container-fluid  d-flex flex-stack flex-wrap flex-sm-nowrap">
-                                <!--begin::Info-->
-                                <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
-                                    <!--begin::Title-->
-                                    <h1 class="text-dark fw-bold my-1 fs-2">
+                        <br>
+                        <br>
+                        <!-- Secondary Title Card with Glassmorphism -->
+                        <div class="container-xxl mb-5">
+                            <div class="card border-0" style="background-color: white; margin-top: 40px;">
+                                <div class="card-body p-4">
+                                    <h2 class="text-dark fw-bold text-center fs-2">
                                         <?php echo $etat_avancement_qcm ?>
-                                    </h1>
-                                    <!--end::Title-->
+                                    </h2>
                                 </div>
-                                <!--end::Info-->
                             </div>
                         </div>
-                        <!--end::Toolbar-->
+                        <br>
+                        <br>
                         <!-- begin::Row -->
-                        <div>
-                            <div id="chartQCM" class="row">
-                                <!-- Dynamic cards will be appended here -->
-                            </div>
+                        <div id="chartQCM" class="row" style="margin-top: 40px;">
+                            <!-- Dynamic cards will be appended here -->
                         </div>
                         <!-- endr::Row -->
                     </div>
@@ -642,7 +632,7 @@
         </div>
         <!--end::Content-->
     <?php } ?>
-</div>
+<?php closeBackgroundContainer(); ?>
 <!--end::Content-->
 <?php include "./partials/footer.php"; ?>
 
@@ -1299,6 +1289,4 @@ const chartData = [
         });
     </script>
 <?php } ?>
-<?php
-}
-?>
+<?php } ?>

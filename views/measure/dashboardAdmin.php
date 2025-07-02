@@ -2,6 +2,9 @@
     session_start();
     include_once "../language.php";
     include_once "../userFilters.php"; // Inclusion du fichier contenant les fonctions de filtrage
+    include_once "../partials/background-manager.php"; // Include background manager
+
+    setPageBackground("bg-dashboard"); // Set the dashboard background
 
     if (!isset($_SESSION["profile"])) {
         header("Location: ../../");
@@ -1189,23 +1192,17 @@ foreach ($cursor as $doc) {
     <!--end::Title-->
 
     <!--begin::Content-->
-    <div class="content fs-6 d-flex flex-column flex-column-fluid" id="kt_content">
+    <?php openBackgroundContainer(); ?>
         <?php if ($_SESSION["profile"] == "Admin" || $_SESSION["profile"] == "Ressource Humaine" || $_SESSION["profile"] == "Directeur Pièce et Service" || $_SESSION["profile"] == "Directeur des Opérations" || $_SESSION["profile"] == "Directeur Général" || $_SESSION["profile"] == "Directeur Groupe") { ?>
-            <!--begin::Toolbar-->
-            <div class="toolbar" id="kt_toolbar">
-                <div class=" container-fluid  d-flex flex-stack flex-wrap flex-sm-nowrap">
-                    <!--begin::Info-->
-                    <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
-                        <!--begin::Title-->
-                        <h1 class="text-dark fw-bolder my-1 fs-1">
-                            <?php echo $tableau ?>
-                        </h1>
-                        <!--end::Title-->
-                    </div>
-                    <!--end::Info-->
+            <!--begin::Title-->
+            <div class="card mb-5">
+                <div class="card-body py-3">
+                    <h1 class="text-dark fw-bolder my-1 fs-1">
+                        <?php echo $tableau ?>
+                    </h1>
                 </div>
             </div>
-            <!--end::Toolbar-->
+            <!--end::Title-->
             <!--begin::Post-->
             <div class="post fs-6 d-flex flex-column-fluid" id="kt_post">
                 <!--begin::Container-->
@@ -1345,8 +1342,8 @@ foreach ($cursor as $doc) {
                                     </div>
                                 </div>
                                 <!--begin::Title-->
-                                <div style="margin-top: 55px; margin-bottom : 25px">
-                                    <div>
+                                <div class="card mb-5">
+                                    <div class="card-body py-3">
                                         <h6 class="text-dark fw-bold my-1 fs-2">
                                             <?php echo $result_mesure_competence_filiale_niveau ?>
                                         </h6>
@@ -1399,8 +1396,8 @@ foreach ($cursor as $doc) {
                             <?php } ?>
                             <?php if ($_SESSION['profile'] == 'Directeur des Opérations' || $_SESSION['profile'] == 'Directeur Pièce et Service' || $_SESSION['profile'] == 'Admin' || $_SESSION['profile'] == 'Ressource Humaine') { ?>
                                 <!--begin::Title-->
-                                <div style="margin-top: 55px; margin-bottom : 25px">
-                                    <div>
+                                <div class="card mb-5">
+                                    <div class="card-body py-3">
                                         <h6 class="text-dark fw-bold my-1 fs-2">
                                             <?php echo $etat_avanacement_test_filiale ?>
                                         </h6>
@@ -1416,8 +1413,8 @@ foreach ($cursor as $doc) {
                                 <!-- endr::Row -->
                                 
                                 <!--begin::Title-->
-                                <div style="margin-top: 55px; margin-bottom: 25px">
-                                    <div>
+                                <div class="card mb-5">
+                                    <div class="card-body py-3">
                                         <h6 class="text-dark fw-bold my-1 fs-2">
                                             <?php echo $plus_details_tests ?>
                                         </h6>
@@ -1495,7 +1492,7 @@ foreach ($cursor as $doc) {
             </div>
             <!--end::Post-->
         <?php } ?>
-          </div>
+          <?php closeBackgroundContainer(); ?>
     <!--end::Content-->
         <?php
     }

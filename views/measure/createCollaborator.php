@@ -1098,17 +1098,30 @@ if (!isset($_SESSION["id"])) {
 <title><?php echo $title_addCollab ?> | CFAO Mobility Academy</title>
 <!--end::Title-->
 
+<?php include_once "../partials/background-manager.php"; ?>
+<?php setPageBackground("bg-default"); ?>
 
 <!--begin::Body-->
-<div class="content fs-6 d-flex flex-column flex-column-fluid" id="kt_content" data-select2-id="select2-data-kt_content">
+<?php openBackgroundContainer(); ?>
+  <!-- Main Title Card -->
+  <div class="container-xxl">
+    <div class="card shadow-sm mb-5 w-75 mx-auto">
+      <div class="card-body p-4">
+        <h1 class="text-dark fw-bold text-center fs-1">
+          <?php echo $title_addCollab ?>
+        </h1>
+      </div>
+    </div>
+  </div>
+
   <!--begin::Post-->
   <div class="post fs-6 d-flex flex-column-fluid" id="kt_post" data-select2-id="select2-data-kt_post">
     <!--begin::Container-->
-    <div class=" container-xxl " data-select2-id="select2-data-194-27hh">
+    <div class="container-xxl" data-select2-id="select2-data-194-27hh">
       <!--begin::Modal body-->
-      <div class="container mt-5 w-50">
-        <img src="../../public/images/logo.png" alt="10" height="170" style="display: block; max-width: 75%; height: auto; margin-left: 25px;">
-        <h1 class='my-3 text-center'><?php echo $title_addCollab ?></h1>
+      <div class="container mt-5 w-50 card bg-opacity-50 bg-white border-0" style="backdrop-filter: blur(10px);">
+        <div class="card-body p-4">
+          <img src="../../public/images/logo.png" alt="10" height="170" style="display: block; max-width: 75%; height: auto; margin-left: 25px;">
 
         <?php if (isset($success_msg)) { ?>
         <div class='alert alert-success alert-dismissible fade show' role='alert'>
@@ -2085,13 +2098,14 @@ if (!isset($_SESSION["id"])) {
             <!--end::Modal footer-->
           </div>
         </form>
+        </div>
       </div>
       <!--end::Modal body-->
     </div>
     <!--end::Container-->
   </div>
   <!--end::Post-->
-</div>
+<?php closeBackgroundContainer(); ?>
 <!--end::Body-->
 <?php include "./partials/footer.php"; ?>
 <?php

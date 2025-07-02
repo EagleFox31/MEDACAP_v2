@@ -4,10 +4,11 @@
  * -----------------------------------------------------------------*/
 session_start();
 include_once "../language.php";
-include_once "getValidatedResults.php"; 
+include_once "getValidatedResults.php";
 include_once "score_decla.php"; // Inclusion du fichier pour les scores déclaratifs
 include_once "score_fact.php";   // <- renvoie [techId][questionId] => 'Maîtrisé' / 'Non maîtrisé'
 include_once "../userFilters.php";        // <- contient filterUsersByProfile()
+include_once "../partials/background-manager.php"; // Système de gestion de fond d'écran
 
 if (!isset($_SESSION['profile'])) {
     header('Location: ../../');
@@ -656,6 +657,9 @@ echo '<script>window.APP_DATA = ' . json_encode($jsData) . ';</script>';
  *  RENDU HTML
  * -----------------------------------------------------------------*/
 include "./partials/header.php";
+
+// Définir le fond d'écran pour cette page
+setPageBackground('bg-dashboard', true);
 ?>
 
 <style>
@@ -1048,7 +1052,7 @@ include "./partials/header.php";
     <!--end::Title-->
 
     <!--begin::Content-->
-    <div class="content fs-6 d-flex flex-column flex-column-fluid" id="kt_content">
+    <?php openBackgroundContainer('', 'id="kt_content"'); ?>
         <?php if ($_SESSION["profile"] == "Admin" || $_SESSION["profile"] == "Ressource Humaine" || $_SESSION["profile"] == "Directeur Pièce et Service" || $_SESSION["profile"] == "Directeur des Opérations" || $_SESSION["profile"] == "Directeur Général" || $_SESSION["profile"] == "Directeur Groupe") { ?>
             <!--begin::Toolbar-->
             <div class="toolbar" id="kt_toolbar">
@@ -2197,7 +2201,7 @@ include "./partials/header.php";
             </div>
             <!--end::Content-->
         <?php } ?>
-    </div>
+    <?php closeBackgroundContainer(); ?>
     <!--end::Content-->
     <?php include "./partials/footer.php"; ?>
 

@@ -1,6 +1,7 @@
 <?php
 session_start();
 include_once "../language.php";
+include_once "../partials/background-manager.php"; // Système de gestion de fond d'écran
 
 // Check if user is logged in
 if (!isset($_SESSION["id"])) {
@@ -379,7 +380,13 @@ include_once "partials/header.php";
 <title><?= $calendar ?> | CFAO Mobility Academy</title>
 <!--end::Title-->
 
-<div class="content fs-6 d-flex flex-column flex-column-fluid" id="kt_content">
+<?php
+// Définir le fond d'écran pour cette page
+setPageBackground('bg-dashboard', true);
+
+// Ouvrir le conteneur de fond d'écran
+openBackgroundContainer('', 'id="kt_content"');
+?>
     <!--begin::Toolbar-->
     <div class="toolbar" id="kt_toolbar">
         <div class="container-fluid d-flex flex-stack flex-wrap flex-sm-nowrap">
@@ -644,7 +651,7 @@ include_once "partials/header.php";
         <!--end::Container-->
     </div>
     <!--end::Post-->
-</div>
+<?php closeBackgroundContainer(); ?>
 <!--end::Content-->
 <!--end::Body-->
 

@@ -163,6 +163,11 @@ $subsidiaries = [
         color: #333;
         /* Ajuste en #fff si tu préfères un texte clair */
     }
+    
+    /* Hide header spinner when page-specific loader is active */
+    body.loading-active #spinner {
+        display: none !important;
+    }
 </style>
 
 <head>
@@ -715,4 +720,39 @@ function(event) {
 './logout.php';
 
 });
+</script>
+
+<!-- Loading Management Script -->
+<script>
+// Add loading-active class to body to hide header spinner when page has its own loader
+document.body.classList.add('loading-active');
+
+// Set multiple timeouts for progressive loader handling
+setTimeout(function() {
+    // Primary timeout (800ms) - remove loading-active if page script hasn't taken control
+    if (document.body.classList.contains('loading-active')) {
+        document.body.classList.remove('loading-active');
+        console.log("Header spinner restored - primary timeout (800ms)");
+    }
+}, 800);
+
+// Secondary timeout (100ms) for fast connections
+setTimeout(function() {
+    // If page already loaded and no custom loader took control, remove loading class immediately
+    if (document.readyState === 'complete' && document.body.classList.contains('loading-active')) {
+        document.body.classList.remove('loading-active');
+        console.log("Header spinner restored - secondary timeout (100ms, page already loaded)");
+    }
+}, 100);
+
+// Self-executing cleanup function when document is fully loaded
+(function() {
+    window.addEventListener('load', function() {
+        // If no custom loader has taken control, ensure spinner is removed
+        if (document.body.classList.contains('loading-active')) {
+            document.body.classList.remove('loading-active');
+            console.log("Header spinner restored - window load event");
+        }
+    });
+})();
 </script>

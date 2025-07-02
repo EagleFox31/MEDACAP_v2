@@ -40,34 +40,35 @@ if (!isset($_SESSION["id"])) {
 <!--begin::Body-->
 <div class="content fs-6 d-flex flex-column flex-column-fluid" id="kt_content"
     data-select2-id="select2-data-kt_content">
-    <!--begin::Toolbar-->
-    <div class="toolbar" id="kt_toolbar">
-        <div class=" container-fluid  d-flex flex-stack flex-wrap flex-sm-nowrap">
-            <!--begin::Info-->
-            <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
-                <!--begin::Title-->
-                <h1 class="text-dark fw-bold my-1 fs-1">
+    
+    <!-- Main title card -->
+    <div class="container-xxl">
+        <div class="card shadow-sm mb-5 w-75 mx-auto">
+            <div class="card-body p-4">
+                <h1 class="text-dark fw-bold text-center fs-1">
                     <?php echo $list_evalue_collab ?>
                 </h1>
-                <!--end::Title-->
-                <div class="card-title">
-                    <!--begin::Search-->
-                    <div class="d-flex align-items-center position-relative my-1">
-                        <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-5"><span class="path1"></span><span
-                                class="path2"></span></i> <input type="text" data-kt-customer-table-filter="search"
-                            id="search" class="form-control form-control-solid w-250px ps-12" placeholder="Recherche">
-                    </div>
-                    <!--end::Search-->
-                </div>
             </div>
-            <!--end::Info-->
         </div>
     </div>
-    <!--end::Toolbar-->
+    
+    <!-- Search bar with glassmorphism -->
+    <div class="container-xxl mb-4">
+        <div class="card bg-opacity-50 bg-white border-0" style="backdrop-filter: blur(10px);">
+            <div class="card-body p-4">
+                <div class="d-flex align-items-center position-relative">
+                    <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-5"><span class="path1"></span><span
+                            class="path2"></span></i>
+                    <input type="text" data-kt-customer-table-filter="search"
+                        id="search" class="form-control form-control-solid w-250px ps-12" placeholder="Recherche">
+                </div>
+            </div>
+        </div>
+    </div>
     <!--begin::Post-->
     <div class="post fs-6 d-flex flex-column-fluid" id="kt_post" data-select2-id="select2-data-kt_post">
         <!--begin::Container-->
-        <div class=" container-xxl " data-select2-id="select2-data-194-27hh">
+        <div class="container-xxl" data-select2-id="select2-data-194-27hh">
             <!--begin::Card-->
             <div class="card">
                 <!--begin::Card header-->

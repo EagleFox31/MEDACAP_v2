@@ -1,6 +1,7 @@
 <?php
 session_start();
 include_once "../language.php";
+include_once "../partials/background-manager.php"; // Système de gestion de fond d'écran
 
 // Check if user is logged in
 if (!isset($_SESSION["id"])) {
@@ -85,53 +86,85 @@ if (!isset($_SESSION["id"])) {
         #kt_customers_table_wrapper td:nth-child(1) {
             position: sticky;
             left: 0;
-            background: #edf2f7;
+            background: #edf2f7; /* Restored original light blue color */
         }
         #kt_customers_table_wrapper th:nth-child(1) {
             z-index: 2;
         }
 
         /* Option 1: Hauteur fixe pour la card */
-.card {
-    min-height: 800px; /* Ajustez selon vos besoins */
-}
+        .card {
+            min-height: 40px; /* Ajustez selon vos besoins */
+        }
 
-.table-responsive {
-    min-height: 500px; /* Ajustez selon vos besoins */
-    max-height: 80vh; /* Limite la hauteur à 80% de la fenêtre */
-    overflow-y: auto; /* Ajoute une barre de défilement si nécessaire */
-}
-
+        .table-responsive {
+            min-height: 500px; /* Ajustez selon vos besoins */
+            max-height: 80vh; /* Limite la hauteur à 80% de la fenêtre */
+            overflow-y: auto; /* Ajoute une barre de défilement si nécessaire */
+        }
+        
+        /* Glassmorphism effect for cards */
+        .glassmorphism {
+            background: rgba(255, 255, 255, 0.85) !important;
+            backdrop-filter: blur(18px) !important;
+            border-radius: 15px !important;
+            border: 1px solid rgba(255, 255, 255, 0.18) !important;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2) !important;
+        }
+        
+        /* Table header styling */
+        .table thead tr {
+            background-color: #edf2f7 !important; /* Light blue header background */
+        }
+        
+        /* Regular cell styling */
+        .table td {
+            background-color: #ffffff !important; /* White background for regular cells */
+        }
+        
+        /* Empty cells styling */
+        .table td[style="background-color: #f9f9f9;"] {
+            background-color: #f9f9f9 !important; /* Gray background for empty cells */
+        }
+        
+        /* First column styling override */
+        #kt_customers_table_wrapper td:nth-child(1) {
+            position: sticky;
+            left: 0;
+            background: #edf2f7 !important; /* Light blue for first column */
+        }
     </style>
 
     <!--begin::Body-->
-    <div class="content fs-6 d-flex flex-column flex-column-fluid" id="kt_content"
-        data-select2-id="select2-data-kt_content">
-        <!--begin::Toolbar-->
-        <div class="toolbar" id="kt_toolbar">
-            <div class="container-fluid d-flex flex-stack flex-wrap flex-sm-nowrap">
-                <!--begin::Info-->
-                <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
-                    <!--begin::Title-->
-                    <h1 class="text-dark fw-bolder my-1 fs-1">
+    <?php
+    // Définir le fond d'écran pour cette page
+    setPageBackground('bg-dashboard', true);
+    
+    // Ouvrir le conteneur de fond d'écran
+    openBackgroundContainer('', 'id="kt_content" data-select2-id="select2-data-kt_content"');
+    ?>
+        <!-- Main title card - compact version -->
+        <div class="container-xxl">
+            <div class="card shadow-sm mb-5 w-75 mx-auto">
+                <div class="card-body py-3">
+                    <h1 class="text-dark fw-bold text-center fs-1 m-0">
                         <?php echo $bilan_test_tech_level ?>
                     </h1>
-                    <!--end::Title-->
-                    <div class="card-title">
-                        <!--begin::Search-->
-                        <div class="d-flex align-items-center position-relative my-1">
-                            <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-5"><span class="path1"></span><span
-                                    class="path2"></span></i>
-                            <input type="text" id="search" class="form-control form-control-solid w-250px ps-12"
-                                placeholder="Recherche...">
-                        </div>
-                        <!--end::Search-->
-                    </div>
                 </div>
-                <!--end::Info-->
             </div>
         </div>
-        <!--end::Toolbar-->
+        
+        <!-- Search bar with glassmorphism -->
+        <div class="container-xxl mb-4">
+            <div class="card bg-opacity-50 bg-white border-0 glassmorphism" style="backdrop-filter: blur(10px);">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center position-relative">
+                        <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-5"><span class="path1"></span><span class="path2"></span></i>
+                        <input type="text" id="search" class="form-control form-control-solid w-250px ps-12" placeholder="Recherche...">
+                    </div>
+                </div>
+            </div>
+        </div>
         
         <?php 
         // Check if user has appropriate permissions
@@ -145,7 +178,7 @@ if (!isset($_SESSION["id"])) {
             <!--begin::Container-->
             <div class="container-xxl" data-select2-id="select2-data-194-27hh">
                 <!--begin::Card-->
-                <div class="card">
+                <div class="card glassmorphism">
                     <!--begin::Card body-->
                     <div class="card-body pt-0">
                         <?php if ($_SESSION['profile'] === "Super Admin") { ?>
@@ -665,7 +698,7 @@ if (!isset($_SESSION["id"])) {
         </div>
         <!--end::Post-->
         <?php } ?>
-    </div>
+    <?php closeBackgroundContainer(); ?>
     <!--end::Body-->
     <!-- Helper functions for export -->
     <?php

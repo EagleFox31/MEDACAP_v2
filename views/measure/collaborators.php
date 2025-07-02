@@ -89,60 +89,37 @@ if (isset($_POST["excel"])) {
 <title><?php echo $title_collaborators ?> | CFAO Mobility Academy</title>
 <!--end::Title-->
 
+<?php include_once "../partials/background-manager.php"; ?>
+<?php setPageBackground("bg-default"); ?>
+
 <!--begin::Body-->
-<div class="content fs-6 d-flex flex-column flex-column-fluid" id="kt_content"
-    data-select2-id="select2-data-kt_content">
-    <!--begin::Toolbar-->
-    <div class="toolbar" id="kt_toolbar">
-        <div class=" container-fluid  d-flex flex-stack flex-wrap flex-sm-nowrap">
-            <!--begin::Info-->
-            <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
-                <!--begin::Title-->
-                <h1 class="text-dark fw-bold my-1 fs-1">
-                    <?php echo $title_collaborators ?> </h1>
-                <!--end::Title-->
-                <div class="card-title">
-                    <!--begin::Search-->
-                    <div class="d-flex align-items-center position-relative my-1">
-                        <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-5"><span class="path1"></span><span
-                                class="path2"></span></i>
-                        <input type="text" id="search" class="form-control form-control-solid w-250px ps-12"
-                            placeholder="<?php echo $recherche?>">
-                    </div>
-                    <!--end::Search-->
-                </div>
+<?php openBackgroundContainer(); ?>
+    <!-- Main Title Card -->
+    <div class="container-xxl">
+        <div class="card shadow-sm mb-5 w-75 mx-auto">
+            <div class="card-body p-4">
+                <h1 class="text-dark fw-bold text-center fs-1">
+                    <?php echo $title_collaborators ?>
+                </h1>
             </div>
-            <!--end::Info-->
-            <!--begin::Actions-->
-            <!-- <div class="d-flex align-items-center flex-nowrap text-nowrap py-1">
-                <div class="d-flex justify-content-end align-items-center" style="margin-left: 10px;">
-                    <button type="button" id="users" data-bs-toggle="modal" class="btn btn-primary">
-                        Liste subordonnés
-                    </button>
-                </div>
-                <div class="d-flex justify-content-end align-items-center" style="margin-left: 10px;">
-                    <button type="button" id="edit" title="Cliquez ici pour modifier le technicien"
-                        data-bs-toggle="modal" class="btn btn-primary">
-                        Modifier
-                    </button>
-                </div>
-                <div class="d-flex justify-content-end align-items-center" style="margin-left: 10px;">
-                    <button type="button" id="password" data-bs-toggle="modal"
-                        title="Cliquez ici pour modifier le mot de passe du technicien" class="btn btn-primary">
-                        Modifier mot de passe
-                    </button>
-                </div>
-                <div class="d-flex justify-content-end align-items-center" style="margin-left: 10px;">
-                    <button type="button" id="delete" title="Cliquez ici pour supprimer le technicien"
-                        data-bs-toggle="modal" class="btn btn-danger">
-                        Supprimer
-                    </button>
-                </div>
-            </div> -->
-            <!--end::Actions-->
         </div>
     </div>
-    <!--end::Toolbar-->
+    
+    <!-- Search Card with Glassmorphism -->
+    <div class="container-xxl mb-5">
+        <div class="card bg-opacity-50 bg-white border-0" style="backdrop-filter: blur(10px);">
+            <div class="card-body p-4">
+                <!--begin::Search-->
+                <div class="d-flex align-items-center position-relative my-1">
+                    <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-5"><span class="path1"></span><span
+                            class="path2"></span></i>
+                    <input type="text" id="search" class="form-control form-control-solid w-250px ps-12"
+                        placeholder="<?php echo $recherche?>">
+                </div>
+                <!--end::Search-->
+            </div>
+        </div>
+    </div>
 
     <?php if (isset($success_msg)) { ?>
     <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -163,9 +140,9 @@ if (isset($_POST["excel"])) {
     <!--begin::Post-->
     <div class="post fs-6 d-flex flex-column-fluid" id="kt_post" data-select2-id="select2-data-kt_post">
         <!--begin::Container-->
-        <div class=" container-xxl " data-select2-id="select2-data-194-27hh">
-            <!--begin::Card-->
-            <div class="card">
+        <div class="container-xxl" data-select2-id="select2-data-194-27hh">
+            <!--begin::Card with Glassmorphism-->
+            <div class="card bg-opacity-50 bg-white border-0" style="backdrop-filter: blur(10px);">
                 <!--begin::Card header-->
                 <!-- <div class="card-header border-0 pt-6"> -->
                 <!--begin::Card title-->
@@ -406,7 +383,7 @@ if (isset($_POST["excel"])) {
         <!--end::Container-->
     </div>
     <!--end::Post-->
-</div>
+<?php closeBackgroundContainer(); ?>
 <!--end::Body-->
 <?php include_once "partials/footer.php"; ?>
 <?php
