@@ -790,90 +790,9 @@ if (!isset($_SESSION["profile"])) {
         ? $id                         // déjà bon, on renvoie tel quel
         : new MongoDB\BSON\ObjectId((string) $id);   // sinon on convertit
 }
-?>
+    ?>
 
-<style>
-    :root {
-        --primary-black: #1a1a1a;
-        --primary-red: #dc2626;
-        --primary-navy: #1e3a8a;
-        --secondary-navy: #3b82f6;
-        --light-gray: #f8fafc;
-        --medium-gray: #64748b;
-        --dark-gray: #334155;
-        --white: #ffffff;
-        --border-color: #e2e8f0;
-        --shadow-light: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-        --shadow-medium: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        --shadow-large: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-        --border-radius: 12px;
-        --border-radius-lg: 16px;
-        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
 
-    .glass-effect {
-        background: rgba(255, 255, 255, 0.7) !important;
-        backdrop-filter: blur(10px) !important;
-        -webkit-backdrop-filter: blur(10px) !important;
-        border: 1px solid rgba(255, 255, 255, 0.18) !important;
-        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15) !important;
-        border-radius: 15px !important;
-        transition: all 0.3s ease !important;
-    }
-
-    .glass-effect:hover {
-        background: rgba(255, 255, 255, 0.8) !important;
-        box-shadow: 0 10px 40px 0 rgba(31, 38, 135, 0.2) !important;
-        transform: translateY(-3px) !important;
-    }
-
-    .glass-effect h1, .glass-effect h2 {
-        color: var(--primary-black) !important;
-        font-weight: 700;
-        letter-spacing: -0.025em;
-        text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.5);
-    }
-
-    .depth-effect {
-        transform: translateZ(0);
-        box-shadow:
-            0 4px 6px -1px rgba(0, 0, 0, 0.1),
-            0 2px 4px -1px rgba(0, 0, 0, 0.06),
-            0 12px 20px -2px rgba(0, 0, 0, 0.05) !important;
-        transition: all 0.3s ease-in-out !important;
-    }
-
-    .depth-effect:hover {
-        transform: translateY(-5px) translateZ(0);
-        box-shadow:
-            0 10px 15px -3px rgba(0, 0, 0, 0.1),
-            0 4px 6px -2px rgba(0, 0, 0, 0.05),
-            0 20px 25px -5px rgba(0, 0, 0, 0.03) !important;
-    }
-
-    .card {
-        background: rgba(255, 255, 255, 0.8);
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        border-radius: var(--border-radius);
-        box-shadow:
-            0 4px 6px -1px rgba(0, 0, 0, 0.1),
-            0 2px 4px -1px rgba(0, 0, 0, 0.06),
-            0 0 0 1px rgba(255, 255, 255, 0.3) inset;
-        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-        overflow: hidden;
-        margin-bottom: 1.5rem;
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-    }
-
-    .card:hover {
-        box-shadow:
-            0 10px 25px -5px rgba(0, 0, 0, 0.1),
-            0 10px 10px -5px rgba(0, 0, 0, 0.04),
-            0 0 0 1px rgba(255, 255, 255, 0.5) inset;
-        transform: translateY(-8px);
-    }
-</style>
 
 <?php
 // Inclure le header mais masquer son spinner via la balise style
@@ -885,7 +804,6 @@ include_once "partials/header.php";
 <!--end::Title-->
 
 <!--begin::Body-->
-<<<<<<< HEAD
 <style>
     :root {
         /* Couleurs de l'entreprise */
@@ -1083,7 +1001,7 @@ include_once "partials/header.php";
     <div style="position: relative; z-index: 1; border-radius: 25px; overflow: hidden;">
 
     
-    <!-- Titre principal dans une carte glassmorphisme -->
+    <!-- Titre principal en pleine largeur -->
     <div class="container-xxl pt-5">
         <div class="card mb-5" style="background-color: #FFFFFF !important; border-radius: 25px !important; box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15); border: 1px solid rgba(255, 255, 255, 0.18);">
             <div class="card-body text-center py-4">
@@ -1094,107 +1012,6 @@ include_once "partials/header.php";
                 </i>Validation des Plans de Formations par les filiales</h1>
             </div>
         </div>
-        
-        <!-- Filters Panel - Moved here from below -->
-        <div class="card glass-effect depth-effect mb-5">
-            <div class="card-header-bg filter-header text-start">
-                <i class="ki-duotone ki-filter fs-6 me-1">
-                    <span class="path1"></span>
-                    <span class="path2"></span>
-                </i>
-                <h5 class="card-title mb-0 d-inline">FILTRE DES DONNÉES</h5>
-            </div>
-            <div class="card-body">
-                <div id="dynamicFilters">
-                    <!-- Filtre Techniciens -->
-                    <div class="mb-4">
-                        <label for="tech-filter" class="form-label d-flex align-items-center">
-                            <i class="bi bi-person-fill fs-2 me-2 text-info"></i> Techniciens
-                        </label>
-                        <select id="tech-filter" class="form-select" onchange="applyFilters()">
-                            <option value="all" <?php if ($techFilter === 'all') echo 'selected'; ?>>
-                                Tous les techniciens
-                            </option>
-                            <?php foreach ($technicians as $t): ?>
-                            <option value="<?php echo htmlspecialchars($t['_id']); ?>"
-                                <?php if ($techFilter === htmlspecialchars($t['_id'])) echo 'selected'; ?>>
-                                <?php echo htmlspecialchars($t['firstName'] .' '. $t['lastName']); ?>
-                            </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-
-                    <!-- Filtre Marques -->
-                    <div class="mb-4">
-                        <label for="brand-filter" class="form-label d-flex align-items-center">
-                            <i class="bi bi-car-front-fill fs-2 me-2 text-danger"></i> Marques
-                        </label>
-                        <select id="brand-filter" class="form-select" onchange="applyFilters()">
-                            <option value="all" <?php if ($brandFilter === 'all') echo 'selected'; ?>>Toutes les marques
-                            </option>
-                            <?php foreach ($teamBrands as $b): ?>
-                            <option value="<?php echo htmlspecialchars($b); ?>"
-                                <?php if ($brandFilter === $b) echo 'selected'; ?>>
-                                <?php echo htmlspecialchars($b); ?>
-                            </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-
-                    <!-- Filtre Formations -->
-                    <div class="mb-4">
-                        <label for="training-filter" class="form-label d-flex align-items-center">
-                            <i class="fas fa-book-open fs-2 text-success me-2"></i> Formations
-                        </label>
-                        <select id="training-filter" class="form-select" onchange="applyFilters()">
-                            <option value="all" <?php if ($trainingFilter === 'all') echo 'selected'; ?>>Toutes les formations
-                            </option>
-                            <?php foreach ($trainingDatas as $td): ?>
-                            <option value="<?php echo htmlspecialchars($td['_id']); ?>"
-                                <?php if ($trainingFilter === htmlspecialchars($td['_id'])) echo 'selected'; ?>>
-                                <?php echo htmlspecialchars($td['label']); ?>
-                            </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-
-                    <!-- Filtre Level -->
-                    <div class="mb-4">
-                        <label for="level-filter" class="form-label d-flex align-items-center">
-                            <i class="bi bi-bar-chart-fill fs-2 me-2 text-warning"></i> Niveaux
-                        </label>
-                        <select id="level-filter" name="level" class="form-select" onchange="applyFilters()">
-                            <option value="all" <?php if ($levelFilter === 'all') echo 'selected'; ?>>Tous les niveaux</option>
-                            <?php foreach (['Junior', 'Senior', 'Expert'] as $levelOption): ?>
-                            <option value="<?php echo htmlspecialchars($levelOption); ?>"
-                                    <?php if ($levelFilter === $levelOption) echo 'selected'; ?>>
-                                <?php echo htmlspecialchars($levelOption); ?>
-                            </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-
-                    <div class="text-center">
-                        <button id="applyFiltersButton" type="button" class="btn btn-primary" onclick="applyFilters()">
-                            <i class="ki-duotone ki-filter fs-2">
-                                <span class="path1"></span>
-                                <span class="path2"></span>
-                            </i>
-                            Appliquer les filtres
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-=======
-<div class="content fs-6 d-flex flex-column flex-column-fluid" id="kt_content" style="position: relative; background: none;"
-    data-select2-id="select2-data-kt_content">
-    <!-- Image en arrière-plan avec bords arrondis -->
-    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background-size: cover; background-position: center; border-radius: 20px; overflow: hidden;">
-        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; filter: blur(10px); transform: scale(1.05); background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.1)), url('/MEDACAP/public/images/welcome_tech.png'); background-size: cover; background-position: center;"></div>
-        <img src="/MEDACAP/views/define/views/director/tof_dashboard_tech.png" alt="Background" style="width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0;">
-        <img src="/MEDACAP/views/define/views/director/tof_dashboard_tech.png" alt="Background" style="width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0;">
->>>>>>> refs/remotes/origin/measure
     </div>
     <!--begin::Toolbar-->
     <div class="toolbar" id="kt_toolbar">
@@ -1209,52 +1026,146 @@ include_once "partials/header.php";
     </div>
     <!--end::Toolbar-->
     
-    <!-- begin:: Marques du Technicien -->
-    <div class="text-center mb-6">
-        <div class="row justify-content-center">
-            <div class='col-6 col-sm-4 col-md-5'>
-<<<<<<< HEAD
-                <div class='card glass-effect depth-effect h-80' style="background: rgba(224, 224, 72, 0.74) !important; border: 1px solid rgba(255, 255, 150, 0.3) !important; box-shadow: 0 8px 32px 0 rgba(255, 200, 0, 0.2) !important;">
-=======
-            <div class='card glass-effect depth-effect h-80'>
->>>>>>> refs/remotes/origin/measure
-                    <div class='card-body d-flex flex-column justify-content-center align-items-center'>
-                        <!--begin::Name-->
-                        <!--begin::Animation-->
-                        <i class="fas fa-book fs-2 text-warning mb-2"></i>
-                        <div class="fs-lg-3hx fs-1x fw-bolder text-gray-800 d-flex justify-content-center text-center">
-                            <div class="min-w-100px" data-kt-countup="true" data-kt-countup-value="<?php echo count($trainingDatas) ?>"></div>
+    <!-- Container principal avec contenu à gauche et filtres à droite -->
+    <div class="container-xxl">
+        <div class="row">
+            <!-- Colonne de contenu principal à gauche -->
+            <div class="col-lg-9">
+                <!-- begin:: Cartes de statistiques -->
+                <div class="text-center mb-6">
+                    <div class="row justify-content-center">
+                        <div class='col-6 col-sm-4 col-md-6'>
+                            <div class='card glass-effect depth-effect h-80' style="background: rgba(224, 224, 72, 0.74) !important; border: 1px solid rgba(255, 255, 150, 0.3) !important; box-shadow: 0 8px 32px 0 rgba(255, 200, 0, 0.2) !important;">
+                                <div class='card-body d-flex flex-column justify-content-center align-items-center'>
+                                    <!--begin::Name-->
+                                    <!--begin::Animation-->
+                                    <i class="fas fa-book fs-2 text-warning mb-2"></i>
+                                    <div class="fs-lg-3hx fs-1x fw-bolder text-gray-800 d-flex justify-content-center text-center">
+                                        <div class="min-w-100px" data-kt-countup="true" data-kt-countup-value="<?php echo count($trainingDatas) ?>"></div>
+                                    </div>
+                                    <!--end::Animation-->
+                                    <!--begin::Title-->
+                                    <div class="fs-4 fw-bold mb-2">
+                                        <?php echo 'Formations Proposées par l\'Academy' ?>
+                                    </div>
+                                    <!--end::Title-->
+                                    <!--end::Name-->
+                                </div>
+                            </div>
                         </div>
-                        <!--end::Animation-->
-                        <!--begin::Title-->
-                        <div class="fs-4 fw-bold mb-2">
-                            <?php echo 'Formations Proposées par l\'Academy' ?>
+                        <div class='col-6 col-sm-4 col-md-6'>
+                            <div class='card glass-effect depth-effect h-80' style="background: rgba(109, 180, 235, 0.7) !important; border: 1px solid rgba(150, 200, 255, 0.3) !important; box-shadow: 0 8px 32px 0 rgba(0, 100, 255, 0.2) !important;">
+                                <div class='card-body d-flex flex-column justify-content-center align-items-center'>
+                                    <!--begin::Name-->
+                                    <!--begin::Animation-->
+                                    <i class="fas fa-book fs-2 text-primary mb-2"></i>
+                                    <div class="fs-lg-3hx fs-1x fw-bolder text-gray-800 d-flex justify-content-center text-center">
+                                        <div id="selectTraining" class="min-w-100px" data-kt-countup="true"></div>
+                                    </div>
+                                    <!--end::Animation-->
+                                    <!--begin::Title-->
+                                    <div class="fs-4 fw-bold mb-2">
+                                        <?php echo 'Formations Validées par la Filiale' ?>
+                                    </div>
+                                    <!--end::Title-->
+                                    <!--end::Name-->
+                                </div>
+                            </div>
                         </div>
-                        <!--end::Title-->
-                        <!--end::Name-->
                     </div>
                 </div>
             </div>
-            <div class='col-6 col-sm-4 col-md-5'>
-<<<<<<< HEAD
-                <div class='card glass-effect depth-effect h-80' style="background: rgba(220, 240, 255, 0.7) !important; border: 1px solid rgba(150, 200, 255, 0.3) !important; box-shadow: 0 8px 32px 0 rgba(0, 100, 255, 0.2) !important;">
-=======
-            <div class='card glass-effect depth-effect h-80'>
->>>>>>> refs/remotes/origin/measure
-                    <div class='card-body d-flex flex-column justify-content-center align-items-center'>
-                        <!--begin::Name-->
-                        <!--begin::Animation-->
-                        <i class="fas fa-book fs-2 text-primary mb-2"></i>
-                        <div class="fs-lg-3hx fs-1x fw-bolder text-gray-800 d-flex justify-content-center text-center">
-                            <div id="selectTraining" class="min-w-100px" data-kt-countup="true"></div>
+            
+            <!-- Colonne des filtres à droite -->
+            <div class="col-lg-3">
+                <div class="card glass-effect depth-effect" style="position: sticky; top: 20px;">
+                    <div class="card-header-bg filter-header text-start">
+                        <i class="ki-duotone ki-filter fs-6 me-1">
+                            <span class="path1"></span>
+                            <span class="path2"></span>
+                        </i>
+                        <h5 class="card-title mb-0 d-inline">FILTRE DES DONNÉES</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="dynamicFilters">
+                            <!-- Filtre Techniciens -->
+                            <div class="mb-3">
+                                <label for="tech-filter" class="form-label d-flex align-items-center">
+                                    <i class="bi bi-person-fill fs-6 me-2 text-info"></i> Techniciens
+                                </label>
+                                <select id="tech-filter" class="form-select form-select-sm" onchange="applyFilters()">
+                                    <option value="all" <?php if ($techFilter === 'all') echo 'selected'; ?>>
+                                        Tous les techniciens
+                                    </option>
+                                    <?php foreach ($technicians as $t): ?>
+                                    <option value="<?php echo htmlspecialchars($t['_id']); ?>"
+                                        <?php if ($techFilter === htmlspecialchars($t['_id'])) echo 'selected'; ?>>
+                                        <?php echo htmlspecialchars($t['firstName'] .' '. $t['lastName']); ?>
+                                    </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+
+                            <!-- Filtre Marques -->
+                            <div class="mb-3">
+                                <label for="brand-filter" class="form-label d-flex align-items-center">
+                                    <i class="bi bi-car-front-fill fs-6 me-2 text-danger"></i> Marques
+                                </label>
+                                <select id="brand-filter" class="form-select form-select-sm" onchange="applyFilters()">
+                                    <option value="all" <?php if ($brandFilter === 'all') echo 'selected'; ?>>Toutes les marques
+                                    </option>
+                                    <?php foreach ($teamBrands as $b): ?>
+                                    <option value="<?php echo htmlspecialchars($b); ?>"
+                                        <?php if ($brandFilter === $b) echo 'selected'; ?>>
+                                        <?php echo htmlspecialchars($b); ?>
+                                    </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+
+                            <!-- Filtre Formations -->
+                            <div class="mb-3">
+                                <label for="training-filter" class="form-label d-flex align-items-center">
+                                    <i class="fas fa-book-open fs-6 text-success me-2"></i> Formations
+                                </label>
+                                <select id="training-filter" class="form-select form-select-sm" onchange="applyFilters()">
+                                    <option value="all" <?php if ($trainingFilter === 'all') echo 'selected'; ?>>Toutes les formations
+                                    </option>
+                                    <?php foreach ($trainingDatas as $td): ?>
+                                    <option value="<?php echo htmlspecialchars($td['_id']); ?>"
+                                        <?php if ($trainingFilter === htmlspecialchars($td['_id'])) echo 'selected'; ?>>
+                                        <?php echo htmlspecialchars($td['label']); ?>
+                                    </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+
+                            <!-- Filtre Level -->
+                            <div class="mb-3">
+                                <label for="level-filter" class="form-label d-flex align-items-center">
+                                    <i class="bi bi-bar-chart-fill fs-6 me-2 text-warning"></i> Niveaux
+                                </label>
+                                <select id="level-filter" name="level" class="form-select form-select-sm" onchange="applyFilters()">
+                                    <option value="all" <?php if ($levelFilter === 'all') echo 'selected'; ?>>Tous les niveaux</option>
+                                    <?php foreach (['Junior', 'Senior', 'Expert'] as $levelOption): ?>
+                                    <option value="<?php echo htmlspecialchars($levelOption); ?>"
+                                            <?php if ($levelFilter === $levelOption) echo 'selected'; ?>>
+                                        <?php echo htmlspecialchars($levelOption); ?>
+                                    </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+
+                            <div class="text-center">
+                                <button id="applyFiltersButton" type="button" class="btn btn-primary btn-sm" onclick="applyFilters()">
+                                    <i class="ki-duotone ki-filter fs-6">
+                                        <span class="path1"></span>
+                                        <span class="path2"></span>
+                                    </i>
+                                    Appliquer
+                                </button>
+                            </div>
                         </div>
-                        <!--end::Animation-->
-                        <!--begin::Title-->
-                        <div class="fs-4 fw-bold mb-2">
-                            <?php echo 'Formations Validées par la Filiale' ?>
-                        </div>
-                        <!--end::Title-->
-                        <!--end::Name-->
                     </div>
                 </div>
             </div>
@@ -1264,11 +1175,7 @@ include_once "partials/header.php";
     <div class="text-center mb-6">
         <div class="row justify-content-center">
             <div class='col-6 col-sm-4 col-md-5'>
-<<<<<<< HEAD
                 <div class='card glass-effect depth-effect h-80'>
-=======
-            <div class='card glass-effect depth-effect h-80'>
->>>>>>> refs/remotes/origin/measure
                     <div class='card-body d-flex flex-column justify-content-center align-items-center'>
                         <i class="fas fa-calendar-alt fs-2 text-warning mb-2"></i>
                         <div class="fs-lg-1hx fs-2x fw-bold text-gray-800 d-flex justify-content-center text-center">
@@ -1282,11 +1189,7 @@ include_once "partials/header.php";
                 </div>
             </div>
             <div class='col-6 col-sm-4 col-md-5'>
-<<<<<<< HEAD
                 <div class='card glass-effect depth-effect h-80'>
-=======
-            <div class='card glass-effect depth-effect h-80'>
->>>>>>> refs/remotes/origin/measure
                     <div class='card-body d-flex flex-column justify-content-center align-items-center'>
                         <i class="fas fa-calendar-alt fs-2 text-warning mb-2"></i>
                         <div class="fs-lg-1hx fs-2x fw-bold text-gray-800 d-flex justify-content-center text-center">
@@ -1340,7 +1243,6 @@ include_once "partials/header.php";
             <!--end::Title-->
             <br>
             <div id="message"></div>
-<<<<<<< HEAD
 <br>
             <div class="row d-flex align-items-stretch">
                 <!-- Full width column for table -->
@@ -1358,22 +1260,6 @@ include_once "partials/header.php";
                                             class="table align-middle table-bordered fs-6 gy-5 dataTable no-footer"
                                             id="kt_customers_table">
                                     <thead style="background-color: white;">
-=======
-
-            <!--begin::Form-->
-            <form name="form" method="POST">
-                <!--begin::Card-->
-                <div class="card glass-effect depth-effect">
-                    <!--begin::Card body-->
-                    <div class="card-body pt-0">
-                        <!--begin::Table-->
-                        <div id="kt_customers_table_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
-                            <div class="table-responsive">
-                                <table aria-describedby=""
-                                    class="table align-middle table-bordered fs-6 gy-5 dataTable no-footer"
-                                    id="kt_customers_table">
-                                    <thead>
->>>>>>> refs/remotes/origin/measure
                                         <tr class="text-start text-black fw-bold fs-7 text-uppercase gs-0">
                                             <th class="min-w-130px sorting" tabindex="0" aria-controls="kt_customers_table"
                                                 rowspan="1" colspan="1"
