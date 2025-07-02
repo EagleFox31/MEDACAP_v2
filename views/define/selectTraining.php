@@ -1075,10 +1075,195 @@ include_once "partials/header.php";
                     </div>
                 </div>
             </div>
-            
+
+            <!--begin::Trainings Table-->
+            <div style="margin-top: 25px; margin-bottom: 25px">
+                <div class="card mb-4" style="background-color: #FFFFFF !important; border-radius: 25px !important; box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15); border: 1px solid rgba(255, 255, 255, 0.18);">
+                    <div class="card-body text-center py-3">
+                        <h6 class="form-label text-dark my-1 fs-3">
+                            <i class="fas fa-list fs-2 me-3"></i>
+                            <?php
+                            if ($techFilter !== 'all') {
+                                // Trouver les informations du technicien sélectionné
+                                $selectedTech = null;
+                                foreach ($technicians as $tech) {
+                                    if ((string)$tech['_id'] === $techFilter) {
+                                        $selectedTech = $tech;
+                                        break;
+                                    }
+                                }
+                                if ($selectedTech) {
+                                    echo 'Liste des formations préconisées :  M. ' . htmlspecialchars($selectedTech['firstName'] . ' ' . $selectedTech['lastName']);
+                                } else {
+                                    echo 'Liste des formations préconisées   :   Tous les Techniciens';
+                                }
+                            } else {
+                                echo 'Liste des formations préconisées   :   Tous les Techniciens';
+                            }
+                            ?>
+                        </h6>
+                    </div>
+                </div>
+            </div>
+            <!--end::Title-->
+            <br>
+            <div id="message"></div>
+            <br>
+            <div class="row d-flex align-items-stretch">
+                <!-- Full width column for table -->
+                <div class="col-12 d-flex flex-column">
+                    <!--begin::Form-->
+                    <form name="form" method="POST">
+                        <!--begin::Card-->
+                        <div class="card glass-effect depth-effect h-100" style="min-height: 500px;">
+                            <!--begin::Card body-->
+                            <div class="card-body pt-0 d-flex flex-column flex-grow-1">
+                                <!--begin::Table-->
+                                <div id="kt_customers_table_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                                    <div class="table-responsive flex-grow-1">
+                                        <table aria-describedby=""
+                                            class="table align-middle table-bordered fs-6 gy-5 dataTable no-footer"
+                                            id="kt_customers_table">
+                                            <thead style="background-color: white;">
+                                                <tr class="text-start text-black fw-bold fs-7 text-uppercase gs-0">
+                                                    <th class="min-w-130px sorting" tabindex="0" aria-controls="kt_customers_table"
+                                                        rowspan="1" colspan="1"
+                                                        aria-label="Brand: activate to sort column ascending"
+                                                        style="width: 130px; text-align: center; vertical-align: middle; height: 20px;">
+                                                        <?php echo $Brand ?>
+                                                    </th>
+                                                    <th class="min-w-100px sorting" tabindex="0" aria-controls="kt_customers_table"
+                                                        rowspan="1" colspan="1"
+                                                        aria-label="Level: activate to sort column ascending"
+                                                        style="width: 100px; text-align: center; vertical-align: middle; height: 20px;">
+                                                        <?php echo $Level ?>
+                                                    </th>
+                                                    <th class="min-w-300px sorting" tabindex="0" aria-controls="kt_customers_table"
+                                                        rowspan="1" colspan="1"
+                                                        aria-label="Training Label: activate to sort column ascending"
+                                                        style="width: 300px; text-align: center; vertical-align: middle; height: 20px;">
+                                                        <?php echo $label_training ?>
+                                                    </th>
+                                                    <th class="min-w-120px sorting" tabindex="0" aria-controls="kt_customers_table"
+                                                        rowspan="1" colspan="1"
+                                                        aria-label="Validation: activate to sort column ascending"
+                                                        style="width: 120px; text-align: center; vertical-align: middle; height: 20px;">
+                                                        <?php echo 'Validation de la filiale' ?>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="fw-semibold text-gray-600" id="table" style='text-align: center; vertical-align: middle; height: 50px;'>
+                                                <?php foreach ($trainingDatas as $index => $training) {
+                                                    $periods = [];
+                                                    $trainingValidations = [];
+                                                    $currentYear = date('Y'); // Get the current year
+
+                                                    if ($techFilter == 'all') {
+                                                        // Récupérer tous les techniciens associés à cette formation
+                                                        foreach ($technicians as $technician) {
+                                                            $trainingAllocates = $applications->find([
+                                                                'user' => oid($technician['_id']),
+                                                                'training' => new MongoDB\BSON\ObjectId($training['_id']),
+                                                                'active' => true
+                                                            ])->toArray();
+
+                                                            // Vérifier si tous les techniciens ont l'année courante dans leurs années d'allocation
+                                                            foreach ($trainingAllocates as $trainingAllocate) {
+                                                                $periods[] = $trainingAllocate['period'];
+                                                            }
+
+                                                            $trainingValidates = $validations->find([
+                                                                'user' => oid($technician['_id']),
+                                                                'training' => new MongoDB\BSON\ObjectId($training['_id']),
+                                                                'active' => true
+                                                            ])->toArray();
+
+                                                            foreach ($trainingValidates as $trainingValidate) {
+                                                                $trainingValidations[] = $trainingValidate['status'];
+                                                            }
+                                                        }
+                                                    } else {
+                                                        // Initialiser le tableau de filtres
+                                                        $filter = [
+                                                            'user' => new MongoDB\BSON\ObjectId($techFilter),
+                                                            'training' => new MongoDB\BSON\ObjectId($training['_id']),
+                                                            'active' => true
+                                                        ];
+
+                                                        $trainingAllocates = $applications->find($filter)->toArray();
+                                                        foreach ($trainingAllocates as $trainingAllocate) {
+                                                            $periods[] = $trainingAllocate['period'];
+                                                        }
+
+                                                        $trainingValidates = $validations->find([
+                                                            'user' => new MongoDB\BSON\ObjectId($techFilter),
+                                                            'training' => new MongoDB\BSON\ObjectId($training['_id']),
+                                                            'active' => true
+                                                        ])->toArray();
+
+                                                        foreach ($trainingValidates as $trainingValidate) {
+                                                            $trainingValidations[] = $trainingValidate['status'];
+                                                        }
+                                                    }
+
+                                                    $periods = array_unique($periods);
+                                                    $trainingValidations = array_unique($trainingValidations);
+                                                ?>
+                                                <tr class="odd" etat="<?php echo htmlspecialchars($training->active); ?>">
+                                                    <td style="text-align: center; vertical-align: middle;">
+                                                        <?php
+                                                        $brandName = htmlspecialchars($training->brand);
+                                                        $logoFile = $brandLogos[$brandName] ?? '';
+                                                        if ($logoFile) {
+                                                            echo '<img src="../../public/images/' . $logoFile . '" alt="' . $brandName . '" style="max-height: 40px; max-width: 120px;">';
+                                                        } else {
+                                                            echo $brandName;
+                                                        }
+                                                        ?>
+                                                    </td>
+                                                    <td><?php echo htmlspecialchars($training->level); ?></td>
+                                                    <td><?php echo htmlspecialchars($training->label); ?></td>
+                                                    <input type="text" id="training-<?php echo $index; ?>"
+                                                    value="<?php echo htmlspecialchars($training['_id']); ?>" hidden>
+                                                    <td>
+                                                        <select id="select-<?php echo $index; ?>" name="validation" class="form-select">
+                                                            <?php foreach (['En attente', 'Validé', 'Non validé'] as $option): ?>
+                                                                <option value="<?php echo $option ?>"
+                                                                    <?php if (in_array($option, $trainingValidations)) echo 'selected'; ?>>
+                                                                    <?php
+                                                                    if ($option == 'Validé') {
+                                                                        echo 'Validé en 2025';
+                                                                    } elseif ($option == 'En attente') {
+                                                                        echo 'Validé en 2026';
+                                                                    } elseif ($option == 'Non validé'){
+                                                                        echo 'Refusé';;
+                                                                    }
+                                                                    ?>
+                                                                </option>
+                                                            <?php endforeach; ?>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                                <?php } ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <!--end::Table-->
+                            </div>
+                            <!--end::Card body-->
+                        </div>
+                        <!--end::Card-->
+                    </form>
+                    <!--end::Form-->
+                </div>
+            </div>
+            <!--end::Trainings Table-->
+
+            </div>
             <!-- Colonne des filtres à droite -->
             <div class="col-lg-3">
-                <div class="card glass-effect depth-effect" style="position: sticky; top: 20px;">
+                <div class="card glass-effect depth-effect h-100" style="position: sticky; top: 20px;">
                     <div class="card-header-bg filter-header text-start">
                         <i class="ki-duotone ki-filter fs-6 me-1">
                             <span class="path1"></span>
@@ -1171,6 +1356,8 @@ include_once "partials/header.php";
             </div>
         </div>
     </div>
+    </div>
+    </div>
     <!--
     <div class="text-center mb-6">
         <div class="row justify-content-center">
@@ -1207,200 +1394,6 @@ include_once "partials/header.php";
     <!-- end::Marques du Technicien -->
 
     
-    <!--begin::Post-->
-    <div class="post fs-6 d-flex flex-column-fluid" id="kt_post" data-select2-id="select2-data-kt_post">
-        <!--begin::Container-->
-        <div class=" container-xxl " data-select2-id="select2-data-194-27hh">
-            <!--begin::Title-->
-            <div style="margin-top: 25px; margin-bottom: 25px">
-                <div class="card mb-4" style="background-color: #FFFFFF !important; border-radius: 25px !important; box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15); border: 1px solid rgba(255, 255, 255, 0.18);">
-                    <div class="card-body text-center py-3">
-                        <h6 class="form-label text-dark my-1 fs-3">
-                            <i class="fas fa-list fs-2 me-3"></i>
-                            <?php
-                            if ($techFilter !== 'all') {
-                                // Trouver les informations du technicien sélectionné
-                                $selectedTech = null;
-                                foreach ($technicians as $tech) {
-                                    if ((string)$tech['_id'] === $techFilter) {
-                                        $selectedTech = $tech;
-                                        break;
-                                    }
-                                }
-                                if ($selectedTech) {
-                                    echo 'Liste des formations préconisées :  M. ' . htmlspecialchars($selectedTech['firstName'] . ' ' . $selectedTech['lastName']);
-                                } else {
-                                    echo 'Liste des formations préconisées   :   Tous les Techniciens';
-                                }
-                            } else {
-                                echo 'Liste des formations préconisées   :   Tous les Techniciens';
-                            }
-                            ?>
-                        </h6>
-                    </div>
-                </div>
-            </div>
-            <!--end::Title-->
-            <br>
-            <div id="message"></div>
-<br>
-            <div class="row d-flex align-items-stretch">
-                <!-- Full width column for table -->
-                <div class="col-12 d-flex flex-column">
-                    <!--begin::Form-->
-                    <form name="form" method="POST">
-                        <!--begin::Card-->
-                        <div class="card glass-effect depth-effect h-100" style="min-height: 500px;">
-                            <!--begin::Card body-->
-                            <div class="card-body pt-0 d-flex flex-column flex-grow-1">
-                                <!--begin::Table-->
-                                <div id="kt_customers_table_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
-                                    <div class="table-responsive flex-grow-1">
-                                        <table aria-describedby=""
-                                            class="table align-middle table-bordered fs-6 gy-5 dataTable no-footer"
-                                            id="kt_customers_table">
-                                    <thead style="background-color: white;">
-                                        <tr class="text-start text-black fw-bold fs-7 text-uppercase gs-0">
-                                            <th class="min-w-130px sorting" tabindex="0" aria-controls="kt_customers_table"
-                                                rowspan="1" colspan="1"
-                                                aria-label="Brand: activate to sort column ascending"
-                                                style="width: 130px; text-align: center; vertical-align: middle; height: 20px;">
-                                                <?php echo $Brand ?>
-                                            </th>
-                                            <th class="min-w-100px sorting" tabindex="0" aria-controls="kt_customers_table"
-                                                rowspan="1" colspan="1"
-                                                aria-label="Level: activate to sort column ascending"
-                                                style="width: 100px; text-align: center; vertical-align: middle; height: 20px;">
-                                                <?php echo $Level ?>
-                                            </th>
-                                            <th class="min-w-300px sorting" tabindex="0" aria-controls="kt_customers_table"
-                                                rowspan="1" colspan="1"
-                                                aria-label="Training Label: activate to sort column ascending"
-                                                style="width: 300px; text-align: center; vertical-align: middle; height: 20px;">
-                                                <?php echo $label_training ?>
-                                            </th>
-                                            <th class="min-w-120px sorting" tabindex="0" aria-controls="kt_customers_table"
-                                                rowspan="1" colspan="1"
-                                                aria-label="Validation: activate to sort column ascending"
-                                                style="width: 120px; text-align: center; vertical-align: middle; height: 20px;">
-                                                <?php echo 'Validation de la filiale' ?>
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="fw-semibold text-gray-600" id="table" style='text-align: center; vertical-align: middle; height: 50px;'>
-                                        <?php foreach ($trainingDatas as $index => $training) {
-                                            $periods = [];
-                                            $trainingValidations = [];
-                                            $currentYear = date('Y'); // Get the current year
-
-                                            if ($techFilter == 'all') {
-                                                // Récupérer tous les techniciens associés à cette formation
-                                                foreach ($technicians as $technician) {
-                                                    $trainingAllocates = $applications->find([
-                                                        'user' => oid($technician['_id']),
-                                                        'training' => new MongoDB\BSON\ObjectId($training['_id']),
-                                                        'active' => true
-                                                    ])->toArray();
-
-                                                    // Vérifier si tous les techniciens ont l'année courante dans leurs années d'allocation
-                                                    foreach ($trainingAllocates as $trainingAllocate) {
-                                                        $periods[] = $trainingAllocate['period'];
-                                                    }
-
-                                                    $trainingValidates = $validations->find([
-                                                        'user' => oid($technician['_id']),
-                                                        'training' => new MongoDB\BSON\ObjectId($training['_id']),
-                                                        'active' => true
-                                                    ])->toArray();
-
-                                                    foreach ($trainingValidates as $trainingValidate) {
-                                                        $trainingValidations[] = $trainingValidate['status'];
-                                                    }
-                                                }
-                                            } else {
-                                                // Initialiser le tableau de filtres
-                                                $filter = [
-                                                    'user' => new MongoDB\BSON\ObjectId($techFilter),
-                                                    'training' => new MongoDB\BSON\ObjectId($training['_id']),
-                                                    'active' => true
-                                                ];
-
-                                                $trainingAllocates = $applications->find($filter)->toArray();
-                                                foreach ($trainingAllocates as $trainingAllocate) {
-                                                    $periods[] = $trainingAllocate['period'];
-                                                }
-                                                
-                                                $trainingValidates = $validations->find([
-                                                    'user' => new MongoDB\BSON\ObjectId($techFilter),
-                                                    'training' => new MongoDB\BSON\ObjectId($training['_id']),
-                                                    'active' => true
-                                                ])->toArray();
-                                                
-                                                foreach ($trainingValidates as $trainingValidate) {
-                                                    $trainingValidations[] = $trainingValidate['status'];
-                                                }
-                                            }
-
-                                            $periods = array_unique($periods);
-                                            $trainingValidations = array_unique($trainingValidations);
-                                        ?>
-                                        <tr class="odd" etat="<?php echo htmlspecialchars($training->active); ?>">
-                                            <td style="text-align: center; vertical-align: middle;">
-                                                <?php
-                                                $brandName = htmlspecialchars($training->brand);
-                                                $logoFile = $brandLogos[$brandName] ?? '';
-                                                if ($logoFile) {
-                                                    echo '<img src="../../public/images/' . $logoFile . '" alt="' . $brandName . '" style="max-height: 40px; max-width: 120px;">';
-                                                } else {
-                                                    echo $brandName;
-                                                }
-                                                ?>
-                                            </td>
-                                            <td><?php echo htmlspecialchars($training->level); ?></td>
-                                            <td><?php echo htmlspecialchars($training->label); ?></td>
-                                            <input type="text" id="training-<?php echo $index; ?>"
-                                            value="<?php echo htmlspecialchars($training['_id']); ?>" hidden>
-                                            <td>
-                                                <select id="select-<?php echo $index; ?>" name="validation" class="form-select">
-                                                    <?php foreach (['En attente', 'Validé', 'Non validé'] as $option): ?>
-                                                        <option value="<?php echo $option ?>"
-                                                            <?php if (in_array($option, $trainingValidations)) echo 'selected'; ?>>
-                                                            <?php
-                                                            if ($option == 'Validé') {
-                                                                echo 'Validé en 2025';
-                                                            } elseif ($option == 'En attente') {
-                                                                echo 'Validé en 2026';
-                                                            } elseif ($option == 'Non validé'){
-                                                                echo 'Refusé';;
-                                                            }
-                                                            ?>
-                                                        </option>
-                                                    <?php endforeach; ?>
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <?php } ?>
-                                    </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                                <!--end::Table-->
-                            </div>
-                            <!--end::Card body-->
-                        </div>
-                        <!--end::Card-->
-                    </form>
-                    <!--end::Form-->
-                </div>
-                
-                <!-- Filters Panel removed from here -->
-            </div>
-        </div>
-        <!--end::Container-->
-    </div>
-    <!--end::Post-->
-    </div>
-</div>
 <!--end::Body-->
 <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
     crossorigin="anonymous"></script>
