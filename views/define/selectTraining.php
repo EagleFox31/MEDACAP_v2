@@ -19,6 +19,27 @@ if (!isset($_SESSION["profile"])) {
     $allocations = $academy->allocations;
     $applications = $academy->applications;
     $validations = $academy->validations;
+    
+    // Brand logos mapping
+    $brandLogos = [
+        'RENAULT TRUCK'   => 'renaultTrucks.png',
+        'HINO'            => 'Hino_logo.png',
+        'TOYOTA BT'       => 'bt.png',
+        'SINOTRUK'        => 'sinotruk.png',
+        'JCB'             => 'jcb.png',
+        'MERCEDES TRUCK'  => 'mercedestruck.png',
+        'TOYOTA FORKLIFT' => 'forklift.png',
+        'FUSO'            => 'fuso.png',
+        'LOVOL'           => 'lovol.png',
+        'KING LONG'       => 'kl2.png',
+        'MERCEDES'        => 'mercedestruck.png',
+        'TOYOTA'          => 'toyota-logo.png',
+        'SUZUKI'          => 'suzuki-logo.png',
+        'MITSUBISHI'      => 'mitsubishi-logo.png',
+        'BYD'             => 'byd-logo.png',
+        'CITROEN'         => 'citroen-logo.png',
+        'PEUGEOT'         => 'peugeot-logo.png',
+    ];
 
     // Fix: Add null coalescing operators to provide default values
     $levelFilter = $_GET["level"] ?? 'all';
@@ -854,12 +875,318 @@ if (!isset($_SESSION["profile"])) {
     }
 </style>
 
-<?php include_once "partials/header.php"; ?>
+<?php
+// Inclure le header mais masquer son spinner via la balise style
+echo '<style>#spinner { display: none !important; }</style>';
+include_once "partials/header.php";
+?>
 <!--begin::Title-->
-<title><?php echo 'Validation des Plans de Formations'  ?> | CFAO Mobility Academy</title>
+<title><?php echo 'Validation des Plans de Formations par les filiales'  ?> | CFAO Mobility Academy</title>
 <!--end::Title-->
 
 <!--begin::Body-->
+<<<<<<< HEAD
+<style>
+    :root {
+        /* Couleurs de l'entreprise */
+        --primary-black: #1a1a1a;
+        --primary-red: #dc2626;
+        --primary-navy: #1e3a8a;
+        --secondary-navy: #3b82f6;
+        --light-gray: #f8fafc;
+        --medium-gray: #64748b;
+        --dark-gray: #334155;
+        --white: #ffffff;
+        --border-color: #e2e8f0;
+        --shadow-light: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        --shadow-medium: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        --shadow-large: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        --border-radius: 12px;
+        --border-radius-lg: 16px;
+        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Effet de glassmorphisme pour les cartes */
+    .glass-effect {
+        background: rgba(255, 255, 255, 0.7) !important;
+        backdrop-filter: blur(10px) !important;
+        -webkit-backdrop-filter: blur(10px) !important;
+        border: 1px solid rgba(255, 255, 255, 0.18) !important;
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15) !important;
+        border-radius: 15px !important;
+        transition: all 0.3s ease !important;
+    }
+    
+    /* Effet hover sur les titres */
+    .glass-effect:hover {
+        background: rgba(255, 255, 255, 0.8) !important;
+        box-shadow: 0 10px 40px 0 rgba(31, 38, 135, 0.2) !important;
+        transform: translateY(-3px) !important;
+    }
+    
+    /* Style pastel pour les en-têtes de filtre et formations */
+    .filter-header, .training-header {
+        background: linear-gradient(135deg,rgb(248, 250, 251) 0%,rgb(250, 251, 251) 100%) !important;
+        color: #333 !important;
+        text-align: center !important;
+        padding: 1rem !important;
+    }
+    
+    .filter-header h5, .training-header h5 {
+        color: #333 !important;
+        font-weight: 700 !important;
+        display: inline-block !important;
+        margin: 0 auto !important;
+    }
+    
+    /* Style personnalisé pour le bouton "Appliquer les filtres" */
+    #applyFiltersButton,
+    #applyFiltersButton.btn,
+    #applyFiltersButton.btn-primary {
+        background: white !important;
+        background-color: white !important;
+        background-image: none !important;
+        color: black !important;
+        border: 1px solid #ddd !important;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1) !important;
+    }
+    
+    #applyFiltersButton:hover,
+    #applyFiltersButton.btn:hover,
+    #applyFiltersButton.btn-primary:hover {
+        background-color: #f8f9fa !important;
+        background-image: none !important;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.15) !important;
+        color: black !important;
+    }
+    
+    #applyFiltersButton .ki-duotone,
+    #applyFiltersButton .ki-duotone .path1,
+    #applyFiltersButton .ki-duotone .path2 {
+        color: black !important;
+    }
+    
+    /* Effet de profondeur pour les cartes */
+    .depth-effect {
+        transform: translateZ(0);
+        box-shadow:
+            0 4px 6px -1px rgba(0, 0, 0, 0.1),
+            0 2px 4px -1px rgba(0, 0, 0, 0.06),
+            0 12px 20px -2px rgba(0, 0, 0, 0.05) !important;
+        transition: all 0.3s ease-in-out !important;
+    }
+    
+    .depth-effect:hover {
+        transform: translateY(-5px) translateZ(0);
+        box-shadow:
+            0 10px 15px -3px rgba(0, 0, 0, 0.1),
+            0 4px 6px -2px rgba(0, 0, 0, 0.05),
+            0 20px 25px -5px rgba(0, 0, 0, 0.03) !important;
+    }
+
+    /* Cards principales */
+    .card {
+        background: rgba(255, 255, 255, 0.8);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: var(--border-radius);
+        box-shadow:
+            0 4px 6px -1px rgba(0, 0, 0, 0.1),
+            0 2px 4px -1px rgba(0, 0, 0, 0.06),
+            0 0 0 1px rgba(255, 255, 255, 0.3) inset;
+        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        overflow: hidden;
+        margin-bottom: 1.5rem;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+
+    .card:hover {
+        box-shadow:
+            0 10px 25px -5px rgba(0, 0, 0, 0.1),
+            0 10px 10px -5px rgba(0, 0, 0, 0.04),
+            0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+        transform: translateY(-8px);
+    }
+    
+    /* Style pour les titres dans les cartes glassmorphisme */
+    .glass-effect h1, .glass-effect h2, .glass-effect h6 {
+        color: var(--primary-black) !important;
+        font-weight: 700;
+        letter-spacing: -0.025em;
+        text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.5);
+    }
+
+    /* Stats cards spécifiques - Style compact horizontal */
+    .custom-card {
+        background: rgba(255, 255, 255, 0.7);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow:
+            0 4px 20px 0 rgba(0, 0, 0, 0.1),
+            0 1px 5px 0 rgba(0, 0, 0, 0.05),
+            0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+        transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+        overflow: hidden;
+        min-height: 120px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border-radius: var(--border-radius);
+    }
+
+    .custom-card:hover {
+        box-shadow:
+            0 15px 30px 0 rgba(0, 0, 0, 0.1),
+            0 5px 15px 0 rgba(0, 0, 0, 0.05),
+            0 0 0 1px rgba(30, 58, 138, 0.2) inset;
+        transform: translateY(-8px) scale(1.02);
+        border-color: rgba(30, 58, 138, 0.3);
+    }
+    
+    /* Nous n'avons pas besoin de définitions CSS spécifiques pour l'arrière-plan
+       car nous utiliserons le style en ligne comme dans dashboard.php */
+</style>
+
+<!-- Loading Overlay -->
+<div id="loading-overlay" style="display: flex; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(255, 255, 255, 0.8); z-index: 9999; justify-content: center; align-items: center; flex-direction: column;">
+    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+    <div class="mt-3 fw-bold fs-4">Chargement des données...</div>
+    <button onclick="document.getElementById('loading-overlay').style.display='none';" class="btn btn-sm btn-light mt-3">
+        Cliquez ici si le chargement persiste
+    </button>
+</div>
+
+<div class="content fs-6 d-flex flex-column flex-column-fluid" id="kt_content"
+    style="position: relative; border-radius: 25px; overflow: hidden;"
+    data-select2-id="select2-data-kt_content">
+    
+    <!-- Background overlay with blur effect -->
+    <div style="
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        filter: blur(10px);
+        transform: scale(1.05);
+        background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.1)), url('/MEDACAP/public/images/welcome_tech.png');
+        background-size: cover;
+        background-position: center;
+        border-radius: 25px;
+        z-index: 0;">
+    </div>
+    
+    <!-- Content container -->
+    <div style="position: relative; z-index: 1; border-radius: 25px; overflow: hidden;">
+
+    
+    <!-- Titre principal dans une carte glassmorphisme -->
+    <div class="container-xxl pt-5">
+        <div class="card mb-5" style="background-color: #FFFFFF !important; border-radius: 25px !important; box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15); border: 1px solid rgba(255, 255, 255, 0.18);">
+            <div class="card-body text-center py-4">
+                <h1 class="card-title mb-0"><i class="ki-duotone ki-document fs-2 me-3">
+                    <span class="path1"></span>
+                    <span class="path2"></span>
+                    <span class="path3"></span>
+                </i>Validation des Plans de Formations par les filiales</h1>
+            </div>
+        </div>
+        
+        <!-- Filters Panel - Moved here from below -->
+        <div class="card glass-effect depth-effect mb-5">
+            <div class="card-header-bg filter-header text-start">
+                <i class="ki-duotone ki-filter fs-6 me-1">
+                    <span class="path1"></span>
+                    <span class="path2"></span>
+                </i>
+                <h5 class="card-title mb-0 d-inline">FILTRE DES DONNÉES</h5>
+            </div>
+            <div class="card-body">
+                <div id="dynamicFilters">
+                    <!-- Filtre Techniciens -->
+                    <div class="mb-4">
+                        <label for="tech-filter" class="form-label d-flex align-items-center">
+                            <i class="bi bi-person-fill fs-2 me-2 text-info"></i> Techniciens
+                        </label>
+                        <select id="tech-filter" class="form-select" onchange="applyFilters()">
+                            <option value="all" <?php if ($techFilter === 'all') echo 'selected'; ?>>
+                                Tous les techniciens
+                            </option>
+                            <?php foreach ($technicians as $t): ?>
+                            <option value="<?php echo htmlspecialchars($t['_id']); ?>"
+                                <?php if ($techFilter === htmlspecialchars($t['_id'])) echo 'selected'; ?>>
+                                <?php echo htmlspecialchars($t['firstName'] .' '. $t['lastName']); ?>
+                            </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+
+                    <!-- Filtre Marques -->
+                    <div class="mb-4">
+                        <label for="brand-filter" class="form-label d-flex align-items-center">
+                            <i class="bi bi-car-front-fill fs-2 me-2 text-danger"></i> Marques
+                        </label>
+                        <select id="brand-filter" class="form-select" onchange="applyFilters()">
+                            <option value="all" <?php if ($brandFilter === 'all') echo 'selected'; ?>>Toutes les marques
+                            </option>
+                            <?php foreach ($teamBrands as $b): ?>
+                            <option value="<?php echo htmlspecialchars($b); ?>"
+                                <?php if ($brandFilter === $b) echo 'selected'; ?>>
+                                <?php echo htmlspecialchars($b); ?>
+                            </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+
+                    <!-- Filtre Formations -->
+                    <div class="mb-4">
+                        <label for="training-filter" class="form-label d-flex align-items-center">
+                            <i class="fas fa-book-open fs-2 text-success me-2"></i> Formations
+                        </label>
+                        <select id="training-filter" class="form-select" onchange="applyFilters()">
+                            <option value="all" <?php if ($trainingFilter === 'all') echo 'selected'; ?>>Toutes les formations
+                            </option>
+                            <?php foreach ($trainingDatas as $td): ?>
+                            <option value="<?php echo htmlspecialchars($td['_id']); ?>"
+                                <?php if ($trainingFilter === htmlspecialchars($td['_id'])) echo 'selected'; ?>>
+                                <?php echo htmlspecialchars($td['label']); ?>
+                            </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+
+                    <!-- Filtre Level -->
+                    <div class="mb-4">
+                        <label for="level-filter" class="form-label d-flex align-items-center">
+                            <i class="bi bi-bar-chart-fill fs-2 me-2 text-warning"></i> Niveaux
+                        </label>
+                        <select id="level-filter" name="level" class="form-select" onchange="applyFilters()">
+                            <option value="all" <?php if ($levelFilter === 'all') echo 'selected'; ?>>Tous les niveaux</option>
+                            <?php foreach (['Junior', 'Senior', 'Expert'] as $levelOption): ?>
+                            <option value="<?php echo htmlspecialchars($levelOption); ?>"
+                                    <?php if ($levelFilter === $levelOption) echo 'selected'; ?>>
+                                <?php echo htmlspecialchars($levelOption); ?>
+                            </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+
+                    <div class="text-center">
+                        <button id="applyFiltersButton" type="button" class="btn btn-primary" onclick="applyFilters()">
+                            <i class="ki-duotone ki-filter fs-2">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                            </i>
+                            Appliquer les filtres
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+=======
 <div class="content fs-6 d-flex flex-column flex-column-fluid" id="kt_content" style="position: relative; background: none;"
     data-select2-id="select2-data-kt_content">
     <!-- Image en arrière-plan avec bords arrondis -->
@@ -867,94 +1194,18 @@ if (!isset($_SESSION["profile"])) {
         <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; filter: blur(10px); transform: scale(1.05); background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.1)), url('/MEDACAP/public/images/welcome_tech.png'); background-size: cover; background-position: center;"></div>
         <img src="/MEDACAP/views/define/views/director/tof_dashboard_tech.png" alt="Background" style="width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0;">
         <img src="/MEDACAP/views/define/views/director/tof_dashboard_tech.png" alt="Background" style="width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0;">
+>>>>>>> refs/remotes/origin/measure
     </div>
     <!--begin::Toolbar-->
     <div class="toolbar" id="kt_toolbar">
-        <div class=" container-fluid  d-flex flex-stack flex-wrap flex-sm-nowrap">
+        <div class="container-fluid d-flex flex-stack flex-wrap flex-sm-nowrap">
             <!--begin::Info-->
             <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-2">
-                <!--begin::Title-->
-                <h1 class="text-dark fw-bolder my-1 fs-1">
-                    <?php echo 'Validation des Plans de Formations'  ?> </h1>
-                <!--end::Title-->
                 <div class="card-title">
                 </div>
             </div>
             <!--end::Info-->
         </div>
-        <!--begin::Filtres -->
-        <div class="container my-4">
-            <div class="row g-3 align-items-center">
-                <!-- Filtre Level -->
-                <div class="col-md-3">
-                    <label for="level-filter" class="form-label d-flex align-items-center">
-                        <i class="bi bi-bar-chart-fill fs-2 me-2 text-warning"></i> Niveaux
-                    </label>
-                    <select id="level-filter" name="level" class="form-select" onchange="applyFilters()">
-                        <option value="all" <?php if ($levelFilter === 'all') echo 'selected'; ?>>Tous les niveaux</option>
-                        <?php foreach (['Junior', 'Senior', 'Expert'] as $levelOption): ?>
-                        <option value="<?php echo htmlspecialchars($levelOption); ?>"
-                                <?php if ($levelFilter === $levelOption) echo 'selected'; ?>>
-                            <?php echo htmlspecialchars($levelOption); ?>
-                        </option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-
-                <!-- Filtre Formations -->
-                <div class="col-md-3">
-                    <label for="training-filter" class="form-label d-flex align-items-center">
-                        <i class="fas fa-book-open fs-2 text-success me-2"></i> Formations
-                    </label>
-                    <select id="training-filter" class="form-select" onchange="applyFilters()">
-                        <option value="all" <?php if ($trainingFilter === 'all') echo 'selected'; ?>>Toutes les formations
-                        </option>
-                        <?php foreach ($trainingDatas as $td): ?>
-                        <option value="<?php echo htmlspecialchars($td['_id']); ?>"
-                            <?php if ($trainingFilter === htmlspecialchars($td['_id'])) echo 'selected'; ?>>
-                            <?php echo htmlspecialchars($td['label']); ?>
-                        </option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-
-                <!-- Filtre Marques -->
-                <div class="col-md-3">
-                    <label for="brand-filter" class="form-label d-flex align-items-center">
-                        <i class="bi bi-car-front-fill fs-2 me-2 text-danger"></i> Marques
-                    </label>
-                    <select id="brand-filter" class="form-select" onchange="applyFilters()">
-                        <option value="all" <?php if ($brandFilter === 'all') echo 'selected'; ?>>Toutes les marques
-                        </option>
-                        <?php foreach ($teamBrands as $b): ?>
-                        <option value="<?php echo htmlspecialchars($b); ?>"
-                            <?php if ($brandFilter === $b) echo 'selected'; ?>>
-                            <?php echo htmlspecialchars($b); ?>
-                        </option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-
-                <!-- Filtre Manager -->
-                <div class="col-md-3">
-                    <label for="tech-filter" class="form-label d-flex align-items-center">
-                        <i class="bi bi-person-fill fs-2 me-2 text-info"></i> Techniciens
-                    </label>
-                    <select id="tech-filter" class="form-select" onchange="applyFilters()">
-                        <option value="all" <?php if ($techFilter === 'all') echo 'selected'; ?>>
-                            Tous les techniciens
-                        </option>
-                        <?php foreach ($technicians as $t): ?>
-                        <option value="<?php echo htmlspecialchars($t['_id']); ?>"
-                            <?php if ($techFilter === htmlspecialchars($t['_id'])) echo 'selected'; ?>>
-                            <?php echo htmlspecialchars($t['firstName'] .' '. $t['lastName']); ?>
-                        </option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-            </div>
-        </div>
-        <!--end::Filtres -->
     </div>
     <!--end::Toolbar-->
     
@@ -962,18 +1213,22 @@ if (!isset($_SESSION["profile"])) {
     <div class="text-center mb-6">
         <div class="row justify-content-center">
             <div class='col-6 col-sm-4 col-md-5'>
+<<<<<<< HEAD
+                <div class='card glass-effect depth-effect h-80' style="background: rgba(224, 224, 72, 0.74) !important; border: 1px solid rgba(255, 255, 150, 0.3) !important; box-shadow: 0 8px 32px 0 rgba(255, 200, 0, 0.2) !important;">
+=======
             <div class='card glass-effect depth-effect h-80'>
+>>>>>>> refs/remotes/origin/measure
                     <div class='card-body d-flex flex-column justify-content-center align-items-center'>
                         <!--begin::Name-->
                         <!--begin::Animation-->
-                        <i class="fas fa-book fs-2 text-danger mb-2"></i>
-                        <div class="fs-lg-1hx fs-2x fw-bold text-gray-800 d-flex justify-content-center text-center">
-                            <div class="min-w-80px" data-kt-countup="true" data-kt-countup-value="<?php echo count($trainingDatas) ?>"></div>
+                        <i class="fas fa-book fs-2 text-warning mb-2"></i>
+                        <div class="fs-lg-3hx fs-1x fw-bolder text-gray-800 d-flex justify-content-center text-center">
+                            <div class="min-w-100px" data-kt-countup="true" data-kt-countup-value="<?php echo count($trainingDatas) ?>"></div>
                         </div>
                         <!--end::Animation-->
                         <!--begin::Title-->
-                        <div class="fs-5 fw-bold mb-2">
-                            <?php echo $recommaded_training ?>
+                        <div class="fs-4 fw-bold mb-2">
+                            <?php echo 'Formations Proposées par l\'Academy' ?>
                         </div>
                         <!--end::Title-->
                         <!--end::Name-->
@@ -981,19 +1236,22 @@ if (!isset($_SESSION["profile"])) {
                 </div>
             </div>
             <div class='col-6 col-sm-4 col-md-5'>
+<<<<<<< HEAD
+                <div class='card glass-effect depth-effect h-80' style="background: rgba(220, 240, 255, 0.7) !important; border: 1px solid rgba(150, 200, 255, 0.3) !important; box-shadow: 0 8px 32px 0 rgba(0, 100, 255, 0.2) !important;">
+=======
             <div class='card glass-effect depth-effect h-80'>
+>>>>>>> refs/remotes/origin/measure
                     <div class='card-body d-flex flex-column justify-content-center align-items-center'>
                         <!--begin::Name-->
                         <!--begin::Animation-->
-                        <i class="fas fa-calendar-alt fs-2 text-warning mb-2"></i>
-                        <div class="fs-lg-1hx fs-2x fw-bold text-gray-800 d-flex justify-content-center text-center">
-                            <div class="min-w-80px" data-kt-countup="true" 
-                            data-kt-countup-value="<?php echo (int)$numDays; ?>" data-kt-countup-separator=" "></div>
+                        <i class="fas fa-book fs-2 text-primary mb-2"></i>
+                        <div class="fs-lg-3hx fs-1x fw-bolder text-gray-800 d-flex justify-content-center text-center">
+                            <div id="selectTraining" class="min-w-100px" data-kt-countup="true"></div>
                         </div>
                         <!--end::Animation-->
                         <!--begin::Title-->
-                        <div class="fs-5 fw-bold mb-2">
-                            <?php echo $training_duration ?> 
+                        <div class="fs-4 fw-bold mb-2">
+                            <?php echo 'Formations Validées par la Filiale' ?>
                         </div>
                         <!--end::Title-->
                         <!--end::Name-->
@@ -1002,48 +1260,47 @@ if (!isset($_SESSION["profile"])) {
             </div>
         </div>
     </div>
+    <!--
     <div class="text-center mb-6">
         <div class="row justify-content-center">
             <div class='col-6 col-sm-4 col-md-5'>
+<<<<<<< HEAD
+                <div class='card glass-effect depth-effect h-80'>
+=======
             <div class='card glass-effect depth-effect h-80'>
+>>>>>>> refs/remotes/origin/measure
                     <div class='card-body d-flex flex-column justify-content-center align-items-center'>
-                        <!--begin::Name-->
-                        <!--begin::Animation-->
-                        <i class="fas fa-book fs-2 text-info mb-2"></i>
+                        <i class="fas fa-calendar-alt fs-2 text-warning mb-2"></i>
                         <div class="fs-lg-1hx fs-2x fw-bold text-gray-800 d-flex justify-content-center text-center">
-                            <div id="selectTraining" class="min-w-80px" data-kt-countup="true"></div>
+                            <div class="min-w-80px" data-kt-countup="true"
+                            data-kt-countup-value="<?php echo (int)$numDays; ?>" data-kt-countup-separator=" "></div>
                         </div>
-                        <!--end::Animation-->
-                        <!--begin::Title-->
                         <div class="fs-5 fw-bold mb-2">
-                            <?php echo 'Formations Selectionnées' ?> 
+                            <?php echo $training_duration ?>
                         </div>
-                        <!--end::Title-->
-                        <!--end::Name-->
                     </div>
                 </div>
             </div>
             <div class='col-6 col-sm-4 col-md-5'>
+<<<<<<< HEAD
+                <div class='card glass-effect depth-effect h-80'>
+=======
             <div class='card glass-effect depth-effect h-80'>
+>>>>>>> refs/remotes/origin/measure
                     <div class='card-body d-flex flex-column justify-content-center align-items-center'>
-                        <!--begin::Name-->
-                        <!--begin::Animation-->
                         <i class="fas fa-calendar-alt fs-2 text-warning mb-2"></i>
                         <div class="fs-lg-1hx fs-2x fw-bold text-gray-800 d-flex justify-content-center text-center">
                             <div id="durationTraining" class="min-w-80px" data-kt-countup="true" data-kt-countup-separator=" "></div>
                         </div>
-                        <!--end::Animation-->
-                        <!--begin::Title-->
                         <div class="fs-5 fw-bold mb-2">
-                            <?php echo $training_duration ?> 
+                            <?php echo $training_duration ?>
                         </div>
-                        <!--end::Title-->
-                        <!--end::Name-->
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    -->
     <!-- end::Marques du Technicien -->
 
     
@@ -1052,16 +1309,56 @@ if (!isset($_SESSION["profile"])) {
         <!--begin::Container-->
         <div class=" container-xxl " data-select2-id="select2-data-194-27hh">
             <!--begin::Title-->
-            <div style="margin-top: 25px; margin-bottom : 25px">
-                <div>
-                    <h6 class="form-label text-dark my-1 fs-5">
-                        <?php echo 'Liste des formations préconisées' ?>
-                    </h6>
+            <div style="margin-top: 25px; margin-bottom: 25px">
+                <div class="card mb-4" style="background-color: #FFFFFF !important; border-radius: 25px !important; box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15); border: 1px solid rgba(255, 255, 255, 0.18);">
+                    <div class="card-body text-center py-3">
+                        <h6 class="form-label text-dark my-1 fs-3">
+                            <i class="fas fa-list fs-2 me-3"></i>
+                            <?php
+                            if ($techFilter !== 'all') {
+                                // Trouver les informations du technicien sélectionné
+                                $selectedTech = null;
+                                foreach ($technicians as $tech) {
+                                    if ((string)$tech['_id'] === $techFilter) {
+                                        $selectedTech = $tech;
+                                        break;
+                                    }
+                                }
+                                if ($selectedTech) {
+                                    echo 'Liste des formations préconisées :  M. ' . htmlspecialchars($selectedTech['firstName'] . ' ' . $selectedTech['lastName']);
+                                } else {
+                                    echo 'Liste des formations préconisées   :   Tous les Techniciens';
+                                }
+                            } else {
+                                echo 'Liste des formations préconisées   :   Tous les Techniciens';
+                            }
+                            ?>
+                        </h6>
+                    </div>
                 </div>
             </div>
             <!--end::Title-->
-            
+            <br>
             <div id="message"></div>
+<<<<<<< HEAD
+<br>
+            <div class="row d-flex align-items-stretch">
+                <!-- Full width column for table -->
+                <div class="col-12 d-flex flex-column">
+                    <!--begin::Form-->
+                    <form name="form" method="POST">
+                        <!--begin::Card-->
+                        <div class="card glass-effect depth-effect h-100" style="min-height: 500px;">
+                            <!--begin::Card body-->
+                            <div class="card-body pt-0 d-flex flex-column flex-grow-1">
+                                <!--begin::Table-->
+                                <div id="kt_customers_table_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                                    <div class="table-responsive flex-grow-1">
+                                        <table aria-describedby=""
+                                            class="table align-middle table-bordered fs-6 gy-5 dataTable no-footer"
+                                            id="kt_customers_table">
+                                    <thead style="background-color: white;">
+=======
 
             <!--begin::Form-->
             <form name="form" method="POST">
@@ -1076,35 +1373,31 @@ if (!isset($_SESSION["profile"])) {
                                     class="table align-middle table-bordered fs-6 gy-5 dataTable no-footer"
                                     id="kt_customers_table">
                                     <thead>
+>>>>>>> refs/remotes/origin/measure
                                         <tr class="text-start text-black fw-bold fs-7 text-uppercase gs-0">
-                                            <th class="min-w-300px sorting" tabindex="0" aria-controls="kt_customers_table"
-                                                rowspan="1" colspan="1"
-                                                aria-label="Customer Name: activate to sort column ascending"
-                                                style="width: 300px; text-align: center; vertical-align: middle; height: 20px;">
-                                                <?php echo $label_training ?>
-                                            </th>
                                             <th class="min-w-130px sorting" tabindex="0" aria-controls="kt_customers_table"
                                                 rowspan="1" colspan="1"
-                                                aria-label="Created Date: activate to sort column ascending"
+                                                aria-label="Brand: activate to sort column ascending"
                                                 style="width: 130px; text-align: center; vertical-align: middle; height: 20px;">
                                                 <?php echo $Brand ?>
                                             </th>
                                             <th class="min-w-100px sorting" tabindex="0" aria-controls="kt_customers_table"
                                                 rowspan="1" colspan="1"
-                                                aria-label="Payment Method: activate to sort column ascending"
+                                                aria-label="Level: activate to sort column ascending"
                                                 style="width: 100px; text-align: center; vertical-align: middle; height: 20px;">
                                                 <?php echo $Level ?>
                                             </th>
-                                            <th class="min-w-150px sorting" tabindex="0" aria-controls="kt_customers_table"
+                                            <th class="min-w-300px sorting" tabindex="0" aria-controls="kt_customers_table"
                                                 rowspan="1" colspan="1"
-                                                aria-label="Company: activate to sort column ascending"
-                                                style="width: 150px; text-align: center; vertical-align: middle; height: 20px;">
-                                                <?php echo 'Validation de la formation' ?>
+                                                aria-label="Training Label: activate to sort column ascending"
+                                                style="width: 300px; text-align: center; vertical-align: middle; height: 20px;">
+                                                <?php echo $label_training ?>
                                             </th>
-                                            <th class="min-w-150px sorting" tabindex="0" aria-controls="kt_customers_table"
-                                                rowspan="1" colspan="1" id="year"
-                                                aria-label="Created Date: activate to sort column ascending"
-                                                style="width: 150px; text-align: center; vertical-align: middle; height: 20px;">
+                                            <th class="min-w-120px sorting" tabindex="0" aria-controls="kt_customers_table"
+                                                rowspan="1" colspan="1"
+                                                aria-label="Validation: activate to sort column ascending"
+                                                style="width: 120px; text-align: center; vertical-align: middle; height: 20px;">
+                                                <?php echo 'Validation de la filiale' ?>
                                             </th>
                                         </tr>
                                     </thead>
@@ -1166,51 +1459,61 @@ if (!isset($_SESSION["profile"])) {
                                             $trainingValidations = array_unique($trainingValidations);
                                         ?>
                                         <tr class="odd" etat="<?php echo htmlspecialchars($training->active); ?>">
-                                            <td><?php echo htmlspecialchars($training->label); ?></td>
-                                            <input type="text" id="training-<?php echo $index; ?>" 
-                                            value="<?php echo htmlspecialchars($training['_id']); ?>" hidden>
-                                            <td><?php echo htmlspecialchars($training->brand); ?></td>
+                                            <td style="text-align: center; vertical-align: middle;">
+                                                <?php
+                                                $brandName = htmlspecialchars($training->brand);
+                                                $logoFile = $brandLogos[$brandName] ?? '';
+                                                if ($logoFile) {
+                                                    echo '<img src="../../public/images/' . $logoFile . '" alt="' . $brandName . '" style="max-height: 40px; max-width: 120px;">';
+                                                } else {
+                                                    echo $brandName;
+                                                }
+                                                ?>
+                                            </td>
                                             <td><?php echo htmlspecialchars($training->level); ?></td>
+                                            <td><?php echo htmlspecialchars($training->label); ?></td>
+                                            <input type="text" id="training-<?php echo $index; ?>"
+                                            value="<?php echo htmlspecialchars($training['_id']); ?>" hidden>
                                             <td>
                                                 <select id="select-<?php echo $index; ?>" name="validation" class="form-select">
                                                     <?php foreach (['En attente', 'Validé', 'Non validé'] as $option): ?>
                                                         <option value="<?php echo $option ?>"
                                                             <?php if (in_array($option, $trainingValidations)) echo 'selected'; ?>>
-                                                            <?php echo $option ?>
+                                                            <?php
+                                                            if ($option == 'Validé') {
+                                                                echo 'Validé en 2025';
+                                                            } elseif ($option == 'En attente') {
+                                                                echo 'Validé en 2026';
+                                                            } elseif ($option == 'Non validé'){
+                                                                echo 'Refusé';;
+                                                            }
+                                                            ?>
                                                         </option>
                                                     <?php endforeach; ?>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <select id="date-<?php echo $index; ?>" name="date" class="form-select">
-                                                    <option value="" disabled selected>-- Période --</option>
-                                                    <?php foreach ($training['startDates'] as $i => $dateOption): 
-                                                        if ($dateOption != '') {
-                                                    ?>
-                                                        <option value="<?php echo htmlspecialchars($dateOption . ' au ' . $training['endDates'][$i] . ' - Lieu : ' . $training['places'][$i]); ?>"
-                                                            <?php if (in_array($dateOption . ' au ' . $training['endDates'][$i], $periods)) echo 'selected'; ?>>
-                                                            <?php echo htmlspecialchars($dateOption . ' au ' . $training['endDates'][$i] . ' - Lieu : ' . $training['places'][$i]); ?>
-                                                        </option>
-                                                    <?php } endforeach; ?>
                                                 </select>
                                             </td>
                                         </tr>
                                         <?php } ?>
                                     </tbody>
-                                </table>
+                                        </table>
+                                    </div>
+                                </div>
+                                <!--end::Table-->
                             </div>
+                            <!--end::Card body-->
                         </div>
-                        <!--end::Table-->
-                    </div>
-                    <!--end::Card body-->
+                        <!--end::Card-->
+                    </form>
+                    <!--end::Form-->
                 </div>
-                <!--end::Card-->
-            </form>
-            <!--end::Form-->
+                
+                <!-- Filters Panel removed from here -->
+            </div>
         </div>
         <!--end::Container-->
     </div>
     <!--end::Post-->
+    </div>
 </div>
 <!--end::Body-->
 <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
@@ -1220,8 +1523,6 @@ if (!isset($_SESSION["profile"])) {
 <script src="../../public/js/main.js"></script>
 <?php include_once "partials/footer.php"; ?>
 <script>
-    // Afficher l'année dans l'élément avec l'ID 'currentYear'
-    document.getElementById('year').textContent = 'Période de Formation de ' + currentYear;
     
     const technicians = <?php echo json_encode($technicianIds); ?>;
     const trainingSelect = <?php echo json_encode($trainingSelected); ?>;
@@ -1237,7 +1538,6 @@ if (!isset($_SESSION["profile"])) {
 
     // Sélectionner toutes les selects dans le tableau
     const selectValidations = document.querySelectorAll('select[name="validation"]');
-    const selectDates = document.querySelectorAll('select[name="date"]');
     const trainingSelected = document.querySelector('#selectTraining');
     const trainingDuration = document.querySelector('#durationTraining');
 
@@ -1303,121 +1603,6 @@ if (!isset($_SESSION["profile"])) {
         });
     });
 
-    // Parcourir chaque case à cocher
-    selectDates.forEach(select => {
-        // Écouter les changements de la case à cocher
-        select.addEventListener('change', function() {
-            const rowIndex = this.id.split('-')[1]; // Récupérer l'index de la ligne
-            const selectDate = this.value; // Récupérer la valeur du select
-            const userId = document.querySelector('#tech-filter').value; // Récupérer la valeur des techniciens
-            const trainingId = document.querySelector('#training-' + rowIndex).value; // Récupérer la'id de la formation'
-            // Sélectionnez le <select> par son ID
-            const selectElement = document.getElementById(`select-${rowIndex}`);
-
-            // Trouver l'index de "Lieu"
-            var indexDate = selectDate.indexOf(" - Lieu");
-            // Vérifier si "Lieu" est présent dans la chaîne
-            if (indexDate !== -1) {
-                // Extraire le texte avant "Lieu"
-                var selectedDate = selectDate.substring(0, indexDate).trim();
-            }
-            // Trouver l'index de "Lieu :"
-            var indexPlace = selectDate.indexOf("Lieu :");
-            // Vérifier si "Lieu :" est présent dans la chaîne
-            if (indexPlace !== -1) {
-                // Extraire le texte avant "Lieu :"
-                var selectedPlace = selectDate.substring(indexPlace + 6).trim();
-            }
-            
-            console.log('selectedDate', selectedDate);
-            console.log('selectedPlace', selectedPlace);
-            console.log('rowIndex', rowIndex);
-            console.log('trainingId', trainingId);
-            
-            // Récupérer les IDs des techniciens
-            let techniciansIds = userId === 'all' ? technicians : [userId];
-
-            console.log('techniciansIds', techniciansIds);
-
-            // Envoyer les données via AJAX
-            const datas = {
-                userIds: techniciansIds,
-                trainingId: trainingId,
-                date: selectedDate,
-                place: selectedPlace,
-                currentYear: currentYear
-            };
-            
-            // Envoyer une requête AJAX pour activer
-            // Envoyer une requête AJAX pour activer
-$.ajax({
-    type: 'POST',
-    url: 'http://localhost/medacap/views/define/selectTraining', // Make sure URL is explicit
-    data: {
-        ...datas,
-        selectDates: 1
-    },
-    dataType: 'json',
-    success: function(response) {
-        console.log('Raw response:', response);
-        
-        // Check if response is valid
-        if (!response) {
-            showMessage('error', 'Réponse vide du serveur');
-            return;
-        }
-        
-        // Si la réponse est déjà un objet JSON, pas besoin de la parser
-        if (typeof response === 'string') {
-            try {
-                response = JSON.parse(response);
-            } catch (parseError) {
-                console.error('JSON Parse Error:', parseError);
-                console.error('Raw response that failed to parse:', response);
-                showMessage('error', 'Erreur de format de réponse du serveur');
-                return;
-            }
-        }
-        
-        console.log('Parsed response:', response);
-        
-        if (response && response.success) {
-            total = parseInt(total) + response.training;
-            totalTechs = parseInt(totalTechs) + response.technicians;
-            
-            // Récupérez le status de la réponse
-            const status = response.status;
-            updateUI();
-            showMessage('success', response.message);
-            
-            // Sélectionnez l'option correspondante
-            const optionToSelect = selectElement.querySelector(`option[value="${status}"]`);
-            if (optionToSelect) {
-                optionToSelect.selected = true;
-            }
-        } else {
-            const errorMessage = response.message || 'Erreur inconnue';
-            showMessage('error', errorMessage);
-        }
-    },
-    error: function(xhr, status, error) {
-        console.log('AJAX Error Details:');
-        console.log('Status:', status);
-        console.log('Error:', error);
-        console.log('Response Text:', xhr.responseText);
-        console.log('Status Code:', xhr.status);
-        
-        // Check if the response is HTML (common when there's a server error)
-        if (xhr.responseText && xhr.responseText.trim().startsWith('<')) {
-            console.error('Server returned HTML instead of JSON. Possible server error.');
-            showMessage('error', 'Erreur serveur - veuillez vérifier les logs du serveur');
-        } else {
-            showMessage('error', 'Une erreur est survenue. Veuillez réessayer.');
-        }
-    }
-});
-        });
-    });
 
     // Fonction pour mettre à jour l'interface utilisateur
     function updateUI() {
@@ -1446,10 +1631,36 @@ $.ajax({
         const brand = document.getElementById('brand-filter').value;
         const technician = document.getElementById('tech-filter').value;
         const training = document.getElementById('training-filter').value;
+        
+        // Masquer le spinner du header s'il est présent
+        const headerSpinner = document.getElementById('spinner');
+        if (headerSpinner) {
+            headerSpinner.style.display = 'none';
+        }
+        
+        // Toujours afficher notre propre loader pour une meilleure UX
+        document.getElementById('loading-overlay').style.display = 'flex';
 
         let query = `?user=${encodeURIComponent(technician)}&training=${encodeURIComponent(training)}&brand=${encodeURIComponent(brand)}&level=${encodeURIComponent(level)}`;
         window.location.href = query;
     }
+
+    // Gestion du loader au chargement de la page
+    document.addEventListener('DOMContentLoaded', function() {
+        // Afficher uniquement notre loader personnalisé
+        const headerSpinner = document.getElementById('spinner');
+        if (headerSpinner) {
+            headerSpinner.style.display = 'none';
+        }
+        
+        // Forcer la disparition du loader après le chargement du DOM
+        setTimeout(function() {
+            const loadingOverlay = document.getElementById('loading-overlay');
+            if (loadingOverlay) {
+                loadingOverlay.style.display = 'none';
+            }
+        }, 800); // Délai plus court pour une meilleure réactivité
+    });
 
     $(document).ready(function() {
         $("#excel").on("click", function() {
@@ -1460,5 +1671,26 @@ $.ajax({
             })
         });
     });
+</script>
+
+<!-- Script pour s'assurer que le loader est caché -->
+<script>
+(function() {
+    // S'exécute immédiatement à la fin de la page
+    var loader = document.getElementById('loading-overlay');
+    if (loader) {
+        loader.style.display = 'none';
+    }
+    
+    // Double vérification après un délai très court
+    setTimeout(function() {
+        var headerSpinner = document.getElementById('spinner');
+        var pageLoader = document.getElementById('loading-overlay');
+        
+        // S'assurer que les deux loaders sont masqués
+        if (headerSpinner) headerSpinner.style.display = 'none';
+        if (pageLoader) pageLoader.style.display = 'none';
+    }, 100);
+})();
 </script>
 <?php } ?>
