@@ -1167,7 +1167,10 @@ class FilterController {
         try {
             $techQuery = array_merge(
                 $this->getTechOrTestManagerClause(),
-                ['active' => true]
+                [
+                    'active'               => true,
+                    'recommendedTrainings' => ['$exists' => true, '$ne' => []]
+                ]
             );
 
             if (isset($filters['subsidiary']) && $filters['subsidiary'] !== 'all') {
@@ -1186,60 +1189,41 @@ class FilterController {
                 $techQuery['level'] = $filters['level'];
             }
 
-            $techCursor = $this->academy->users->find($techQuery, ['projection' => ['_id' => 1]]);
-            $techIds   = [];
-            foreach ($techCursor as $doc) {
-                $techIds[] = $doc['_id'];
-            }
+            $projection = ['recommendedTrainings' => 1];
+            $cursor = $this->academy->users->find($techQuery, ['projection' => $projection]);
 
-            if (empty($techIds)) {
-                return $result;
-            }
+            foreach ($cursor as $user) {
+                if (!isset($user['recommendedTrainings']) || !is_array($user['recommendedTrainings'])) {
+                    continue;
+                }
 
-            $trainMatch = [
-                'active' => true,
-                'users'  => ['$in' => $techIds]
-            ];
-            if (isset($filters['brand']) && $filters['brand'] !== 'all') {
-                $trainMatch['brand'] = $filters['brand'];
-            }
-            if (isset($filters['level']) && $filters['level'] !== 'all') {
-                $trainMatch['level'] = $filters['level'];
-            }
+                foreach ($user['recommendedTrainings'] as $training) {
+                    $brand = $training['brand'] ?? null;
+                    $level = $training['level'] ?? null;
 
-            $pipelineTrain = [
-                ['$match' => $trainMatch],
-                ['$group' => [ '_id' => '$brand', 'count' => ['$sum' => 1]]]
-            ];
+                    if (!$brand) {
+                        continue;
+                    }
 
-            foreach ($this->academy->trainings->aggregate($pipelineTrain) as $doc) {
-                $brand = (string)$doc->_id;
-                $result['trainingsCounts'][$brand] = (int)$doc->count;
-            }
+                    if (isset($filters['brand']) && $filters['brand'] !== 'all' && $filters['brand'] !== $brand) {
+                        continue;
+                    }
+                    if (isset($filters['level']) && $filters['level'] !== 'all' && $filters['level'] !== $level) {
+                        continue;
+                    }
 
-            $validPipeline = [
-                ['$match' => ['status' => 'Validé', 'user' => ['$in' => $techIds]]],
-                ['$lookup' => [
-                    'from'         => 'trainings',
-                    'localField'   => 'training',
-                    'foreignField' => '_id',
-                    'as'           => 'training'
-                ]],
-                ['$unwind' => '$training']
-            ];
+                    if (!isset($result['trainingsCounts'][$brand])) {
+                        $result['trainingsCounts'][$brand] = 0;
+                    }
+                    $result['trainingsCounts'][$brand]++;
 
-            if (isset($filters['brand']) && $filters['brand'] !== 'all') {
-                $validPipeline[] = ['$match' => ['training.brand' => $filters['brand']]];
-            }
-            if (isset($filters['level']) && $filters['level'] !== 'all') {
-                $validPipeline[] = ['$match' => ['training.level' => $filters['level']]];
-            }
-
-            $validPipeline[] = ['$group' => [ '_id' => '$training.brand', 'count' => ['$sum' => 1]]];
-
-            foreach ($this->academy->validations->aggregate($validPipeline) as $doc) {
-                $brand = (string)$doc->_id;
-                $result['validationsCounts'][$brand] = (int)$doc->count;
+                    if (isset($training['status']) && $training['status'] === 'validated') {
+                        if (!isset($result['validationsCounts'][$brand])) {
+                            $result['validationsCounts'][$brand] = 0;
+                        }
+                        $result['validationsCounts'][$brand]++;
+                    }
+                }
             }
 
         } catch (Exception $e) {
