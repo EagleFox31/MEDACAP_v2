@@ -1818,6 +1818,7 @@
             const loadingSpinner = document.getElementById('loadingSpinner');
             const statsContainer = document.getElementById('statsContainer');
             const filterForm = document.getElementById('dashboardFilters');
+            const applyFiltersButton = document.getElementById('applyFiltersButton');
 
             // We'll initialize CountUp after DOM is fully loaded
             setTimeout(() => {
